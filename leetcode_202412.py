@@ -74,5 +74,60 @@ def largestCombination2275(candidates: list[int]) -> int:
     return largest
 
 
-print(largestCombination2275([16, 17, 71, 62, 12, 24, 14]))
-print(largestCombination2275([8, 8]))
+# print(largestCombination2275([16, 17, 71, 62, 12, 24, 14]))
+# print(largestCombination2275([8, 8]))
+
+
+def firstMissingPositive_t(nums: list[int]) -> int:
+    total = 0
+    count = 0
+    has_number_1 = False
+    for number in nums:
+        if number > 0:
+            count += 1
+            total += number
+            if number == 1:
+                has_number_1 = True
+    if has_number_1:
+        expected_total_1_to_n = (count + 2) * (count + 1) // 2
+        if expected_total_1_to_n > total:
+            return expected_total_1_to_n - total
+        else:
+            return 'No'
+    else:
+        return 1
+
+
+def firstMissingPositive(nums: list[int]) -> int:
+    """
+    if not has_number_1:
+        return 1
+    else:
+        curr    min_1   min_2 > min_1 + 1
+       ----------------------
+           3        3    2^31
+           4        4    2^31
+          -1        4    2^31
+           1        1       4
+       ----------------------
+       10000    10000    2^31
+           4        4   10000
+        4000        4    4000
+           2        2       4
+           3        2       4
+           1        3       3
+    """
+    min_1 = pow(2, 31)
+    min_2 = pow(2, 31)
+    for number in nums:
+        if number > 0:
+            if number < min_1:
+                min_1 = number
+            elif number > min_1 and min_2 > number + 1:
+                min_1 = number
+    return min_1, min_2
+
+print(firstMissingPositive([3, 4, -1, 1]))
+print(firstMissingPositive([1, 2, 0]))
+print(firstMissingPositive([7,8,9,11,12]))
+print(firstMissingPositive([100000, 3, 4000, 2, 15, 1, 99999]))
