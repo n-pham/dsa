@@ -131,3 +131,19 @@ print(firstMissingPositive([3, 4, -1, 1]))
 print(firstMissingPositive([1, 2, 0]))
 print(firstMissingPositive([7,8,9,11,12]))
 print(firstMissingPositive([100000, 3, 4000, 2, 15, 1, 99999]))
+
+
+def canMakeSubsequence(str1: str, str2: str) -> bool:
+    """
+    abc [1, 2, 3]
+     ad [1, 4]
+     zc [26, 3]
+     ad [1, 4]
+     ab [1, 2]
+      d [4]
+    """
+    return True
+
+print(canMakeSubsequence("abc", "ad"))
+print(canMakeSubsequence("zc", "ad"))
+print(canMakeSubsequence("ab", "d"))
