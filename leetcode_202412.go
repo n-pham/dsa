@@ -21,7 +21,8 @@ func maxCount2554_1(banned []int, n int, maxSum int) int {
     return chosen_count
 }
 
-func maxCount2554_2(banned []int, n int, maxSum int) int {
+// 66ms
+func maxCount2554(banned []int, n int, maxSum int) int {
     chosen_count := 0
     current_sum := 0
     banned_set := make(map[int]struct{})
@@ -30,16 +31,33 @@ func maxCount2554_2(banned []int, n int, maxSum int) int {
     }
     for number := 1; number <= min(n, maxSum); number++ {
         if _, ok := banned_set[number]; !ok {
-            if current_sum + number <= maxSum {
-                chosen_count += 1
-                current_sum += number
+            if current_sum + number > maxSum {
+                break
             }
+            chosen_count += 1
+            current_sum += number
         }
     }
     return chosen_count
 }
 
-func maxCount2554(banned []int, n int, maxSum int) int {
+func maxCount2554_3(banned []int, n int, maxSum int) int {
+    // TODO maxSum vs sum(banned)
+    chosen_count := 0
+    current_sum := 0
+    for number := 1; number <= min(n, maxSum); number++ {
+        if !slices.Contains(banned, number) {
+            if current_sum + number > maxSum {
+                break
+            }
+            chosen_count += 1
+            current_sum += number
+        }
+    }
+    return chosen_count
+}
+
+func maxCount2554_2(banned []int, n int, maxSum int) int {
     //      1  2  3  4  5
     // sum  1  3  6 10 15    
     //      n*(n+1)/2 <= maxSum  -->  from sqrt(2*maxSum) up
@@ -75,6 +93,41 @@ func maxCount2554(banned []int, n int, maxSum int) int {
     return chosen_count
 }
 
+func maxCount2554_4(banned []int, n int, maxSum int) int {
+    //      1  2  3  4  5
+    // sum  1  3  6 10 15    
+    //      n*(n+1)/2 <= maxSum  -->  from sqrt(2*maxSum) up
+    // ban     2     4     |
+    // sum        4     9  | 
+    from_number := max(min(n, int(math.Sqrt(float64(2*maxSum)))-1), 1)
+    from_sum:= from_number * (from_number+1) / 2
+    chosen_count := from_number
+    current_sum := from_sum
+    fmt.Println(from_number, current_sum, chosen_count)
+    banned_set := make(map[int]struct{})
+    for _, banned_number := range banned {
+        if banned_number <= from_number {
+            if _, ok := banned_set[banned_number]; !ok { // dup in banned
+                chosen_count -= 1
+                current_sum -= banned_number
+            }
+        }
+        banned_set[banned_number] = struct{}{}
+    }
+    fmt.Println(from_number, current_sum, chosen_count)
+    for number := from_number+1; number <= min(n, maxSum); number++ {
+        if _, ok := banned_set[number]; !ok {
+            if current_sum + number > maxSum {
+                break
+            }
+            chosen_count += 1
+            current_sum += number
+        }
+        fmt.Println(number, current_sum, chosen_count)
+    }
+    return chosen_count
+}
+
 func main() {
     fmt.Println(maxCount2554([]int {8155, 8108}, 2431, 7821))
     // fmt.Println(maxCount2554([]int {179,266,77,196,59,313,286,41,21,201,57,237,74,333,101,281,227,25,138,10,304,55,50,72,244,113,159,330,154,156,311,170,283,9,224,46,197,2,325,237,54,168,275,166,236,30,250,48,274,331,240,153,312,63,303,342,79,37,165,20,79,293,103,152,215,44,56,196,29,251,264,210,212,135,296,123,289,257,208,309,67,114,170,119,337,163,242,162,109,318,51,105,272,240,107,226,224,188,224,317,27,102,63,128,3,133,27,134,186,220,198,24,274,287,267,8,13,322,278,166,304,165,342,89,184,300,312,339,163,307,123,137,293,227,229,57,66,13,71,233,260,79,228,301,4,4,89,196,193,337,205,51,144,99,104,73,10,311,240,168,77,244,114,217,186,134,229,241,46,89,54,127}, 4085, 109718563))
@@ -82,7 +135,7 @@ func main() {
     // fmt.Println(maxCount2554([]int {87,193,85,55,14,69,26,133,171,180,4,8,29,121,182,78,157,53,26,7,117,138,57,167,8,103,32,110,15,190,139,16,49,138,68,69,92,89,140,149,107,104,2,135,193,87,21,194,192,9,161,188,73,84,83,31,86,33,138,63,127,73,114,32,66,64,19,175,108,80,176,52,124,94,33,55,130,147,39,76,22,112,113,136,100,134,155,40,170,144,37,43,151,137,82,127,73}, 1079, 87)) // 9
 	// fmt.Println(maxCount2554([]int {1,6,5}, 5, 6)) // 2
     // fmt.Println(maxCount2554([]int {1,2,3,4,5,6,7}, 8, 1)) // 0
-    //fmt.Println(maxCount2554([]int {11}, 7, 50)) // 7
+    // fmt.Println(maxCount2554([]int {11}, 7, 50)) // 7
 }
 
 // 13 14 15 16 17
