@@ -185,8 +185,89 @@ func minimumSize1760(nums []int, maxOperations int) int {
     panic("minimumSize1760 not implemented")
 }
 
+func isArraySpecial3152_1(nums []int, queries []int) bool {
+    // 0 1 1 0 1 0
+    // 0   1   1     nums1
+    //   1   0   0   nums2
+    // 0   1         nums1[0:2]
+    //   1           nums1[0:2]
+    //     1   1     nums1[2:5]
+    //       0   0   nums2[2:5]
+    return true
+}
+
+func isArraySpecial3152_time(nums []int, queries [][]int) []bool {
+    evenMap := make(map[int]struct{})
+    oddMap := make(map[int]struct{})
+    for _, number := range nums {
+        if number % 2 == 0 {
+            evenMap[number] = struct{}{}
+        } else {
+            oddMap[number] = struct{}{}
+        }
+    }
+    results := make([]bool, len(queries))
+    for queryIndex, query := range queries {
+        results[queryIndex] = true
+        start := query[0]
+        end := query[1]
+        _, previousEven := evenMap[nums[start]]
+        for index := start+1; index <= end; index++ {
+            _, currentOdd := oddMap[nums[index]]
+            fmt.Println(nums[index-1], nums[index], "previousEven", previousEven, "currentOdd", currentOdd)
+            if previousEven != currentOdd {
+                results[queryIndex] = false
+                break
+            }
+            previousEven = !previousEven
+        }
+    }
+    return results
+}
+
+func isArraySpecial3152(nums []int, queries [][]int) []bool {
+    previousEven := nums[0] % 2 == 0
+    falseIndexSlice := []int {}
+    for i := 1; i < len(nums); i++ {
+        currentOdd := nums[i] % 2 == 1
+        // fmt.Println(nums[i-1], nums[i], "previousEven", previousEven, "currentOdd", currentOdd)
+        if previousEven != currentOdd {
+           falseIndexSlice = append(falseIndexSlice, i)
+        }
+        previousEven = !currentOdd
+    }
+    fmt.Println(falseIndexSlice)
+    results := make([]bool, len(queries))
+    for queryIndex, query := range queries {
+        results[queryIndex] = true
+        if query[0] != query[1] {
+            i2, found2 := slices.BinarySearch(falseIndexSlice, query[1])
+            if found2 {
+                results[queryIndex] = false
+            } else {
+                fmt.Println(query, i2)
+                if len(falseIndexSlice) > 0 && i2 >= len(falseIndexSlice) { // "to" is right of falseIndexSlice, get last index to compare
+                    leftFalseIndex := falseIndexSlice[len(falseIndexSlice)-1]
+                    results[queryIndex] = leftFalseIndex <= query[0]
+                } else if i2 > 0 { // "to" is within falseIndexSlice, get previous index to compare
+                    leftFalseIndex := falseIndexSlice[i2-1]
+                    results[queryIndex] = leftFalseIndex <= query[0]
+                }
+            }
+        }
+    }
+    return results
+}
+
 func main() {
-    fmt.Println(minimumSize1760([]int {431,922,158,60,192,14,788,146,788,775,772,792,68,143,376,375,877,516,595,82,56,704,160,403,713,504,67,332,26}, 80)) // 129
+    // fmt.Println(isArraySpecial3152([]int {1,4}, [][]int {{0,1}}))
+    // fmt.Println(isArraySpecial3152([]int {6,6,4,6,9,2,2}, [][]int {{2,4}}))
+    // fmt.Println(isArraySpecial3152([]int {2,8,3,8,10}, [][]int {{0,3}}))
+    fmt.Println(isArraySpecial3152([]int {10,2,10,9,7}, [][]int {{2,3}}))
+    // fmt.Println(isArraySpecial3152([]int {7,7}, [][]int {{1,1}}))
+    // fmt.Println(isArraySpecial3152([]int {1,2,4,6,7,8,10,11}, [][]int {{0,2},{2,3},{4,7},{6,7},{4,5}}))
+    // fmt.Println(isArraySpecial3152([]int {4,3,1,6}, [][]int {{0,2},{2,3}}))
+    // fmt.Println(minimumSize1760([]int {431,922,158,60,192,14,788,146,788,775,772,792,68,143,376,375,877,516,595,82,56,704,160,403,713,504,67,332,26}, 80)) // 129
     // fmt.Println(minimumSize1760([]int {7,17}, 2)) // 7
     // fmt.Println(minimumSize1760([]int {2,4,8,2}, 4))
     // fmt.Println(maxCount2554([]int {8155, 8108}, 2431, 7821))
@@ -197,6 +278,3 @@ func main() {
     // fmt.Println(maxCount2554([]int {1,2,3,4,5,6,7}, 8, 1)) // 0
     // fmt.Println(maxCount2554([]int {11}, 7, 50)) // 7
 }
-
-// 13 14 15 16 17
-// 53 
