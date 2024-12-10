@@ -259,11 +259,96 @@ func isArraySpecial3152(nums []int, queries [][]int) []bool {
     return results
 }
 
+func maximumLength2981(s string) int {
+    // 1    ..a..a..a..
+    // 2    ..aaa.. ..aa..aa..aa..
+    // n-1  ..aaaaa..
+    specialStringMap := make(map[byte][]int)
+    specialStringLength := 1
+    previousChar := s[0]
+    var currentChar byte
+    for i := 1; i <= len(s); i++ {
+        if i == len(s) {
+            currentChar = 0
+        } else {
+            currentChar = s[i]
+        }
+        if currentChar == previousChar {
+            specialStringLength += 1
+        } else {
+            slice, sliceFound := specialStringMap[previousChar]
+            if sliceFound {
+                index, _ := slices.BinarySearch(slice, specialStringLength)
+                slice = slices.Insert(slice, index, specialStringLength)
+                if len(slice) > 3 {
+                    slice = slice[len(slice)-3:]
+                }
+                specialStringMap[previousChar] = slice
+            } else {
+                specialStringMap[previousChar] = []int {specialStringLength}
+            }
+            previousChar = currentChar
+            specialStringLength = 1
+        }
+    }
+    fmt.Println(specialStringMap)
+    maxLength := 0
+    var lengthMax, lengthNext int
+    for _, lengthSlice := range specialStringMap {
+        var possibleLengths []int
+        if len(lengthSlice) == 3 && lengthSlice[0] == lengthSlice[1] && lengthSlice[1] == lengthSlice[2] {
+            maxLength = max(maxLength, lengthSlice[0])
+            continue
+        }
+        if len(lengthSlice) == 3 {
+            lengthMax = lengthSlice[2]
+            lengthNext = lengthSlice[1]
+        } else if len(lengthSlice) == 2 {
+            lengthMax = lengthSlice[1]
+            lengthNext = lengthSlice[0]
+        }
+        if len(lengthSlice) == 3 || len(lengthSlice) == 2 {
+            fmt.Println(lengthSlice, lengthNext, lengthMax)
+            if lengthMax > lengthNext {
+                if lengthMax == lengthNext + 1 {
+                    possibleLengths = append(possibleLengths, lengthNext)
+                }
+                if lengthMax >= 3 {
+                    possibleLengths = append(possibleLengths, lengthMax - 2)
+                }
+            } else {
+                possibleLengths = append(possibleLengths, lengthMax - 1)
+            }
+            maxLength = max(maxLength, slices.Max(possibleLengths))
+        } else {
+            lengthMax := lengthSlice[0]
+            if lengthMax >= 3 {
+                lengthMax = lengthMax - 2
+            } else {
+                lengthMax = 0
+            }
+            maxLength = max(maxLength, lengthMax)
+        }
+    }
+    if maxLength == 0 {
+        return -1
+    }
+    return maxLength
+}
+
 func main() {
+    fmt.Println(maximumLength2981("acc")) // -1
+    fmt.Println(maximumLength2981("abcaba")) // 1
+    fmt.Println(maximumLength2981("abcdef")) // -1
+    fmt.Println(maximumLength2981("aaabcaabaaacaa")) // 2
+    fmt.Println(maximumLength2981("eccdnmcnkl")) // 1
+    fmt.Println(maximumLength2981("eeeyyyybbbbbbbbssppb")) // 6
+    fmt.Println(maximumLength2981("ceeeeeeeeeeeebmmmfffeeeeeeeeeeeewww")) // 11
+    fmt.Println(maximumLength2981("hejlgbsjpedppppppdddddpphpppiiiiiga")) // 4
     // fmt.Println(isArraySpecial3152([]int {1,4}, [][]int {{0,1}}))
     // fmt.Println(isArraySpecial3152([]int {6,6,4,6,9,2,2}, [][]int {{2,4}}))
     // fmt.Println(isArraySpecial3152([]int {2,8,3,8,10}, [][]int {{0,3}}))
-    fmt.Println(isArraySpecial3152([]int {10,2,10,9,7}, [][]int {{2,3}}))
+    // fmt.Println(isArraySpecial3152([]int {10,2,10,9,7}, [][]int {{2,3}}))
     // fmt.Println(isArraySpecial3152([]int {7,7}, [][]int {{1,1}}))
     // fmt.Println(isArraySpecial3152([]int {1,2,4,6,7,8,10,11}, [][]int {{0,2},{2,3},{4,7},{6,7},{4,5}}))
     // fmt.Println(isArraySpecial3152([]int {4,3,1,6}, [][]int {{0,2},{2,3}}))
