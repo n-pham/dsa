@@ -336,15 +336,130 @@ func maximumLength2981(s string) int {
     return maxLength
 }
 
+func maximumBeauty2779_fail_1(nums []int, k int) int {
+    // 2
+    // 4       2,3,4,5,6
+    // 6           4,5,6,7,8
+    // 3     1,2,3,4,5
+    // 1   0,1,2,3
+    // 2   0,1,2,3,4
+    // 5  0..20
+    // 57       45..72
+    // 46    31..51
+    finalStart := max(0, nums[0] - k)
+    finalEnd := nums[0] + k
+    finalCommonCount := len(nums)
+    finalCount := 1
+    fmt.Println(nums[0], finalStart, finalEnd, finalCount)
+    for _, number := range nums[1:] {
+        start := max(max(0, number - k), finalStart)
+        end := min(number + k, finalEnd)
+        commonCount := max(0, end - start + 1)
+        if commonCount > 0 {
+            finalStart = start
+            finalEnd = end
+            finalCommonCount = min(finalCommonCount, commonCount)
+            finalCount += 1
+        }
+        fmt.Println(number, "commonCount", commonCount, "finalStart", finalStart, "finalEnd", finalEnd, "finalCount", finalCount)   
+    }
+    return finalCount
+}
+
+func maximumBeauty2779_time(nums []int, k int) int {
+    // 2
+    // 4       2,3,4,5,6
+    // 6           4,5,6,7,8
+    // 3     1,2,3,4,5
+    // 1   0,1,2,3
+    // 2   0,1,2,3,4
+    // SUM 2 3 4 5 4 3 2 1 1
+    // 5  0..20
+    // 57       45..72
+    // 46    31..51
+    numberMap := make(map[int]int)
+    for _, number := range nums {
+        for i := max(0, number - k); i <= number + k; i++ {
+            numberMap[i] = numberMap[i] + 1 // default 0
+        }
+    }
+    fmt.Println(numberMap)
+    maxCount := 0
+    for _, count := range numberMap {
+        maxCount = max(maxCount, count)
+    }
+    return maxCount
+}
+
+func maximumBeauty2779_time_2(nums []int, k int) int {
+    // 5   0 .. 20
+    // 57             42 .. 72
+    // 46          31 .. 61
+    //       0  20 31 42 61 72
+    // for
+    // 5   .......
+    // 57                +1
+    // 46             +1
+    //-------------------------
+    //     0  2 3 4  6  8
+    // 4      2  ..  6
+    // 6          4 ..  8
+    // 1   0 .. 3
+    // 2   0 ..   4
+    // for
+    // 4       +1+1
+    // 6            +1
+    // 1     +1
+    // 2     +1+1
+    numberMap := make(map[int]int)
+    var numberSlice []int
+    for _, number := range nums {
+        start := max(0, number - k)
+        end := number + k
+        if index, found := slices.BinarySearch(numberSlice, start); !found {
+            numberSlice = slices.Insert(numberSlice, index, start)
+        }
+        if index, found := slices.BinarySearch(numberSlice, end); !found {
+            numberSlice = slices.Insert(numberSlice, index, end)
+        }
+        numberMap[start] = numberMap[start] + 1 // default 0
+        if k!= 0 {
+            numberMap[end] = numberMap[end] + 1 // default 0
+        }
+    }
+    // fmt.Println(numberMap)
+    fmt.Println(numberSlice)
+    for _, number := range nums {
+        start, _ := slices.BinarySearch(numberSlice, max(0, number - k))
+        end, _ := slices.BinarySearch(numberSlice, number + k)
+        for index := start + 1; index < end; index++ {
+            numberMap[numberSlice[index]] = numberMap[numberSlice[index]] + 1
+        }
+    }
+    fmt.Println(numberMap)
+    maxCount := 0
+    for _, count := range numberMap {
+        maxCount = max(maxCount, count)
+    }
+    return maxCount
+}
+
+func maximumBeauty2779(nums []int, k int) int {
+    panic("not implemented")
+}
+
 func main() {
-    fmt.Println(maximumLength2981("acc")) // -1
-    fmt.Println(maximumLength2981("abcaba")) // 1
-    fmt.Println(maximumLength2981("abcdef")) // -1
-    fmt.Println(maximumLength2981("aaabcaabaaacaa")) // 2
-    fmt.Println(maximumLength2981("eccdnmcnkl")) // 1
-    fmt.Println(maximumLength2981("eeeyyyybbbbbbbbssppb")) // 6
-    fmt.Println(maximumLength2981("ceeeeeeeeeeeebmmmfffeeeeeeeeeeeewww")) // 11
-    fmt.Println(maximumLength2981("hejlgbsjpedppppppdddddpphpppiiiiiga")) // 4
+    fmt.Println(maximumBeauty2779([]int {100000}, 0)) // 1
+    fmt.Println(maximumBeauty2779([]int {5,57,46}, 15)) // 2
+    fmt.Println(maximumBeauty2779([]int {4,6,1,2}, 2)) // 3
+    // fmt.Println(maximumLength2981("acc")) // -1
+    // fmt.Println(maximumLength2981("abcaba")) // 1
+    // fmt.Println(maximumLength2981("abcdef")) // -1
+    // fmt.Println(maximumLength2981("aaabcaabaaacaa")) // 2
+    // fmt.Println(maximumLength2981("eccdnmcnkl")) // 1
+    // fmt.Println(maximumLength2981("eeeyyyybbbbbbbbssppb")) // 6
+    // fmt.Println(maximumLength2981("ceeeeeeeeeeeebmmmfffeeeeeeeeeeeewww")) // 11
+    // fmt.Println(maximumLength2981("hejlgbsjpedppppppdddddpphpppiiiiiga")) // 4
     // fmt.Println(isArraySpecial3152([]int {1,4}, [][]int {{0,1}}))
     // fmt.Println(isArraySpecial3152([]int {6,6,4,6,9,2,2}, [][]int {{2,4}}))
     // fmt.Println(isArraySpecial3152([]int {2,8,3,8,10}, [][]int {{0,3}}))
