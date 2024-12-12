@@ -502,8 +502,28 @@ func maximumBeauty2779(nums []int, k int) int {
     return finalCount
 }
 
+func pickGifts2558(gifts []int, k int) int64 {
+    // 25 64 9  4 100
+    // 25 64 9  4  10
+    // 25 8  9  4  10
+    // 5  8  9  4  10 
+    // 5  8  9  4   3
+    slices.Sort(gifts)
+    // fmt.Println(gifts)
+    for i := 0; i < k; i++ {
+        remain := int(math.Sqrt(float64(gifts[len(gifts)-1])))
+        index, _ := slices.BinarySearch(gifts, remain)
+        gifts = slices.Insert(gifts[:len(gifts)-1], index, remain)
+    }
+    fmt.Println(gifts)
+    var sum int64
+    for _, val := range gifts { sum += int64(val) }
+    return sum
+}
+
 func main() {
-    fmt.Println(maximumBeauty2779([] int {13, 46, 71}, 29))  // 3
+    fmt.Println(pickGifts2558([] int {25,64,9,4,100}, 4))  // 29
+    // fmt.Println(maximumBeauty2779([] int {13, 46, 71}, 29))  // 3
     // fmt.Println(maximumBeauty2779([] int {72,95,53,58,12,93,9,12,95,65}, 24))  // 7
     // fmt.Println(maximumBeauty2779([] int {13,68,81,61,13,70,23,46,4}, 5))  // 3
     // fmt.Println(maximumBeauty2779([] int {38,11,31,15,50,15}, 0))  // 2
