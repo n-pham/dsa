@@ -445,13 +445,73 @@ func maximumBeauty2779_time_2(nums []int, k int) int {
 }
 
 func maximumBeauty2779(nums []int, k int) int {
-    panic("not implemented")
+    // 4          2   ..  6
+    // 6               4 ..  8
+    // 1       0 ..  3
+    // 2       0 ..    4
+    //         0  2  3 4  6  8
+    // ends  3,4  6    8
+    //       3,4
+    //        3,4,6
+    //           3,4,6
+    //             4,6,8
+    //                  6,8
+    //                       8
+    //         ^  ^  ^ ^  ^  ^
+    //         |  |  | |  |  |
+    //         2  3  3 3  2  1
+    numberToEndsMap := make(map[int][]int)
+    var numberSlice []int
+    for _, number := range nums {
+        start := max(0, number - k)
+        end := number + k
+        if index, found := slices.BinarySearch(numberSlice, start); !found {
+            numberSlice = slices.Insert(numberSlice, index, start)
+        }
+        if index, found := slices.BinarySearch(numberSlice, end); !found {
+            numberSlice = slices.Insert(numberSlice, index, end)
+        }
+        index, _ := slices.BinarySearch(numberToEndsMap[start], end)
+        numberToEndsMap[start] = slices.Insert(numberToEndsMap[start], index, end)
+    }
+    fmt.Println(nums, numberSlice, numberToEndsMap)
+    if k == 0 {
+        finalCount := 1
+        for _, v := range(numberToEndsMap) {
+            finalCount = max(finalCount, len(v))
+        }
+        return finalCount
+    }
+    var endSlice = numberToEndsMap[numberSlice[0]]
+    finalCount := len(endSlice)
+    fmt.Println(endSlice)
+    for _, number := range numberSlice[1:] {
+        thisEndSlice, found := numberToEndsMap[number]
+        if found {
+            for _, thisEnd := range thisEndSlice {
+                index, _ := slices.BinarySearch(endSlice, thisEnd)
+                endSlice = slices.Insert(endSlice, index, thisEnd)
+            }
+        }
+        finalCount = max(finalCount, len(endSlice))
+        fmt.Println("number", number, "endSlice", endSlice, "finalCount", finalCount)
+        for len(endSlice) > 0 && endSlice[0] == number { // for next loop
+            endSlice = endSlice[1:]
+        }
+    }
+    return finalCount
 }
 
 func main() {
-    fmt.Println(maximumBeauty2779([]int {100000}, 0)) // 1
-    fmt.Println(maximumBeauty2779([]int {5,57,46}, 15)) // 2
-    fmt.Println(maximumBeauty2779([]int {4,6,1,2}, 2)) // 3
+    fmt.Println(maximumBeauty2779([] int {13, 46, 71}, 29))  // 3
+    // fmt.Println(maximumBeauty2779([] int {72,95,53,58,12,93,9,12,95,65}, 24))  // 7
+    // fmt.Println(maximumBeauty2779([] int {13,68,81,61,13,70,23,46,4}, 5))  // 3
+    // fmt.Println(maximumBeauty2779([] int {38,11,31,15,50,15}, 0))  // 2
+    // fmt.Println(maximumBeauty2779([] int {45,33,34,35,70,35}, 21))  // 6
+    // fmt.Println(maximumBeauty2779([]int {100000}, 0)) // 1
+    //fmt.Println(maximumBeauty2779([]int {83,10,99,99}, 18)) // 3
+    // fmt.Println(maximumBeauty2779([]int {5,57,46}, 15)) // 2
+    // fmt.Println(maximumBeauty2779([]int {4,6,1,2}, 2)) // 3
     // fmt.Println(maximumLength2981("acc")) // -1
     // fmt.Println(maximumLength2981("abcaba")) // 1
     // fmt.Println(maximumLength2981("abcdef")) // -1
