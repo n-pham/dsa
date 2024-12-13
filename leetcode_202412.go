@@ -1,6 +1,7 @@
 package main
 
 import (
+    "cmp"
     "fmt"
     "math"
     "slices"
@@ -521,8 +522,142 @@ func pickGifts2558(gifts []int, k int) int64 {
     return sum
 }
 
+func findScore2593_fail_1(nums []int) int64 {
+    // 2,1,3,4,5,2
+    //       4 5 2  1
+    //       4      2
+    //              4
+    var sum int64
+    for len(nums) > 0 {
+        minIndex := -1
+        minNumber := math.MaxUint32
+        for index, number := range nums {
+            if number < minNumber {
+                minIndex = index
+                minNumber = number
+            }
+        }
+        sum += int64(minNumber)
+        var before, after []int
+        if minIndex > 1 { before = nums[:minIndex-1] }
+        if minIndex < len(nums) - 2 { after = nums[minIndex+2:] }
+        nums = append(before, after...)
+        fmt.Println(minIndex, minNumber, nums, sum)
+    }
+    return sum
+}
+
+func findScore2593_time(nums []int) int64 {
+    // 2,2,1,3,1,5,2     0 1 2 3 4 5 6  remove adjacents if -1 or +1
+    // 2       1 5 2  1  0       4 5 6
+    // 2           2  1  0           6
+    //             2  2              6
+    //                2   
+    indexSlice := make([]int, len(nums))
+    for i := range indexSlice { indexSlice[i] = i }
+    fmt.Println(nums)
+    var sum int64
+    for len(indexSlice) > 0 {
+        minIndex := -1
+        minNumber := math.MaxUint32
+        for index, indexInNums := range indexSlice {
+            number := nums[indexInNums]
+            if number < minNumber {
+                minIndex = index
+                minNumber = number
+            }
+        }
+        sum += int64(minNumber)
+        var before, after []int
+        fmt.Println(indexSlice, minIndex, minNumber)
+        if minIndex >= 1 {
+            if indexSlice[minIndex-1] == indexSlice[minIndex]-1 {
+                before = indexSlice[:minIndex-1]
+            } else {
+                before = indexSlice[:minIndex]
+            }
+        }
+        if minIndex <= len(indexSlice) - 2 {
+            if indexSlice[minIndex+1] == indexSlice[minIndex]+1 {
+                after = indexSlice[minIndex+2:]
+            } else {
+                after = indexSlice[minIndex+1:]
+            }
+        }
+        indexSlice = append(before, after...)
+        fmt.Println(minIndex, minNumber, indexSlice, sum)
+    }
+    return sum
+}
+
+func findScore2593_time_2(nums []int) int64 {
+    //    2,2,1,3,1,5,2
+    //    1 1 2 2 2 3 5  sortedNums
+    //
+    //    2 4 0 1 6 3 5  oriInds slice
+    // 1    4 0   6   5              not in markInds map
+    // 2      0   6
+    // 3          6
+    // 4
+    var sortedNums, oriInds []int
+    markedInds := make(map[int]struct{})
+    for i := len(nums)-1; i >= 0; i-- {  // backwards to insert same values at higher index first
+        index, _ := slices.BinarySearch(sortedNums, nums[i])
+        sortedNums = slices.Insert(sortedNums, index, nums[i])
+        oriInds = slices.Insert(oriInds, index, i)
+    }
+    fmt.Println(oriInds, sortedNums)
+    var sum int64
+    for i := 0; len(markedInds) <= len(sortedNums) && i < len(sortedNums); i++ {
+        fmt.Println(i, sortedNums[i], oriInds)
+        if _, marked := markedInds[oriInds[i]]; marked { continue }
+        sum += int64(sortedNums[i])
+        if oriInds[i] >= 1 { markedInds[oriInds[i]-1] = struct{}{} }
+        if oriInds[i] <= len(sortedNums) - 2 { markedInds[oriInds[i]+1] = struct{}{} }
+        markedInds[oriInds[i]] = struct{}{} // to check length
+    }
+    return sum
+}
+
+func findScore2593_time_3(nums []int) int64 {
+    //    2,2,1,3,1,5,2
+    //    1 1 2 2 2 3 5  sortedNums
+    type VI struct {
+        Value int
+        Index int
+    }
+    var sortedNums []VI
+    for i := len(nums)-1; i >= 0; i-- {  // backwards to insert same values at higher index first
+        index, _ := slices.BinarySearchFunc(sortedNums, VI{nums[i], i}, func(a, b VI) int {
+            return cmp.Or(
+                cmp.Compare(a.Value, b.Value),
+                cmp.Compare(a.Index, b.Index),
+            )
+        })
+        sortedNums = slices.Insert(sortedNums, index, VI{nums[i], i})
+    }
+    // fmt.Println(oriInds, sortedNums)
+    markedInds := make(map[int]struct{})
+    var total int64
+    for _, vi := range sortedNums {
+        if _, found := markedInds[vi.Index]; found { continue }
+        total += int64(vi.Value)
+        markedInds[vi.Index-1] = struct{}{}
+        markedInds[vi.Index+1] = struct{}{}
+    }
+    return total
+}
+
+func findScore2593_time_3(nums []int) int64 {
+    panic("not implemented")
+}
+
 func main() {
-    fmt.Println(pickGifts2558([] int {25,64,9,4,100}, 4))  // 29
+    // fmt.Println(findScore2593([]int {46,777,1916,780,1857,1523,1016,389,117,934,1121,191,471,399,949,763,517,928,463,438,1496,1490,1552,211,280,122,200,1980,1437,1496,879,866,609,1923,836,1482,460,1080,1135,756,1870,30,1841,1860,1812,1121,1715,1930,1997,1531,1939,1674,346})) // 17122
+    // fmt.Println(findScore2593([]int {2,2,1,3,1,5,2})) // 6
+    // fmt.Println(findScore2593([]int {10,44,10,8,48,30,17,38,41,27,16,33,45,45,34,30,22,3,42,42})) // 212
+    // fmt.Println(findScore2593([]int {2,1,3,4,5,2})) // 7
+    // fmt.Println(pickGifts2558([] int {25,64,9,4,100}, 4))  // 29
     // fmt.Println(maximumBeauty2779([] int {13, 46, 71}, 29))  // 3
     // fmt.Println(maximumBeauty2779([] int {72,95,53,58,12,93,9,12,95,65}, 24))  // 7
     // fmt.Println(maximumBeauty2779([] int {13,68,81,61,13,70,23,46,4}, 5))  // 3
