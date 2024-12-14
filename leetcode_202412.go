@@ -629,10 +629,11 @@ func findScore2593_time_3(nums []int) int64 {
     var sortedNums []VI
     for i := len(nums)-1; i >= 0; i-- {  // backwards to insert same values at higher index first
         index, _ := slices.BinarySearchFunc(sortedNums, VI{nums[i], i}, func(a, b VI) int {
-            return cmp.Or(
-                cmp.Compare(a.Value, b.Value),
-                cmp.Compare(a.Index, b.Index),
-            )
+            return cmp.Compare(a.Value, b.Value)
+            // return cmp.Or(
+            //     cmp.Compare(a.Value, b.Value),
+            //     cmp.Compare(a.Index, b.Index),
+            // )
         })
         sortedNums = slices.Insert(sortedNums, index, VI{nums[i], i})
     }
@@ -648,11 +649,61 @@ func findScore2593_time_3(nums []int) int64 {
     return total
 }
 
-func findScore2593_time_3(nums []int) int64 {
+func findScore2593(nums []int) int64 {
+    panic("not implemented")
+}
+
+func lengthOfLongestSubstring3(s string) int {
+    maxLength := 0
+    if len(s) == 1 {
+        maxLength = 1
+    }
+    for i := 0; i < len(s)-1; i++ {
+        charMap := make(map[byte]struct{})
+        charMap[s[i]] = struct{}{}
+        length := 1
+        for j := i+1; j < len(s); j++ {
+            fmt.Println(i, j, charMap, s[j])
+            if _, found := charMap[s[j]]; found { break }
+            charMap[s[j]] = struct{}{}
+            length += 1
+        }
+        maxLength = max(maxLength, length)
+    }
+    return maxLength
+}
+
+func continuousSubarrays2762_fail_1(nums []int) int64 {
+    // 5 4 2 4
+    // 5 4
+    // 5 4 2     5 - 2 > 2 --> stop
+    //   4 2
+    //   4 2 4
+    //     2 4
+    m := make(map[int]int)
+    for i := 0; i < len(nums)-1; i++ {
+        for j := i+1; j < len(nums); j++ {
+            diff := nums[i] - nums[j]
+            if diff < -2 || diff > 2 { break }
+            fmt.Println(i, j, nums[i], nums[j])
+            m[j - i + 1] = m[j - i + 1] + 1 // default 0
+        }
+    }
+    var total int64
+    for _, v := range m { total += int64(v) }
+    return total + int64(len(nums))
+}
+
+func continuousSubarrays2762(nums []int) int64 {
     panic("not implemented")
 }
 
 func main() {
+    fmt.Println(continuousSubarrays2762([]int {65,66,67,66,66,65,64,65,65,64})) // 43
+    fmt.Println(continuousSubarrays2762([]int {5,4,2,4})) // 8
+    // fmt.Println(lengthOfLongestSubstring3(" ")) // 1
+    // fmt.Println(lengthOfLongestSubstring3("abcabcbb")) // abc 3
+    // fmt.Println(lengthOfLongestSubstring3("pwwkew")) // wke 3
     // fmt.Println(findScore2593([]int {46,777,1916,780,1857,1523,1016,389,117,934,1121,191,471,399,949,763,517,928,463,438,1496,1490,1552,211,280,122,200,1980,1437,1496,879,866,609,1923,836,1482,460,1080,1135,756,1870,30,1841,1860,1812,1121,1715,1930,1997,1531,1939,1674,346})) // 17122
     // fmt.Println(findScore2593([]int {2,2,1,3,1,5,2})) // 6
     // fmt.Println(findScore2593([]int {10,44,10,8,48,30,17,38,41,27,16,33,45,45,34,30,22,3,42,42})) // 212
