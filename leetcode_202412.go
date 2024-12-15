@@ -2,6 +2,7 @@ package main
 
 import (
     "cmp"
+    "container/heap"
     "fmt"
     "math"
     "slices"
@@ -698,9 +699,90 @@ func continuousSubarrays2762(nums []int) int64 {
     panic("not implemented")
 }
 
+func longestPalindrome5(s string) string {
+    panic("not implemented")
+    // b a b a d
+    // i j k
+    //   i j k
+    // c b b d
+    // i j k
+    if len(s) < 3 && s[0] == s[len(s)-1] { return s }
+    i := 0
+    j := 1
+    var length int
+    var maxSlice = s[:1]
+    maxLength := 0
+    for k := 1; k < len(s); k++ {
+        for length = 0; j >= 0 && k < len(s) && s[j] == s[k]; {
+            k += 1
+            j -= 1
+            length += 2
+        }
+        if length > maxLength {
+            maxSlice = s[j+1:k]
+            maxLength = length
+        }
+        fmt.Println("k", k, "maxSlice", maxSlice)
+        for length = 1; k >= 2 && i >= 0 && k < len(s) && s[i] == s[k]; {
+            length += 2
+            fmt.Println(i, j, k, s[i], s[k], s[i:k])
+            k += 1
+            i -= 1
+        }
+        if length > maxLength {
+            maxSlice = s[i+1:k]
+            maxLength = length
+        }
+        fmt.Println("k", k, "maxSlice", maxSlice)
+    }
+    return maxSlice
+}
+
+func maxAverageRatio1792(classes [][]int, extraStudents int) float64 {
+    panic("not implemented")
+
+    type Class struct {
+        Size int
+        Pass int
+    }
+
+    type Heap []Class
+
+    func (h Heap) Len() int           { return len(h) }
+    func (h Heap) Less(i, j int) bool { return h[i][Pass]/h[i][Size] < h[j][Pass]/h[j][Size] }
+    func (h Heap) Swap(i, j int)      { h[i], h[j] = h[j], h[i] }
+
+    func (h *Heap) Push(x interface{}) {
+        // Push and Pop use pointer receivers because they modify the slice's length,
+        // not just its contents.
+        *h = append(*h, x.(int))
+    }
+
+    func (h *Heap) Pop() interface{} {
+        old := *h
+        n := len(old)
+        x := old[n-1]
+        *h = old[0 : n-1]
+        return x
+    }
+
+    type MaxHeap struct {
+        Heap
+    }
+    
+    func (h MaxHeap) Less(i, j int) bool { return h.Heap[i] > h.Heap[j] }
+
+    h := &MaxHeap()
+}
+
 func main() {
-    fmt.Println(continuousSubarrays2762([]int {65,66,67,66,66,65,64,65,65,64})) // 43
-    fmt.Println(continuousSubarrays2762([]int {5,4,2,4})) // 8
+    fmt.Println(maxAverageRatio1792([][]int {{1,2},{3,5},{2,2}}, 2)) // (3/4 + 3/5 + 2/2) / 3
+    fmt.Println(maxAverageRatio1792([][]int {{2,4},{3,9},{4,5},{2,10}}, 4)) // 0.53485
+    // fmt.Println(longestPalindrome5("ccd")) // cc
+    // fmt.Println(longestPalindrome5("babad")) // aba or bab
+    // fmt.Println(longestPalindrome5("cbbd")) // bb
+    // fmt.Println(continuousSubarrays2762([]int {65,66,67,66,66,65,64,65,65,64})) // 43
+    // fmt.Println(continuousSubarrays2762([]int {5,4,2,4})) // 8
     // fmt.Println(lengthOfLongestSubstring3(" ")) // 1
     // fmt.Println(lengthOfLongestSubstring3("abcabcbb")) // abc 3
     // fmt.Println(lengthOfLongestSubstring3("pwwkew")) // wke 3
