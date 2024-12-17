@@ -2,8 +2,9 @@ package main
 
 import (
     "cmp"
-    "container/heap"
+    // "container/heap"
     "fmt"
+    "strconv"
     "math"
     "slices"
 )
@@ -741,43 +742,139 @@ func longestPalindrome5(s string) string {
 func maxAverageRatio1792(classes [][]int, extraStudents int) float64 {
     panic("not implemented")
 
-    type Class struct {
-        Size int
-        Pass int
-    }
+    // type Class struct {
+    //     Size int
+    //     Pass int
+    // }
 
-    type Heap []Class
+    // type Heap []Class
 
-    func (h Heap) Len() int           { return len(h) }
-    func (h Heap) Less(i, j int) bool { return h[i][Pass]/h[i][Size] < h[j][Pass]/h[j][Size] }
-    func (h Heap) Swap(i, j int)      { h[i], h[j] = h[j], h[i] }
+    // // func (h Heap) Len() int           { return len(h) }
+    // // func (h Heap) Less(i, j int) bool { return h[i][Pass]/h[i][Size] < h[j][Pass]/h[j][Size] }
+    // func (h Heap) Swap(i, j int)      { h[i], h[j] = h[j], h[i] }
 
-    func (h *Heap) Push(x interface{}) {
-        // Push and Pop use pointer receivers because they modify the slice's length,
-        // not just its contents.
-        *h = append(*h, x.(int))
-    }
+    // func (h *Heap) Push(x interface{}) {
+    //     // Push and Pop use pointer receivers because they modify the slice's length,
+    //     // not just its contents.
+    //     *h = append(*h, x.(int))
+    // }
 
-    func (h *Heap) Pop() interface{} {
-        old := *h
-        n := len(old)
-        x := old[n-1]
-        *h = old[0 : n-1]
-        return x
-    }
+    // func (h *Heap) Pop() interface{} {
+    //     old := *h
+    //     n := len(old)
+    //     x := old[n-1]
+    //     *h = old[0 : n-1]
+    //     return x
+    // }
 
-    type MaxHeap struct {
-        Heap
-    }
+    // type MaxHeap struct {
+    //     Heap
+    // }
     
-    func (h MaxHeap) Less(i, j int) bool { return h.Heap[i] > h.Heap[j] }
+    // func (h MaxHeap) Less(i, j int) bool { return h.Heap[i] > h.Heap[j] }
 
-    h := &MaxHeap()
+    // h := &MaxHeap()
+}
+
+func getFinalState3264(nums []int, k int, multiplier int) []int {
+    sortedNums := nums[0:len(nums)]
+    slices.Sort(sortedNums)
+    for i := 0; i < k; i++ {
+        replaced := sortedNums[0] * multiplier
+        fmt.Println(replaced, sortedNums)
+        index, _ := slices.BinarySearch(sortedNums[1:], replaced)
+        sortedNums = slices.Insert(sortedNums[1:], index, replaced)
+        fmt.Println(sortedNums)
+    }
+    return nums
+}
+
+func repeatLimitedString2182_fail_1(s string, repeatLimit int) string {
+    // cczazcc  3
+    // c4 a1 z2
+    // z2c3a1c1
+    // aababab  2
+    // a4 b3
+    // b2a1b1a2
+    var sortedChars []rune
+    countByChar := make(map[rune]int)
+    for _, c := range s {
+        if _, found := countByChar[c]; !found {
+            countByChar[c] = 1
+            i, _ := slices.BinarySearch(sortedChars, c)
+            sortedChars = slices.Insert(sortedChars, i, c)
+        } else {
+            countByChar[c] = countByChar[c] + 1
+        }
+    }
+    var rs []rune
+    var c rune
+    length := 0
+    for len(sortedChars) > 0 {
+        fmt.Println(sortedChars, countByChar, rs, length)
+        // if length >= repeatLimit &&
+        // rs[len(rs)-1] == sortedChars[len(sortedChars)-1] {
+        if length >= repeatLimit {
+            if len(sortedChars) == 1 { return string(rs) }
+            c = sortedChars[len(sortedChars)-2]
+            if cnt, _ := countByChar[c]; cnt > 0 {
+                countByChar[c] = countByChar[c] - 1
+                rs = append(rs, c)
+                length = 1
+            } else {
+                sortedChars = append(sortedChars[:len(sortedChars)-2], sortedChars[len(sortedChars)-1:]...)
+            }
+            continue
+        }
+        c = sortedChars[len(sortedChars)-1]
+        if cnt, _ := countByChar[c]; cnt > 0 {
+            countByChar[c] = countByChar[c] - 1
+            if len(rs) > 0 && rs[len(rs)-1] == c { length += 1 } else {length = 1}
+            rs = append(rs, c)  
+        } else {
+            sortedChars = sortedChars[:len(sortedChars)-1]
+        }
+    }
+    return string(rs)
+}
+
+func repeatLimitedString2182(s string, repeatLimit int) string {
+    panic("not implemented")
+}
+
+func isPalindrome9_10ms(x int) bool {
+    if (x < 0) { return false }
+    var ds []int
+    for x > 0 {
+        ds = append(ds, x % 10)
+        x = x / 10
+    }
+    // fmt.Println(ds)
+    for i := 0; i <= len(ds)/2 - 1; i++ {
+        // fmt.Println(ds[i], ds[len(ds)-1-i])
+        if ds[i] != ds[len(ds)-1-i] { return false }
+    }
+    return true
+}
+
+func isPalindrome9(x int) bool {
+    if (x < 0) { return false }
+    ds := strconv.Itoa(x)
+    // fmt.Println(ds)
+    for i := 0; i <= len(ds)/2 - 1; i++ {
+        // fmt.Println(ds[i], ds[len(ds)-1-i])
+        if ds[i] != ds[len(ds)-1-i] { return false }
+    }
+    return true
 }
 
 func main() {
-    fmt.Println(maxAverageRatio1792([][]int {{1,2},{3,5},{2,2}}, 2)) // (3/4 + 3/5 + 2/2) / 3
-    fmt.Println(maxAverageRatio1792([][]int {{2,4},{3,9},{4,5},{2,10}}, 4)) // 0.53485
+    fmt.Println(isPalindrome9(121))
+    fmt.Println(isPalindrome9(1221))
+    // fmt.Println(repeatLimitedString2182("cczazcc", 3)) // z2c3a1c1
+    // fmt.Println(getFinalState3264([] int {2,1,3,5,6}, 5, 2)) // 8,4,6,5,6
+    // fmt.Println(maxAverageRatio1792([][]int {{1,2},{3,5},{2,2}}, 2)) // (3/4 + 3/5 + 2/2) / 3
+    // fmt.Println(maxAverageRatio1792([][]int {{2,4},{3,9},{4,5},{2,10}}, 4)) // 0.53485
     // fmt.Println(longestPalindrome5("ccd")) // cc
     // fmt.Println(longestPalindrome5("babad")) // aba or bab
     // fmt.Println(longestPalindrome5("cbbd")) // bb
