@@ -21,6 +21,16 @@ func Convert(number int) string {
 	return result
 }
 
+func IsIsogram(word string) bool {
+	m := make(map[rune]struct{})
+	for _, c := range strings.ToLower(word) {
+		if c == 45 || c == 32 { continue }
+		if _, found := m[c]; found { return false }
+		m[c] = struct{}{}
+	}
+	return true
+}
+
 func main() {
 	fmt.Println(Convert(27), Convert(105), Convert(52))
     // fmt.Println(ShareWith("Bob"))
