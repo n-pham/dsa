@@ -868,9 +868,36 @@ func isPalindrome9(x int) bool {
     return true
 }
 
+func minPartitions1689(n string) int {
+    // 82734
+    // 11111
+    // 11111
+    // 10111
+    // 10101
+    // 10100
+    // 10100
+    // 10100
+    // 10000
+    maxDigit := 0
+    for _, d := range n {
+        maxDigit = max(maxDigit, int(d) - 48)
+        if maxDigit == 9 { return 9 }
+    }
+    return maxDigit
+}
+
+func countMaxOrSubsets2044(nums []int) int {
+    // 3,2,1,5
+    //  11
+    //  10
+    //  01
+    // 101
+    // 111
+}
+
 func main() {
-    fmt.Println(isPalindrome9(121))
-    fmt.Println(isPalindrome9(1221))
+    // fmt.Println(isPalindrome9(121))
+    // fmt.Println(isPalindrome9(1221))
     // fmt.Println(repeatLimitedString2182("cczazcc", 3)) // z2c3a1c1
     // fmt.Println(getFinalState3264([] int {2,1,3,5,6}, 5, 2)) // 8,4,6,5,6
     // fmt.Println(maxAverageRatio1792([][]int {{1,2},{3,5},{2,2}}, 2)) // (3/4 + 3/5 + 2/2) / 3
