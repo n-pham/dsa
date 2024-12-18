@@ -886,6 +886,27 @@ func minPartitions1689(n string) int {
     return maxDigit
 }
 
+func finalPrices1475(prices []int) []int {
+    // 8 4 6 2 3
+    // {} 8
+    // {8} 4      4
+    // {4} 6
+    // {4, 6} 2   4
+    // {4} 2      2
+    // {2} 3
+    var updateLaters []int // stack of indices
+    finalPrices := prices[:]
+    for index, value := range prices {
+        for len(updateLaters) > 0 &&
+        prices[updateLaters[len(updateLaters)-1]] >= value {
+            finalPrices[updateLaters[len(updateLaters)-1]] -= value
+            updateLaters = updateLaters[:len(updateLaters)-1]
+        }
+        updateLaters = append(updateLaters, index)
+    }
+    return finalPrices
+}
+
 func countMaxOrSubsets2044(nums []int) int {
     // 3,2,1,5
     //  11
@@ -893,9 +914,11 @@ func countMaxOrSubsets2044(nums []int) int {
     //  01
     // 101
     // 111
+    return 0
 }
 
 func main() {
+    fmt.Println(finalPrices1475([]int {8,4,6,2,3})) // 4,2,4,2,3
     // fmt.Println(isPalindrome9(121))
     // fmt.Println(isPalindrome9(1221))
     // fmt.Println(repeatLimitedString2182("cczazcc", 3)) // z2c3a1c1
