@@ -6,6 +6,7 @@ import (
     "fmt"
     "strconv"
     "math"
+    "math/bits"
     "slices"
 )
 
@@ -907,18 +908,69 @@ func finalPrices1475(prices []int) []int {
     return finalPrices
 }
 
+func Factorial(n int)(result int) {
+    if (n > 0) {
+        result = n * Factorial(n-1)
+        return result
+    }
+    return 1
+}
+
 func countMaxOrSubsets2044(nums []int) int {
+    // 3,2,1,5 --> 7
+    panic("not implemented")
+}
+
+func countMaxOrSubsets2044_fail_1(nums []int) int {
     // 3,2,1,5
-    //  11
-    //  10
-    //  01
+    // 011
+    // 010
+    // 001
     // 101
     // 111
-    return 0
+    // 4 having 0 --> 4
+    // 3 having 0 at index 0 --> 4
+    // 2 having 0 at index 1 --> 1
+    // 2^4 - (4+4+1)
+    bitLen := bits.Len(uint(slices.Max(nums)))
+    excluded := 0
+    for i := 0; i < bitLen; i++ {
+        cnt := 0
+        for _, num := range nums {
+            if num & (1 << i) == 0 { cnt += 1 }
+        }
+        // fmt.Println(i, cnt)
+        excluded += Factorial(cnt)
+    }
+    return int(math.Pow(2, float64(len(nums)))) - excluded
+}
+
+func maxChunksToSorted769(arr []int) int {
+    panic("not understood")
+}
+
+func findArray2433(pref []int) []int {
+    // 5,2,0,3,1
+    // 5  101
+    // 2  010  010
+    // 0  111  000  000
+    // 3       010  011  011
+    // 1            011  001
+    //                   010
+    accXor := pref[0]
+    org := pref[:1]
+    for _, num := range pref[1:] {
+        org = append(org, accXor ^ num)
+        accXor = num
+    }
+    return org
 }
 
 func main() {
-    fmt.Println(finalPrices1475([]int {8,4,6,2,3})) // 4,2,4,2,3
+    fmt.Println(findArray2433([]int {5,2,0,3,1}))
+    // fmt.Println(maxChunksToSorted769([]int {4,3,2,1,0})) // 1
+    // fmt.Println(countMaxOrSubsets2044([]int {3,2,1,5}))
+    // fmt.Println(finalPrices1475([]int {8,4,6,2,3})) // 4,2,4,2,3
     // fmt.Println(isPalindrome9(121))
     // fmt.Println(isPalindrome9(1221))
     // fmt.Println(repeatLimitedString2182("cczazcc", 3)) // z2c3a1c1
