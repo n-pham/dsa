@@ -1043,9 +1043,62 @@ func groupThePeople1282(groupSizes []int) [][]int {
 	return rs
 }
 
+func validStrings3211_time_n_17(n int) []string {
+	// xxx
+	// 11x
+	// 10x
+	var rs []string
+	pres := []string{"1", "0"}
+	if n == 1 { return pres }
+    for i := 0; i < n-1; i++ {
+		for _, pre := range pres {
+			var nexts []string
+			if pre[len(pre)-1] == '0' {
+				nexts = append(nexts, pre + "1")
+			} else {
+				nexts = append(nexts, pre + "1", pre + "0")
+			}
+			fmt.Println(pre, nexts)
+			if len(pre) == n-1 {
+				rs = append(rs, nexts...)
+			} else {
+				pres = append(pres, nexts...)
+			}
+		}
+	}
+	return rs
+}
+
+func validStrings3211(n int) []string {
+	// xxx
+	// 11x
+	// 10x
+	var rs []string
+	pres := []string{"1", "0"}
+	if n == 1 { return pres }
+    for i := 0; i < n-1; i++ {
+		for _, pre := range pres {
+			var nexts []string
+			if pre[len(pre)-1] == '0' {
+				nexts = append(nexts, pre + "1")
+			} else {
+				nexts = append(nexts, pre + "1", pre + "0")
+			}
+			fmt.Println(pre, nexts)
+			if len(pre) == n-1 {
+				rs = append(rs, nexts...)
+			} else {
+				pres = append(pres, nexts...)
+			}
+		}
+	}
+	return rs
+}
+
 func main() {
-	fmt.Println(groupThePeople1282([]int{2, 1, 3, 3, 3, 2}))    // 1 0,5 2,3,4
-	fmt.Println(groupThePeople1282([]int{3, 3, 3, 3, 3, 1, 3})) // 5 0,1,2 3,4,6
+	fmt.Println(validStrings3211(4))
+	// fmt.Println(groupThePeople1282([]int{2, 1, 3, 3, 3, 2}))    // 1 0,5 2,3,4
+	// fmt.Println(groupThePeople1282([]int{3, 3, 3, 3, 3, 1, 3})) // 5 0,1,2 3,4,6
 	// fmt.Println(findArray2433([]int {5,2,0,3,1}))
 	// fmt.Println(maxChunksToSorted769([]int {4,3,2,1,0})) // 1
 	// fmt.Println(countMaxOrSubsets2044([]int {3,2,1,5}))
