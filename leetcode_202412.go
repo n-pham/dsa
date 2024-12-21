@@ -1088,8 +1088,27 @@ func validStrings3211(n int) []string {
 	return rs
 }
 
+func findMatrix2610(nums []int) [][]int {
+    // 1,3,4,1,2,3,1
+	// 1 3 4   2
+	//       1   3
+	//             1
+	countByNum := make(map[int]int)
+	var rs [][]int
+	for _, num := range nums {
+		countByNum[num] = countByNum[num] + 1
+		if countByNum[num] > len(rs) {
+			rs = append(rs, []int{num})
+		} else {
+			rs[countByNum[num]-1] = append(rs[countByNum[num]-1], num)
+		}
+	}
+	return rs
+}
+
 func main() {
-	fmt.Println(validStrings3211(4))
+	fmt.Println(findMatrix2610([]int {1,3,4,1,2,3,1}))
+	// fmt.Println(validStrings3211(4))
 	// fmt.Println(groupThePeople1282([]int{2, 1, 3, 3, 3, 2}))    // 1 0,5 2,3,4
 	// fmt.Println(groupThePeople1282([]int{3, 3, 3, 3, 3, 1, 3})) // 5 0,1,2 3,4,6
 	// fmt.Println(findArray2433([]int {5,2,0,3,1}))
