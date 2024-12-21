@@ -1049,14 +1049,16 @@ func validStrings3211_time_n_17(n int) []string {
 	// 10x
 	var rs []string
 	pres := []string{"1", "0"}
-	if n == 1 { return pres }
-    for i := 0; i < n-1; i++ {
+	if n == 1 {
+		return pres
+	}
+	for i := 0; i < n-1; i++ {
 		for _, pre := range pres {
 			var nexts []string
 			if pre[len(pre)-1] == '0' {
-				nexts = append(nexts, pre + "1")
+				nexts = append(nexts, pre+"1")
 			} else {
-				nexts = append(nexts, pre + "1", pre + "0")
+				nexts = append(nexts, pre+"1", pre+"0")
 			}
 			fmt.Println(pre, nexts)
 			if len(pre) == n-1 {
@@ -1073,24 +1075,15 @@ func validStrings3211(n int) []string {
 	// xxx
 	// 11x
 	// 10x
+	if n == 1 {
+		return []string{"1", "0"}
+	}
 	var rs []string
-	pres := []string{"1", "0"}
-	if n == 1 { return pres }
-    for i := 0; i < n-1; i++ {
-		for _, pre := range pres {
-			var nexts []string
-			if pre[len(pre)-1] == '0' {
-				nexts = append(nexts, pre + "1")
-			} else {
-				nexts = append(nexts, pre + "1", pre + "0")
-			}
-			fmt.Println(pre, nexts)
-			if len(pre) == n-1 {
-				rs = append(rs, nexts...)
-			} else {
-				pres = append(pres, nexts...)
-			}
+	for _, pre := range validStrings3211(n - 1) {
+		if pre[0] == '1' { // append left
+			rs = append(rs, "0"+pre)
 		}
+		rs = append(rs, "1"+pre)
 	}
 	return rs
 }
