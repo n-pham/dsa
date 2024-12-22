@@ -1106,8 +1106,22 @@ func findMatrix2610(nums []int) [][]int {
 	return rs
 }
 
+func countPoints1828(points [][]int, queries [][]int) []int {
+	rs := make([]int, len(queries))
+    for i, query := range queries {
+		for _, point := range points {
+			if (point[0]-query[0])*(point[0]-query[0])+(point[1]-query[1])*(point[1]-query[1]) <= query[2]*query[2] {
+				// queries[i][3] += 1
+				rs[i] += 1
+			}
+		}
+	}
+	return rs
+}
+
 func main() {
-	fmt.Println(findMatrix2610([]int {1,3,4,1,2,3,1}))
+	fmt.Println(countPoints1828([][]int{{1, 3}, {3, 3}, {5, 3}, {2, 2}}, [][]int{{2, 3, 1}, {4, 3, 1}, {1, 1, 2}})) // 3,2,2
+	// fmt.Println(findMatrix2610([]int {1,3,4,1,2,3,1}))
 	// fmt.Println(validStrings3211(4))
 	// fmt.Println(groupThePeople1282([]int{2, 1, 3, 3, 3, 2}))    // 1 0,5 2,3,4
 	// fmt.Println(groupThePeople1282([]int{3, 3, 3, 3, 3, 1, 3})) // 5 0,1,2 3,4,6
