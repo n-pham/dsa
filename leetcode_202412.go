@@ -1142,8 +1142,43 @@ func maxIncreaseKeepingSkyline807(grid [][]int) int {
 	return total
 }
 
+func minOperations1769_24ms(boxes string) []int {
+	// 	0  0  1  0  1  1    prvInds
+	//  0
+	//  0  0
+	//  2  1  0             2
+	//  2  1  0  1          2
+	//  6  4  2  2  2       2 4
+	//  11 8  5  4  3  4    2 4 5
+	var prvInds []int
+	rs := make([]int, len(boxes))
+    for i, box := range boxes {
+		if box == '1' {
+			for j := 0; j < i; j++ {
+				rs[j] += i - j
+			}
+			prvInds = append(prvInds, i)
+		}
+		for k := 0; len(prvInds) > k && prvInds[k] < i; k++ {
+			rs[i] += i - prvInds[k]
+		}
+		fmt.Println(rs, prvInds,)
+	}
+	return rs
+}
+
+func minOperations1769(boxes string) []int {
+	panic("not implemented")
+}
+
+func minOperations2997(nums []int, k int) int {
+    panic("not implemented")
+}
+
 func main() {
-	fmt.Println(maxIncreaseKeepingSkyline807([][]int{{3, 0, 8, 4}, {2, 4, 5, 7}, {9, 2, 6, 3}, {0, 3, 1, 0}})) // 35
+	fmt.Println(minOperations2997([]int{2,1,3,4}, 1)) // 2
+	// fmt.Println(minOperations1769("001011")) // 11,8,5,4,3,4
+	// fmt.Println(maxIncreaseKeepingSkyline807([][]int{{3, 0, 8, 4}, {2, 4, 5, 7}, {9, 2, 6, 3}, {0, 3, 1, 0}})) // 35
 	// fmt.Println(countPoints1828([][]int{{1, 3}, {3, 3}, {5, 3}, {2, 2}}, [][]int{{2, 3, 1}, {4, 3, 1}, {1, 1, 2}})) // 3,2,2
 	// fmt.Println(findMatrix2610([]int {1,3,4,1,2,3,1}))
 	// fmt.Println(validStrings3211(4))
