@@ -1119,8 +1119,32 @@ func countPoints1828(points [][]int, queries [][]int) []int {
 	return rs
 }
 
+func maxIncreaseKeepingSkyline807(grid [][]int) int {
+    //   3 0 8 4  8
+	//   2 4 5 7  7
+	//   9 2 6 3  9
+	//   0 3 1 0  3
+	//   9 4 8 7
+	rowMaxes, colMaxes := make([]int, len(grid)), make([]int, len(grid[0]))
+	for i, row := range grid {
+		for j, val := range row {
+			rowMaxes[i] = max(rowMaxes[i], val)
+			colMaxes[j] = max(colMaxes[j], val)
+		}
+	}
+	// fmt.Println(rowMaxes, colMaxes)
+	total := 0
+	for i, row := range rowMaxes {
+		for j, val := range colMaxes {
+			total += min(row, val) - grid[i][j]	
+		}
+	}
+	return total
+}
+
 func main() {
-	fmt.Println(countPoints1828([][]int{{1, 3}, {3, 3}, {5, 3}, {2, 2}}, [][]int{{2, 3, 1}, {4, 3, 1}, {1, 1, 2}})) // 3,2,2
+	fmt.Println(maxIncreaseKeepingSkyline807([][]int{{3, 0, 8, 4}, {2, 4, 5, 7}, {9, 2, 6, 3}, {0, 3, 1, 0}})) // 35
+	// fmt.Println(countPoints1828([][]int{{1, 3}, {3, 3}, {5, 3}, {2, 2}}, [][]int{{2, 3, 1}, {4, 3, 1}, {1, 1, 2}})) // 3,2,2
 	// fmt.Println(findMatrix2610([]int {1,3,4,1,2,3,1}))
 	// fmt.Println(validStrings3211(4))
 	// fmt.Println(groupThePeople1282([]int{2, 1, 3, 3, 3, 2}))    // 1 0,5 2,3,4
