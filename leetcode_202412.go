@@ -1089,7 +1089,7 @@ func validStrings3211(n int) []string {
 }
 
 func findMatrix2610(nums []int) [][]int {
-    // 1,3,4,1,2,3,1
+	// 1,3,4,1,2,3,1
 	// 1 3 4   2
 	//       1   3
 	//             1
@@ -1108,7 +1108,7 @@ func findMatrix2610(nums []int) [][]int {
 
 func countPoints1828(points [][]int, queries [][]int) []int {
 	rs := make([]int, len(queries))
-    for i, query := range queries {
+	for i, query := range queries {
 		for _, point := range points {
 			if (point[0]-query[0])*(point[0]-query[0])+(point[1]-query[1])*(point[1]-query[1]) <= query[2]*query[2] {
 				// queries[i][3] += 1
@@ -1120,7 +1120,7 @@ func countPoints1828(points [][]int, queries [][]int) []int {
 }
 
 func maxIncreaseKeepingSkyline807(grid [][]int) int {
-    //   3 0 8 4  8
+	//   3 0 8 4  8
 	//   2 4 5 7  7
 	//   9 2 6 3  9
 	//   0 3 1 0  3
@@ -1136,7 +1136,7 @@ func maxIncreaseKeepingSkyline807(grid [][]int) int {
 	total := 0
 	for i, row := range rowMaxes {
 		for j, val := range colMaxes {
-			total += min(row, val) - grid[i][j]	
+			total += min(row, val) - grid[i][j]
 		}
 	}
 	return total
@@ -1152,7 +1152,7 @@ func minOperations1769_24ms(boxes string) []int {
 	//  11 8  5  4  3  4    2 4 5
 	var prvInds []int
 	rs := make([]int, len(boxes))
-    for i, box := range boxes {
+	for i, box := range boxes {
 		if box == '1' {
 			for j := 0; j < i; j++ {
 				rs[j] += i - j
@@ -1162,7 +1162,7 @@ func minOperations1769_24ms(boxes string) []int {
 		for k := 0; len(prvInds) > k && prvInds[k] < i; k++ {
 			rs[i] += i - prvInds[k]
 		}
-		fmt.Println(rs, prvInds,)
+		fmt.Println(rs, prvInds)
 	}
 	return rs
 }
@@ -1172,11 +1172,17 @@ func minOperations1769(boxes string) []int {
 }
 
 func minOperations2997(nums []int, k int) int {
-    panic("not implemented")
+	panic("not implemented")
+}
+
+func sortTheStudents2545(score [][]int, k int) [][]int {
+	slices.SortFunc(score, func(a, b []int) int { return cmp.Compare(b[k], a[k]) })
+	return score
 }
 
 func main() {
-	fmt.Println(minOperations2997([]int{2,1,3,4}, 1)) // 2
+	fmt.Println(sortTheStudents2545([][]int{{10, 6, 9, 1}, {7, 5, 11, 2}, {4, 8, 3, 15}}, 2)) // 7,5,11,2 10,6,9,1 4,8,3,15
+	// fmt.Println(minOperations2997([]int{2,1,3,4}, 1)) // 2
 	// fmt.Println(minOperations1769("001011")) // 11,8,5,4,3,4
 	// fmt.Println(maxIncreaseKeepingSkyline807([][]int{{3, 0, 8, 4}, {2, 4, 5, 7}, {9, 2, 6, 3}, {0, 3, 1, 0}})) // 35
 	// fmt.Println(countPoints1828([][]int{{1, 3}, {3, 3}, {5, 3}, {2, 2}}, [][]int{{2, 3, 1}, {4, 3, 1}, {1, 1, 2}})) // 3,2,2
