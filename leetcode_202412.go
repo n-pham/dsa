@@ -8,6 +8,7 @@ import (
 	"math/bits"
 	"slices"
 	"strconv"
+	"strings"
 )
 
 func maxCount2554_1(banned []int, n int, maxSum int) int {
@@ -1180,8 +1181,50 @@ func sortTheStudents2545(score [][]int, k int) [][]int {
 	return score
 }
 
+func numberOfBeams2125(bank []string) int {
+	var rs, prvCnt int
+    for _, row := range bank {
+		cnt := strings.Count(row, "1")
+		if cnt > 0 {
+			if prvCnt > 0 {
+				rs += cnt * prvCnt
+			}
+			prvCnt = cnt
+		}
+	}
+	return rs
+}
+
+func pivotArray2161_32ms(nums []int, pivot int) []int {
+    // 9 12 5 10 14 3 10    10
+	// 9                    12
+	// 9    5 10            12 14
+	// 9    5  3 10         12 14
+	// 9    5  3 10 10      12 14
+	var rs, right []int
+	leftIndex := 0
+	for _, num := range nums {
+		if num < pivot {
+			rs = append(rs[:leftIndex], append([]int{num}, rs[leftIndex:]...)...)
+			leftIndex += 1
+		} else if num == pivot {
+			rs = append(rs, num)
+		} else {
+			right = append(right, num)
+		}
+	}
+	rs = append(rs, right...)
+	return rs
+}
+
+func pivotArray2161(nums []int, pivot int) []int {
+	panic("not implemented")
+}
+
 func main() {
-	fmt.Println(sortTheStudents2545([][]int{{10, 6, 9, 1}, {7, 5, 11, 2}, {4, 8, 3, 15}}, 2)) // 7,5,11,2 10,6,9,1 4,8,3,15
+	fmt.Println(pivotArray2161([]int{9,12,5,10,14,3,10}, 10)) // 9,5,3,10,10,12,14
+	// fmt.Println(numberOfBeams2125([]string{"011001","000000","010100","001000"})) // 8
+	// fmt.Println(sortTheStudents2545([][]int{{10, 6, 9, 1}, {7, 5, 11, 2}, {4, 8, 3, 15}}, 2)) // 7,5,11,2 10,6,9,1 4,8,3,15
 	// fmt.Println(minOperations2997([]int{2,1,3,4}, 1)) // 2
 	// fmt.Println(minOperations1769("001011")) // 11,8,5,4,3,4
 	// fmt.Println(maxIncreaseKeepingSkyline807([][]int{{3, 0, 8, 4}, {2, 4, 5, 7}, {9, 2, 6, 3}, {0, 3, 1, 0}})) // 35
