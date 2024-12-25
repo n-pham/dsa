@@ -1221,8 +1221,45 @@ func pivotArray2161(nums []int, pivot int) []int {
 	panic("not implemented")
 }
 
+type TreeNode struct {
+	Val int
+	Left *TreeNode
+	Right *TreeNode
+}
+
+func largestValues515(root *TreeNode) []int {
+	//        1
+	//       / \
+	//      3   2
+	//     / \   \
+	//    5   3   9
+	// 1,3,9
+	if root == nil {
+		return []int{}
+	}
+	var rs []int
+	queue := []*TreeNode{root}
+	for len(queue) > 0 {
+		maxVal := math.MinInt32
+		var nextQueue []*TreeNode
+		for _, node := range queue {
+			maxVal = max(maxVal, node.Val)
+			if node.Left != nil {
+				nextQueue = append(nextQueue, node.Left)
+			}
+			if node.Right != nil {
+				nextQueue = append(nextQueue, node.Right)
+			}
+		}
+		rs = append(rs, maxVal)
+		queue = nextQueue
+	}
+	return rs
+}
+
 func main() {
-	fmt.Println(pivotArray2161([]int{9,12,5,10,14,3,10}, 10)) // 9,5,3,10,10,12,14
+	fmt.Println(largestValues515(&TreeNode{1, &TreeNode{3, &TreeNode{5, nil, nil}, &TreeNode{3, nil, nil}}, &TreeNode{2, nil, &TreeNode{9, nil, nil}}})) // 1,3,9
+	// fmt.Println(pivotArray2161([]int{9,12,5,10,14,3,10}, 10)) // 9,5,3,10,10,12,14
 	// fmt.Println(numberOfBeams2125([]string{"011001","000000","010100","001000"})) // 8
 	// fmt.Println(sortTheStudents2545([][]int{{10, 6, 9, 1}, {7, 5, 11, 2}, {4, 8, 3, 15}}, 2)) // 7,5,11,2 10,6,9,1 4,8,3,15
 	// fmt.Println(minOperations2997([]int{2,1,3,4}, 1)) // 2
