@@ -1257,8 +1257,39 @@ func largestValues515(root *TreeNode) []int {
 	return rs
 }
 
+
+
+func findTargetSumWays494_519ms(nums []int, target int) int {
+	var recur func([]int, int) int
+	recur = func(nums []int, acc int) int {
+		if len(nums) == 0 && acc == 0 {
+			return 1
+		}
+		if len(nums) == 0 {
+			return 0
+		}
+		return recur(nums[1:], acc-nums[0]) + recur(nums[1:], acc+nums[0])
+	}
+    return recur(nums, target)
+}
+
+func findTargetSumWays494_483ms(nums []int, target int) int {
+	if len(nums) == 0 {
+		if target == 0 {
+			return 1
+		}
+		return 0
+	}
+	return findTargetSumWays494(nums[1:], target-nums[0]) + findTargetSumWays494(nums[1:], target+nums[0])
+}
+
+func findTargetSumWays494(nums []int, target int) int {
+	panic("Dynamic Programming")
+}
+
 func main() {
-	fmt.Println(largestValues515(&TreeNode{1, &TreeNode{3, &TreeNode{5, nil, nil}, &TreeNode{3, nil, nil}}, &TreeNode{2, nil, &TreeNode{9, nil, nil}}})) // 1,3,9
+	fmt.Println(findTargetSumWays494([]int{1, 1, 1, 1, 1}, 3)) // 5
+	// fmt.Println(largestValues515(&TreeNode{1, &TreeNode{3, &TreeNode{5, nil, nil}, &TreeNode{3, nil, nil}}, &TreeNode{2, nil, &TreeNode{9, nil, nil}}})) // 1,3,9
 	// fmt.Println(pivotArray2161([]int{9,12,5,10,14,3,10}, 10)) // 9,5,3,10,10,12,14
 	// fmt.Println(numberOfBeams2125([]string{"011001","000000","010100","001000"})) // 8
 	// fmt.Println(sortTheStudents2545([][]int{{10, 6, 9, 1}, {7, 5, 11, 2}, {4, 8, 3, 15}}, 2)) // 7,5,11,2 10,6,9,1 4,8,3,15
