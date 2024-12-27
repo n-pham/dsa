@@ -1325,7 +1325,7 @@ func maxScoreSightseeingPair1014(values []int) int {
 	return rs
 }
 
-func garbageCollection2391(garbage []string, travel []int) int {
+func garbageCollection2391_6ms(garbage []string, travel []int) int {
 	var g, m, p, lastIndexG, lastIndexM, lastIndexP int
     for i, s := range garbage {
 		if cnt := strings.Count(s, "G"); cnt > 0 {
@@ -1357,8 +1357,41 @@ func garbageCollection2391(garbage []string, travel []int) int {
 	return g + m + p
 }
 
+func garbageCollection2391_15ms(garbage []string, travel []int) int {
+	var g, m, p, lastIndexG, lastIndexM, lastIndexP int
+    for i, s := range garbage {
+		for _, c := range s {
+			switch c {
+			case 'G':
+				g += 1
+				lastIndexG = i
+			case 'M':
+				m += 1
+				lastIndexM = i
+			case 'P':
+				p += 1
+				lastIndexP = i
+			}
+		}
+	}
+	// fmt.Println(g, m, p, lastIndexG, lastIndexM, lastIndexP)
+	for i := 0; i < max(lastIndexG, lastIndexM, lastIndexP); i++ {
+		if i < lastIndexG {
+			g += travel[i]
+		}
+		if i < lastIndexM {
+			m += travel[i]
+		}
+		if i < lastIndexP {
+			p += travel[i]
+		}
+	}
+	// fmt.Println(g, m, p)
+	return g + m + p
+}
+
 func main() {
-	fmt.Println(garbageCollection2391([]string{"G","P","GP","GG"}, []int{2,4,3})) // 21
+	fmt.Println(garbageCollection2391_6ms([]string{"G","P","GP","GG"}, []int{2,4,3})) // 21
 	// fmt.Println(maxScoreSightseeingPair1014([]int{6,3,7,4,7,6,6,4,9})) // 13
 	// fmt.Println(maxScoreSightseeingPair1014([]int{8, 1, 5, 2, 6})) // 11
 	// fmt.Println(findTargetSumWays494([]int{1, 1, 1, 1, 1}, 3)) // 5
