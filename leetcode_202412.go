@@ -1287,8 +1287,48 @@ func findTargetSumWays494(nums []int, target int) int {
 	panic("Dynamic Programming")
 }
 
+func maxScoreSightseeingPair1014_time(values []int) int {
+    // 8  1  5  2  6
+	//    9  6  7  8 -1
+	//      13  3 11 -2
+	// 	       10  7 -3
+	//            14 -4
+	valByDistance := make([]int, len(values)-1)
+	for d := 1; d < len(values); d++ {
+		for i := 0; i < len(values)-d; i++ {
+			valByDistance[d-1] = max(valByDistance[d-1], values[i]+values[i+d]-d)
+		}
+	}
+	return slices.Max(valByDistance)
+}
+
+func maxScoreSightseeingPair1014(values []int) int {
+	//   prev, current
+	//      ^  ^
+	//      |  |
+	// best 8  1  5  2  6
+	// 
+	best := 0
+	bestInd := 0
+	prev := values[0]
+	var rs int
+	for i := 1; i < len(values); i++ {
+		current := values[i]
+		fmt.Println(i, "rs", rs, "bestInd", bestInd, "best", best, "prev", prev, "current", current, best+prev+bestInd-i-1, best+current+bestInd-i, prev+current-1)
+		rs = max(rs, best+prev+bestInd-i-1, best+current+bestInd-i, prev+current-1)
+		if prev-1 >= best+bestInd-i {
+			best = prev
+			bestInd = i - 1
+		}
+		prev = current
+	}
+	return rs
+}
+
 func main() {
-	fmt.Println(findTargetSumWays494([]int{1, 1, 1, 1, 1}, 3)) // 5
+	fmt.Println(maxScoreSightseeingPair1014([]int{6,3,7,4,7,6,6,4,9})) // 13
+	// fmt.Println(maxScoreSightseeingPair1014([]int{8, 1, 5, 2, 6})) // 11
+	// fmt.Println(findTargetSumWays494([]int{1, 1, 1, 1, 1}, 3)) // 5
 	// fmt.Println(largestValues515(&TreeNode{1, &TreeNode{3, &TreeNode{5, nil, nil}, &TreeNode{3, nil, nil}}, &TreeNode{2, nil, &TreeNode{9, nil, nil}}})) // 1,3,9
 	// fmt.Println(pivotArray2161([]int{9,12,5,10,14,3,10}, 10)) // 9,5,3,10,10,12,14
 	// fmt.Println(numberOfBeams2125([]string{"011001","000000","010100","001000"})) // 8
