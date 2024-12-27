@@ -1325,8 +1325,41 @@ func maxScoreSightseeingPair1014(values []int) int {
 	return rs
 }
 
+func garbageCollection2391(garbage []string, travel []int) int {
+	var g, m, p, lastIndexG, lastIndexM, lastIndexP int
+    for i, s := range garbage {
+		if cnt := strings.Count(s, "G"); cnt > 0 {
+			g += cnt
+			lastIndexG = i
+		}
+		if cnt := strings.Count(s, "M"); cnt > 0 {
+			m += cnt
+			lastIndexM = i
+		}
+		if cnt := strings.Count(s, "P"); cnt > 0 {
+			p += cnt
+			lastIndexP = i
+		}
+	}
+	// fmt.Println(g, m, p, lastIndexG, lastIndexM, lastIndexP)
+	for i := 0; i < max(lastIndexG, lastIndexM, lastIndexP); i++ {
+		if i < lastIndexG {
+			g += travel[i]
+		}
+		if i < lastIndexM {
+			m += travel[i]
+		}
+		if i < lastIndexP {
+			p += travel[i]
+		}
+	}
+	// fmt.Println(g, m, p)
+	return g + m + p
+}
+
 func main() {
-	fmt.Println(maxScoreSightseeingPair1014([]int{6,3,7,4,7,6,6,4,9})) // 13
+	fmt.Println(garbageCollection2391([]string{"G","P","GP","GG"}, []int{2,4,3})) // 21
+	// fmt.Println(maxScoreSightseeingPair1014([]int{6,3,7,4,7,6,6,4,9})) // 13
 	// fmt.Println(maxScoreSightseeingPair1014([]int{8, 1, 5, 2, 6})) // 11
 	// fmt.Println(findTargetSumWays494([]int{1, 1, 1, 1, 1}, 3)) // 5
 	// fmt.Println(largestValues515(&TreeNode{1, &TreeNode{3, &TreeNode{5, nil, nil}, &TreeNode{3, nil, nil}}, &TreeNode{2, nil, &TreeNode{9, nil, nil}}})) // 1,3,9
