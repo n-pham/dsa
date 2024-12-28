@@ -1409,9 +1409,38 @@ func stringHash3271(s string, k int) string {
 	return string(rs)
 }
 
+func onesMinusZeros2482(grid [][]int) [][]int {
+	// TODO solution is 2*oneRowCounts[rowIdx] + 2*oneColCounts[colIdx] - m - n
+	oneMinusZeroHorizontal, oneMinusZeroVertical := make([]int, len(grid)), make([]int, len(grid[0]))
+	rs := make([][]int, len(grid))
+	for i := 0; i < len(grid); i++ {
+		rs[i] = make([]int, len(grid[0]))
+	}
+	for i, row := range grid {
+		for j, val := range row {
+			if val == 1 {
+				oneMinusZeroHorizontal[i] += 1
+				oneMinusZeroVertical[j] += 1
+			} else {
+				oneMinusZeroHorizontal[i] -= 1
+				oneMinusZeroVertical[j] -= 1
+			}
+
+		}
+	}
+	fmt.Println(oneMinusZeroHorizontal, oneMinusZeroVertical)
+	for i, row := range grid {
+		for j, _ := range row {
+			rs[i][j] = oneMinusZeroHorizontal[i] + oneMinusZeroVertical[j]
+		}
+	}
+	return rs
+}
+
 func main() {
-	fmt.Println(stringHash3271("abcd", 2)) // bf
-	fmt.Println(stringHash3271("mxz", 3)) // i
+	fmt.Println(onesMinusZeros2482([][]int{{0, 1, 1}, {1, 0, 1}, {0, 0, 1}})) // 0,0,4 0,0,4 -2,-2,2
+	// fmt.Println(stringHash3271("abcd", 2)) // bf
+	// fmt.Println(stringHash3271("mxz", 3)) // i
 	// fmt.Println(garbageCollection2391_6ms([]string{"G","P","GP","GG"}, []int{2,4,3})) // 21
 	// fmt.Println(maxScoreSightseeingPair1014([]int{6,3,7,4,7,6,6,4,9})) // 13
 	// fmt.Println(maxScoreSightseeingPair1014([]int{8, 1, 5, 2, 6})) // 11
