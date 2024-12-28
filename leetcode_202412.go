@@ -1390,8 +1390,29 @@ func garbageCollection2391_15ms(garbage []string, travel []int) int {
 	return g + m + p
 }
 
+func stringHash3271(s string, k int) string {
+	// abcd
+	// 0
+	// 01   --> 1
+	//   2
+	//   23 --> 5
+	rs := make([]byte, len(s)/k)
+	var num int
+    for i := 0; i < len(s); i++ {
+		num += int(s[i]) - 97
+		if i%k == k-1 {
+			rs[i/k] = byte((num%26 + 97))
+			num = 0
+		}
+		fmt.Println(i, num, rs)
+	}
+	return string(rs)
+}
+
 func main() {
-	fmt.Println(garbageCollection2391_6ms([]string{"G","P","GP","GG"}, []int{2,4,3})) // 21
+	fmt.Println(stringHash3271("abcd", 2)) // bf
+	fmt.Println(stringHash3271("mxz", 3)) // i
+	// fmt.Println(garbageCollection2391_6ms([]string{"G","P","GP","GG"}, []int{2,4,3})) // 21
 	// fmt.Println(maxScoreSightseeingPair1014([]int{6,3,7,4,7,6,6,4,9})) // 13
 	// fmt.Println(maxScoreSightseeingPair1014([]int{8, 1, 5, 2, 6})) // 11
 	// fmt.Println(findTargetSumWays494([]int{1, 1, 1, 1, 1}, 3)) // 5
