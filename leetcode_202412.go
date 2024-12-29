@@ -1183,7 +1183,7 @@ func sortTheStudents2545(score [][]int, k int) [][]int {
 
 func numberOfBeams2125(bank []string) int {
 	var rs, prvCnt int
-    for _, row := range bank {
+	for _, row := range bank {
 		cnt := strings.Count(row, "1")
 		if cnt > 0 {
 			if prvCnt > 0 {
@@ -1196,7 +1196,7 @@ func numberOfBeams2125(bank []string) int {
 }
 
 func pivotArray2161_32ms(nums []int, pivot int) []int {
-    // 9 12 5 10 14 3 10    10
+	// 9 12 5 10 14 3 10    10
 	// 9                    12
 	// 9    5 10            12 14
 	// 9    5  3 10         12 14
@@ -1222,8 +1222,8 @@ func pivotArray2161(nums []int, pivot int) []int {
 }
 
 type TreeNode struct {
-	Val int
-	Left *TreeNode
+	Val   int
+	Left  *TreeNode
 	Right *TreeNode
 }
 
@@ -1257,8 +1257,6 @@ func largestValues515(root *TreeNode) []int {
 	return rs
 }
 
-
-
 func findTargetSumWays494_519ms(nums []int, target int) int {
 	var recur func([]int, int) int
 	recur = func(nums []int, acc int) int {
@@ -1270,7 +1268,7 @@ func findTargetSumWays494_519ms(nums []int, target int) int {
 		}
 		return recur(nums[1:], acc-nums[0]) + recur(nums[1:], acc+nums[0])
 	}
-    return recur(nums, target)
+	return recur(nums, target)
 }
 
 func findTargetSumWays494_483ms(nums []int, target int) int {
@@ -1288,7 +1286,7 @@ func findTargetSumWays494(nums []int, target int) int {
 }
 
 func maxScoreSightseeingPair1014_time(values []int) int {
-    // 8  1  5  2  6
+	// 8  1  5  2  6
 	//    9  6  7  8 -1
 	//      13  3 11 -2
 	// 	       10  7 -3
@@ -1307,7 +1305,7 @@ func maxScoreSightseeingPair1014(values []int) int {
 	//      ^  ^
 	//      |  |
 	// best 8  1  5  2  6
-	// 
+	//
 	best := 0
 	bestInd := 0
 	prev := values[0]
@@ -1327,7 +1325,7 @@ func maxScoreSightseeingPair1014(values []int) int {
 
 func garbageCollection2391_6ms(garbage []string, travel []int) int {
 	var g, m, p, lastIndexG, lastIndexM, lastIndexP int
-    for i, s := range garbage {
+	for i, s := range garbage {
 		if cnt := strings.Count(s, "G"); cnt > 0 {
 			g += cnt
 			lastIndexG = i
@@ -1359,7 +1357,7 @@ func garbageCollection2391_6ms(garbage []string, travel []int) int {
 
 func garbageCollection2391_15ms(garbage []string, travel []int) int {
 	var g, m, p, lastIndexG, lastIndexM, lastIndexP int
-    for i, s := range garbage {
+	for i, s := range garbage {
 		for _, c := range s {
 			switch c {
 			case 'G':
@@ -1398,7 +1396,7 @@ func stringHash3271(s string, k int) string {
 	//   23 --> 5
 	rs := make([]byte, len(s)/k)
 	var num int
-    for i := 0; i < len(s); i++ {
+	for i := 0; i < len(s); i++ {
 		num += int(s[i]) - 97
 		if i%k == k-1 {
 			rs[i/k] = byte((num%26 + 97))
@@ -1437,8 +1435,81 @@ func onesMinusZeros2482(grid [][]int) [][]int {
 	return rs
 }
 
+func numWays1639(words []string, target string) int {
+	// aba
+	// a̲cca̲ a̲cca̲ a̲cca acca̲ acca̲ acca
+	// bb̲bb bb̲bb bbb̲b bbb̲b bbb̲b bbb̲b
+	// caca caca caca̲ caca ca̲ca ca̲ca̲
+	panic("not implemented")
+	if len(target) == 0 {
+		return 0
+	}
+	char := rune(target[0])
+	var cnt int
+	for _, word := range words {
+		for i, c := range word {
+			if c == char {
+				var newWords []string
+				for j := 0; j < len(words); j++ {
+					newWords = append(newWords, words[j][i+1:])
+				}
+				fmt.Println(word, i, cnt, newWords, target[1:])
+				if res := numWays1639(newWords, target[1:]); res >= 0 {
+					cnt += 1 + res
+				}
+			}
+		}
+	}
+	if cnt > 0 {
+		return cnt
+	}
+	return -1
+}
+
+func rearrangeArray2149_28ms(nums []int) []int {
+	// nums 3  1 -2 -5 -3 -4  5  7   rsIQueue
+	// rs   3
+	// rs   3     1                  1
+	// rs   3 -2  1
+	// rs   3 -2  1 -5
+	// rs   3 -2  1 -5    -3         4
+	// rs   3 -2  1 -5    -3     -4  4,5
+	// rs   3 -2  1 -5  5 -3     -4  5
+	// rs   3 -2  1 -5  5 -3   7 -4
+	rs := make([]int, len(nums))
+	var rsIQueue []int
+	rsINext := 0
+	for _, num := range nums {
+		fmt.Println(num, rsINext%2, rs, rsIQueue)
+		if len(rsIQueue) > 0 {
+			if rsI := rsIQueue[0]; (rsI%2 == 0 && num > 0) ||
+				(rsI%2 == 1 && num < 0) {
+				rs[rsI] = num
+				rsIQueue = rsIQueue[1:]
+				continue
+			}
+		}
+		if (rsINext%2 == 0 && num > 0) ||
+			(rsINext%2 == 1 && num < 0) {
+			rs[rsINext] = num
+		} else {
+			rsIQueue = append(rsIQueue, rsINext)
+			rsINext += 1
+			rs[rsINext] = num
+		}
+		rsINext += 1
+	}
+	return rs
+}
+
+func rearrangeArray2149(nums []int) []int {
+	panic("not implemented")
+}
+
 func main() {
-	fmt.Println(onesMinusZeros2482([][]int{{0, 1, 1}, {1, 0, 1}, {0, 0, 1}})) // 0,0,4 0,0,4 -2,-2,2
+	fmt.Println(rearrangeArray2149([]int{3, 1, -2, -5, -3, -4, 5, 7})) // 3,-2,1,-5,2,-4
+	// fmt.Println(numWays1639([]string{"acca", "bbbb", "caca"}, "aba")) // 6
+	// fmt.Println(onesMinusZeros2482([][]int{{0, 1, 1}, {1, 0, 1}, {0, 0, 1}})) // 0,0,4 0,0,4 -2,-2,2
 	// fmt.Println(stringHash3271("abcd", 2)) // bf
 	// fmt.Println(stringHash3271("mxz", 3)) // i
 	// fmt.Println(garbageCollection2391_6ms([]string{"G","P","GP","GG"}, []int{2,4,3})) // 21
