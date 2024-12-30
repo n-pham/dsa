@@ -5,6 +5,7 @@ import (
 	// "container/heap"
 	"fmt"
 	"math"
+	"math/big"
 	"math/bits"
 	"slices"
 	"strconv"
@@ -1506,8 +1507,71 @@ func rearrangeArray2149(nums []int) []int {
 	panic("not implemented")
 }
 
+func checkArithmeticSubarrays1630(nums []int, l []int, r []int) []bool {
+	// 4 6      4 6      2 values can change --> not needed
+	// 4 6 5    4-5-6    d=1
+	// 4 6 5 9  4 5 6-9  3 != 1
+	// 5 9 3    3 5 9    not arithmetic
+	// 5 9 3 7  3 5-7-9
+	//          3 5 7    d=2
+	//          3 5 7-9  2 == 2
+	panic("not implemented")
+}
+
+func factorial(x int) *big.Int {
+    result := big.NewInt(1)
+    for i := 2; i <= x; i++ {
+        result.Mul(result, big.NewInt(int64(i)))
+    }
+	// fmt.Println("factorial", x, result.Int64())
+    return result
+}
+
+// binomialCoefficient calculates C(n, k) = n! / (k! * (n-k)!) iteratively
+func binomialCoefficient(n, k int) int {
+    if k > n-k {
+        k = n-k
+    }
+    result := 1
+    for i := 0; i < k; i++ {
+        result *= (n - i)
+        result /= (i + 1)
+    }
+    return result
+}
+
+func countGoodStrings2466_wrong(low int, high int, zero int, one int) int {
+	// xx
+	// 00
+	// 11
+	// xxx
+	// 000
+	// 110
+	// 011
+	cnt := 0
+	for len := low; len <= high; len++ {
+		// m*zero + n*one == len
+		for m := 0; m*zero <= len; m++ {
+			if (len-m*zero)%one == 0 {
+				n := (len-m*zero)/one
+				fmt.Println(len, strings.Repeat("0",m*zero), strings.Repeat("1",n*one))
+				ways := binomialCoefficient(m + n, m)
+                cnt += ways
+			}
+		}
+	}
+	return cnt
+}
+
+func countGoodStrings2466(low int, high int, zero int, one int) int {
+	panic("not implemented")
+}
+
 func main() {
-	fmt.Println(rearrangeArray2149([]int{3, 1, -2, -5, -3, -4, 5, 7})) // 3,-2,1,-5,2,-4
+	fmt.Println(countGoodStrings2466(200, 200, 10, 1)) // 5
+	// fmt.Println(countGoodStrings2466(2, 3, 1, 2)) // 5
+	// fmt.Println(checkArithmeticSubarrays1630([]int{4, 6, 5, 9, 3, 7}, []int{0, 0, 2}, []int{2, 3, 5})) // true, false, true
+	// fmt.Println(rearrangeArray2149([]int{3, 1, -2, -5, -3, -4, 5, 7})) // 3,-2,1,-5,2,-4
 	// fmt.Println(numWays1639([]string{"acca", "bbbb", "caca"}, "aba")) // 6
 	// fmt.Println(onesMinusZeros2482([][]int{{0, 1, 1}, {1, 0, 1}, {0, 0, 1}})) // 0,0,4 0,0,4 -2,-2,2
 	// fmt.Println(stringHash3271("abcd", 2)) // bf
