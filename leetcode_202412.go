@@ -1567,8 +1567,78 @@ func countGoodStrings2466(low int, high int, zero int, one int) int {
 	panic("not implemented")
 }
 
+func mincostTickets983(days []int, costs []int) int {
+	// 2, 7, 15
+    // 1 4 6 7 8 20
+	//       ↳ 4*2 > 1*7 (1-7)
+	//         ↳ 4*2 > 1*7 (2-8)
+	//            ↳ 1*2 < 1*7 (14-20) < 1*15 (1-20)
+	panic("not implemented")
+}
+
+func deckRevealedIncreasing950_solution(deck []int) []int {
+	n := len(deck)
+	index := make([]int, n)
+	for i := range index {
+		index[i] = i
+	}
+	slices.Sort(deck)
+	result := make([]int, n)
+	for _, card := range deck {
+		result[index[0]] = card
+		index = index[1:]
+		if len(index) > 0 {
+			index = append(index, index[0])
+			index = index[1:]
+		}
+	}
+	return result
+}
+
+func deckRevealedIncreasing950(deck []int) []int {
+    // 17 13 11  2  3  5  7
+	//  2  3  5  7 11 13 17
+	//  2  ?  3  ?  5  ?  7
+	// i1 i3 i5
+	//    11
+	// i1 i5
+	// 13
+	// i5
+	// 17
+	slices.Sort(deck)
+	rs := make([]int, len(deck))
+	var iQueue []int
+	iNext := 0
+	for i, _ := range deck {
+		if i%2 == 0 {
+			rs[i] = deck[iNext]
+			iNext += 1
+		} else {
+			iQueue = append(iQueue, i)
+		}
+	}
+	nextReveal := true
+	if len(deck)%2 == 1 {
+		nextReveal = false
+	}
+	for len(iQueue) > 0 {
+		fmt.Println(iQueue, nextReveal)
+		if nextReveal {
+			rs[iQueue[0]] = deck[iNext]
+			iNext += 1
+			iQueue = iQueue[1:]
+		} else {
+			iQueue = append(iQueue[1:], iQueue[0])
+		}
+		nextReveal = !nextReveal
+	}
+	return rs
+}
+
 func main() {
-	fmt.Println(countGoodStrings2466(200, 200, 10, 1)) // 5
+	fmt.Println(deckRevealedIncreasing950([]int {17,13,11,2,3,5,7})) // 2,13,3,11,5,17,7
+	// fmt.Println(mincostTickets983([]int {1,4,6,7,8,20}, []int {2,7,15})) // 11
+	// fmt.Println(countGoodStrings2466(200, 200, 10, 1)) // 5
 	// fmt.Println(countGoodStrings2466(2, 3, 1, 2)) // 5
 	// fmt.Println(checkArithmeticSubarrays1630([]int{4, 6, 5, 9, 3, 7}, []int{0, 0, 2}, []int{2, 3, 5})) // true, false, true
 	// fmt.Println(rearrangeArray2149([]int{3, 1, -2, -5, -3, -4, 5, 7})) // 3,-2,1,-5,2,-4
