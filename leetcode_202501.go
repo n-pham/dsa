@@ -6,7 +6,7 @@ import (
 	// "slices"
 )
 
-func maxScore1422(s string) int {
+func maxScore1422_fail(s string) int {
 	// 011101
 	// iZCount = -1,0,4
 	// zCount 2: oCount = len-1 - iZCount[zCount]
@@ -33,6 +33,27 @@ func maxScore1422(s string) int {
 		oCount := len(s) - 1 - iZCount[zCount] - (len(iZCount) - 1 - zCount)
 		fmt.Println("maxS", maxS, "zCount", zCount, "oCount", oCount)
 		maxS = max(maxS, zCount+oCount)
+	}
+	return maxS
+}
+
+func maxScore1422(s string) int {
+	// 1422
+	maxS, forwardSums, backwardSums := 0, make([]int, len(s)+1), make([]int, len(s)+1)
+	for i, c := range s {
+		forwardSums[i+1] = forwardSums[i]
+		if c == '0' {
+			forwardSums[i+1] += 1
+		}
+	}
+	for i := len(s) - 1; i > 0; i-- {
+		backwardSums[i] = backwardSums[i+1]
+		if s[i] == '1' {
+			backwardSums[i] += 1
+		}
+	}
+	for i := 1; i <= len(s)-1; i++ {
+		maxS = max(maxS, forwardSums[i]+backwardSums[i])
 	}
 	return maxS
 }
@@ -134,10 +155,56 @@ func isVowel(c byte) bool {
 	return false
 }
 
+func waysToSplitArray220_12ms(nums []int) int {
+	//     10  4 -8  7
+	// --> 10 14  6 13
+	//     13  3 -1  7 <--
+	// 2270
+	forwardSums := make([]int, len(nums)+1)
+	for i, num := range nums {
+		forwardSums[i+1] = forwardSums[i] + num
+	}
+	backwardSums := make([]int, len(nums)+1)
+	for i := len(nums) - 1; i >= 0; i-- {
+		backwardSums[i] = backwardSums[i+1] + nums[i]
+	}
+	// fmt.Println(forwardSums, backwardSums)
+	cnt := 0
+	for i := 0; i < len(nums)-1; i++ {
+		// fmt.Println(i, forwardSums[i], backwardSums[i+1])
+		if forwardSums[i+1] >= backwardSums[i+1] {
+			cnt += 1
+		}
+	}
+	return cnt
+}
+
+func waysToSplitArray220(nums []int) int {
+	//     10  4 -8  7  --> sum 13
+	//     10  3            cur, sum-num
+	//        14 -1         cur, sum-num
+	//            6  7      cur, sum-num
+	// 2270
+	var cnt, curSum, total int
+	for _, num := range nums {
+		total += num
+	}
+	for i := 0; i < len(nums)-1; i++ {
+		curSum += nums[i]
+		if curSum >= total-curSum {
+			cnt++
+		}
+	}
+	return cnt
+}
+
 func main() {
-	fmt.Println(vowelStrings2559([]string{"aba", "bcb", "ece", "aa", "e"}, [][]int{{0, 2}, {1, 4}, {1, 1}})) //
-	// fmt.Println(maxScore1422("011101")) // 5
-	// fmt.Println(maxScore1422("1111")) // 3
-	// fmt.Println(maxScore1422("00")) // 1
-	// fmt.Println(maxScore1422("11100")) // 2
+	// fmt.Println(waysToSplitArray220([]int {10,4,-8,7})) // 2
+	// fmt.Println(waysToSplitArray220([]int {-2,-1})) // 0
+	// fmt.Println(vowelStrings2559([]string{"aba", "bcb", "ece", "aa", "e"}, [][]int{{0, 2}, {1, 4}, {1, 1}})) //
+	fmt.Println(maxScore1422("00"))     // 1
+	fmt.Println(maxScore1422("010"))    // 2
+	fmt.Println(maxScore1422("011101")) // 5
+	fmt.Println(maxScore1422("1111"))   // 3
+	fmt.Println(maxScore1422("11100"))  // 2
 }
