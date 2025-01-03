@@ -217,14 +217,76 @@ func minOperations1551(n int) int {
 	// 1 3 5 7 9 11 --> n 6
 	// 5+3+1
 	rs := 0
-	for d := n-1; d > 0; d -= 2 {
+	for d := n - 1; d > 0; d -= 2 {
 		rs += d
 	}
 	return rs
 }
 
+func minSteps1347_115ms(s string, t string) int {
+	// 1347
+	// bab map aba
+	// b     a  b?
+	//  a        ?
+	//   b       a
+	// leetcode     map     practice
+	// l          practice
+	//  e         practic
+	//   e
+	//    t       pracic
+	//     c      praci
+	//      o     praci
+	//       d    praci
+	//        e   praci
+	tMap := make(map[byte]int)
+	tI := 0
+	for sI := 0; sI < len(s); sI++ {
+		fmt.Println(sI, s[sI], tI, tMap)
+		if cnt, found := tMap[s[sI]]; found {
+			if cnt == 1 {
+				delete(tMap, s[sI])
+			} else {
+				tMap[s[sI]] = cnt - 1
+			}
+			continue
+		}
+		for (tI < len(t)) && (s[sI] != t[tI]) {
+			cnt, found := tMap[t[tI]]
+			tMap[t[tI]] = 1
+			if found {
+				tMap[t[tI]] += cnt
+			}
+			tI++
+		}
+		if tI < len(t) {
+			tI++
+		}
+	}
+	rs := 0
+	for _, cnt := range tMap {
+		rs += cnt
+	}
+	return rs
+}
+
+func minSteps1347(s string, t string) int {
+	// 1347
+	rs, charCnt := 0, [26]int{}
+	for i, c := range s {
+		charCnt[c - 97]++
+		charCnt[t[i] - 97]--
+	}
+	for _, cnt := range charCnt {
+		rs += max(0, cnt)
+	}
+	return rs
+}
+
 func main() {
-	// fmt.Println(executeInstructions2120(3, []int {0,1}, "RRDDLU")) // 
+	fmt.Println(minSteps1347("gctcxyuluxjuxnsvmomavutrrfb", "qijrjrhqqjxjtprybrzpyfyqtzf")) // 18
+	// fmt.Println(minSteps1347("leetcode", "practice")) // 5
+	// fmt.Println(minSteps1347("bab", "aba")) // 1
+	// fmt.Println(executeInstructions2120(3, []int {0,1}, "RRDDLU")) //
 	// fmt.Println(waysToSplitArray220([]int {10,4,-8,7})) // 2
 	// fmt.Println(waysToSplitArray220([]int {-2,-1})) // 0
 	// fmt.Println(vowelStrings2559([]string{"aba", "bcb", "ece", "aa", "e"}, [][]int{{0, 2}, {1, 4}, {1, 1}})) //
