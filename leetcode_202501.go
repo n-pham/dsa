@@ -181,9 +181,9 @@ func waysToSplitArray220_12ms(nums []int) int {
 
 func waysToSplitArray220(nums []int) int {
 	//     10  4 -8  7  --> sum 13
-	//     10  3            cur, sum-num
-	//        14 -1         cur, sum-num
-	//            6  7      cur, sum-num
+	//     10  3            cur, sum-cur
+	//        14 -1         cur, sum-cur
+	//            6  7      cur, sum-cur
 	// 2270
 	var cnt, curSum, total int
 	for _, num := range nums {
@@ -198,13 +198,39 @@ func waysToSplitArray220(nums []int) int {
 	return cnt
 }
 
+func executeInstructions2120(n int, startPos []int, s string) []int {
+	//    R  R  D  D  L  U
+	// dx 1  2  2  2  1  1
+	// dy 0  0 -1 -2 -1  0
+	// dx -1  0 -1 -1 -1  0 <--|
+	// dy  1  1  1  0 -1 -1 <--|
+	// 2120
+	panic("not implemented")
+}
+
+func minOperations1551(n int) int {
+	// 1551
+	// 1 3 5        --> n 3
+	// 2 3 4
+	// 3 3 3
+	// 2+0+2
+	// 1 3 5 7 9 11 --> n 6
+	// 5+3+1
+	rs := 0
+	for d := n-1; d > 0; d -= 2 {
+		rs += d
+	}
+	return rs
+}
+
 func main() {
+	// fmt.Println(executeInstructions2120(3, []int {0,1}, "RRDDLU")) // 
 	// fmt.Println(waysToSplitArray220([]int {10,4,-8,7})) // 2
 	// fmt.Println(waysToSplitArray220([]int {-2,-1})) // 0
 	// fmt.Println(vowelStrings2559([]string{"aba", "bcb", "ece", "aa", "e"}, [][]int{{0, 2}, {1, 4}, {1, 1}})) //
-	fmt.Println(maxScore1422("00"))     // 1
-	fmt.Println(maxScore1422("010"))    // 2
-	fmt.Println(maxScore1422("011101")) // 5
-	fmt.Println(maxScore1422("1111"))   // 3
-	fmt.Println(maxScore1422("11100"))  // 2
+	// fmt.Println(maxScore1422("00"))     // 1
+	// fmt.Println(maxScore1422("010"))    // 2
+	// fmt.Println(maxScore1422("011101")) // 5
+	// fmt.Println(maxScore1422("1111"))   // 3
+	// fmt.Println(maxScore1422("11100"))  // 2
 }
