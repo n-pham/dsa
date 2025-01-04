@@ -282,8 +282,38 @@ func minSteps1347(s string, t string) int {
 	return rs
 }
 
+func countPalindromicSubsequence1930(s string) int {
+	// 1930
+	//         a a b c a
+	//         1 1 2 3 3      first a:0 b:2 c:3  last a:4 b:2 c:3 
+	//         b b c b a b a
+	// uniqSum 1 1 2 2 3 3 3  first b:0 c:2 a:4  last b:5 c:2 a:6
+	panic("not implemented")
+	uniqPrefixSum, firsts, lasts, rs := make([]int, len(s)), make(map[rune]int), [26]int{}, 0
+	for i, c := range s {
+		// fmt.Println(i, c, firsts, lasts)
+		lasts[c - 'a'] = i
+		if _, found := firsts[c - 'a']; !found {
+			firsts[c - 'a'] = i
+		}
+		uniqPrefixSum[i] = len(firsts)
+	}
+	fmt.Println(uniqPrefixSum, firsts, lasts)
+	for i, _ := range firsts {
+		rs += uniqPrefixSum[lasts[i]] - uniqPrefixSum[firsts[i]]
+	}
+    return rs
+}
+
+func findTheWinner1823(n int, k int) int {
+    // 1823
+	panic("not implemented")
+}
+
 func main() {
-	fmt.Println(minSteps1347("gctcxyuluxjuxnsvmomavutrrfb", "qijrjrhqqjxjtprybrzpyfyqtzf")) // 18
+	fmt.Println(countPalindromicSubsequence1930("aabca")) // aba aaa aca
+	fmt.Println(countPalindromicSubsequence1930("bbcbaba")) // bbb bcb bab aba
+	// fmt.Println(minSteps1347("gctcxyuluxjuxnsvmomavutrrfb", "qijrjrhqqjxjtprybrzpyfyqtzf")) // 18
 	// fmt.Println(minSteps1347("leetcode", "practice")) // 5
 	// fmt.Println(minSteps1347("bab", "aba")) // 1
 	// fmt.Println(executeInstructions2120(3, []int {0,1}, "RRDDLU")) //
