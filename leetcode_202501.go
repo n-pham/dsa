@@ -273,8 +273,8 @@ func minSteps1347(s string, t string) int {
 	// 1347
 	rs, charCnt := 0, [26]int{}
 	for i, c := range s {
-		charCnt[c - 97]++
-		charCnt[t[i] - 97]--
+		charCnt[c-97]++
+		charCnt[t[i]-97]--
 	}
 	for _, cnt := range charCnt {
 		rs += max(0, cnt)
@@ -285,16 +285,16 @@ func minSteps1347(s string, t string) int {
 func countPalindromicSubsequence1930(s string) int {
 	// 1930
 	//         a a b c a
-	//         1 1 2 3 3      first a:0 b:2 c:3  last a:4 b:2 c:3 
+	//         1 1 2 3 3      first a:0 b:2 c:3  last a:4 b:2 c:3
 	//         b b c b a b a
 	// uniqSum 1 1 2 2 3 3 3  first b:0 c:2 a:4  last b:5 c:2 a:6
 	panic("not implemented")
 	uniqPrefixSum, firsts, lasts, rs := make([]int, len(s)), make(map[rune]int), [26]int{}, 0
 	for i, c := range s {
 		// fmt.Println(i, c, firsts, lasts)
-		lasts[c - 'a'] = i
-		if _, found := firsts[c - 'a']; !found {
-			firsts[c - 'a'] = i
+		lasts[c-'a'] = i
+		if _, found := firsts[c-'a']; !found {
+			firsts[c-'a'] = i
 		}
 		uniqPrefixSum[i] = len(firsts)
 	}
@@ -302,17 +302,90 @@ func countPalindromicSubsequence1930(s string) int {
 	for i, _ := range firsts {
 		rs += uniqPrefixSum[lasts[i]] - uniqPrefixSum[firsts[i]]
 	}
-    return rs
+	return rs
 }
 
 func findTheWinner1823(n int, k int) int {
-    // 1823
+	// 1823
 	panic("not implemented")
 }
 
+func minPairSum1877(nums []int) int {
+	// 1877
+	// 3 5 2 3
+	// 3+3 5+2
+	// 3+5 2+3
+	panic("not implemented")
+}
+
+func shiftingLetters2381_time(s string, shifts [][]int) string {
+	// 2381
+	ds := make([]int, len(s))
+	m := map[int]int{1: 1, 0: -1}
+	for _, s := range shifts {
+		for i := s[0]; i <= s[1]; i++ {
+			ds[i] += m[s[2]]
+		}
+	}
+	fmt.Print(ds)
+	rs := []byte(s)
+	for i, d := range ds {
+		if d != 0 {
+			if d < 0 {
+				d = -(-d)%26
+			}
+			num := int(rs[i]-'a')+d
+			fmt.Println(i, num)
+			if num < 0 {
+				num = 26+num
+			}
+			rs[i] = 'a' + byte(num%26)
+		} else {
+			rs[i] = s[i]
+		}
+	}
+	return string(rs)
+}
+
+func shiftingLetters2381(s string, shifts [][]int) string {
+	// 2381
+	// 0 1 2 3 4 5 6 7 8
+	//         1 1 1 1 1
+	//         1
+	//     1 1 1
+	//            -1-1
+	//    -1
+	//-1-1-1
+	//                 1
+	//  -1-1-1
+	panic("not implemented")
+	fmt.Print(ds)
+	rs := []byte(s)
+	for i, d := range ds {
+		if d != 0 {
+			if d < 0 {
+				d = -(-d)%26
+			}
+			num := int(rs[i]-'a')+d
+			fmt.Println(i, num)
+			if num < 0 {
+				num = 26+num
+			}
+			rs[i] = 'a' + byte(num%26)
+		} else {
+			rs[i] = s[i]
+		}
+	}
+	return string(rs)
+}
+
 func main() {
-	fmt.Println(countPalindromicSubsequence1930("aabca")) // aba aaa aca
-	fmt.Println(countPalindromicSubsequence1930("bbcbaba")) // bbb bcb bab aba
+	fmt.Println(shiftingLetters2381("abc", [][]int{{0, 1, 0}, {1, 2, 1}, {0, 2, 1}}))
+	fmt.Println(shiftingLetters2381("dztz", [][]int{{0, 0, 0}, {1, 1, 1}})) // catz
+	fmt.Println(shiftingLetters2381("xuwdbdqik", [][]int{{4,8,0},{4,4,0},{2,4,0},{2,4,0},{6,7,1},{2,2,1},{0,2,1},{8,8,0},{1,3,1}})) // ywxcxcqii
+	// fmt.Println(minPairSum1877([]int {3,5,2,3}))
+	// fmt.Println(countPalindromicSubsequence1930("aabca")) // aba aaa aca
+	// fmt.Println(countPalindromicSubsequence1930("bbcbaba")) // bbb bcb bab aba
 	// fmt.Println(minSteps1347("gctcxyuluxjuxnsvmomavutrrfb", "qijrjrhqqjxjtprybrzpyfyqtzf")) // 18
 	// fmt.Println(minSteps1347("leetcode", "practice")) // 5
 	// fmt.Println(minSteps1347("bab", "aba")) // 1
