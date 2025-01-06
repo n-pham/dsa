@@ -445,8 +445,35 @@ func sortVowels2785(s string) string {
 	return string(rs)
 }
 
+func findingUsersActiveMinutes1817(logs [][]int, k int) []int {
+	// 1817
+	// time 1 2 3 4 5 cnt
+	// user   0     0   2
+	// user   1 1       2
+    // 0,5  0:5
+	// 1,2  1:2
+	// 0,2  0:5,2
+	// 0,5  0:5,2
+	// 1,3  1:2,3
+	timesByUser := make(map[int]map[int]struct{})
+	for _, log := range logs {
+		if m, found := timesByUser[log[0]]; found {
+			m[log[1]] = struct{}{}
+		} else {
+			timesByUser[log[0]] = map[int]struct{}{log[1]: struct{}{}}
+		}
+	}
+	fmt.Println(timesByUser)
+	rs := make([]int, k)
+	for _, m := range timesByUser {
+		rs[len(m)-1] += 1
+	}
+	return rs
+}
+
 func main() {
-	fmt.Println(sortVowels2785("lEetcOde"))
+	fmt.Println(findingUsersActiveMinutes1817([][]int {{0,5},{1,2},{0,2},{0,5},{1,3}}, 5))
+	// fmt.Println(sortVowels2785("lEetcOde"))
 	// fmt.Println(shiftingLetters2381("abc", [][]int{{0, 1, 0}, {1, 2, 1}, {0, 2, 1}}))
 	// fmt.Println(shiftingLetters2381("dztz", [][]int{{0, 0, 0}, {1, 1, 1}})) // catz
 	// fmt.Println(shiftingLetters2381("xuwdbdqik", [][]int{{4,8,0},{4,4,0},{2,4,0},{2,4,0},{6,7,1},{2,2,1},{0,2,1},{8,8,0},{1,3,1}})) // ywxcxcqii
