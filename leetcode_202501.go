@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	// "math"
-	// "slices"
+	"slices"
 )
 
 func maxScore1422_fail(s string) int {
@@ -149,7 +149,12 @@ func isVowel(c byte) bool {
 		'e',
 		'i',
 		'o',
-		'u':
+		'u',
+		'A',
+		'E',
+		'I',
+		'O',
+		'U':
 		return true
 	}
 	return false
@@ -359,6 +364,7 @@ func shiftingLetters2381(s string, shifts [][]int) string {
 	//                 1
 	//  -1-1-1
 	panic("not implemented")
+	ds := make([]int, len(s))
 	fmt.Print(ds)
 	rs := []byte(s)
 	for i, d := range ds {
@@ -379,10 +385,71 @@ func shiftingLetters2381(s string, shifts [][]int) string {
 	return string(rs)
 }
 
+func sortVowels2785_709ms(s string) string {
+    // 2785
+	vs, is, rs := []rune{}, []int{}, []rune(s)
+	for i, c := range rs {
+		if isVowel2785(c) {
+			pos, _ := slices.BinarySearch(vs, c)
+			vs = slices.Insert(vs, pos, c)
+			iPos, _ := slices.BinarySearch(is, i)
+			is = slices.Insert(is, iPos, i)
+		}
+	}
+	fmt.Println(rs, vs, is)
+	for i, c := range vs {
+		rs[is[i]] = c
+	}
+	fmt.Println(rs)
+	return string(rs)
+}
+
+func isVowel2785(c rune) bool {
+	switch c {
+	case
+		'a',
+		'e',
+		'i',
+		'o',
+		'u',
+		'A',
+		'E',
+		'I',
+		'O',
+		'U':
+		return true
+	}
+	return false
+}
+
+func sortVowels2785(s string) string {
+    // 2785
+	//                             A E I O U a e i o u
+	// lEetcOde is [1 2 5 7] cnts [0 1 0 1 0 0 2 0 0 0]
+	vs := []rune{'A','E','I','O','U','a','e','i','o','u'}
+	rs, cnts, is := []rune(s), [10]int{}, []int{}
+	for i, c := range rs {
+		if pos, found := slices.BinarySearch(vs, c); found {
+			cnts[pos] += 1
+			is = append(is, i)
+		}
+	}
+	fmt.Println(is, cnts)
+	currentI := 0
+	for vI, cnt := range cnts {
+		for j := currentI; j < currentI+cnt; j++ {
+			rs[is[j]] = vs[vI]
+		}
+		currentI += cnt
+	}
+	return string(rs)
+}
+
 func main() {
-	fmt.Println(shiftingLetters2381("abc", [][]int{{0, 1, 0}, {1, 2, 1}, {0, 2, 1}}))
-	fmt.Println(shiftingLetters2381("dztz", [][]int{{0, 0, 0}, {1, 1, 1}})) // catz
-	fmt.Println(shiftingLetters2381("xuwdbdqik", [][]int{{4,8,0},{4,4,0},{2,4,0},{2,4,0},{6,7,1},{2,2,1},{0,2,1},{8,8,0},{1,3,1}})) // ywxcxcqii
+	fmt.Println(sortVowels2785("lEetcOde"))
+	// fmt.Println(shiftingLetters2381("abc", [][]int{{0, 1, 0}, {1, 2, 1}, {0, 2, 1}}))
+	// fmt.Println(shiftingLetters2381("dztz", [][]int{{0, 0, 0}, {1, 1, 1}})) // catz
+	// fmt.Println(shiftingLetters2381("xuwdbdqik", [][]int{{4,8,0},{4,4,0},{2,4,0},{2,4,0},{6,7,1},{2,2,1},{0,2,1},{8,8,0},{1,3,1}})) // ywxcxcqii
 	// fmt.Println(minPairSum1877([]int {3,5,2,3}))
 	// fmt.Println(countPalindromicSubsequence1930("aabca")) // aba aaa aca
 	// fmt.Println(countPalindromicSubsequence1930("bbcbaba")) // bbb bcb bab aba
