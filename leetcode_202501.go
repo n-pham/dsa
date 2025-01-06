@@ -471,8 +471,21 @@ func findingUsersActiveMinutes1817(logs [][]int, k int) []int {
 	return rs
 }
 
+func stringSequence3324(target string) []string {
+    // 3324
+	rs, prefix := []string{}, ""
+	for cCnt := 0; cCnt < len(target); cCnt++ {
+		for i := 'a'; i < rune(target[cCnt]); i++ {
+			rs = append(rs, prefix, string(i))
+		}
+		prefix += string(target[cCnt])
+	}
+	return rs
+}
+
 func main() {
-	fmt.Println(findingUsersActiveMinutes1817([][]int {{0,5},{1,2},{0,2},{0,5},{1,3}}, 5))
+	fmt.Println(stringSequence3324("abc"))
+	// fmt.Println(findingUsersActiveMinutes1817([][]int {{0,5},{1,2},{0,2},{0,5},{1,3}}, 5))
 	// fmt.Println(sortVowels2785("lEetcOde"))
 	// fmt.Println(shiftingLetters2381("abc", [][]int{{0, 1, 0}, {1, 2, 1}, {0, 2, 1}}))
 	// fmt.Println(shiftingLetters2381("dztz", [][]int{{0, 0, 0}, {1, 1, 1}})) // catz
