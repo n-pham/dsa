@@ -501,8 +501,32 @@ func stringMatching1408(words []string) []string {
 	return rs
 }
 
+func minimumPushes3016(word string) int {
+	// 3016
+	// 2-9 = 8 slots
+	// a2 b2 c2 d2 e2 f2 g2 h2 i6
+	rs, clickCnt, times, cntByChar := 0, 1, 0, make([]int,26)
+	for _, c := range word {
+		cntByChar[c-'a'] += 1
+	}
+	slices.Sort(cntByChar)
+	fmt.Println(cntByChar)
+	for i := len(cntByChar)-1; i >= 0 && cntByChar[i] > 0; i-- {
+		rs += clickCnt * cntByChar[i]
+		fmt.Println(i, cntByChar[i], clickCnt, times, rs)
+		times += 1
+		if times == 8 {
+			times = 0
+			clickCnt += 1
+		}
+	}
+	return rs
+}
+
 func main() {
-	fmt.Println(stringMatching1408([]string {"mass","as","hero","superhero"}))
+	fmt.Println(minimumPushes3016("hiknogatpyjzcdbe")) // 24
+	// fmt.Println(minimumPushes3016("aabbccddeeffgghhiiiiii")) // 24
+	// fmt.Println(stringMatching1408([]string {"mass","as","hero","superhero"}))
 	// fmt.Println(stringSequence3324("abc"))
 	// fmt.Println(findingUsersActiveMinutes1817([][]int {{0,5},{1,2},{0,2},{0,5},{1,3}}, 5))
 	// fmt.Println(sortVowels2785("lEetcOde"))
