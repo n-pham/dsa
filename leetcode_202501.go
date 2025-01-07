@@ -523,8 +523,71 @@ func minimumPushes3016(word string) int {
 	return rs
 }
 
+func partitionLabels763(s string) []int {
+    // 763
+	// ababcbacadefegdehijhklij
+	// a       a
+	//  b   b
+	//     c  c
+	//          d    d
+	//           e    e
+	//            f
+	//              g
+	//                 h  h
+	//                  i    i
+	//                   j    j
+	lefts, rights, rs := make(map[rune]int), [26]int{}, []int{}
+	for i, c := range s {
+		// fmt.Println(i, c, lefts, rights)
+		rights[c-'a'] = i
+		if _, found := lefts[c-'a']; !found {
+			lefts[c-'a'] = i
+		}
+	}
+	fmt.Println(lefts, rights)
+	q, nextQ := lefts, make(map[rune]int)
+	// TODO use rights, []int{}, q[0] is not random key
+	for len(q) > 0 {
+		c := rune(q[0])
+		l, r := q[c], rights[c]
+		delete(q, c)
+		for len(q) > 0 {
+			otherC := rune(q[0])
+			if !(r < q[otherC] || l > rights[otherC]) {
+				l, r = min(l, q[otherC]), max(r, rights[otherC])
+			} else {
+				nextQ[otherC] = q[otherC]
+			}
+			fmt.Println(q, otherC, nextQ)
+			delete(q, otherC)
+			fmt.Println(q, otherC, nextQ)
+		}
+		rs = append(rs, r-l+1)
+		q = nextQ
+	}
+	return rs
+}
+
+func buildArray1441(target []int, n int) []string {
+	// 1441
+	rs, nextNum := []string{}, 1
+	for _, num := range target {
+		for i := nextNum; i < num; i++ {
+			fmt.Println(i, nextNum, num)
+			rs = append(rs, "Push", "Pop")
+			nextNum += 1
+		}
+		rs = append(rs, "Push")
+		nextNum += 1
+	}
+	return rs
+}
+
 func main() {
-	fmt.Println(minimumPushes3016("hiknogatpyjzcdbe")) // 24
+	fmt.Println(buildArray1441([]int {1,3}, 3))
+	fmt.Println(buildArray1441([]int {2,3,4}, 4))
+	// fmt.Println(partitionLabels763("ababcbacadefegdehijhklij"))
+	// fmt.Println(minimumPushes3016("hiknogatpyjzcdbe")) // 24
 	// fmt.Println(minimumPushes3016("aabbccddeeffgghhiiiiii")) // 24
 	// fmt.Println(stringMatching1408([]string {"mass","as","hero","superhero"}))
 	// fmt.Println(stringSequence3324("abc"))
