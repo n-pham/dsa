@@ -4,6 +4,7 @@ import (
 	"fmt"
 	// "math"
 	"slices"
+	"strconv"
 	"strings"
 )
 
@@ -583,9 +584,35 @@ func buildArray1441(target []int, n int) []string {
 	return rs
 }
 
+func countDistinctIntegers2442(nums []int) int {
+	// 2442
+	m := make(map[int]struct{}, len(nums) * 2)
+	for _, num := range nums {
+		m[num] = struct{}{}
+		rev := 0
+		for num > 0 {
+			rev = (rev * 10) + (num % 10)
+			num /= 10
+		}
+		m[rev] = struct{}{}
+	}
+	return len(m)
+}
+
+func reverse_int_111ms(value int) int {
+    intString := strconv.Itoa(value)
+	newSlice := make([]rune, len(intString))
+    for i, c := range intString {
+        newSlice[len(intString)-i-1] = c
+    }
+    newInt, _ := strconv.Atoi(string(newSlice))
+    return newInt
+}
+
 func main() {
-	fmt.Println(buildArray1441([]int {1,3}, 3))
-	fmt.Println(buildArray1441([]int {2,3,4}, 4))
+	fmt.Println(countDistinctIntegers2442([]int{1,13,10,12,31}))
+	// fmt.Println(buildArray1441([]int {1,3}, 3))
+	// fmt.Println(buildArray1441([]int {2,3,4}, 4))
 	// fmt.Println(partitionLabels763("ababcbacadefegdehijhklij"))
 	// fmt.Println(minimumPushes3016("hiknogatpyjzcdbe")) // 24
 	// fmt.Println(minimumPushes3016("aabbccddeeffgghhiiiiii")) // 24
