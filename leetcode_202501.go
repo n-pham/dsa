@@ -4,6 +4,7 @@ import (
 	"fmt"
 	// "math"
 	"slices"
+	"strings"
 )
 
 func maxScore1422_fail(s string) int {
@@ -483,8 +484,26 @@ func stringSequence3324(target string) []string {
 	return rs
 }
 
+func stringMatching1408(words []string) []string {
+	// 1408
+	rs := []string{}
+	for i, w := range words {
+		for j, otherWord := range words {
+			if i == j {
+				continue
+			}
+			if strings.Contains(otherWord, w) {
+				rs = append(rs, w)
+				break
+			}
+		}
+	}
+	return rs
+}
+
 func main() {
-	fmt.Println(stringSequence3324("abc"))
+	fmt.Println(stringMatching1408([]string {"mass","as","hero","superhero"}))
+	// fmt.Println(stringSequence3324("abc"))
 	// fmt.Println(findingUsersActiveMinutes1817([][]int {{0,5},{1,2},{0,2},{0,5},{1,3}}, 5))
 	// fmt.Println(sortVowels2785("lEetcOde"))
 	// fmt.Println(shiftingLetters2381("abc", [][]int{{0, 1, 0}, {1, 2, 1}, {0, 2, 1}}))
