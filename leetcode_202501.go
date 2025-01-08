@@ -339,12 +339,12 @@ func shiftingLetters2381_time(s string, shifts [][]int) string {
 	for i, d := range ds {
 		if d != 0 {
 			if d < 0 {
-				d = -(-d)%26
+				d = -(-d) % 26
 			}
-			num := int(rs[i]-'a')+d
+			num := int(rs[i]-'a') + d
 			fmt.Println(i, num)
 			if num < 0 {
-				num = 26+num
+				num = 26 + num
 			}
 			rs[i] = 'a' + byte(num%26)
 		} else {
@@ -372,12 +372,12 @@ func shiftingLetters2381(s string, shifts [][]int) string {
 	for i, d := range ds {
 		if d != 0 {
 			if d < 0 {
-				d = -(-d)%26
+				d = -(-d) % 26
 			}
-			num := int(rs[i]-'a')+d
+			num := int(rs[i]-'a') + d
 			fmt.Println(i, num)
 			if num < 0 {
-				num = 26+num
+				num = 26 + num
 			}
 			rs[i] = 'a' + byte(num%26)
 		} else {
@@ -388,7 +388,7 @@ func shiftingLetters2381(s string, shifts [][]int) string {
 }
 
 func sortVowels2785_709ms(s string) string {
-    // 2785
+	// 2785
 	vs, is, rs := []rune{}, []int{}, []rune(s)
 	for i, c := range rs {
 		if isVowel2785(c) {
@@ -425,10 +425,10 @@ func isVowel2785(c rune) bool {
 }
 
 func sortVowels2785(s string) string {
-    // 2785
+	// 2785
 	//                             A E I O U a e i o u
 	// lEetcOde is [1 2 5 7] cnts [0 1 0 1 0 0 2 0 0 0]
-	vs := []rune{'A','E','I','O','U','a','e','i','o','u'}
+	vs := []rune{'A', 'E', 'I', 'O', 'U', 'a', 'e', 'i', 'o', 'u'}
 	rs, cnts, is := []rune(s), [10]int{}, []int{}
 	for i, c := range rs {
 		if pos, found := slices.BinarySearch(vs, c); found {
@@ -452,7 +452,7 @@ func findingUsersActiveMinutes1817(logs [][]int, k int) []int {
 	// time 1 2 3 4 5 cnt
 	// user   0     0   2
 	// user   1 1       2
-    // 0,5  0:5
+	// 0,5  0:5
 	// 1,2  1:2
 	// 0,2  0:5,2
 	// 0,5  0:5,2
@@ -474,7 +474,7 @@ func findingUsersActiveMinutes1817(logs [][]int, k int) []int {
 }
 
 func stringSequence3324(target string) []string {
-    // 3324
+	// 3324
 	rs, prefix := []string{}, ""
 	for cCnt := 0; cCnt < len(target); cCnt++ {
 		for i := 'a'; i < rune(target[cCnt]); i++ {
@@ -506,13 +506,13 @@ func minimumPushes3016(word string) int {
 	// 3016
 	// 2-9 = 8 slots
 	// a2 b2 c2 d2 e2 f2 g2 h2 i6
-	rs, clickCnt, times, cntByChar := 0, 1, 0, make([]int,26)
+	rs, clickCnt, times, cntByChar := 0, 1, 0, make([]int, 26)
 	for _, c := range word {
 		cntByChar[c-'a'] += 1
 	}
 	slices.Sort(cntByChar)
 	fmt.Println(cntByChar)
-	for i := len(cntByChar)-1; i >= 0 && cntByChar[i] > 0; i-- {
+	for i := len(cntByChar) - 1; i >= 0 && cntByChar[i] > 0; i-- {
 		rs += clickCnt * cntByChar[i]
 		fmt.Println(i, cntByChar[i], clickCnt, times, rs)
 		times += 1
@@ -525,7 +525,7 @@ func minimumPushes3016(word string) int {
 }
 
 func partitionLabels763(s string) []int {
-    // 763
+	// 763
 	// ababcbacadefegdehijhklij
 	// a       a
 	//  b   b
@@ -586,7 +586,7 @@ func buildArray1441(target []int, n int) []string {
 
 func countDistinctIntegers2442(nums []int) int {
 	// 2442
-	m := make(map[int]struct{}, len(nums) * 2)
+	m := make(map[int]struct{}, len(nums)*2)
 	for _, num := range nums {
 		m[num] = struct{}{}
 		rev := 0
@@ -600,17 +600,36 @@ func countDistinctIntegers2442(nums []int) int {
 }
 
 func reverse_int_111ms(value int) int {
-    intString := strconv.Itoa(value)
+	intString := strconv.Itoa(value)
 	newSlice := make([]rune, len(intString))
-    for i, c := range intString {
-        newSlice[len(intString)-i-1] = c
-    }
-    newInt, _ := strconv.Atoi(string(newSlice))
-    return newInt
+	for i, c := range intString {
+		newSlice[len(intString)-i-1] = c
+	}
+	newInt, _ := strconv.Atoi(string(newSlice))
+	return newInt
+}
+
+func countPrefixSuffixPairs3042(words []string) int {
+	// 3042
+	rs := 0
+	for i, s1 := range words {
+		for _, s2 := range words[i+1:] {
+			if len(s2) >= len(s1) {
+				fmt.Println(s1, s2, s2[:len(s1)], s2[len(s2)-len(s1):])
+			}
+			if len(s2) >= len(s1) &&
+				s1 == s2[:len(s1)] &&
+				s1 == s2[len(s2)-len(s1):] {
+				rs += 1
+			}
+		}
+	}
+	return rs
 }
 
 func main() {
-	fmt.Println(countDistinctIntegers2442([]int{1,13,10,12,31}))
+	fmt.Println(countPrefixSuffixPairs3042([]string{"a", "aba", "ababa", "aa"}))
+	// fmt.Println(countDistinctIntegers2442([]int{1,13,10,12,31}))
 	// fmt.Println(buildArray1441([]int {1,3}, 3))
 	// fmt.Println(buildArray1441([]int {2,3,4}, 4))
 	// fmt.Println(partitionLabels763("ababcbacadefegdehijhklij"))
