@@ -627,8 +627,32 @@ func countPrefixSuffixPairs3042(words []string) int {
 	return rs
 }
 
+func subsets78(nums []int) [][]int {
+	panic("not implemented")
+}
+
+func wateringPlants2079(plants []int, capacity int) int {
+	// 2079
+	// 2  2  3  3
+	// 2  4 (7)
+	//       3 (6)
+	//          3
+	stepCnt, amountSum := 0, 0
+	for i, amount := range plants {
+		amountSum += amount
+		if amountSum > capacity {
+			stepCnt += i+i
+			amountSum = amount
+		}
+		stepCnt += 1
+	}
+	return stepCnt
+}
+
 func main() {
-	fmt.Println(countPrefixSuffixPairs3042([]string{"a", "aba", "ababa", "aa"}))
+	fmt.Println(wateringPlants2079([]int{2, 2, 3, 3}, 5))
+	// fmt.Println(subsets78([]int{1,2,3}))
+	// fmt.Println(countPrefixSuffixPairs3042([]string{"a", "aba", "ababa", "aa"}))
 	// fmt.Println(countDistinctIntegers2442([]int{1,13,10,12,31}))
 	// fmt.Println(buildArray1441([]int {1,3}, 3))
 	// fmt.Println(buildArray1441([]int {2,3,4}, 4))
