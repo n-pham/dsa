@@ -649,8 +649,29 @@ func wateringPlants2079(plants []int, capacity int) int {
 	return stepCnt
 }
 
+func findThePrefixCommonArray2657(A []int, B []int) []int {
+	// 2657
+	// 1 3 2 4
+	// 3 1 2 4
+	// 0 2 3 4
+	panic("not implemented")
+}
+
+func prefixCount2185(words []string, pref string) int {
+	// 2185
+	cnt := 0
+	for _, w := range words {
+		if len(w) >= len(pref) && pref == w[:len(pref)] {
+			cnt += 1
+		}
+	}
+	return cnt
+}
+
 func main() {
-	fmt.Println(wateringPlants2079([]int{2, 2, 3, 3}, 5))
+	fmt.Println(prefixCount2185([]string{"pay","attention","practice","attend"}, "at"))
+	// fmt.Println(findThePrefixCommonArray2657([]int{1,3,2,4}, []int{3,1,2,4}))
+	// fmt.Println(wateringPlants2079([]int{2, 2, 3, 3}, 5))
 	// fmt.Println(subsets78([]int{1,2,3}))
 	// fmt.Println(countPrefixSuffixPairs3042([]string{"a", "aba", "ababa", "aa"}))
 	// fmt.Println(countDistinctIntegers2442([]int{1,13,10,12,31}))
