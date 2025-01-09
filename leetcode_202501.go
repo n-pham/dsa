@@ -649,12 +649,55 @@ func wateringPlants2079(plants []int, capacity int) int {
 	return stepCnt
 }
 
-func findThePrefixCommonArray2657(A []int, B []int) []int {
+func findThePrefixCommonArray2657_8ms(A []int, B []int) []int {
 	// 2657
 	// 1 3 2 4
 	// 3 1 2 4
 	// 0 2 3 4
-	panic("not implemented")
+	// 2 3 1
+	// 3 1 2
+	// 0 1 3
+	n := len(A)
+	rs, mA, mB, mAB := make([]int, n), make(map[int]struct{}, n), make(map[int]struct{}, n), make(map[int]struct{}, n)
+	for i := 0; i < n; i++ {
+		mA[A[i]] = struct{}{}
+		mB[B[i]] = struct{}{}
+		if _, found := mA[B[i]]; found {
+			mAB[B[i]] = struct{}{}
+		}
+		if _, found := mB[A[i]]; found {
+			mAB[A[i]] = struct{}{}
+		}
+		rs[i] = len(mAB)
+	}
+	return rs
+}
+
+func findThePrefixCommonArray2657(A []int, B []int) []int {
+	// 2657
+	n := len(A)
+	m := make(map[int]int, n) // A 1 B 2 AB 3
+	rs, mAB := make([]int, n), make(map[int]struct{}, n)
+	for i := 0; i < n; i++ {
+		if vA, foundA := m[A[i]]; foundA {
+			if vA == 2 {
+				m[A[i]] = 3
+				mAB[A[i]] = struct{}{}
+			}
+		} else {
+			m[A[i]] = 1
+		}
+		if vB, foundB := m[B[i]]; foundB {
+			if vB == 1 {
+				m[B[i]] = 3
+				mAB[B[i]] = struct{}{}
+			}
+		} else {
+			m[B[i]] = 2
+		}
+		rs[i] = len(mAB)
+	}
+	return rs
 }
 
 func prefixCount2185(words []string, pref string) int {
@@ -669,8 +712,9 @@ func prefixCount2185(words []string, pref string) int {
 }
 
 func main() {
-	fmt.Println(prefixCount2185([]string{"pay","attention","practice","attend"}, "at"))
-	// fmt.Println(findThePrefixCommonArray2657([]int{1,3,2,4}, []int{3,1,2,4}))
+	// fmt.Println(prefixCount2185([]string{"pay","attention","practice","attend"}, "at"))
+	fmt.Println(findThePrefixCommonArray2657([]int{1,3,2,4}, []int{3,1,2,4}))
+	fmt.Println(findThePrefixCommonArray2657([]int{2,3,1}, []int{3,1,2}))
 	// fmt.Println(wateringPlants2079([]int{2, 2, 3, 3}, 5))
 	// fmt.Println(subsets78([]int{1,2,3}))
 	// fmt.Println(countPrefixSuffixPairs3042([]string{"a", "aba", "ababa", "aa"}))
