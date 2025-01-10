@@ -778,7 +778,7 @@ func wordSubsets916(words1 []string, words2 []string) []string {
 		}
 		for c, cnt := range m {
 			fmt.Println(w, mw, mw[c], c, cnt)
-			if mw[c] < cnt {
+			if cnt > 0 && mw[c] < cnt {
 				isSub = false
 				break
 			}
