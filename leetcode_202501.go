@@ -711,10 +711,91 @@ func prefixCount2185(words []string, pref string) int {
 	return cnt
 }
 
+func maximumXOR2317(nums []int) int {
+	// 2317
+	//  11
+	//  10
+	// 100
+	// 110
+	panic("not implemented")
+}
+
+func wordSubsets916_109ms(words1 []string, words2 []string) []string {
+	// 916
+	// eo oo
+	// amazon
+	// facebook
+	rs, m := []string{}, make(map[rune]int, 26)
+	for _, w := range words2 {
+		mw := make(map[rune]int, 26)
+		for _, c := range w {
+			mw[c-'a'] += 1
+		}
+		for c, cnt := range mw {
+			m[c] = max(m[c], cnt)
+		}
+	}
+	for _, w := range words1 {
+		mw := make(map[rune]int, len(w))
+		for c, cnt := range m {
+			mw[c] = cnt
+		}
+		for _, c := range w {
+			if cnt, found := mw[c-'a']; found {
+				if cnt > 1 {
+					mw[c-'a'] = cnt-1
+				}  else {
+					delete(mw, c-'a')
+				}
+			}
+		}
+		if len(mw) == 0 {
+			rs = append(rs, w)
+		}
+	}
+	return rs
+}
+
+func wordSubsets916(words1 []string, words2 []string) []string {
+	// 916
+	// eo oo
+	// amazon
+	// facebook
+	rs, m := []string{}, [26]int{}
+	for _, w := range words2 {
+		mw := [26]int{}
+		for _, c := range w {
+			mw[c-'a'] += 1
+		}
+		for c, cnt := range mw {
+			m[c] = max(m[c], cnt)
+		}
+	}
+	for _, w := range words1 {
+		isSub, mw := true, [26]int{}
+		for _, c := range w {
+			mw[c-'a'] += 1
+		}
+		for c, cnt := range m {
+			fmt.Println(w, mw, mw[c], c, cnt)
+			if mw[c] < cnt {
+				isSub = false
+			}
+		}
+		if isSub {
+			rs = append(rs, w)
+		}
+	}
+	return rs
+}
+
 func main() {
+	fmt.Println(wordSubsets916([]string {"amazon","apple","facebook","google","leetcode"}, []string {"e","oo"}))
+	// fmt.Println(maximumXOR2317([]int{3,2,4,6})) // 7
+	// fmt.Println(maximumXOR2317([]int{3,2,4,6})) // 11
 	// fmt.Println(prefixCount2185([]string{"pay","attention","practice","attend"}, "at"))
-	fmt.Println(findThePrefixCommonArray2657([]int{1,3,2,4}, []int{3,1,2,4}))
-	fmt.Println(findThePrefixCommonArray2657([]int{2,3,1}, []int{3,1,2}))
+	// fmt.Println(findThePrefixCommonArray2657([]int{1,3,2,4}, []int{3,1,2,4}))
+	// fmt.Println(findThePrefixCommonArray2657([]int{2,3,1}, []int{3,1,2}))
 	// fmt.Println(wateringPlants2079([]int{2, 2, 3, 3}, 5))
 	// fmt.Println(subsets78([]int{1,2,3}))
 	// fmt.Println(countPrefixSuffixPairs3042([]string{"a", "aba", "ababa", "aa"}))
