@@ -757,7 +757,7 @@ func wordSubsets916_109ms(words1 []string, words2 []string) []string {
 }
 
 func wordSubsets916(words1 []string, words2 []string) []string {
-	// 916
+	// 916    [26]int is faster than map
 	// eo oo
 	// amazon
 	// facebook
