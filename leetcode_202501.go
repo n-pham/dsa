@@ -790,8 +790,62 @@ func wordSubsets916(words1 []string, words2 []string) []string {
 	return rs
 }
 
+func rotateTheBox1861(boxGrid [][]byte) [][]byte {
+	// 1861
+	// ##*.*.   ##*.*.
+	// ###*..   ###*..
+	// ###.#.   ..####
+	panic("not implemented")
+}
+
+func canConstruct1400(s string, k int) bool {
+	// 1400 k palindromes
+	// annabelle 2 --> "anna" + "elble", "anbna" + "elle", "anellena" + "b"
+	// a2b1e2l2n2
+	// e3c1d1l1o1t1 3
+    if len(s) < k {
+        return false
+    }
+	oddM := [26]int{} // default 0
+	for _, c := range s {
+		oddM[c-'a'] = oddM[c-'a'] ^ 1
+	}
+	oddCnt := 0
+	for _, v := range oddM {
+		oddCnt += v
+	}
+	if oddCnt > k {
+		return false
+	}
+	return true
+}
+
+func canConstruct1400_39ms(s string, k int) bool {
+	// 1400 k palindromes
+	// annabelle 2 --> "anna" + "elble", "anbna" + "elle", "anellena" + "b"
+	// a2b1e2l2n2
+	// e3c1d1l1o1t1 3
+    if len(s) < k {
+        return false
+    }
+	oddM := make(map[rune]struct{}, 26)
+	for _, c := range s {
+		if _, found := oddM[c]; found {
+			delete(oddM,c)
+		} else {
+			oddM[c] = struct{}{}
+		}
+	}
+	if len(oddM) > k {
+		return false
+	}
+	return true
+}
+
 func main() {
-	fmt.Println(wordSubsets916([]string {"amazon","apple","facebook","google","leetcode"}, []string {"e","oo"}))
+	fmt.Println(canConstruct1400("annabelle",2))
+	fmt.Println(canConstruct1400("cr",7))
+	// fmt.Println(wordSubsets916([]string {"amazon","apple","facebook","google","leetcode"}, []string {"e","oo"}))
 	// fmt.Println(maximumXOR2317([]int{3,2,4,6})) // 7
 	// fmt.Println(maximumXOR2317([]int{3,2,4,6})) // 11
 	// fmt.Println(prefixCount2185([]string{"pay","attention","practice","attend"}, "at"))
