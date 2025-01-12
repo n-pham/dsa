@@ -641,7 +641,7 @@ func wateringPlants2079(plants []int, capacity int) int {
 	for i, amount := range plants {
 		amountSum += amount
 		if amountSum > capacity {
-			stepCnt += i+i
+			stepCnt += i + i
 			amountSum = amount
 		}
 		stepCnt += 1
@@ -743,8 +743,8 @@ func wordSubsets916_109ms(words1 []string, words2 []string) []string {
 		for _, c := range w {
 			if cnt, found := mw[c-'a']; found {
 				if cnt > 1 {
-					mw[c-'a'] = cnt-1
-				}  else {
+					mw[c-'a'] = cnt - 1
+				} else {
 					delete(mw, c-'a')
 				}
 			}
@@ -803,9 +803,9 @@ func canConstruct1400(s string, k int) bool {
 	// annabelle 2 --> "anna" + "elble", "anbna" + "elle", "anellena" + "b"
 	// a2b1e2l2n2
 	// e3c1d1l1o1t1 3
-    if len(s) < k {
-        return false
-    }
+	if len(s) < k {
+		return false
+	}
 	oddM := [26]int{} // default 0
 	for _, c := range s {
 		oddM[c-'a'] = oddM[c-'a'] ^ 1
@@ -825,13 +825,13 @@ func canConstruct1400_39ms(s string, k int) bool {
 	// annabelle 2 --> "anna" + "elble", "anbna" + "elle", "anellena" + "b"
 	// a2b1e2l2n2
 	// e3c1d1l1o1t1 3
-    if len(s) < k {
-        return false
-    }
+	if len(s) < k {
+		return false
+	}
 	oddM := make(map[rune]struct{}, 26)
 	for _, c := range s {
 		if _, found := oddM[c]; found {
-			delete(oddM,c)
+			delete(oddM, c)
 		} else {
 			oddM[c] = struct{}{}
 		}
@@ -842,9 +842,84 @@ func canConstruct1400_39ms(s string, k int) bool {
 	return true
 }
 
+func canBeValid2116_25ms(s string, locked string) bool {
+	// 2116
+	//  ) ) ( ) ) )
+	//    x   x
+	// -1-2-1-2-1 0
+	if len(s)%2 == 1 {
+		return false
+	}
+	m, balance, lock := map[byte]int{')': -1, '(': 1}, 0, 0
+	for i, _ := range s {
+		if locked[i] == '1' {
+			balance += m[s[i]]
+			lock++
+		}
+		if balance+i+1-lock < 0 {
+			return false
+		}
+	}
+	balance, lock = 0, 0
+	for i := len(s) - 1; i >= 0; i-- {
+		if locked[i] == '1' {
+			balance += m[s[i]]
+			lock++
+		}
+		fmt.Println(i, balance, len(s)-i-lock)
+		if balance > len(s)-i-lock {
+			return false
+		}
+	}
+	return true
+}
+
+func canBeValid2116(s string, locked string) bool {
+	// 2116
+	//  ) ) ( ) ) )
+	//    x   x
+	// -1-2-1-2-1 0
+	if len(s)%2 == 1 {
+		return false
+	}
+	balance, lock := 0, 0
+	for i, _ := range s {
+		if locked[i] == '1' {
+			if s[i] == '(' {
+				balance++
+			} else {
+				balance--
+			}
+			lock++
+		}
+		if balance+i+1-lock < 0 {
+			return false
+		}
+	}
+	balance, lock = 0, 0
+	for i := len(s) - 1; i >= 0; i-- {
+		if locked[i] == '1' {
+			if s[i] == '(' {
+				balance++
+			} else {
+				balance--
+			}
+			lock++
+		}
+		if balance > len(s)-i-lock {
+			return false
+		}
+	}
+	return true
+}
+
 func main() {
-	fmt.Println(canConstruct1400("annabelle",2))
-	fmt.Println(canConstruct1400("cr",7))
+	fmt.Println(canBeValid2116("))()))", "010100"))
+	fmt.Println(canBeValid2116("())", "010"))
+	fmt.Println(canBeValid2116(")", "0"))
+	fmt.Println(canBeValid2116("()", "11"))
+	// fmt.Println(canConstruct1400("annabelle",2))
+	// fmt.Println(canConstruct1400("cr",7))
 	// fmt.Println(wordSubsets916([]string {"amazon","apple","facebook","google","leetcode"}, []string {"e","oo"}))
 	// fmt.Println(maximumXOR2317([]int{3,2,4,6})) // 7
 	// fmt.Println(maximumXOR2317([]int{3,2,4,6})) // 11
