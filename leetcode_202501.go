@@ -913,11 +913,31 @@ func canBeValid2116(s string, locked string) bool {
 	return true
 }
 
+func minimumLength3223(s string) int {
+    // 3223
+	l, m := 0, [26]int{}
+	for _, c := range s {
+		m[c-'a']++
+	}
+	for _, cnt := range m {
+        if cnt == 0 {
+            continue
+        }
+		if cnt&1 == 1 {
+			l += 1 // odd --> 1 remains
+		} else {
+			l += 2 // even --> 2 remain
+		}
+	}
+	return l
+}
+
 func main() {
-	fmt.Println(canBeValid2116("))()))", "010100"))
-	fmt.Println(canBeValid2116("())", "010"))
-	fmt.Println(canBeValid2116(")", "0"))
-	fmt.Println(canBeValid2116("()", "11"))
+	fmt.Println(minimumLength3223("abaacbcbb")) // 5
+	// fmt.Println(canBeValid2116("))()))", "010100"))
+	// fmt.Println(canBeValid2116("())", "010"))
+	// fmt.Println(canBeValid2116(")", "0"))
+	// fmt.Println(canBeValid2116("()", "11"))
 	// fmt.Println(canConstruct1400("annabelle",2))
 	// fmt.Println(canConstruct1400("cr",7))
 	// fmt.Println(wordSubsets916([]string {"amazon","apple","facebook","google","leetcode"}, []string {"e","oo"}))
