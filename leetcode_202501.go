@@ -932,8 +932,29 @@ func minimumLength3223(s string) int {
 	return l
 }
 
+func xorQueries1310(arr []int, queries [][]int) []int {
+	// 1310
+	// 0   0001
+	// 1   0011
+	// 0-1 0010
+	// 2   0100
+	// 0-2 0110
+	// 3   1000
+	// 0-3 1110
+	// 1-2 0111
+	rs, prefixXOR := make([]int, len(queries)), make([]int, len(arr)+1)
+	for i := 0; i < len(arr); i++ {
+        prefixXOR[i+1] = prefixXOR[i] ^ arr[i]
+    }
+	for i, q := range queries {
+		rs[i] = prefixXOR[q[1]+1] ^ prefixXOR[q[0]]
+	}
+	return rs
+}
+
 func main() {
-	fmt.Println(minimumLength3223("abaacbcbb")) // 5
+	fmt.Println(xorQueries1310([]int{1,3,4,8}, [][]int{{0,1},{1,2},{0,3},{3,3}}))
+	// fmt.Println(minimumLength3223("abaacbcbb")) // 5
 	// fmt.Println(canBeValid2116("))()))", "010100"))
 	// fmt.Println(canBeValid2116("())", "010"))
 	// fmt.Println(canBeValid2116(")", "0"))
