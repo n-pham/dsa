@@ -952,8 +952,47 @@ func xorQueries1310(arr []int, queries [][]int) []int {
 	return rs
 }
 
+func minimizeXor2429(num1 int, num2 int) int {
+	// 2429
+	// num2 12 1100 --> 2x1
+	// num1 1  0001
+	panic("not implemented")
+	setBits, s2 := 0, fmt.Sprintf("%b", num2)
+	format := fmt.Sprintf("%%0%db", len(s2))
+	s1 := fmt.Sprintf(format, num1)
+	x := make([]rune, len(s2))
+	fmt.Println(s2, format, s1)
+	for _, c := range s2 {
+		if c == '1' {
+			setBits++
+		}
+	}
+	fmt.Println(setBits)
+	for i := 0; i < len(s1)-1 && setBits > 0; i++ {
+		if s1[i] == '1' {
+			setBits--
+			x[i] = '1'
+		} else {
+			x[i] = '0'
+		}
+	}
+	for i := len(s1)-1; i >= 0 && setBits > 0; i-- {
+		if x[i] != '1' {
+			setBits--
+			x[i] = '1'
+		}
+	}
+	fmt.Println(x, string(x))
+	rs, _ := strconv.ParseInt(string(x), 2, 0)
+	return int(rs)
+}
+
 func main() {
-	fmt.Println(xorQueries1310([]int{1,3,4,8}, [][]int{{0,1},{1,2},{0,3},{3,3}}))
+	// rs, _ := strconv.ParseInt("011", 2, 0)
+	// fmt.Println(rs)
+	// fmt.Println(minimizeXor2429(1, 12)) // 3
+	fmt.Println(minimizeXor2429(25, 72)) // 24
+	// fmt.Println(xorQueries1310([]int{1,3,4,8}, [][]int{{0,1},{1,2},{0,3},{3,3}}))
 	// fmt.Println(minimumLength3223("abaacbcbb")) // 5
 	// fmt.Println(canBeValid2116("))()))", "010100"))
 	// fmt.Println(canBeValid2116("())", "010"))
