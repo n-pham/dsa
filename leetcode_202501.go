@@ -987,11 +987,28 @@ func minimizeXor2429(num1 int, num2 int) int {
 	return int(rs)
 }
 
+func doesValidArrayExist2683(derived []int) bool {
+	// 2683
+	//   1 1 0
+	//   ^ ^ ^
+	//   0 1 0
+	//   1 0(0)
+    //   1 0 1
+    //   0 1(1)
+	current := 1
+	for _, v := range derived {
+		current = current ^ v
+	}
+	return current == 1
+}
+
+
 func main() {
+	fmt.Println(doesValidArrayExist2683([]int{1,1,0}))
 	// rs, _ := strconv.ParseInt("011", 2, 0)
 	// fmt.Println(rs)
 	// fmt.Println(minimizeXor2429(1, 12)) // 3
-	fmt.Println(minimizeXor2429(25, 72)) // 24
+	// fmt.Println(minimizeXor2429(25, 72)) // 24
 	// fmt.Println(xorQueries1310([]int{1,3,4,8}, [][]int{{0,1},{1,2},{0,3},{3,3}}))
 	// fmt.Println(minimumLength3223("abaacbcbb")) // 5
 	// fmt.Println(canBeValid2116("))()))", "010100"))
