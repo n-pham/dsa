@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	// "math"
+	"math"
 	"slices"
 	"strconv"
 	"strings"
@@ -1002,9 +1002,66 @@ func doesValidArrayExist2683(derived []int) bool {
 	return current == 1
 }
 
+func minCost1368(grid [][]int) int {
+	// 1368
+	// ← → ↑ ↓
+	// → → → ↓
+	// ↓ ← ← ←
+	// → → → ↓
+	// ← ← ← ←
+	panic("not implemented")
+}
+
+func xorAllNums2425(nums1 []int, nums2 []int) int {
+	// 2425
+	// 001,010 & 011,100
+	// 001 001   010 010
+	// 011 100   011 100
+	// 010 101   001 110 --> 000
+	panic("not implemented")
+}
+
+func trapRainWater407_stackoverflow(heightMap [][]int) int {
+	var lowestWall func(i int, j int, m int, n int) int 
+	lowestWall = func(i int, j int, m int, n int) int {
+		if i < 0 || i >= m || j < 0 || j >= n {
+			return math.MaxInt
+		}
+		return min(lowestWall(i-1, j, m, n), lowestWall(i+1, j, m, n), lowestWall(i, j-1, m, n), lowestWall(i, j+1, m, n))
+	}
+	for i, row := range heightMap {
+		m, n := len(heightMap), len(heightMap[0])
+		for j, _ := range row {
+			fmt.Println(lowestWall(i, j, m, n))
+		}
+	}
+	return 0
+}
+
+func trapRainWater407(heightMap [][]int) int {
+	// 407
+	// 1 4 3 1 3 2
+	// 3 2̲ 1̲ 3 2̲ 4
+	// 2 3 3 2 3 1
+	var lowestWall func(i int, j int, m int, n int) int 
+	lowestWall = func(i int, j int, m int, n int) int {
+		if i < 0 || i >= m || j < 0 || j >= n {
+			return math.MaxInt
+		}
+		return min(lowestWall(i-1, j, m, n), lowestWall(i+1, j, m, n), lowestWall(i, j-1, m, n), lowestWall(i, j+1, m, n))
+	}
+	for i, row := range heightMap {
+		m, n := len(heightMap), len(heightMap[0])
+		for j, _ := range row {
+			fmt.Println(lowestWall(i, j, m, n))
+		}
+	}
+	return 0
+}
 
 func main() {
-	fmt.Println(doesValidArrayExist2683([]int{1,1,0}))
+	fmt.Println(trapRainWater407([][]int{{1,4,3,1,3,2},{3,2,1,3,2,4},{2,3,3,2,3,1}}))
+	// fmt.Println(doesValidArrayExist2683([]int{1,1,0}))
 	// rs, _ := strconv.ParseInt("011", 2, 0)
 	// fmt.Println(rs)
 	// fmt.Println(minimizeXor2429(1, 12)) // 3
