@@ -1059,8 +1059,54 @@ func trapRainWater407(heightMap [][]int) int {
 	return 0
 }
 
+func firstCompleteIndex2661_14ms(arr []int, mat [][]int) int {
+	// 2661
+	m, n := len(mat), len(mat[0])
+	mPaint, nPaint := make([]int, m), make([]int, n)
+	ijByNum := make([][]int, 1+m*n)
+	for i, row := range mat {
+		for j, num := range row {
+			ijByNum[num] = []int{i, j}
+		}
+	}
+	fmt.Println(ijByNum)
+	for i, num := range arr {
+		pos := ijByNum[num]
+		mPaint[pos[0]]++
+		nPaint[pos[1]]++
+		if mPaint[pos[0]] == n || nPaint[pos[1]] == m {
+			return i
+		}
+	}
+	return len(arr)-1
+}
+
+func firstCompleteIndex2661(arr []int, mat [][]int) int {
+	// 2661
+	m, n := len(mat), len(mat[0])
+	mPaint, nPaint := make([]int, m), make([]int, n)
+	iByNum := make([]int, 1+m*n)
+	jByNum := make([]int, 1+m*n)
+	for i, row := range mat {
+		for j, num := range row {
+			iByNum[num] = i
+			jByNum[num] = j
+		}
+	}
+	for i, num := range arr {
+		mPaint[iByNum[num]]++
+		nPaint[jByNum[num]]++
+		if mPaint[iByNum[num]] == n || nPaint[jByNum[num]] == m {
+			return i
+		}
+	}
+	return len(arr)-1
+}
+
 func main() {
-	fmt.Println(trapRainWater407([][]int{{1,4,3,1,3,2},{3,2,1,3,2,4},{2,3,3,2,3,1}}))
+	fmt.Println(firstCompleteIndex2661([]int{2,8,7,4,1,3,5,6,9}, [][]int{{3,2,5},{1,4,6},{8,7,9}})) // 3
+	fmt.Println(firstCompleteIndex2661([]int{6,2,3,1,4,5}, [][]int{{5,1},{2,4},{6,3}})) // ?
+	// fmt.Println(trapRainWater407([][]int{{1,4,3,1,3,2},{3,2,1,3,2,4},{2,3,3,2,3,1}}))
 	// fmt.Println(doesValidArrayExist2683([]int{1,1,0}))
 	// rs, _ := strconv.ParseInt("011", 2, 0)
 	// fmt.Println(rs)
