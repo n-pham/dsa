@@ -1043,15 +1043,27 @@ func trapRainWater407(heightMap [][]int) int {
 	// 1 4 3 1 3 2
 	// 3 2̲ 1̲ 3 2̲ 4
 	// 2 3 3 2 3 1
-	var lowestWall func(i int, j int, m int, n int) int 
+	panic("not implemented")
+	m, n := len(heightMap), len(heightMap[0])
+	cache := make([][]int, m)
+	flatCache := make([]int, m*n)
+	for i := range cache {
+    	cache[i], flatCache = flatCache[:n], flatCache[n:]
+	}
+	var lowestWall func(i int, j int, m int, n int) int
 	lowestWall = func(i int, j int, m int, n int) int {
 		if i < 0 || i >= m || j < 0 || j >= n {
 			return math.MaxInt
 		}
-		return min(lowestWall(i-1, j, m, n), lowestWall(i+1, j, m, n), lowestWall(i, j-1, m, n), lowestWall(i, j+1, m, n))
+		rs := cache[i][j]
+		if rs > 0 {
+			return rs
+		}
+		rs = min(lowestWall(i-1, j, m, n), lowestWall(i+1, j, m, n), lowestWall(i, j-1, m, n), lowestWall(i, j+1, m, n))
+		cache[i][j] = rs
+		return rs
 	}
 	for i, row := range heightMap {
-		m, n := len(heightMap), len(heightMap[0])
 		for j, _ := range row {
 			fmt.Println(lowestWall(i, j, m, n))
 		}
@@ -1103,9 +1115,126 @@ func firstCompleteIndex2661(arr []int, mat [][]int) int {
 	return len(arr)-1
 }
 
+func maxEqualRowsAfterFlips1072(matrix [][]int) int {
+	// 1072
+	// 0 0 0
+	// 0 0 1
+	// 1 1 0
+	// 001
+	// 001
+	// 010
+	panic("not implemented")
+}
+
+func removeOccurrences1910(s string, part string) string {
+	// 1910
+	// daabcbaabcbc
+	// da   baabc
+	// da   ba   bc
+	// da   b
+	panic("not implemented")
+	cs, ps := []rune(s), []rune(part)
+	starts := []int{}
+	for i := 0; i <= len(cs) - len(ps); {
+		fmt.Println(string(cs), i, string(cs[i]), starts)
+		if cs[i] == ps[0] {
+			starts = append(starts, i)
+		}
+		if len(starts) > 0 {
+			start := starts[len(starts)-1]
+			if start+len(ps) < len(cs) {
+				fmt.Println(string(cs[start:start+len(ps)]), string(cs[:start]), string(cs[start+len(ps):]))
+				if slices.Equal(cs[start:start+len(ps)], ps) {
+					cs = append(cs[:start], cs[start+len(ps):]...)
+					starts = starts[:len(starts)-1]
+					continue
+				}
+			}
+		}
+		i++
+		fmt.Println(string(cs), i, string(cs[i]), starts)
+	}
+	for len(starts) > 0 {
+		start := starts[len(starts)-1]
+		if slices.Equal(cs[start:start+len(ps)], ps) {
+			cs = append(cs[:start], cs[start+len(ps):]...)
+		}
+		starts = starts[:len(starts)-1]
+	}
+	return string(cs)
+}
+
+func partitionString2405(s string) int {
+	// 2405
+	panic("not implemented")
+}
+
+func regionsBySlashes959(grid []string) int {
+	// 959
+	// " /"
+	// "/ "
+	panic("not implemented")
+}
+
+func removeStars2390(s string) string {
+	// 2390
+	// 01234567890
+	// leet**cod*e
+	// lee  *cod*e
+	// le    cod*e
+	// le    co  e
+	panic("not implemented")
+}
+
+func removeStars2390_time_2(s string) string {
+	// 2390
+	// 01234567890
+	// leet**cod*e
+	// lee  *cod*e
+	// le    cod*e
+	// le    co  e
+	cs, csLen := []rune(s), len(s)
+	for i := 0; i < csLen; i++ {
+		j := 0 
+		for ; i+j < csLen && cs[i+j] == '*'; j++ { }
+		fmt.Println(string(cs), i, i+j)
+		if j > 0 {
+            cs = append(cs[:i-j], cs[i+j:]...)
+            i = i-j
+            csLen = csLen-(2*j)
+        }
+	}
+	return string(cs)
+}
+
+func removeStars2390_time(s string) string {
+	// 2390
+	// 01234567890
+	// leet**cod*e
+	// lee  *cod*e
+	// le    cod*e
+	// le    co  e
+	cs, csLen := []rune(s), len(s)
+	for i := 0; i < csLen; i++ {
+		if cs[i] == '*' {
+			cs = append(cs[:i-1], cs[i+1:]...)
+			i = i-2
+			csLen = csLen-2
+		}
+	}
+	return string(cs)
+}
+
 func main() {
-	fmt.Println(firstCompleteIndex2661([]int{2,8,7,4,1,3,5,6,9}, [][]int{{3,2,5},{1,4,6},{8,7,9}})) // 3
-	fmt.Println(firstCompleteIndex2661([]int{6,2,3,1,4,5}, [][]int{{5,1},{2,4},{6,3}})) // ?
+	fmt.Println(removeStars2390("leet**cod*e"))
+	fmt.Println(removeStars2390("erase*****"))
+	// fmt.Println(partitionString2405("abacaba"))
+	// fmt.Println(removeOccurrences1910("hhvhvaahvahvhvaavhvaasshvahvaln", "hva"))
+	// fmt.Println(removeOccurrences1910("gjzgbpggjzgbpgsvpwdk", "gjzgbpg"))
+	// fmt.Println(removeOccurrences1910("daabcbaabcbc", "abc"))
+	// fmt.Println(maxEqualRowsAfterFlips1072([][]int{{0,0,0},{0,0,1},{1,1,0}}))
+	// fmt.Println(firstCompleteIndex2661([]int{2,8,7,4,1,3,5,6,9}, [][]int{{3,2,5},{1,4,6},{8,7,9}})) // 3
+	// fmt.Println(firstCompleteIndex2661([]int{6,2,3,1,4,5}, [][]int{{5,1},{2,4},{6,3}})) // ?
 	// fmt.Println(trapRainWater407([][]int{{1,4,3,1,3,2},{3,2,1,3,2,4},{2,3,3,2,3,1}}))
 	// fmt.Println(doesValidArrayExist2683([]int{1,1,0}))
 	// rs, _ := strconv.ParseInt("011", 2, 0)
