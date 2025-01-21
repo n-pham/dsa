@@ -1225,9 +1225,68 @@ func removeStars2390_time(s string) string {
 	return string(cs)
 }
 
+func gridGame2017(grid [][]int) int64 {
+	// 2017
+	//     2  5  4
+	//     1  5  1
+	//
+	// ↓0  2  3  8  9
+	// ↓1  2  7 12 1̲3̲
+	// ↓2  2  7 11 12
+	//
+	// ? robot 2
+	panic("not implemented")
+}
+
+func rotate48(matrix [][]int)  {
+	// 48
+	// 1 2 3
+	// 4 5 6
+	// 7 8 9
+	// a 2 b
+	// 4 5 6
+	// c 8 d
+	// 7 a 1
+	// d 5 b
+	// 9 c 3
+	panic("not implemented")
+}
+
+func maxSumAfterPartitioning1043(arr []int, k int) int {
+	// 1043
+	// 3 1,15,7,9,2,5,10
+	// 15,9,10
+	// 4 1,4,1,5,7,3,6,1,9,9,3
+	// 5,7,6,9(multiples)
+	panic("not implemented")
+}
+
+func subdomainVisits811(cpdomains []string) (rs []string) {
+	// 811
+	m := make(map[string]int)
+	for _, cpdomain := range cpdomains {
+		parts := strings.SplitN(cpdomain, " ", 2)
+		newCount, _ := strconv.Atoi(parts[0])
+		subdomains := strings.Split(parts[1], ".")
+		// slower for i, _ := range subdomains {
+        for i := len(subdomains) - 1; i >= 0; i-- {
+			subdomain := strings.Join(subdomains[i:], ".")
+			m[subdomain] += newCount
+		}
+	}
+	for k, v := range m {
+		// slower rs = append(rs, fmt.Sprintf("%d %s", v, k))
+        rs = append(rs, strconv.Itoa(v)+" "+k)
+	}
+	return
+}
+
+
 func main() {
-	fmt.Println(removeStars2390("leet**cod*e"))
-	fmt.Println(removeStars2390("erase*****"))
+	fmt.Println(subdomainVisits811([]string{"900 google.mail.com", "50 yahoo.com", "1 intel.mail.com", "5 wiki.org"}))
+	// fmt.Println(gridGame2017([][]int{{2,5,4},{1,5,1}}))
+	// fmt.Println(removeStars2390("leet**cod*e"))
+	// fmt.Println(removeStars2390("erase*****"))
 	// fmt.Println(partitionString2405("abacaba"))
 	// fmt.Println(removeOccurrences1910("hhvhvaahvahvhvaavhvaasshvahvaln", "hva"))
 	// fmt.Println(removeOccurrences1910("gjzgbpggjzgbpgsvpwdk", "gjzgbpg"))
