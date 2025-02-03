@@ -142,8 +142,80 @@ func longestMonotonicSubarray3105(nums []int) int {
 	return maxLen
 }
 
+func checkIfPrerequisite1462(numCourses int, prerequisites [][]int, queries [][]int) []bool {
+	// 1462
+	panic("not implemented")
+}
+
+func lexicographicallySmallestArray2948(nums []int, limit int) []int {
+	// 2948
+	panic("not implemented")
+}
+
+func eventualSafeNodes802(graph [][]int) (rs []int) {
+	// 802
+	//           0     1     2   3   4   5  6
+	//           [1,2],[2,3],[4],[0],[5],[],[]
+	// terminal                          5  6
+	panic("not implemented")
+	m := make([]int, len(graph))
+	g := graph[:]
+	added := true
+	for added {
+		added = false
+		for i, targets := range g {
+			isContained := true
+			for _, target := range targets {
+				if m[target] == 0 {
+					isContained = false
+					break
+				}
+			}
+			if isContained {
+				m[i] = 1
+				added = true
+				g = append(g[:i], g[i+1:]...)
+			}
+		}
+	}
+	for i, v := range m {
+		if v == 1 {
+			rs = append(rs, i)
+		}
+	}
+	return rs
+}
+
+func countServers1267(grid [][]int) (cnt int) {
+	// 1267, 4ms
+	positions := [][]int{}
+	for i, row := range grid {
+		for j, val := range row {
+			if val == 1 {
+				positions = append(positions, []int{i,j})
+			}
+		}
+	}
+	isolatedCnt := 0
+	for i, pos1 := range positions {
+		isolated := true
+		for j, pos2 := range positions {
+			if i != j && (pos1[0] == pos2[0] || pos1[1] == pos2[1]) {
+				isolated = false
+				break
+			}
+		}
+		if isolated {
+			isolatedCnt++
+		}
+	}
+	return len(positions) - isolatedCnt
+}
+
 func main() {
-	fmt.Println(longestMonotonicSubarray3105([]int{1, 4, 3, 3, 2}))
+	fmt.Println(countServers1267([][]int{{1, 1, 0, 0}, {0, 0, 1, 0}, {0, 0, 1, 0}, {0, 0, 0, 1}}))
+	// fmt.Println(eventualSafeNodes802([][]int {{1,2},{2,3},{4},{0},{5},{},{}}))
+	// fmt.Println(longestMonotonicSubarray3105([]int{1, 4, 3, 3, 2}))
 	// fmt.Println(check1752([]int{2, 4, 1, 3}))    // false
 	// fmt.Println(check1752([]int{2, 1, 3, 4}))    // false
 	// fmt.Println(check1752([]int{3, 4, 5, 1, 2})) // true
