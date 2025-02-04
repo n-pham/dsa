@@ -317,8 +317,42 @@ func smallestEquivalentString1061(s1 string, s2 string, baseStr string) string {
 	return string(rs)
 }
 
+func smallestNumber2375(pattern string) string {
+	// 2375
+	//  IIIDIDDD
+	// 12343
+	// 123546
+	// 123549876
+	panic("not implemented")
+}
+
+func numTilePossibilities1079(tiles string) int {
+	// 1079
+	// A B
+	// 2 1
+	m := [26]int{}
+	for _, tile := range tiles {
+		m[tile-'A']++
+	}
+	var dfs func() int
+	dfs = func() int {
+		cnt := 0
+		for i := range m {
+			if m[i] > 0 {
+				cnt++
+				m[i]--
+				cnt += dfs()
+				m[i]++
+			}
+		}
+		return cnt
+	}
+	return dfs()
+}
+
 func main() {
-	fmt.Println(smallestEquivalentString1061("leetcode", "programs", "sourcecode"))
+	fmt.Println(numTilePossibilities1079("AAB"))
+	// fmt.Println(smallestEquivalentString1061("leetcode", "programs", "sourcecode"))
 	// fmt.Println(smallestEquivalentString1061( "parker", "morris", "parser"))
 	// fmt.Println(minChanges2914("01010000011001001101")) // 6
 	// fmt.Println(minChanges2914("11000111"))
