@@ -212,8 +212,26 @@ func countServers1267(grid [][]int) (cnt int) {
 	return len(positions) - isolatedCnt
 }
 
+func maxAscendingSum1800(nums []int) int {
+	// 1800
+	maxSum, prev, curSum := nums[0], nums[0], nums[0]
+	for _, num := range nums[1:] {
+		if num > prev {
+			curSum += num
+			if curSum > maxSum {
+				maxSum = curSum
+			}
+		} else {
+			curSum = num
+		}
+		prev = num
+	}
+	return maxSum
+}
+
 func main() {
-	fmt.Println(countServers1267([][]int{{1, 1, 0, 0}, {0, 0, 1, 0}, {0, 0, 1, 0}, {0, 0, 0, 1}}))
+	fmt.Println(maxAscendingSum1800([]int{12,17,15,13,10,11,12}))
+	// fmt.Println(countServers1267([][]int{{1, 1, 0, 0}, {0, 0, 1, 0}, {0, 0, 1, 0}, {0, 0, 0, 1}}))
 	// fmt.Println(eventualSafeNodes802([][]int {{1,2},{2,3},{4},{0},{5},{},{}}))
 	// fmt.Println(longestMonotonicSubarray3105([]int{1, 4, 3, 3, 2}))
 	// fmt.Println(check1752([]int{2, 4, 1, 3}))    // false
