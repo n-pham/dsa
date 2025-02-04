@@ -229,8 +229,28 @@ func maxAscendingSum1800(nums []int) int {
 	return maxSum
 }
 
+func isAnagram242(s string, t string) bool {
+	// 242
+	m := [26]int{}
+	for _, c := range s {
+		m[c-'a']++
+	}
+	for _, c := range t {
+		m[c-'a']--
+	}
+	for _, v := range m {
+		if v != 0 {
+			return false
+		}
+	}
+	return true
+}
+
 func main() {
-	fmt.Println(maxAscendingSum1800([]int{12,17,15,13,10,11,12}))
+	fmt.Println(isAnagram242("anagram", "nagaram"))
+	fmt.Println(isAnagram242("rat", "car"))
+	fmt.Println(isAnagram242("a", "ab"))
+	// fmt.Println(maxAscendingSum1800([]int{12,17,15,13,10,11,12}))
 	// fmt.Println(countServers1267([][]int{{1, 1, 0, 0}, {0, 0, 1, 0}, {0, 0, 1, 0}, {0, 0, 0, 1}}))
 	// fmt.Println(eventualSafeNodes802([][]int {{1,2},{2,3},{4},{0},{5},{},{}}))
 	// fmt.Println(longestMonotonicSubarray3105([]int{1, 4, 3, 3, 2}))
