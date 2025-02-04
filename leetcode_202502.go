@@ -350,8 +350,50 @@ func numTilePossibilities1079(tiles string) int {
 	return dfs()
 }
 
+func findDuplicates_5ms(nums []int) (dups []int) {
+	// 442
+	m := make([]int, len(nums)+1)
+	for _, num := range nums {
+		if m[num] > 0 {
+			dups = append(dups, num)
+		} else {
+			m[num] = 1
+		}
+	}
+	return dups
+}
+
+func findDuplicates442_bitmask(nums []int) []int {
+	// 442
+	dupLen, bitmask := 0, make([]uint64, (len(nums)/64)+1)
+	for _, num := range nums {
+		if (bitmask[num/64] & (1 << (num % 64))) > 0 {
+			nums[dupLen] = num
+			dupLen++
+		} else {
+			bitmask[num/64] |= 1 << (num % 64)
+		}
+	}
+	return nums[:dupLen]
+}
+
+func findDuplicates442(nums []int) []int {
+	// 442
+	dupLen, m := 0, make([]byte, len(nums)+1)
+	for _, num := range nums {
+		if m[num] > 0 {
+			nums[dupLen] = num
+			dupLen++
+		} else {
+			m[num] = 1
+		}
+	}
+	return nums[:dupLen]
+}
+
 func main() {
-	fmt.Println(numTilePossibilities1079("AAB"))
+	fmt.Println(findDuplicates442([]int{4,3,2,7,8,2,3,1}))
+	// fmt.Println(numTilePossibilities1079("AAB"))
 	// fmt.Println(smallestEquivalentString1061("leetcode", "programs", "sourcecode"))
 	// fmt.Println(smallestEquivalentString1061( "parker", "morris", "parser"))
 	// fmt.Println(minChanges2914("01010000011001001101")) // 6
