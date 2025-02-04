@@ -192,7 +192,7 @@ func countServers1267(grid [][]int) (cnt int) {
 	for i, row := range grid {
 		for j, val := range row {
 			if val == 1 {
-				positions = append(positions, []int{i,j})
+				positions = append(positions, []int{i, j})
 			}
 		}
 	}
@@ -246,10 +246,86 @@ func isAnagram242(s string, t string) bool {
 	return true
 }
 
+func minChanges2914(s string) int {
+	// 2914
+	panic("not implemented")
+	oddCnt, curCnt, prev := [2]int{}, 1, s[0]
+	for i := 1; i < len(s); i++ {
+		if prev == s[i] {
+			curCnt++
+		} else {
+			if curCnt%2 == 1 {
+				oddCnt[prev-'0']++
+			}
+			curCnt = 1
+		}
+		fmt.Println("curCnt", curCnt, "oddCnt", oddCnt)
+		prev = s[i]
+	}
+	if curCnt%2 == 1 {
+		oddCnt[prev-'0']++
+	}
+	fmt.Println("curCnt", curCnt, "oddCnt", oddCnt)
+	maxCnt := oddCnt[0]
+	if oddCnt[1] > oddCnt[0] {
+		maxCnt = oddCnt[1]
+	}
+	return maxCnt
+}
+
+func smallestEquivalentString1061(s1 string, s2 string, baseStr string) string {
+	// 1061
+	// p m m:m, p:m
+	// a o a:a, o:a
+	// r r r:r
+	// k r k:k, r:k
+	// e i e:e, i:e
+	// r s s:k
+	//
+	// l p p:l l:l
+	// e r r:e e:e
+	// e o o:e
+	// t g t:g
+	// c r r:c
+	// o a a:a o:a AND e:a i:a r:a
+	// d m d:d m:d
+	// e s s:a
+	m := [26]byte{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25}
+	for i := 0; i < len(s1); i++ {
+		smallest := min(m[s1[i]-'a'], m[s2[i]-'a'], s1[i]-'a', s2[i]-'a')
+		if prev := m[s1[i]-'a']; prev > smallest {
+			for j := 0; j < 26; j++ {
+				if m[j] == prev {
+					m[j] = smallest
+				}
+			}
+		}
+		if prev := m[s2[i]-'a']; prev > smallest {
+			for j := 0; j < 26; j++ {
+				if m[j] == prev {
+					m[j] = smallest
+				}
+			}
+		}
+		m[s1[i]-'a'], m[s2[i]-'a'] = smallest, smallest
+		// fmt.Println(m)
+	}
+	rs := make([]byte, len(baseStr))
+	for i := 0; i < len(baseStr); i++ {
+		rs[i] = m[baseStr[i]-'a'] + 'a'
+	}
+	return string(rs)
+}
+
 func main() {
-	fmt.Println(isAnagram242("anagram", "nagaram"))
-	fmt.Println(isAnagram242("rat", "car"))
-	fmt.Println(isAnagram242("a", "ab"))
+	fmt.Println(smallestEquivalentString1061("leetcode", "programs", "sourcecode"))
+	// fmt.Println(smallestEquivalentString1061( "parker", "morris", "parser"))
+	// fmt.Println(minChanges2914("01010000011001001101")) // 6
+	// fmt.Println(minChanges2914("11000111"))
+	// fmt.Println(minChanges2914("1001"))
+	// fmt.Println(isAnagram242("anagram", "nagaram"))
+	// fmt.Println(isAnagram242("rat", "car"))
+	// fmt.Println(isAnagram242("a", "ab"))
 	// fmt.Println(maxAscendingSum1800([]int{12,17,15,13,10,11,12}))
 	// fmt.Println(countServers1267([][]int{{1, 1, 0, 0}, {0, 0, 1, 0}, {0, 0, 1, 0}, {0, 0, 0, 1}}))
 	// fmt.Println(eventualSafeNodes802([][]int {{1,2},{2,3},{4},{0},{5},{},{}}))
