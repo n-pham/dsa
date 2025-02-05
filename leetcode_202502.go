@@ -409,10 +409,27 @@ func areAlmostEqual1790(s1 string, s2 string) bool {
 	return diffCount == 0
 }
 
+func numOfPairs2023(nums []string, target string) (cnt int) {
+	// 2023
+	for i, s1 := range nums {
+		for j, s2 := range nums {
+			if i == j || len(s1)+len(s2) != len(target) {
+				continue
+			}
+			if s1 == target[:len(s1)] && s2 == target[len(s1):] {
+				cnt++
+			}
+		}
+	}
+	return cnt
+}
+
 func main() {
-	fmt.Println(areAlmostEqual1790("bank", "kanb"))
-	fmt.Println(areAlmostEqual1790("aa", "ac"))
-	fmt.Println(areAlmostEqual1790("baaa", "abbb"))
+	fmt.Println(numOfPairs2023([]string{"123","4","12","34"}, "1234"))
+	fmt.Println(numOfPairs2023([]string{"777","7","77","77"}, "7777"))
+	// fmt.Println(areAlmostEqual1790("bank", "kanb"))
+	// fmt.Println(areAlmostEqual1790("aa", "ac"))
+	// fmt.Println(areAlmostEqual1790("baaa", "abbb"))
 	// fmt.Println(findDuplicates442([]int{4,3,2,7,8,2,3,1}))
 	// fmt.Println(numTilePossibilities1079("AAB"))
 	// fmt.Println(smallestEquivalentString1061("leetcode", "programs", "sourcecode"))
