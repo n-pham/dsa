@@ -66,5 +66,15 @@ class LinkedList:
             current = current.next_node
         return reversed_list
 
-sut = LinkedList([3, 4, 5])
-print(sut.pop())
+def rectangles(strings):
+    """
+     0123456
+    0   +--+
+    1  ++  |
+    2+-++--+
+    3|    |
+    4+--+--+
+    (0,3),(0,6),(1,2),(1,3),(2,0),(2,2),(2,3),(2,6),(4,0),(4,3),(4,6)
+    test_rectangles_must_have_four_sides
+    """
+    pass
