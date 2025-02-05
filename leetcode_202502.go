@@ -391,8 +391,29 @@ func findDuplicates442(nums []int) []int {
 	return nums[:dupLen]
 }
 
+func areAlmostEqual1790(s1 string, s2 string) bool {
+	// 1790
+	diffCount, diff1, diff2 := 0, byte(0), byte(0)
+	for i := range s1 {
+		if s1[i] != s2[i] {
+			if diff1 != 0 {
+				if diff1 != s2[i] || diff2 != s1[i] {
+					return false
+				}
+				diffCount--
+			} else {
+				diff1, diff2, diffCount = s1[i], s2[i], diffCount+1
+			}
+		}
+	}
+	return diffCount == 0
+}
+
 func main() {
-	fmt.Println(findDuplicates442([]int{4,3,2,7,8,2,3,1}))
+	fmt.Println(areAlmostEqual1790("bank", "kanb"))
+	fmt.Println(areAlmostEqual1790("aa", "ac"))
+	fmt.Println(areAlmostEqual1790("baaa", "abbb"))
+	// fmt.Println(findDuplicates442([]int{4,3,2,7,8,2,3,1}))
 	// fmt.Println(numTilePossibilities1079("AAB"))
 	// fmt.Println(smallestEquivalentString1061("leetcode", "programs", "sourcecode"))
 	// fmt.Println(smallestEquivalentString1061( "parker", "morris", "parser"))
