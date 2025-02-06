@@ -424,9 +424,48 @@ func numOfPairs2023(nums []string, target string) (cnt int) {
 	return cnt
 }
 
+func tupleSameProduct1726_time(nums []int) (cnt int) {
+	// 1726
+	for _, a := range nums {
+		for _, b := range nums {
+			if b == a {
+				continue
+			}
+			for _, c := range nums {
+				if c == b || c == a {
+					continue
+				}
+				for _, d := range nums {
+					if d == c || d == b || d == a {
+						continue
+					}
+					if a*b == c*d {
+						cnt++
+					}
+				}
+			}
+		}
+	}
+	return cnt
+}
+
+func tupleSameProduct1726(nums []int) (cnt int) {
+	// 1726
+	productMap := make(map[int]int)
+	for i := 0; i < len(nums)-1; i++ {
+		for j := i + 1; j < len(nums); j++ {
+			product := nums[i] * nums[j]
+			cnt += productMap[product] // +1 from next time (c*d)
+			productMap[product]++
+		}
+	}
+	return cnt * 8 // 8 different ways
+}
+
 func main() {
-	fmt.Println(numOfPairs2023([]string{"123","4","12","34"}, "1234"))
-	fmt.Println(numOfPairs2023([]string{"777","7","77","77"}, "7777"))
+	fmt.Println(tupleSameProduct1726([]int{2, 3, 4, 6}))
+	// fmt.Println(numOfPairs2023([]string{"123","4","12","34"}, "1234"))
+	// fmt.Println(numOfPairs2023([]string{"777","7","77","77"}, "7777"))
 	// fmt.Println(areAlmostEqual1790("bank", "kanb"))
 	// fmt.Println(areAlmostEqual1790("aa", "ac"))
 	// fmt.Println(areAlmostEqual1790("baaa", "abbb"))
