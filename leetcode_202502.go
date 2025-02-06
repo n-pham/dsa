@@ -462,8 +462,31 @@ func tupleSameProduct1726(nums []int) (cnt int) {
 	return cnt * 8 // 8 different ways
 }
 
+func getHappyString1415(n int, k int) int {
+	// 1415
+	// m := [3]string{"a", "b", "c"}
+	panic("not implemented")
+	var rec func(n int, prev int) []string
+	rec = func(n int, prev int) []string {
+		if n == 1 {
+			return 1
+		}
+		rs := []string{}
+		for i := 0; i < 3; i++ {
+			if i == prev {
+				continue
+			}
+			rs = append(rs, string('a'+i))
+			rs = append(rs, rec(n-1, i)...)
+		}
+		return rs
+	}
+	return rec(2, 0)
+}
+
 func main() {
-	fmt.Println(tupleSameProduct1726([]int{2, 3, 4, 6}))
+	fmt.Println(getHappyString1415(3, 9))
+	// fmt.Println(tupleSameProduct1726([]int{2, 3, 4, 6}))
 	// fmt.Println(numOfPairs2023([]string{"123","4","12","34"}, "1234"))
 	// fmt.Println(numOfPairs2023([]string{"777","7","77","77"}, "7777"))
 	// fmt.Println(areAlmostEqual1790("bank", "kanb"))
