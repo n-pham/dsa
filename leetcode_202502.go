@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	// "math"
-	// "slices"
+	"slices"
 	// "strconv"
 	// "strings"
 )
@@ -462,26 +462,53 @@ func tupleSameProduct1726(nums []int) (cnt int) {
 	return cnt * 8 // 8 different ways
 }
 
-func getHappyString1415(n int, k int) int {
+func getHappyString1415_226ms(n int, k int) string {
 	// 1415
-	// m := [3]string{"a", "b", "c"}
-	panic("not implemented")
 	var rec func(n int, prev int) []string
 	rec = func(n int, prev int) []string {
-		if n == 1 {
-			return 1
+		if n == 0 {
+			return []string{""}
 		}
 		rs := []string{}
 		for i := 0; i < 3; i++ {
 			if i == prev {
 				continue
 			}
-			rs = append(rs, string('a'+i))
-			rs = append(rs, rec(n-1, i)...)
+			first := string('a'+i)
+			for _, rest := range rec(n-1, i) {
+				rs = append(rs, first + rest)
+			}
 		}
 		return rs
 	}
-	return rec(2, 0)
+	strings := []string{}
+	for _, v := range rec(n, 1) {
+		p, found := slices.BinarySearch(strings, v)
+		if !found {
+			strings = slices.Insert(strings, p, v)
+		}
+	}
+	for _, v := range rec(n, 2) {
+		p, found := slices.BinarySearch(strings, v)
+		if !found {
+			strings = slices.Insert(strings, p, v)
+		}
+	}
+	for _, v := range rec(n, 0) {
+		p, found := slices.BinarySearch(strings, v)
+		if !found {
+			strings = slices.Insert(strings, p, v)
+		}
+	}
+	if k > len(strings) {
+		return ""
+	}
+	return strings[k-1]
+}
+
+func getHappyString1415(n int, k int) string {
+	// 1415
+	panic("not implemented")
 }
 
 func main() {
