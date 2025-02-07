@@ -511,8 +511,54 @@ func getHappyString1415(n int, k int) string {
 	panic("not implemented")
 }
 
+func queryResults3160_memory(limit int, queries [][]int) []int {
+	// 3160
+	//       0 0 0 0 0
+	// 1,4   0 4 0 0 0 [4]++
+	// 2,5   0 4̲ 5 0 0 [5]++
+	// 1,3   0 3̲ 5 0 0 [4]-- [3]++
+	// 3,4   0 3 5 4 0 [4]++
+	rs, colorByLabel, colorCnt := make([]int, len(queries)), make([]int, limit+1), make(map[int]int)
+	for i, q := range queries {
+		if colorByLabel[q[0]] > 0 {
+			if v, _ := colorCnt[colorByLabel[q[0]]]; v == 1 {
+				delete(colorCnt, colorByLabel[q[0]])
+			} else {
+				colorCnt[colorByLabel[q[0]]]--
+			}
+		}
+		colorByLabel[q[0]] = q[1]
+		colorCnt[q[1]]++
+		rs[i] = len(colorCnt)
+	}
+	return rs
+}
+
+func queryResults3160(limit int, queries [][]int) []int {
+	// 3160
+	// 1,4   1:4            [4]++
+	// 2,5   1:4̲, 2:5       [5]++
+	// 1,3   1:3̲, 2:5       [4]-- [3]++
+	// 3,4   1:3, 2:5, 3:4  [4]++
+	rs, colorByLabel, colorCnt := make([]int, len(queries)), make(map[int]int), make(map[int]int)
+	for i, q := range queries {
+		if color, found := colorByLabel[q[0]]; found {
+			if cnt, _ := colorCnt[color]; cnt == 1 {
+				delete(colorCnt, color)
+			} else {
+				colorCnt[color]--
+			}
+		}
+		colorByLabel[q[0]] = q[1]
+		colorCnt[q[1]]++
+		rs[i] = len(colorCnt)
+	}
+	return rs
+}
+
 func main() {
-	fmt.Println(getHappyString1415(3, 9))
+	fmt.Println(queryResults3160(4, [][]int{{1,4},{2,5},{1,3},{3,4}}))
+	// fmt.Println(getHappyString1415(3, 9))
 	// fmt.Println(tupleSameProduct1726([]int{2, 3, 4, 6}))
 	// fmt.Println(numOfPairs2023([]string{"123","4","12","34"}, "1234"))
 	// fmt.Println(numOfPairs2023([]string{"777","7","77","77"}, "7777"))
