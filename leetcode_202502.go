@@ -1,10 +1,11 @@
 package main
 
 import (
+	"container/heap"
 	"fmt"
 	// "math"
 	"slices"
-	// "strconv"
+	"strconv"
 	// "strings"
 )
 
@@ -556,8 +557,126 @@ func queryResults3160(limit int, queries [][]int) []int {
 	return rs
 }
 
+func findDifferentBinaryString1980(nums []string) string {
+	// 1980
+	panic("not implemented")
+	slices.Sort(nums)
+	for i := 1; i < len(nums); i++ {
+		num, _ := strconv.Atoi(nums[i])
+		prev := strconv.Itoa(num-1)
+		if prev != nums[i-1] {
+			return prev
+		}
+	}
+	return "Error"
+}
+
+func restoreArray1743(adjacentPairs [][]int) []int {
+	// 1743
+	// 2,1   2̶1̶ 12
+	// 3,4   34 4̶3̶
+	// 3,2   3̶2̶ 23
+	panic("not implemented")
+	numMap := make([]int, len(adjacentPairs)+2)
+	for _, pair := range adjacentPairs {
+		if numMap[pair[0]] == 0 {
+			numMap[pair[0]] = pair[1]
+		} else if numMap[pair[1]] == 0 {
+			numMap[pair[1]] = pair[0]
+		}
+		
+	}
+	fmt.Println(numMap)
+	return []int{99}
+}
+
+func partitionArray2294(nums []int, k int) int {
+	// 2294
+	// 3 3
+	// 6 3     6
+	// 1 1,3   6
+	// 2 1,3
+	// 5 1,3   5,6
+	// 4 1,3   4,6
+	panic("not implemented")
+}
+
+// 2349 solved by Copilot
+type MinHeap []int
+
+func (h MinHeap) Len() int           { return len(h) }
+func (h MinHeap) Less(i, j int) bool { return h[i] < h[j] }
+func (h MinHeap) Swap(i, j int)      { h[i], h[j] = h[j], h[i] }
+
+func (h *MinHeap) Push(x interface{}) {
+	*h = append(*h, x.(int))
+}
+
+func (h *MinHeap) Pop() interface{} {
+	old := *h
+	n := len(old)
+	x := old[n-1]
+	*h = old[0 : n-1]
+	return x
+}
+
+type NumberContainers struct {
+	numberByIndex map[int]int
+	indexByNumber map[int]*MinHeap
+}
+
+func Constructor() NumberContainers {
+	return NumberContainers{
+		numberByIndex: make(map[int]int),
+		indexByNumber: make(map[int]*MinHeap),
+	}
+}
+
+func (this *NumberContainers) Change(index int, number int) map[int]int {
+	if oldNumber, exists := this.numberByIndex[index]; exists {
+		heap.Remove(this.indexByNumber[oldNumber], findIndex(this.indexByNumber[oldNumber], index))
+		if this.indexByNumber[oldNumber].Len() == 0 {
+			delete(this.indexByNumber, oldNumber)
+		}
+	}
+	this.numberByIndex[index] = number
+	if _, exists := this.indexByNumber[number]; !exists {
+		this.indexByNumber[number] = &MinHeap{}
+		heap.Init(this.indexByNumber[number])
+	}
+	heap.Push(this.indexByNumber[number], index)
+	return this.numberByIndex
+}
+
+func findIndex(h *MinHeap, index int) int {
+	for i, v := range *h {
+		if v == index {
+			return i
+		}
+	}
+	return -1
+}
+
+func (this *NumberContainers) Find(number int) int {
+	if indices, exists := this.indexByNumber[number]; exists && indices.Len() > 0 {
+		return (*indices)[0]
+	}
+	return -1
+}
+
 func main() {
-	fmt.Println(queryResults3160(4, [][]int{{1,4},{2,5},{1,3},{3,4}}))
+	nc := Constructor()
+	fmt.Println(nc.Find(10)) // There is no index that is filled with number 10. Therefore, we return -1.
+	fmt.Println(nc.Change(2, 10)) // Your container at index 2 will be filled with number 10.
+	fmt.Println(nc.Change(1, 10)) // Your container at index 1 will be filled with number 10.
+	fmt.Println(nc.Change(3, 10)) // Your container at index 3 will be filled with number 10.
+	fmt.Println(nc.Change(5, 10)) // Your container at index 5 will be filled with number 10.
+	fmt.Println(nc.Find(10)) // Number 10 is at the indices 1, 2, 3, and 5. Since the smallest index that is filled with 10 is 1, we return 1.
+	fmt.Println(nc.Change(1, 20)) // Your container at index 1 will be filled with number 20. Note that index 1 was filled with 10 and then replaced with 20. 
+	fmt.Println(nc.Find(10)) // Number 10 is at the indices 2, 3, and 5. The smallest index that is filled with 10 is 2. Therefore, we return 2.
+	// fmt.Println(restoreArray1743([][]int{{2,1},{3,4},{3,2}}))
+	// fmt.Println(findDifferentBinaryString1980([]string{"111","011","001"}))
+	// fmt.Println(queryResults3160(4, [][]int{{1,4},{2,5},{1,3},{3,4}}))
 	// fmt.Println(getHappyString1415(3, 9))
 	// fmt.Println(tupleSameProduct1726([]int{2, 3, 4, 6}))
 	// fmt.Println(numOfPairs2023([]string{"123","4","12","34"}, "1234"))
