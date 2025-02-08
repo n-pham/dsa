@@ -592,13 +592,36 @@ func restoreArray1743(adjacentPairs [][]int) []int {
 
 func partitionArray2294(nums []int, k int) int {
 	// 2294
-	// 3 3
-	// 6 3     6
-	// 1 1,3   6
-	// 2 1,3
-	// 5 1,3   5,6
-	// 4 1,3   4,6
-	panic("not implemented")
+}
+
+func partitionArray2294_fail(nums []int, k int) int {
+	// 2294 slices.Sort(nums) time limit
+	// 16      16,16
+	// 8        8,16
+	// 17       8,17
+	// 0        8,17  0, 0
+	// 3        8,17  0, 3
+	// 20       8,17  0, 3 20,20
+	// correct  0, 8 16,20
+	partitions := [][2]int{} // partitions of [start, end]
+	for _, num := range nums {
+		found := false
+		for i, p := range partitions {
+			if p[1]-num > k || num-p[0] > k {
+				continue
+			} else if p[1]-num <= k && num < p[0] { // num p0 p1
+				partitions[i][0] = num
+			} else if num-p[0] <= k && p[1] < num { // p0 p1 num
+				partitions[i][1] = num
+			}
+			found = true
+		}
+		if !found {
+			partitions = append(partitions, [2]int{num, num})
+		}
+		fmt.Println(num, partitions)
+	}
+	return len(partitions)
 }
 
 // 2349 solved by Copilot
@@ -665,15 +688,18 @@ func (this *NumberContainers) Find(number int) int {
 }
 
 func main() {
-	nc := Constructor()
-	fmt.Println(nc.Find(10)) // There is no index that is filled with number 10. Therefore, we return -1.
-	fmt.Println(nc.Change(2, 10)) // Your container at index 2 will be filled with number 10.
-	fmt.Println(nc.Change(1, 10)) // Your container at index 1 will be filled with number 10.
-	fmt.Println(nc.Change(3, 10)) // Your container at index 3 will be filled with number 10.
-	fmt.Println(nc.Change(5, 10)) // Your container at index 5 will be filled with number 10.
-	fmt.Println(nc.Find(10)) // Number 10 is at the indices 1, 2, 3, and 5. Since the smallest index that is filled with 10 is 1, we return 1.
-	fmt.Println(nc.Change(1, 20)) // Your container at index 1 will be filled with number 20. Note that index 1 was filled with 10 and then replaced with 20. 
-	fmt.Println(nc.Find(10)) // Number 10 is at the indices 2, 3, and 5. The smallest index that is filled with 10 is 2. Therefore, we return 2.
+	fmt.Println(partitionArray2294([]int{16,8,17,0,3,17,8,20}, 10)) // 0,3,8 16,17,20 
+	fmt.Println(partitionArray2294([]int{3,6,1,2,5,4}, 2))
+	fmt.Println(partitionArray2294([]int{5,16,3,20,9,20,16,19,6}, 4))
+	// nc := Constructor()
+	// fmt.Println(nc.Find(10)) // There is no index that is filled with number 10. Therefore, we return -1.
+	// fmt.Println(nc.Change(2, 10)) // Your container at index 2 will be filled with number 10.
+	// fmt.Println(nc.Change(1, 10)) // Your container at index 1 will be filled with number 10.
+	// fmt.Println(nc.Change(3, 10)) // Your container at index 3 will be filled with number 10.
+	// fmt.Println(nc.Change(5, 10)) // Your container at index 5 will be filled with number 10.
+	// fmt.Println(nc.Find(10)) // Number 10 is at the indices 1, 2, 3, and 5. Since the smallest index that is filled with 10 is 1, we return 1.
+	// fmt.Println(nc.Change(1, 20)) // Your container at index 1 will be filled with number 20. Note that index 1 was filled with 10 and then replaced with 20. 
+	// fmt.Println(nc.Find(10)) // Number 10 is at the indices 2, 3, and 5. The smallest index that is filled with 10 is 2. Therefore, we return 2.
 	// fmt.Println(restoreArray1743([][]int{{2,1},{3,4},{3,2}}))
 	// fmt.Println(findDifferentBinaryString1980([]string{"111","011","001"}))
 	// fmt.Println(queryResults3160(4, [][]int{{1,4},{2,5},{1,3},{3,4}}))
