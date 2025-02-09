@@ -735,19 +735,18 @@ func countBadPairs2364_44ms(nums []int) (cnt int64) {
 }
 
 func countBadPairs2364(nums []int) int64 {
-	// 2364 33ms
+	// 2364 27ms j - i != nums[j] - nums[i] => nums[i] - i != nums[j] - j
 	// 2 3 6 5 6 9 8  nums
 	// 0 1 2 3 4 5 6  i
 	// 2 2 4 2 2 4 2  num-i if change --> bad
 	// 0 1 0 2 3 1 4  cntM --> goodCnt == 11
-	pairCnt := (len(nums) * (len(nums) - 1)) / 2
 	cntM, goodCnt := map[int]int{}, 0
 	for i := 0; i < len(nums); i++ {
-		val := nums[i] - i
-		goodCnt += cntM[val] // next time
+		val := i - nums[i] // access slice element once
+		goodCnt += cntM[val] // +1 next time
 		cntM[val]++
 	}
-	return int64(pairCnt - goodCnt)
+	return int64((len(nums) * (len(nums) - 1)) / 2 - goodCnt)
 }
 
 func main() {
