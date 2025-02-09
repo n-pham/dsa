@@ -749,9 +749,33 @@ func countBadPairs2364(nums []int) int64 {
 	return int64((len(nums) * (len(nums) - 1)) / 2 - goodCnt)
 }
 
+func compress443(chars []byte) int {
+	// 443
+	// aabccccccccccd
+	// a2bc10d
+	newLen, cnt := 0, 1
+	for i, c := range chars {
+		if i == len(chars)-1 || chars[i+1] != c {
+			chars[newLen], newLen = c, newLen+1
+			if cnt > 1 {
+				cntStr := strconv.Itoa(cnt)
+				for _, ch := range cntStr {
+					chars[newLen], newLen = byte(ch), newLen+1
+				}
+			}
+			cnt = 1
+		} else {
+			cnt++
+		}
+	}
+	fmt.Println(string(chars[:newLen]))
+	return newLen
+}
+
 func main() {
-	fmt.Println(countBadPairs2364([]int{4, 1, 3, 3}))
-	fmt.Println(countBadPairs2364([]int{2, 3, 6, 5, 6, 9, 8}))
+	fmt.Println(compress443([]byte("aabccccccccccd")))
+	// fmt.Println(countBadPairs2364([]int{4, 1, 3, 3}))
+	// fmt.Println(countBadPairs2364([]int{2, 3, 6, 5, 6, 9, 8}))
 	// fmt.Println(partitionArray2294([]int{16,8,17,0,3,17,8,20}, 10)) // 0,3,8 16,17,20
 	// fmt.Println(partitionArray2294([]int{3,6,1,2,5,4}, 2))
 	// fmt.Println(partitionArray2294([]int{5,16,3,20,9,20,16,19,6}, 4))
