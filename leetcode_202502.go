@@ -475,9 +475,9 @@ func getHappyString1415_226ms(n int, k int) string {
 			if i == prev {
 				continue
 			}
-			first := string('a'+i)
+			first := string('a' + i)
 			for _, rest := range rec(n-1, i) {
-				rs = append(rs, first + rest)
+				rs = append(rs, first+rest)
 			}
 		}
 		return rs
@@ -563,7 +563,7 @@ func findDifferentBinaryString1980(nums []string) string {
 	slices.Sort(nums)
 	for i := 1; i < len(nums); i++ {
 		num, _ := strconv.Atoi(nums[i])
-		prev := strconv.Itoa(num-1)
+		prev := strconv.Itoa(num - 1)
 		if prev != nums[i-1] {
 			return prev
 		}
@@ -584,7 +584,7 @@ func restoreArray1743(adjacentPairs [][]int) []int {
 		} else if numMap[pair[1]] == 0 {
 			numMap[pair[1]] = pair[0]
 		}
-		
+
 	}
 	fmt.Println(numMap)
 	return []int{99}
@@ -592,6 +592,7 @@ func restoreArray1743(adjacentPairs [][]int) []int {
 
 func partitionArray2294(nums []int, k int) int {
 	// 2294
+	panic("not implemented")
 }
 
 func partitionArray2294_fail(nums []int, k int) int {
@@ -687,10 +688,66 @@ func (this *NumberContainers) Find(number int) int {
 	return -1
 }
 
+func countBadPairs2364_time(nums []int) (cnt int64) {
+	// 2364
+	for i := 0; i < len(nums)-1; i++ {
+		for j := i + 1; j < len(nums); j++ {
+			if j-i != nums[j]-nums[i] {
+				cnt++
+			}
+		}
+	}
+	return cnt
+}
+
+func countBadPairs2364_solution(nums []int) (cnt int64) {
+	// 2364
+	diffMap := make(map[int]int)
+	for i, num := range nums {
+		diff := num - i
+		if count, exists := diffMap[diff]; exists {
+			cnt += int64(i - count)
+		} else {
+			cnt += int64(i)
+		}
+		diffMap[diff]++
+	}
+	return cnt
+}
+
+func countBadPairs2364_44ms(nums []int) (cnt int64) {
+	// 2364
+	// 2 3 6 5 6 9 8  nums
+	// 0 1 2 3 4 5 6  i
+	// 2 2 4 2 2 4 2  num-i if change --> count before (==i) + after (how?)
+	// 0 0 2 1 1 4 2  expected
+	// 0 1 2 3 4 5 6  i
+	// 0 1 0 2 3 1 4  prevCnt[num-i]
+	// 0 0 2 1 1 4 2  expected = i - prevCnt[num-i] WHOEVER thought of this?
+	prevCnt := make(map[int]int)
+	for i, num := range nums {
+		count := 0
+		count, _ = prevCnt[num-i]
+		cnt += int64(i - count)
+		prevCnt[num-i]++
+	}
+	return cnt
+}
+
+func countBadPairs2364(nums []int) (cnt int64) {
+	// 2364
+	// 2 3 6 5 6 9 8  nums
+	// 0 1 2 3 4 5 6  i
+	panic("not implemented")
+	return 0
+}
+
 func main() {
-	fmt.Println(partitionArray2294([]int{16,8,17,0,3,17,8,20}, 10)) // 0,3,8 16,17,20 
-	fmt.Println(partitionArray2294([]int{3,6,1,2,5,4}, 2))
-	fmt.Println(partitionArray2294([]int{5,16,3,20,9,20,16,19,6}, 4))
+	fmt.Println(countBadPairs2364([]int{4, 1, 3, 3}))
+	fmt.Println(countBadPairs2364([]int{1, 2, 9, 4, 5}))
+	// fmt.Println(partitionArray2294([]int{16,8,17,0,3,17,8,20}, 10)) // 0,3,8 16,17,20
+	// fmt.Println(partitionArray2294([]int{3,6,1,2,5,4}, 2))
+	// fmt.Println(partitionArray2294([]int{5,16,3,20,9,20,16,19,6}, 4))
 	// nc := Constructor()
 	// fmt.Println(nc.Find(10)) // There is no index that is filled with number 10. Therefore, we return -1.
 	// fmt.Println(nc.Change(2, 10)) // Your container at index 2 will be filled with number 10.
@@ -698,7 +755,7 @@ func main() {
 	// fmt.Println(nc.Change(3, 10)) // Your container at index 3 will be filled with number 10.
 	// fmt.Println(nc.Change(5, 10)) // Your container at index 5 will be filled with number 10.
 	// fmt.Println(nc.Find(10)) // Number 10 is at the indices 1, 2, 3, and 5. Since the smallest index that is filled with 10 is 1, we return 1.
-	// fmt.Println(nc.Change(1, 20)) // Your container at index 1 will be filled with number 20. Note that index 1 was filled with 10 and then replaced with 20. 
+	// fmt.Println(nc.Change(1, 20)) // Your container at index 1 will be filled with number 20. Note that index 1 was filled with 10 and then replaced with 20.
 	// fmt.Println(nc.Find(10)) // Number 10 is at the indices 2, 3, and 5. The smallest index that is filled with 10 is 2. Therefore, we return 2.
 	// fmt.Println(restoreArray1743([][]int{{2,1},{3,4},{3,2}}))
 	// fmt.Println(findDifferentBinaryString1980([]string{"111","011","001"}))
