@@ -734,17 +734,25 @@ func countBadPairs2364_44ms(nums []int) (cnt int64) {
 	return cnt
 }
 
-func countBadPairs2364(nums []int) (cnt int64) {
-	// 2364
+func countBadPairs2364(nums []int) int64 {
+	// 2364 33ms
 	// 2 3 6 5 6 9 8  nums
 	// 0 1 2 3 4 5 6  i
-	panic("not implemented")
-	return 0
+	// 2 2 4 2 2 4 2  num-i if change --> bad
+	// 0 1 0 2 3 1 4  cntM --> goodCnt == 11
+	pairCnt := (len(nums) * (len(nums) - 1)) / 2
+	cntM, goodCnt := map[int]int{}, 0
+	for i := 0; i < len(nums); i++ {
+		val := nums[i] - i
+		goodCnt += cntM[val] // next time
+		cntM[val]++
+	}
+	return int64(pairCnt - goodCnt)
 }
 
 func main() {
 	fmt.Println(countBadPairs2364([]int{4, 1, 3, 3}))
-	fmt.Println(countBadPairs2364([]int{1, 2, 9, 4, 5}))
+	fmt.Println(countBadPairs2364([]int{2, 3, 6, 5, 6, 9, 8}))
 	// fmt.Println(partitionArray2294([]int{16,8,17,0,3,17,8,20}, 10)) // 0,3,8 16,17,20
 	// fmt.Println(partitionArray2294([]int{3,6,1,2,5,4}, 2))
 	// fmt.Println(partitionArray2294([]int{5,16,3,20,9,20,16,19,6}, 4))
