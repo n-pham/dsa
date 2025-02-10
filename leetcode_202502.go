@@ -414,10 +414,10 @@ func numOfPairs2023(nums []string, target string) (cnt int) {
 	// 2023
 	for i, s1 := range nums {
 		for j, s2 := range nums {
-			if i == j || len(s1)+len(s2) != len(target) {
-				continue
-			}
-			if s1 == target[:len(s1)] && s2 == target[len(s1):] {
+			if i != j &&
+			len(s1)+len(s2) == len(target) &&
+			s1 == target[:len(s1)] &&
+			s2 == target[len(s1):] {
 				cnt++
 			}
 		}
@@ -742,11 +742,11 @@ func countBadPairs2364(nums []int) int64 {
 	// 0 1 0 2 3 1 4  cntM --> goodCnt == 11
 	cntM, goodCnt := map[int]int{}, 0
 	for i := 0; i < len(nums); i++ {
-		val := i - nums[i] // access slice element once
+		val := i - nums[i]   // access slice element once
 		goodCnt += cntM[val] // +1 next time
 		cntM[val]++
 	}
-	return int64((len(nums) * (len(nums) - 1)) / 2 - goodCnt)
+	return int64((len(nums)*(len(nums)-1))/2 - goodCnt)
 }
 
 func compress443(chars []byte) int {
@@ -808,8 +808,8 @@ func canVisitAllRooms841(rooms [][]int) bool {
 }
 
 func main() {
-	fmt.Println(canVisitAllRooms841([][]int{{1},{2},{3},{}}))
-	fmt.Println(canVisitAllRooms841([][]int{{1,3},{3,0,1},{2},{0}}))
+	// fmt.Println(canVisitAllRooms841([][]int{{1}, {2}, {3}, {}}))
+	// fmt.Println(canVisitAllRooms841([][]int{{1, 3}, {3, 0, 1}, {2}, {0}}))
 	// fmt.Println(compress443([]byte("aabccccccccccd")))
 	// fmt.Println(countBadPairs2364([]int{4, 1, 3, 3}))
 	// fmt.Println(countBadPairs2364([]int{2, 3, 6, 5, 6, 9, 8}))
@@ -830,8 +830,8 @@ func main() {
 	// fmt.Println(queryResults3160(4, [][]int{{1,4},{2,5},{1,3},{3,4}}))
 	// fmt.Println(getHappyString1415(3, 9))
 	// fmt.Println(tupleSameProduct1726([]int{2, 3, 4, 6}))
-	// fmt.Println(numOfPairs2023([]string{"123","4","12","34"}, "1234"))
-	// fmt.Println(numOfPairs2023([]string{"777","7","77","77"}, "7777"))
+	fmt.Println(numOfPairs2023([]string{"123","4","12","34"}, "1234"))
+	fmt.Println(numOfPairs2023([]string{"777","7","77","77"}, "7777"))
 	// fmt.Println(areAlmostEqual1790("bank", "kanb"))
 	// fmt.Println(areAlmostEqual1790("aa", "ac"))
 	// fmt.Println(areAlmostEqual1790("baaa", "abbb"))
