@@ -786,7 +786,30 @@ func clearDigits3174(s string) string {
 	return string(rs[:newLen])
 }
 
+func canVisitAllRooms841(rooms [][]int) bool {
+	// 841
+	visited := make(map[int]byte)
+	q := []int{}
+	for _, k := range rooms[0] {
+		q = append(q, k)
+	}
+	visited[0] = 1
+	var curNum int
+	for len(q) > 0 {
+		curNum, q = q[0], q[1:]
+		visited[curNum] = 1
+		for _, k := range rooms[curNum] {
+			if visited[k] == 0 {
+				q = append(q, k)
+			}
+		}
+	}
+	return len(visited) == len(rooms)
+}
+
 func main() {
+	fmt.Println(canVisitAllRooms841([][]int{{1},{2},{3},{}}))
+	fmt.Println(canVisitAllRooms841([][]int{{1,3},{3,0,1},{2},{0}}))
 	// fmt.Println(compress443([]byte("aabccccccccccd")))
 	// fmt.Println(countBadPairs2364([]int{4, 1, 3, 3}))
 	// fmt.Println(countBadPairs2364([]int{2, 3, 6, 5, 6, 9, 8}))
