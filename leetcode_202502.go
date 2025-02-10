@@ -772,8 +772,22 @@ func compress443(chars []byte) int {
 	return newLen
 }
 
+func clearDigits3174(s string) string {
+	// 3174
+	// acb34d --> ac4 --> ad
+	rs, newLen := make([]rune, len(s)), 0
+	for _, c := range s {
+		if c < '0' || c > '9' {
+			rs[newLen], newLen = c, newLen+1
+		} else {
+			newLen--
+		}
+	}
+	return string(rs[:newLen])
+}
+
 func main() {
-	fmt.Println(compress443([]byte("aabccccccccccd")))
+	// fmt.Println(compress443([]byte("aabccccccccccd")))
 	// fmt.Println(countBadPairs2364([]int{4, 1, 3, 3}))
 	// fmt.Println(countBadPairs2364([]int{2, 3, 6, 5, 6, 9, 8}))
 	// fmt.Println(partitionArray2294([]int{16,8,17,0,3,17,8,20}, 10)) // 0,3,8 16,17,20
