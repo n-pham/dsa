@@ -857,9 +857,50 @@ func maximumSum2342(nums []int) int {
 	return rs
 }
 
+func reconstructQueue406(people [][]int) [][]int {
+	// 406
+	//      0   1   2   3   4   5
+	// 7,0  
+	// 4,4                  
+	// 7,1
+	// 5,0
+	// 6,1
+	// 5,2
+	panic("not implemented")
+}
+
+func maxIceCream1833(costs []int, coins int) int {
+	// 1833
+	// count := make([]int, 100000+1) // slower
+	maxCost := 0
+	for _, cost := range costs {
+		if cost > maxCost {
+			maxCost = cost
+		}
+	}
+	count := make([]int, maxCost+1) // make([]int, 100000+1) is slower
+	for _, cost := range costs {
+		count[cost]++
+	}
+	totalIceCreams := 0
+	for cost := 1; cost < len(count); cost++ {
+        iceCreamCnt := count[cost]
+        if canBuyCnt := coins/cost; canBuyCnt < iceCreamCnt {
+            iceCreamCnt = canBuyCnt
+        }
+        totalIceCreams += iceCreamCnt
+        coins -= iceCreamCnt * cost
+        if coins == 0 {
+            return totalIceCreams
+        }
+	}
+	return totalIceCreams
+}
+
 func main() {
-	fmt.Println(maximumSum2342([]int{18,43,36,13,7,16}))
-	fmt.Println(maximumSum2342([]int{10,12,19,14}))
+	fmt.Println(maxIceCream1833([]int{1,3,2,4,1}, 7))
+	// fmt.Println(maximumSum2342([]int{18,43,36,13,7,16}))
+	// fmt.Println(maximumSum2342([]int{10,12,19,14}))
 	// fmt.Println(canVisitAllRooms841([][]int{{1}, {2}, {3}, {}}))
 	// fmt.Println(canVisitAllRooms841([][]int{{1, 3}, {3, 0, 1}, {2}, {0}}))
 	// fmt.Println(compress443([]byte("aabccccccccccd")))
