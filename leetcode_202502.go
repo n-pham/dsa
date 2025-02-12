@@ -807,7 +807,59 @@ func canVisitAllRooms841(rooms [][]int) bool {
 	return len(visited) == len(rooms)
 }
 
+func maximumSum2342_14ms(nums []int) int {
+	// 2342
+	// 18  9  18
+	// 43  7  43
+	// 36  9  36  18+36 = 54
+	// 13  4
+	//  7  7  43  43+ 7 = 50
+	// 16  7  43  43+16 = 59
+	rs, maxNumberBydigitSum := -1, make(map[int]int)
+	for _, num := range nums {
+		digitSum := 0
+		for num2 := num; num2 > 0; digitSum, num2 = digitSum + num2%10, num2/10 {}
+		if maxNum  := maxNumberBydigitSum[digitSum]; maxNum > 0 {
+			if numberSum := num+maxNum; numberSum > rs {
+				rs = numberSum
+			}
+		}
+		if num > maxNumberBydigitSum[digitSum] {
+			maxNumberBydigitSum[digitSum] = num
+		}
+	}
+	return rs
+}
+
+func maximumSum2342(nums []int) int {
+	// 2342
+	// 18  9  18
+	// 43  7  43
+	// 36  9  36  18+36 = 54
+	// 13  4
+	//  7  7  43  43+ 7 = 50
+	// 16  7  43  43+16 = 59
+	rs, maxNumberBydigitSum := -1, make([]int, 1+81) // 9..9 9 times
+	for _, num := range nums {
+		digitSum := 0
+		for num2 := num; num2 > 0; digitSum, num2 = digitSum + num2%10, num2/10 {}
+		if maxNum := maxNumberBydigitSum[digitSum]; maxNum > 0 {
+			if numberSum := num+maxNum; numberSum > rs {
+				rs = numberSum
+			}
+			if num > maxNum {
+				maxNumberBydigitSum[digitSum] = num
+			}
+		} else {
+			maxNumberBydigitSum[digitSum] = num
+		}
+	}
+	return rs
+}
+
 func main() {
+	fmt.Println(maximumSum2342([]int{18,43,36,13,7,16}))
+	fmt.Println(maximumSum2342([]int{10,12,19,14}))
 	// fmt.Println(canVisitAllRooms841([][]int{{1}, {2}, {3}, {}}))
 	// fmt.Println(canVisitAllRooms841([][]int{{1, 3}, {3, 0, 1}, {2}, {0}}))
 	// fmt.Println(compress443([]byte("aabccccccccccd")))
@@ -830,8 +882,8 @@ func main() {
 	// fmt.Println(queryResults3160(4, [][]int{{1,4},{2,5},{1,3},{3,4}}))
 	// fmt.Println(getHappyString1415(3, 9))
 	// fmt.Println(tupleSameProduct1726([]int{2, 3, 4, 6}))
-	fmt.Println(numOfPairs2023([]string{"123","4","12","34"}, "1234"))
-	fmt.Println(numOfPairs2023([]string{"777","7","77","77"}, "7777"))
+	// fmt.Println(numOfPairs2023([]string{"123","4","12","34"}, "1234"))
+	// fmt.Println(numOfPairs2023([]string{"777","7","77","77"}, "7777"))
 	// fmt.Println(areAlmostEqual1790("bank", "kanb"))
 	// fmt.Println(areAlmostEqual1790("aa", "ac"))
 	// fmt.Println(areAlmostEqual1790("baaa", "abbb"))
