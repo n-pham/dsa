@@ -1128,11 +1128,22 @@ func maxEqualRowsAfterFlips1072(matrix [][]int) int {
 
 func removeOccurrences1910(s string, part string) string {
 	// 1910
+	for i := strings.Index(s, part); i > -1; i = strings.Index(s, part) {
+		s = s[:i] + s[i+len(part):]
+	}
+	return s
+}
+
+func removeOccurrences1910_fail(s string, part string) string {
+	// 1910
 	// daabcbaabcbc
 	// da   baabc
 	// da   ba   bc
 	// da   b
-	panic("not implemented")
+	// hhvhvaahvahvhvaavhvaasshvahvaln hva
+	// hhvahvavassln
+	// hvassln
+	// ssln
 	cs, ps := []rune(s), []rune(part)
 	starts := []int{}
 	for i := 0; i <= len(cs) - len(ps); {
@@ -1283,14 +1294,14 @@ func subdomainVisits811(cpdomains []string) (rs []string) {
 
 
 func main() {
-	fmt.Println(subdomainVisits811([]string{"900 google.mail.com", "50 yahoo.com", "1 intel.mail.com", "5 wiki.org"}))
+	// fmt.Println(subdomainVisits811([]string{"900 google.mail.com", "50 yahoo.com", "1 intel.mail.com", "5 wiki.org"}))
 	// fmt.Println(gridGame2017([][]int{{2,5,4},{1,5,1}}))
 	// fmt.Println(removeStars2390("leet**cod*e"))
 	// fmt.Println(removeStars2390("erase*****"))
 	// fmt.Println(partitionString2405("abacaba"))
-	// fmt.Println(removeOccurrences1910("hhvhvaahvahvhvaavhvaasshvahvaln", "hva"))
-	// fmt.Println(removeOccurrences1910("gjzgbpggjzgbpgsvpwdk", "gjzgbpg"))
-	// fmt.Println(removeOccurrences1910("daabcbaabcbc", "abc"))
+	fmt.Println(removeOccurrences1910("hhvhvaahvahvhvaavhvaasshvahvaln", "hva")) // ssln
+	fmt.Println(removeOccurrences1910("gjzgbpggjzgbpgsvpwdk", "gjzgbpg")) // svpwdk
+	fmt.Println(removeOccurrences1910("daabcbaabcbc", "abc")) // dab
 	// fmt.Println(maxEqualRowsAfterFlips1072([][]int{{0,0,0},{0,0,1},{1,1,0}}))
 	// fmt.Println(firstCompleteIndex2661([]int{2,8,7,4,1,3,5,6,9}, [][]int{{3,2,5},{1,4,6},{8,7,9}})) // 3
 	// fmt.Println(firstCompleteIndex2661([]int{6,2,3,1,4,5}, [][]int{{5,1},{2,4},{6,3}})) // ?
