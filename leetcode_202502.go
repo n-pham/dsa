@@ -897,8 +897,65 @@ func maxIceCream1833(costs []int, coins int) int {
 	return totalIceCreams
 }
 
+func frequencySort451(s string) string {
+	// 451
+	// Aabb --> bbAa
+	panic("not implemented")
+}
+
+func minOperations3066_solution(nums []int, k int) int {
+	if len(nums) < 2 {
+		return 0
+	}
+	count := 0
+    h := MinHeap(nums)
+    h.buildHeap()
+	for h.length()>=2{
+        f := h.pop()
+        if f >= k {
+            return count
+        }
+        s := h.pop()
+		val := min(f, s)*2 + max(f, s)
+		h.insert(val)
+        count++
+	}
+    if h.peek() >= k {
+        return count
+    }
+	return count + 1
+}
+
+func minOperations3066(nums []int, k int) int {
+	// 3066
+	h := &MinHeap{}
+	heap.Init(h)
+	for _, num := range nums {
+		heap.Push(h, num)
+	}
+	operations := 0
+	for h.Len() > 0 {
+		fmt.Println(h)
+		smallest := heap.Pop(h).(int)
+		if smallest >= k {
+			return operations
+		}
+		if h.Len() == 0 {
+			return -1
+		}
+		secondSmallest := heap.Pop(h).(int)
+		newNum := 2*smallest + secondSmallest
+		heap.Push(h, newNum)
+		operations++
+	}
+	return operations
+}
+
 func main() {
-	fmt.Println(maxIceCream1833([]int{1,3,2,4,1}, 7))
+	// fmt.Println(minOperations3066([]int{2,11,10,1,3}, 10)) // 2
+	fmt.Println(minOperations3066([]int{97,73,5,78}, 98)) // 3
+	// fmt.Println(frequencySort451("Aabb")) // bbAa
+	// fmt.Println(maxIceCream1833([]int{1,3,2,4,1}, 7))
 	// fmt.Println(maximumSum2342([]int{18,43,36,13,7,16}))
 	// fmt.Println(maximumSum2342([]int{10,12,19,14}))
 	// fmt.Println(canVisitAllRooms841([][]int{{1}, {2}, {3}, {}}))
