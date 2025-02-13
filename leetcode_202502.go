@@ -415,9 +415,9 @@ func numOfPairs2023(nums []string, target string) (cnt int) {
 	for i, s1 := range nums {
 		for j, s2 := range nums {
 			if i != j &&
-			len(s1)+len(s2) == len(target) &&
-			s1 == target[:len(s1)] &&
-			s2 == target[len(s1):] {
+				len(s1)+len(s2) == len(target) &&
+				s1 == target[:len(s1)] &&
+				s2 == target[len(s1):] {
 				cnt++
 			}
 		}
@@ -818,9 +818,10 @@ func maximumSum2342_14ms(nums []int) int {
 	rs, maxNumberBydigitSum := -1, make(map[int]int)
 	for _, num := range nums {
 		digitSum := 0
-		for num2 := num; num2 > 0; digitSum, num2 = digitSum + num2%10, num2/10 {}
-		if maxNum  := maxNumberBydigitSum[digitSum]; maxNum > 0 {
-			if numberSum := num+maxNum; numberSum > rs {
+		for num2 := num; num2 > 0; digitSum, num2 = digitSum+num2%10, num2/10 {
+		}
+		if maxNum := maxNumberBydigitSum[digitSum]; maxNum > 0 {
+			if numberSum := num + maxNum; numberSum > rs {
 				rs = numberSum
 			}
 		}
@@ -842,9 +843,10 @@ func maximumSum2342(nums []int) int {
 	rs, maxNumberBydigitSum := -1, make([]int, 1+81) // 9..9 9 times
 	for _, num := range nums {
 		digitSum := 0
-		for num2 := num; num2 > 0; digitSum, num2 = digitSum + num2%10, num2/10 {}
+		for num2 := num; num2 > 0; digitSum, num2 = digitSum+num2%10, num2/10 {
+		}
 		if maxNum := maxNumberBydigitSum[digitSum]; maxNum > 0 {
-			if numberSum := num+maxNum; numberSum > rs {
+			if numberSum := num + maxNum; numberSum > rs {
 				rs = numberSum
 			}
 			if num > maxNum {
@@ -860,8 +862,8 @@ func maximumSum2342(nums []int) int {
 func reconstructQueue406(people [][]int) [][]int {
 	// 406
 	//      0   1   2   3   4   5
-	// 7,0  
-	// 4,4                  
+	// 7,0
+	// 4,4
 	// 7,1
 	// 5,0
 	// 6,1
@@ -884,15 +886,15 @@ func maxIceCream1833(costs []int, coins int) int {
 	}
 	totalIceCreams := 0
 	for cost := 1; cost < len(count); cost++ {
-        iceCreamCnt := count[cost]
-        if canBuyCnt := coins/cost; canBuyCnt < iceCreamCnt {
-            iceCreamCnt = canBuyCnt
-        }
-        totalIceCreams += iceCreamCnt
-        coins -= iceCreamCnt * cost
-        if coins == 0 {
-            return totalIceCreams
-        }
+		iceCreamCnt := count[cost]
+		if canBuyCnt := coins / cost; canBuyCnt < iceCreamCnt {
+			iceCreamCnt = canBuyCnt
+		}
+		totalIceCreams += iceCreamCnt
+		coins -= iceCreamCnt * cost
+		if coins == 0 {
+			return totalIceCreams
+		}
 	}
 	return totalIceCreams
 }
@@ -900,30 +902,71 @@ func maxIceCream1833(costs []int, coins int) int {
 func frequencySort451(s string) string {
 	// 451
 	// Aabb --> bbAa
+	count := [74 + 1]int{} // '0' to 'z'
+	for _, c := range s {
+		count[c-'0']++
+	}
+	type pair struct {
+		char  rune
+		count int
+	}
+	pairs := make([]pair, 0, len(count))
+	for c, cnt := range count {
+		if cnt > 0 {
+			p := pair{rune(c + '0'), cnt}
+			idx, _ := slices.BinarySearchFunc(pairs, p, func(a, b pair) int {
+				if a.count == b.count {
+					if a.char < b.char {
+						return -1
+					} else if a.char > b.char {
+						return 1
+					}
+					return 0
+				}
+				if a.count > b.count {
+					return -1
+				}
+				return 1
+			})
+			pairs = slices.Insert(pairs, idx, p)
+		}
+	}
+	rs := make([]rune, 0, len(s))
+	for _, p := range pairs {
+		for i := 0; i < p.count; i++ {
+			rs = append(rs, p.char)
+		}
+	}
+	return string(rs)
+}
+
+func isValidSudoku36(board [][]byte) bool {
+	// 36
 	panic("not implemented")
 }
 
 func minOperations3066_solution(nums []int, k int) int {
-	if len(nums) < 2 {
-		return 0
-	}
-	count := 0
-    h := MinHeap(nums)
-    h.buildHeap()
-	for h.length()>=2{
-        f := h.pop()
-        if f >= k {
-            return count
-        }
-        s := h.pop()
-		val := min(f, s)*2 + max(f, s)
-		h.insert(val)
-        count++
-	}
-    if h.peek() >= k {
-        return count
-    }
-	return count + 1
+	panic("not implemented")
+	// if len(nums) < 2 {
+	// 	return 0
+	// }
+	// count := 0
+	// h := MinHeap(nums)
+	// h.buildHeap()
+	// for h.length()>=2{
+	//     f := h.pop()
+	//     if f >= k {
+	//         return count
+	//     }
+	//     s := h.pop()
+	// 	val := min(f, s)*2 + max(f, s)
+	// 	h.insert(val)
+	//     count++
+	// }
+	// if h.peek() >= k {
+	//     return count
+	// }
+	// return count + 1
 }
 
 func minOperations3066(nums []int, k int) int {
@@ -952,9 +995,11 @@ func minOperations3066(nums []int, k int) int {
 }
 
 func main() {
+	fmt.Println('0'-'A', '9'-'A', 'z'-'0', 'a'-'A', 'Z'-'A')
 	// fmt.Println(minOperations3066([]int{2,11,10,1,3}, 10)) // 2
-	fmt.Println(minOperations3066([]int{97,73,5,78}, 98)) // 3
-	// fmt.Println(frequencySort451("Aabb")) // bbAa
+	// fmt.Println(minOperations3066([]int{97,73,5,78}, 98)) // 3
+	// fmt.Println(frequencySort451("Aabb"))                        // bbAa
+	// fmt.Println(frequencySort451("2a554442f544asfasssffffasss")) //
 	// fmt.Println(maxIceCream1833([]int{1,3,2,4,1}, 7))
 	// fmt.Println(maximumSum2342([]int{18,43,36,13,7,16}))
 	// fmt.Println(maximumSum2342([]int{10,12,19,14}))
