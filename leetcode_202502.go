@@ -941,8 +941,60 @@ func frequencySort451(s string) string {
 }
 
 func isValidSudoku36(board [][]byte) bool {
-	// 36
-	panic("not implemented")
+	// 36 still in progress
+	var existedRow [9]int
+	for _, row := range board {
+		existedRow = [9]int{}
+		for _, c := range row {
+			if c != '.' {
+				existedRow[c-'1']++
+				if existedRow[c-'1'] > 1 {
+					return false
+				}
+			}
+		}
+	}
+	return true
+}
+
+func productExceptSelf238_3ms(nums []int) []int {
+	// 238
+	// 1  2*3*4     1  2*3*4
+	// 2  1*3*4     1    3*4
+	// 3  1*2*4     1*2    4
+	// 4  1*2*3     1*2*3  1
+	leftPrefixProduct, rightPrefixProduct := make([]int, len(nums)), make([]int, len(nums))
+	leftPrefixProduct[0], rightPrefixProduct[len(nums)-1] = 1, 1
+	leftPrefixProduct[1], rightPrefixProduct[len(nums)-2] = nums[0], nums[len(nums)-1]
+	for i := 2; i < len(nums); i++ {
+		leftPrefixProduct[i] = nums[i-1] * leftPrefixProduct[i-1]
+	}
+	for i := len(nums)-3; i >= 0; i-- {
+		rightPrefixProduct[i] = nums[i+1] * rightPrefixProduct[i+1]
+	}
+	for i := 0; i < len(nums); i++ { // in-place re-use leftPrefixProduct
+		leftPrefixProduct[i] *= rightPrefixProduct[i]
+	}
+	return leftPrefixProduct
+}
+
+func productExceptSelf238(nums []int) []int {
+	// 238
+	// 1  2*3*4     1  2*3*4
+	// 2  1*3*4     1    3*4
+	// 3  1*2*4     1*2    4
+	// 4  1*2*3     1*2*3  1
+	leftPrefixProduct := make([]int, len(nums))
+	leftPrefixProduct[0] = 1
+	for i := 1; i < len(nums); i++ {
+		leftPrefixProduct[i] = nums[i-1] * leftPrefixProduct[i-1]
+	}
+	rightProduct := 1
+	for i := len(nums)-1; i >= 0; i-- {
+		leftPrefixProduct[i] *= rightProduct
+		rightProduct *= nums[i]
+	}
+	return leftPrefixProduct
 }
 
 func minOperations3066_solution(nums []int, k int) int {
@@ -995,7 +1047,18 @@ func minOperations3066(nums []int, k int) int {
 }
 
 func main() {
-	fmt.Println('0'-'A', '9'-'A', 'z'-'0', 'a'-'A', 'Z'-'A')
+	// fmt.Println('0'-'A', '9'-'A', 'z'-'0', 'a'-'A', 'Z'-'A')
+	fmt.Println(productExceptSelf238([]int{1, 2, 3, 4}))
+	// fmt.Println(isValidSudoku36([][]byte{
+	// 	{'8', '3', '.', '.', '7', '.', '.', '.', '.'},
+	// 	{'6', '.', '.', '1', '9', '5', '.', '.', '.'},
+	// 	{'.', '9', '8', '.', '.', '.', '.', '6', '.'},
+	// 	{'8', '.', '.', '.', '6', '.', '.', '.', '3'},
+	// 	{'4', '.', '.', '8', '.', '3', '.', '.', '1'},
+	// 	{'7', '.', '.', '.', '2', '.', '.', '.', '6'},
+	// 	{'.', '6', '.', '.', '.', '.', '2', '8', '.'},
+	// 	{'.', '.', '.', '4', '1', '9', '.', '.', '5'},
+	// 	{'.', '.', '.', '.', '8', '.', '.', '7', '9'}}))
 	// fmt.Println(minOperations3066([]int{2,11,10,1,3}, 10)) // 2
 	// fmt.Println(minOperations3066([]int{97,73,5,78}, 98)) // 3
 	// fmt.Println(frequencySort451("Aabb"))                        // bbAa
