@@ -1097,22 +1097,52 @@ func punishmentNumber2698(n int) int {
 	return rs
 }
 
-func main() {
-	fmt.Println(punishmentNumber2698(37))
-	var isValidPartition_6ms func(string, int) bool
-	isValidPartition_6ms = func(s string, target int) bool {
-		if len(s) == 0 {
-			return target == 0
+func longestConsecutive128_time(nums []int) int {
+	// 128
+	// 100  100:1
+	// 4    100:1, 4:1
+	// 200  100:1, 4:1, 200:1
+	// 1    100:1, 4:1, 200:1, 1:1
+	// 3    100:1, 4:1, 200:1, 1:1, 3:1
+	// 2    for m[i-left] > 0; left++ {} for m[i+right] > 0; right++ {}
+	maxLen, m := 0, make(map[int]byte)
+	for _, num := range nums {
+		m[num] = 1
+		left, right := 0, 0
+		for ; m[num-left-1] > 0; left++ {
 		}
-		for i := 1; i <= len(s); i++ {
-			num, _ := strconv.Atoi(s[:i])
-			if target >= num && isValidPartition_6ms(s[i:], target-num) {
-				return true
-			}
+		for ; m[num+right+1] > 0; right++ {
 		}
-		return false
+		if right + left + 1 > maxLen {
+			maxLen = right + left + 1
+		}
 	}
-	fmt.Println(isValidPartition_6ms("1296", 36))
+	return maxLen
+}
+
+func longestConsecutive128_time(nums []int) int {
+	// 128
+	panic("not implemented")
+}
+
+func main() {
+	fmt.Println(longestConsecutive128([]int{100, 4, 200, 1, 3, 2}))
+	fmt.Println(longestConsecutive128([]int{0, 3, 7, 2, 5, 8, 4, 6, 0, 1}))
+	// fmt.Println(punishmentNumber2698(37))
+	// var isValidPartition_6ms func(string, int) bool
+	// isValidPartition_6ms = func(s string, target int) bool {
+	// 	if len(s) == 0 {
+	// 		return target == 0
+	// 	}
+	// 	for i := 1; i <= len(s); i++ {
+	// 		num, _ := strconv.Atoi(s[:i])
+	// 		if target >= num && isValidPartition_6ms(s[i:], target-num) {
+	// 			return true
+	// 		}
+	// 	}
+	// 	return false
+	// }
+	// fmt.Println(isValidPartition_6ms("1296", 36))
 	// ProductOfNumbers productOfNumbers = new ProductOfNumbers()
 	// productOfNumbers.add(3)        // [3]
 	// productOfNumbers.add(0)        // [3,0]
