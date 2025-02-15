@@ -969,7 +969,7 @@ func productExceptSelf238_3ms(nums []int) []int {
 	for i := 2; i < len(nums); i++ {
 		leftPrefixProduct[i] = nums[i-1] * leftPrefixProduct[i-1]
 	}
-	for i := len(nums)-3; i >= 0; i-- {
+	for i := len(nums) - 3; i >= 0; i-- {
 		rightPrefixProduct[i] = nums[i+1] * rightPrefixProduct[i+1]
 	}
 	for i := 0; i < len(nums); i++ { // in-place re-use leftPrefixProduct
@@ -990,7 +990,7 @@ func productExceptSelf238(nums []int) []int {
 		leftPrefixProduct[i] = nums[i-1] * leftPrefixProduct[i-1]
 	}
 	rightProduct := 1
-	for i := len(nums)-1; i >= 0; i-- {
+	for i := len(nums) - 1; i >= 0; i-- {
 		leftPrefixProduct[i] *= rightProduct
 		rightProduct *= nums[i]
 	}
@@ -1050,11 +1050,9 @@ type ProductOfNumbers struct {
 	products []int
 }
 
-
-func Constructor() ProductOfNumbers {
-	return ProductOfNumbers{products: []int{1}}
-}
-
+// func Constructor() ProductOfNumbers {
+// 	return ProductOfNumbers{products: []int{1}}
+// }
 
 func (this *ProductOfNumbers) Add(num int) {
 	if num == 0 {
@@ -1064,7 +1062,6 @@ func (this *ProductOfNumbers) Add(num int) {
 	}
 }
 
-
 func (this *ProductOfNumbers) GetProduct(k int) int {
 	n := len(this.products)
 	if k >= n {
@@ -1073,19 +1070,60 @@ func (this *ProductOfNumbers) GetProduct(k int) int {
 	return this.products[n-1] / this.products[n-1-k]
 }
 
+func punishmentNumber2698(n int) int {
+	// 2698
+	// 36** 1296
+	// 36,1-296          36,12-96   36,129-6
+	// 35,2-96 35,29-6   24,9-6     false
+	// false   true      false
+	var isValidPartition func(int, int) bool
+	isValidPartition = func(num int, target int) bool {
+		if target < 0 || num < target {
+			return false
+		}
+		if num == target {
+			return true
+		}
+		return isValidPartition(num/10, target-(num%10)) ||
+			isValidPartition(num/100, target-(num%100)) ||
+			isValidPartition(num/1000, target-(num%1000))
+	}
+	rs := 0
+	for i := 1; i <= n; i++ {
+		if i%9 < 2 && isValidPartition(i*i, i) {
+			rs += i * i
+		}
+	}
+	return rs
+}
 
 func main() {
-	ProductOfNumbers productOfNumbers = new ProductOfNumbers()
-	productOfNumbers.add(3)        // [3]
-	productOfNumbers.add(0)        // [3,0]
-	productOfNumbers.add(2)        // [3,0,2]
-	productOfNumbers.add(5)        // [3,0,2,5]
-	productOfNumbers.add(4)        // [3,0,2,5,4]
-	productOfNumbers.getProduct(2) // return 20. The product of the last 2 numbers is 5 * 4 = 20
-	productOfNumbers.getProduct(3) // return 40. The product of the last 3 numbers is 2 * 5 * 4 = 40
-	productOfNumbers.getProduct(4) // return 0. The product of the last 4 numbers is 0 * 2 * 5 * 4 = 0
-	productOfNumbers.add(8)        // [3,0,2,5,4,8]
-	productOfNumbers.getProduct(2) // return 32. The product of the last 2 numbers is 4 * 8 = 32 
+	fmt.Println(punishmentNumber2698(37))
+	var isValidPartition_6ms func(string, int) bool
+	isValidPartition_6ms = func(s string, target int) bool {
+		if len(s) == 0 {
+			return target == 0
+		}
+		for i := 1; i <= len(s); i++ {
+			num, _ := strconv.Atoi(s[:i])
+			if target >= num && isValidPartition_6ms(s[i:], target-num) {
+				return true
+			}
+		}
+		return false
+	}
+	fmt.Println(isValidPartition_6ms("1296", 36))
+	// ProductOfNumbers productOfNumbers = new ProductOfNumbers()
+	// productOfNumbers.add(3)        // [3]
+	// productOfNumbers.add(0)        // [3,0]
+	// productOfNumbers.add(2)        // [3,0,2]
+	// productOfNumbers.add(5)        // [3,0,2,5]
+	// productOfNumbers.add(4)        // [3,0,2,5,4]
+	// productOfNumbers.getProduct(2) // return 20. The product of the last 2 numbers is 5 * 4 = 20
+	// productOfNumbers.getProduct(3) // return 40. The product of the last 3 numbers is 2 * 5 * 4 = 40
+	// productOfNumbers.getProduct(4) // return 0. The product of the last 4 numbers is 0 * 2 * 5 * 4 = 0
+	// productOfNumbers.add(8)        // [3,0,2,5,4,8]
+	// productOfNumbers.getProduct(2) // return 32. The product of the last 2 numbers is 4 * 8 = 32
 	// fmt.Println('0'-'A', '9'-'A', 'z'-'0', 'a'-'A', 'Z'-'A')
 	// fmt.Println(productExceptSelf238([]int{1, 2, 3, 4}))
 	// fmt.Println(isValidSudoku36([][]byte{
