@@ -1120,9 +1120,32 @@ func longestConsecutive128_time(nums []int) int {
 	return maxLen
 }
 
-func longestConsecutive128_time(nums []int) int {
+func longestConsecutive128_time2(nums []int) int {
 	// 128
-	panic("not implemented")
+	// num in firsts, for m[num+right+1] exists; right++ {}
+	maxLen, m, firsts := 0, make(map[int]struct{}), make(map[int]struct{})
+	for _, num := range nums {
+		m[num] = struct{}{}
+		if _, found := firsts[num-1]; !found {
+			firsts[num] = struct{}{}
+		}
+		for right, found := 0, true; found; right++ {
+			if _, found = firsts[num+right+1]; found {
+				delete(firsts, num+right+1)
+			}
+		}
+	}
+	fmt.Println(firsts)
+	for num, _ := range firsts {
+		right := 0
+		for found := true; found; right++ {
+			_, found =  m[num+right+1]
+		}
+		if right > maxLen {
+			maxLen = right
+		}
+	}
+	return maxLen
 }
 
 func main() {
