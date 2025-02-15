@@ -1148,6 +1148,54 @@ func longestConsecutive128_time2(nums []int) int {
 	return maxLen
 }
 
+func longestConsecutive128_41ms(nums []int) int {
+	// 128
+	// first num = without predecessor, for m[num+right+1] exists; right++ {}
+	maxLen, m := 0, make(map[int]struct{})
+	for _, num := range nums {
+		m[num] = struct{}{}
+	}
+	for num, _ := range m {
+		if _, found := m[num-1]; found {
+			continue
+		}
+		right := 0
+		for found := true; found; right++ {
+			_, found =  m[num+right+1]
+		}
+		if right > maxLen {
+			maxLen = right
+		}
+	}
+	return maxLen
+}
+
+func longestConsecutive(nums []int) int {
+	// 128
+	// ignore O(n), just sort it :D
+    if len(nums) == 0 {
+        return 0
+    }
+	slices.Sort(nums)
+	prev, curLen, maxLen := nums[0], 1, 1
+	for i := 1; i < len(nums); i++ {
+		curr := nums[i]
+		if curr == prev + 1 {
+			curLen++
+		} else if curr != prev {
+			if curLen > maxLen {
+				maxLen = curLen
+			}
+			curLen = 1
+		}
+		prev = curr
+    }
+	if curLen > maxLen {
+		return curLen
+	}
+	return maxLen
+}
+
 func main() {
 	fmt.Println(longestConsecutive128([]int{100, 4, 200, 1, 3, 2}))
 	fmt.Println(longestConsecutive128([]int{0, 3, 7, 2, 5, 8, 4, 6, 0, 1}))
