@@ -3,7 +3,7 @@ package main
 import (
 	"container/heap"
 	"fmt"
-	// "math"
+	"math"
 	"slices"
 	"strconv"
 	// "strings"
@@ -1196,9 +1196,41 @@ func longestConsecutive(nums []int) int {
 	return maxLen
 }
 
+func findPeakElement162(nums []int) int {
+	// 162
+	minus2, minus1 := math.MinInt, nums[0]
+	for i := 1; i < len(nums); i++ {
+		current := nums[i]
+		if minus2 < minus1 && minus1 > current {
+			return i-1
+		}
+		minus2, minus1 = minus1, current
+	}
+	if minus2 < minus1 {
+		return len(nums)-1
+	}
+	return -1
+}
+
+func constructDistancedSequence1718(n int) []int {
+	// 1718
+	// . . . . .
+	// 3 . . 3
+	// 2 . 2
+	// . . . . . . . . .
+	// 5 . . . . 5 . . .
+	// 5 3 . . 3 5 . . .
+	// 5 3 4 . 3 5 4 . . cannot put 2
+	// 5 3 1 4 3 5 2 4 2
+	panic("not implemented")
+}
+
 func main() {
-	fmt.Println(longestConsecutive128([]int{100, 4, 200, 1, 3, 2}))
-	fmt.Println(longestConsecutive128([]int{0, 3, 7, 2, 5, 8, 4, 6, 0, 1}))
+	fmt.Println(findPeakElement162([]int{1}))
+	fmt.Println(findPeakElement162([]int{1,4}))
+	fmt.Println(findPeakElement162([]int{1,2,1,3,5,6,4}))
+	// fmt.Println(longestConsecutive128([]int{100, 4, 200, 1, 3, 2}))
+	// fmt.Println(longestConsecutive128([]int{0, 3, 7, 2, 5, 8, 4, 6, 0, 1}))
 	// fmt.Println(punishmentNumber2698(37))
 	// var isValidPartition_6ms func(string, int) bool
 	// isValidPartition_6ms = func(s string, target int) bool {
