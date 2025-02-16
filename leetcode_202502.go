@@ -1222,13 +1222,53 @@ func constructDistancedSequence1718(n int) []int {
 	// 5 3 . . 3 5 . . .
 	// 5 3 4 . 3 5 4 . . cannot put 2
 	// 5 3 1 4 3 5 2 4 2
-	panic("not implemented")
+	result := make([]int, 2*n-1)
+	used := make([]bool, n+1)
+
+	var backtrack func(int) bool
+	backtrack = func(index int) bool {
+		if index == len(result) {
+			return true
+		}
+		if result[index] != 0 {
+			return backtrack(index + 1)
+		}
+		for num := n; num > 0; num-- {
+			if used[num] {
+				continue
+			}
+			if num == 1 {
+				result[index] = 1
+				used[1] = true
+				if backtrack(index + 1) {
+					return true
+				}
+				result[index] = 0
+				used[1] = false
+			} else if index+num < len(result) && result[index+num] == 0 {
+				result[index] = num
+				result[index+num] = num
+				used[num] = true
+				if backtrack(index + 1) {
+					return true
+				}
+				result[index] = 0
+				result[index+num] = 0
+				used[num] = false
+			}
+		}
+		return false
+	}
+
+	backtrack(0)
+	return result
 }
 
 func main() {
-	fmt.Println(findPeakElement162([]int{1}))
-	fmt.Println(findPeakElement162([]int{1,4}))
-	fmt.Println(findPeakElement162([]int{1,2,1,3,5,6,4}))
+	fmt.Println(constructDistancedSequence1718(5))
+	// fmt.Println(findPeakElement162([]int{1}))
+	// fmt.Println(findPeakElement162([]int{1,4}))
+	// fmt.Println(findPeakElement162([]int{1,2,1,3,5,6,4}))
 	// fmt.Println(longestConsecutive128([]int{100, 4, 200, 1, 3, 2}))
 	// fmt.Println(longestConsecutive128([]int{0, 3, 7, 2, 5, 8, 4, 6, 0, 1}))
 	// fmt.Println(punishmentNumber2698(37))
