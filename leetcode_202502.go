@@ -1113,7 +1113,7 @@ func longestConsecutive128_time(nums []int) int {
 		}
 		for ; m[num+right+1] > 0; right++ {
 		}
-		if right + left + 1 > maxLen {
+		if right+left+1 > maxLen {
 			maxLen = right + left + 1
 		}
 	}
@@ -1139,7 +1139,7 @@ func longestConsecutive128_time2(nums []int) int {
 	for num, _ := range firsts {
 		right := 0
 		for found := true; found; right++ {
-			_, found =  m[num+right+1]
+			_, found = m[num+right+1]
 		}
 		if right > maxLen {
 			maxLen = right
@@ -1161,7 +1161,7 @@ func longestConsecutive128_41ms(nums []int) int {
 		}
 		right := 0
 		for found := true; found; right++ {
-			_, found =  m[num+right+1]
+			_, found = m[num+right+1]
 		}
 		if right > maxLen {
 			maxLen = right
@@ -1173,14 +1173,14 @@ func longestConsecutive128_41ms(nums []int) int {
 func longestConsecutive(nums []int) int {
 	// 128
 	// ignore O(n), just sort it :D
-    if len(nums) == 0 {
-        return 0
-    }
+	if len(nums) == 0 {
+		return 0
+	}
 	slices.Sort(nums)
 	prev, curLen, maxLen := nums[0], 1, 1
 	for i := 1; i < len(nums); i++ {
 		curr := nums[i]
-		if curr == prev + 1 {
+		if curr == prev+1 {
 			curLen++
 		} else if curr != prev {
 			if curLen > maxLen {
@@ -1189,7 +1189,7 @@ func longestConsecutive(nums []int) int {
 			curLen = 1
 		}
 		prev = curr
-    }
+	}
 	if curLen > maxLen {
 		return curLen
 	}
@@ -1202,12 +1202,12 @@ func findPeakElement162(nums []int) int {
 	for i := 1; i < len(nums); i++ {
 		current := nums[i]
 		if minus2 < minus1 && minus1 > current {
-			return i-1
+			return i - 1
 		}
 		minus2, minus1 = minus1, current
 	}
 	if minus2 < minus1 {
-		return len(nums)-1
+		return len(nums) - 1
 	}
 	return -1
 }
@@ -1316,11 +1316,16 @@ func minimumArea3195(grid [][]int) int {
 		}
 	}
 	fmt.Println(iMin, iMax, jMin, jMax)
-	return (jMax - jMin + 1)*(iMax - iMin + 1)
+	return (jMax - jMin + 1) * (iMax - iMin + 1)
+}
+
+func appendCharacters2486(s string, t string) int {
+	// 2486
+	// coaching coding --> co(aching)ding
 }
 
 func main() {
-	fmt.Println(minimumArea3195([][]int{{0},{1}}))
+	fmt.Println(minimumArea3195([][]int{{0}, {1}}))
 	// fmt.Println(minimumArea3195([][]int{{0,1,0},{1,0,1}}))
 	// fmt.Println(minimumArea3195([][]int{{1,0},{0,0}}))
 	// fmt.Println(averageWaitingTime1701([][]int{{5,2},{5,4},{10,3},{20,1}}))
