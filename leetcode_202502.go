@@ -1264,8 +1264,35 @@ func constructDistancedSequence1718(n int) []int {
 	return result
 }
 
+func stoneGameII1140(piles []int) int {
+	// 1140
+	// 2,7,9,4,4
+	// 2M=2
+	// 2,9 9,4
+	// 2M=2??
+	panic("not understood")
+}
+
+func averageWaitingTime1701(customers [][]int) float64 {
+	// 1701
+	waitSum, available := 0, 0
+	for _, c := range customers {
+		start, duration := c[0], c[1]
+		if start > available {
+			available = start + duration
+			waitSum += duration
+		} else {
+			available += duration
+			waitSum += available - start
+		}
+	}
+	return float64(waitSum) / float64(len(customers))
+}
+
 func main() {
-	fmt.Println(constructDistancedSequence1718(5))
+	fmt.Println(averageWaitingTime1701([][]int{{5,2},{5,4},{10,3},{20,1}}))
+	fmt.Println(averageWaitingTime1701([][]int{{1,2},{2,5},{4,3}}))
+	// fmt.Println(constructDistancedSequence1718(5))
 	// fmt.Println(findPeakElement162([]int{1}))
 	// fmt.Println(findPeakElement162([]int{1,4}))
 	// fmt.Println(findPeakElement162([]int{1,2,1,3,5,6,4}))
