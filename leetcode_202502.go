@@ -1321,11 +1321,26 @@ func minimumArea3195(grid [][]int) int {
 
 func appendCharacters2486(s string, t string) int {
 	// 2486
-	// coaching coding --> co(aching)ding
+	// accoachingd coding --> ac(co)aching(d)ing
+	si, ti, tmax := 0, 0, 0
+	for si < len(s) && ti < len(t) {
+		if s[si] == t[ti] {
+			si++
+			ti++
+			if ti > tmax {
+				tmax = ti
+			}
+		} else {
+			si++
+		}
+	}
+	fmt.Println(si, ti, tmax)
+	return len(t) - tmax
 }
 
 func main() {
-	fmt.Println(minimumArea3195([][]int{{0}, {1}}))
+	fmt.Println(appendCharacters2486("accoachingd", "coding"))
+	// fmt.Println(minimumArea3195([][]int{{0}, {1}}))
 	// fmt.Println(minimumArea3195([][]int{{0,1,0},{1,0,1}}))
 	// fmt.Println(minimumArea3195([][]int{{1,0},{0,0}}))
 	// fmt.Println(averageWaitingTime1701([][]int{{5,2},{5,4},{10,3},{20,1}}))
