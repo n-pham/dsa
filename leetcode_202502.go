@@ -1289,9 +1289,42 @@ func averageWaitingTime1701(customers [][]int) float64 {
 	return float64(waitSum) / float64(len(customers))
 }
 
+func minimumArea3195(grid [][]int) int {
+	// 3195
+	// 0 1 0
+	// 1 0 1
+	// 1 0
+	// 0 0
+	iMin, iMax, jMin, jMax := math.MaxInt, 0, math.MaxInt, 0
+	for i, row := range grid {
+		for j, cell := range row {
+			if cell != 1 {
+				continue
+			}
+			if i < iMin {
+				iMin = i
+			}
+			if i > iMax {
+				iMax = i
+			}
+			if j < jMin {
+				jMin = j
+			}
+			if j > jMax {
+				jMax = j
+			}
+		}
+	}
+	fmt.Println(iMin, iMax, jMin, jMax)
+	return (jMax - jMin + 1)*(iMax - iMin + 1)
+}
+
 func main() {
-	fmt.Println(averageWaitingTime1701([][]int{{5,2},{5,4},{10,3},{20,1}}))
-	fmt.Println(averageWaitingTime1701([][]int{{1,2},{2,5},{4,3}}))
+	fmt.Println(minimumArea3195([][]int{{0},{1}}))
+	// fmt.Println(minimumArea3195([][]int{{0,1,0},{1,0,1}}))
+	// fmt.Println(minimumArea3195([][]int{{1,0},{0,0}}))
+	// fmt.Println(averageWaitingTime1701([][]int{{5,2},{5,4},{10,3},{20,1}}))
+	// fmt.Println(averageWaitingTime1701([][]int{{1,2},{2,5},{4,3}}))
 	// fmt.Println(constructDistancedSequence1718(5))
 	// fmt.Println(findPeakElement162([]int{1}))
 	// fmt.Println(findPeakElement162([]int{1,4}))
