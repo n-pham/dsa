@@ -320,11 +320,23 @@ func smallestEquivalentString1061(s1 string, s2 string, baseStr string) string {
 
 func smallestNumber2375(pattern string) string {
 	// 2375
-	//  IIIDIDDD
-	// 12343
-	// 123546
-	// 123549876
-	panic("not implemented")
+	// IIIDIDDD  result     stack
+	// IIID      123        4
+	// I         1235       4(5)
+	// DDD       1235       467
+	// end       1235764
+	rs := make([]byte, len(pattern)+1)
+	stack := []int{} // ascending
+	for i := 0; i <= len(pattern); i++ {
+		stack = append(stack, i+1)
+		if i == len(pattern) || pattern[i] == 'I' {
+			for len(stack) > 0 {
+				rs[i-len(stack)+1] = byte(stack[len(stack)-1] + '0')
+				stack = stack[:len(stack)-1]
+			}
+		}
+	}
+	return string(rs)
 }
 
 func numTilePossibilities1079(tiles string) int {
@@ -1339,7 +1351,8 @@ func appendCharacters2486(s string, t string) int {
 }
 
 func main() {
-	fmt.Println(appendCharacters2486("accoachingd", "coding"))
+	fmt.Println(smallestNumber2375("IIIDIDDD"))
+	// fmt.Println(appendCharacters2486("accoachingd", "coding"))
 	// fmt.Println(minimumArea3195([][]int{{0}, {1}}))
 	// fmt.Println(minimumArea3195([][]int{{0,1,0},{1,0,1}}))
 	// fmt.Println(minimumArea3195([][]int{{1,0},{0,0}}))
