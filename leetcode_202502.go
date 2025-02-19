@@ -1468,6 +1468,27 @@ func findWinners2225(matches [][]int) [][]int {
 	return rs
 }
 
+func minSteps2186(s string, t string) int {
+	// 2186
+	// leetcode      c1e3d1l1o1t1
+	// coats     a-1   e3d1l1    s-1
+	count, m := 0, [26]int{}
+	for _, c := range s {
+		m[c-'a']++
+	}
+	for _, c := range t {
+		m[c-'a']--
+	}
+	for _, c := range m {
+		if c >= 0 {
+			count += c
+		} else {
+			count -= c
+		}
+	}
+	return count
+}
+
 func main() {
 	fmt.Println(findWinners2225([][]int{{1, 3}, {2, 3}, {3, 6}, {5, 6}, {5, 7}, {4, 5}, {4, 8}, {4, 9}, {10, 4}, {10, 9}}))
 	// fmt.Println(occurrencesOfElement3159([]int{1, 1, 3, 1, 1, 3, 2, 1}, []int{3}, 3))
