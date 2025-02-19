@@ -1375,7 +1375,7 @@ func occurrencesOfElement3159_9ms(nums []int, queries []int, x int) []int {
 
 func occurrencesOfElement3159(nums []int, queries []int, x int) []int {
 	// 3159 re-use both nums and queries
-	posLen :=  0
+	posLen := 0
 	for i, num := range nums {
 		if num == x {
 			nums[posLen], posLen = i, posLen+1
@@ -1392,10 +1392,87 @@ func occurrencesOfElement3159(nums []int, queries []int, x int) []int {
 	return queries
 }
 
+func findWinners2225_527ms(matches [][]int) [][]int {
+	// 2225
+	win, lostOnce, lostCntById, allId := []int{}, []int{}, make(map[int]int), make(map[int]struct{})
+	for _, m := range matches {
+		lostCntById[m[1]]++
+		allId[m[0]] = struct{}{}
+	}
+	for id, cnt := range lostCntById {
+		if cnt == 1 {
+			idx, _ := slices.BinarySearch(lostOnce, id)
+			lostOnce = slices.Insert(lostOnce, idx, id)
+		}
+		delete(allId, id)
+	}
+	for id, _ := range allId {
+		idx, _ := slices.BinarySearch(win, id)
+		win = slices.Insert(win, idx, id)
+	}
+	return [][]int{win, lostOnce}
+}
+
+func findWinners2225_125ms(matches [][]int) [][]int {
+	// 2225
+	win, lostOnce, lostCntById, allId := []int{}, []int{}, make([]int, 100001), make(map[int]struct{})
+	for _, m := range matches {
+		lostCntById[m[1]]++
+		allId[m[0]] = struct{}{}
+	}
+	fmt.Println(allId, lostCntById)
+	for id := 1; id < len(lostCntById); id++ {
+		cnt := lostCntById[id]
+		if cnt == 0 {
+			continue
+		}
+		if cnt == 1 {
+			idx, _ := slices.BinarySearch(lostOnce, id)
+			lostOnce = slices.Insert(lostOnce, idx, id)
+		}
+		delete(allId, id)
+	}
+	fmt.Println(allId)
+	for id, _ := range allId {
+		idx, _ := slices.BinarySearch(win, id)
+		win = slices.Insert(win, idx, id)
+	}
+	return [][]int{win, lostOnce}
+}
+
+func findWinners2225(matches [][]int) [][]int {
+	// 2225  increasing order --> array  55ms
+	lostCntById := make([]int, 100001) // 0 no player 1+ loss count -1 no loss
+	rs := [][]int{
+		[]int{},
+		[]int{},
+	}
+	for _, m := range matches {
+		win, loss := m[0], m[1]
+		if lostCntById[win] == 0 {
+			lostCntById[win] = -1
+		}
+		if lostCntById[loss] == -1 {
+			lostCntById[loss] = 1
+		} else {
+			lostCntById[loss]++
+		}
+	}
+	for id, cnt := range lostCntById {
+		if cnt == -1 {
+			rs[0] = append(rs[0], id)
+		} else if cnt == 1 {
+			rs[1] = append(rs[1], id)
+		}
+	}
+	return rs
+}
+
 func main() {
-	fmt.Println(occurrencesOfElement3159([]int{1, 1, 3, 1, 1, 3, 2, 1}, []int{3}, 3))
-	fmt.Println(occurrencesOfElement3159([]int{1, 3, 1, 7}, []int{1, 3, 2, 4}, 1))
-	fmt.Println(occurrencesOfElement3159([]int{1, 2, 3}, []int{10}, 5))
+	fmt.Println(findWinners2225([][]int{{1, 3}, {2, 3}, {3, 6}, {5, 6}, {5, 7}, {4, 5}, {4, 8}, {4, 9}, {10, 4}, {10, 9}}))
+	// fmt.Println(occurrencesOfElement3159([]int{1, 1, 3, 1, 1, 3, 2, 1}, []int{3}, 3))
+	// fmt.Println(occurrencesOfElement3159([]int{1, 3, 1, 7}, []int{1, 3, 2, 4}, 1))
+	// fmt.Println(occurrencesOfElement3159([]int{1, 2, 3}, []int{10}, 5))
 	// fmt.Println(smallestNumber2375("IIIDIDDD"))
 	// fmt.Println(appendCharacters2486("accoachingd", "coding"))
 	// fmt.Println(minimumArea3195([][]int{{0}, {1}}))
