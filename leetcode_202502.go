@@ -1489,8 +1489,41 @@ func minSteps2186(s string, t string) int {
 	return count
 }
 
+func reductionOperations1887(nums []int) (cnt int) {
+	// 1887
+	// 5,1,3,1
+	// 3,1,3,1
+	// 1,1,3,1
+	// 1,1,1,1
+	// minNum, minCnt := math.MaxInt, 0
+	// for _, num := range nums {
+	// 	if num == minNum {
+	// 		minCnt++
+	// 	} else if num < minNum {
+	// 		minNum, minCnt = num, 1
+	// 	}
+	// }
+	// return len(nums)-minCnt
+	// 5 1 3 1
+	// 0 2 0 1 0 1
+	// numCnt := [50001]int{}
+	panic("not implemented")
+	numCnt := [6]int{}
+	for _, num := range nums {
+		numCnt[num]++
+	}
+	fmt.Println(numCnt)
+	for _, cnt := range numCnt {
+		if cnt == 0 {
+			continue
+		}
+	}
+	return 0
+}
+
 func main() {
-	fmt.Println(findWinners2225([][]int{{1, 3}, {2, 3}, {3, 6}, {5, 6}, {5, 7}, {4, 5}, {4, 8}, {4, 9}, {10, 4}, {10, 9}}))
+	fmt.Println(reductionOperations1887([]int{5, 1, 3, 1}))
+	// fmt.Println(findWinners2225([][]int{{1, 3}, {2, 3}, {3, 6}, {5, 6}, {5, 7}, {4, 5}, {4, 8}, {4, 9}, {10, 4}, {10, 9}}))
 	// fmt.Println(occurrencesOfElement3159([]int{1, 1, 3, 1, 1, 3, 2, 1}, []int{3}, 3))
 	// fmt.Println(occurrencesOfElement3159([]int{1, 3, 1, 7}, []int{1, 3, 2, 4}, 1))
 	// fmt.Println(occurrencesOfElement3159([]int{1, 2, 3}, []int{10}, 5))
