@@ -1350,8 +1350,53 @@ func appendCharacters2486(s string, t string) int {
 	return len(t) - tmax
 }
 
+func occurrencesOfElement3159_9ms(nums []int, queries []int, x int) []int {
+	// 3159
+	// 1,3,1,7
+	// x=1 1,3,2,4
+	rs, pos, posLen := make([]int, len(queries)), make([]int, len(nums)+1), 1
+	for i, num := range nums {
+		if num == x {
+			pos[posLen], posLen = i+1, posLen+1
+		}
+	}
+	fmt.Println(pos)
+	for i, q := range queries {
+		if q >= len(pos) {
+			rs[i] = -1
+		} else if p := pos[q]; p > 0 {
+			rs[i] = p - 1
+		} else {
+			rs[i] = -1
+		}
+	}
+	return rs
+}
+
+func occurrencesOfElement3159(nums []int, queries []int, x int) []int {
+	// 3159 re-use both nums and queries
+	posLen :=  0
+	for i, num := range nums {
+		if num == x {
+			nums[posLen], posLen = i, posLen+1
+		}
+	}
+	fmt.Println(nums)
+	for i, q := range queries {
+		if q <= posLen {
+			queries[i] = nums[q-1]
+		} else {
+			queries[i] = -1
+		}
+	}
+	return queries
+}
+
 func main() {
-	fmt.Println(smallestNumber2375("IIIDIDDD"))
+	fmt.Println(occurrencesOfElement3159([]int{1, 1, 3, 1, 1, 3, 2, 1}, []int{3}, 3))
+	fmt.Println(occurrencesOfElement3159([]int{1, 3, 1, 7}, []int{1, 3, 2, 4}, 1))
+	fmt.Println(occurrencesOfElement3159([]int{1, 2, 3}, []int{10}, 5))
+	// fmt.Println(smallestNumber2375("IIIDIDDD"))
 	// fmt.Println(appendCharacters2486("accoachingd", "coding"))
 	// fmt.Println(minimumArea3195([][]int{{0}, {1}}))
 	// fmt.Println(minimumArea3195([][]int{{0,1,0},{1,0,1}}))
