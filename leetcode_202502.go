@@ -569,7 +569,7 @@ func queryResults3160(limit int, queries [][]int) []int {
 	return rs
 }
 
-func findDifferentBinaryString1980(nums []string) string {
+func findDifferentBinaryString1980_fail(nums []string) string {
 	// 1980
 	panic("not implemented")
 	slices.Sort(nums)
