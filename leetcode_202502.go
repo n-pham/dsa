@@ -1521,6 +1521,22 @@ func reductionOperations1887(nums []int) (cnt int) {
 	return 0
 }
 
+func findDifferentBinaryString1980(nums []string) string {
+	// 1980
+	m := [65536]byte{}
+	for _, s := range nums {
+		num, _ := strconv.ParseInt(s, 2, 32)
+		m[num] = 1
+	}
+	for num, val := range m {
+		if val == 0 {
+			format := fmt.Sprintf("%%0%db", len(nums[0]))
+			return fmt.Sprintf(format, num)
+		}
+	}
+	return ""
+}
+
 func main() {
 	fmt.Println(reductionOperations1887([]int{5, 1, 3, 1}))
 	// fmt.Println(findWinners2225([][]int{{1, 3}, {2, 3}, {3, 6}, {5, 6}, {5, 7}, {4, 5}, {4, 8}, {4, 9}, {10, 4}, {10, 9}}))
