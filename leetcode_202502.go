@@ -1622,9 +1622,60 @@ func numSpecialEquivGroups893(words []string) int {
 	return len(m)
 }
 
+func memLeak1860(memory1 int, memory2 int) []int {
+	// 1860
+	//  8    8 5   0
+	// 11 10 8   4   -2
+	panic("not implemented")
+}
+
+func maxArea11_time(height []int) int {
+	// 11
+	// 1,8,6,2,5,4,8,3,7 (j-i)*min([j],[i])
+	maxArea := 0
+	for i := 0; i < len(height)-1; i++ {
+		hi := height[i]
+		for j := i+1; j < len(height); j++ {
+			hj, area := height[j], 0
+			if hj < hi {
+				area = (j-i)*hj
+			} else {
+				area = (j-i)*hi
+			}
+			if area > maxArea {
+				maxArea = area
+			}
+		}
+	}
+	return maxArea
+}
+
+func maxArea11(height []int) int {
+	// 11
+	// 1,8,6,2,5,4,8,3,7 (j-i)*min([j],[i])
+	maxArea, area, l, r := 0, 0, 0, len(height)-1
+	hl, hr := height[0], height[len(height)-1]
+	for l < r {
+		if hl < hr {
+			area = (r-l)*hl
+			l++
+			hl = height[l]
+		} else {
+			area = (r-l)*hr
+			r--
+			hr = height[r]
+		}
+		if area > maxArea {
+			maxArea = area
+		}
+	}
+	return maxArea
+}
+
 func main() {
-	fmt.Println(numSpecialEquivGroups893([]string{"abc","acb","bac","bca","cab","cba"}))
-	fmt.Println(numSpecialEquivGroups893([]string{"abcd","cdab","cbad","xyzz","zzxy","zzyx"}))
+	fmt.Println(maxArea11([]int{1,8,6,2,5,4,8,3,7}))
+	// fmt.Println(numSpecialEquivGroups893([]string{"abc","acb","bac","bca","cab","cba"}))
+	// fmt.Println(numSpecialEquivGroups893([]string{"abcd","cdab","cbad","xyzz","zzxy","zzyx"}))
 	// fmt.Println(reductionOperations1887([]int{5, 1, 3, 1}))
 	// fmt.Println(findWinners2225([][]int{{1, 3}, {2, 3}, {3, 6}, {5, 6}, {5, 7}, {4, 5}, {4, 8}, {4, 9}, {10, 4}, {10, 9}}))
 	// fmt.Println(occurrencesOfElement3159([]int{1, 1, 3, 1, 1, 3, 2, 1}, []int{3}, 3))
