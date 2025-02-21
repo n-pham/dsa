@@ -1537,12 +1537,6 @@ func findDifferentBinaryString1980(nums []string) string {
 	return ""
 }
 
-func numSpecialEquivGroups893(words []string) int {
-	// 893
-	// "abcd","cdab","cbad","xyzz","zzxy","zzyx" --> "abcd", "cdab", "cbad"
-	panic("not implemented")
-}
-
 // 1261
 //      0
 //    /   \
@@ -1605,8 +1599,33 @@ func (this *FindElements) Find(target int) bool {
   * param_1 := obj.Find(target);
   */
 
+func numSpecialEquivGroups893(words []string) int {
+	// 893
+	// "abcd","cdab","cbad","xyzz","zzxy","zzyx" --> "abcd", "cdab", "cbad"
+	// even a1c1 odd b1d1 "abcd","cdab","cbad"
+	// even x1z1 odd y1z1 "xyzz","zzxy"
+	// even y1z1 odd x1z1 "zzyx"
+	m := make(map[[2][26]byte]struct{})
+	for _, w := range words {
+		even, odd := [26]byte{}, [26]byte{}
+		for i, c := range w {
+			if i&1 == 0 {
+				even[c-'a']++
+			} else {
+				odd[c-'a']++
+			}
+		}
+		k := [2][26]byte{even, odd}
+		m[k] = struct{}{}
+	}
+	fmt.Println(m)
+	return len(m)
+}
+
 func main() {
-	fmt.Println(reductionOperations1887([]int{5, 1, 3, 1}))
+	fmt.Println(numSpecialEquivGroups893([]string{"abc","acb","bac","bca","cab","cba"}))
+	fmt.Println(numSpecialEquivGroups893([]string{"abcd","cdab","cbad","xyzz","zzxy","zzyx"}))
+	// fmt.Println(reductionOperations1887([]int{5, 1, 3, 1}))
 	// fmt.Println(findWinners2225([][]int{{1, 3}, {2, 3}, {3, 6}, {5, 6}, {5, 7}, {4, 5}, {4, 8}, {4, 9}, {10, 4}, {10, 9}}))
 	// fmt.Println(occurrencesOfElement3159([]int{1, 1, 3, 1, 1, 3, 2, 1}, []int{3}, 3))
 	// fmt.Println(occurrencesOfElement3159([]int{1, 3, 1, 7}, []int{1, 3, 2, 4}, 1))
