@@ -661,12 +661,12 @@ type NumberContainers struct {
 	indexByNumber map[int]*MinHeap
 }
 
-func Constructor() NumberContainers {
-	return NumberContainers{
-		numberByIndex: make(map[int]int),
-		indexByNumber: make(map[int]*MinHeap),
-	}
-}
+// func Constructor() NumberContainers {
+// 	return NumberContainers{
+// 		numberByIndex: make(map[int]int),
+// 		indexByNumber: make(map[int]*MinHeap),
+// 	}
+// }
 
 func (this *NumberContainers) Change(index int, number int) map[int]int {
 	if oldNumber, exists := this.numberByIndex[index]; exists {
@@ -1536,6 +1536,74 @@ func findDifferentBinaryString1980(nums []string) string {
 	}
 	return ""
 }
+
+func numSpecialEquivGroups893(words []string) int {
+	// 893
+	// "abcd","cdab","cbad","xyzz","zzxy","zzyx" --> "abcd", "cdab", "cbad"
+	panic("not implemented")
+}
+
+// 1261
+//      0
+//    /   \
+//   1     2
+//  / \   /
+// 3   4 5
+//      /
+//    11
+//
+// 11 --> parent (11+1)/2-1 = 5
+// 5  --> parent  (5+1)/2-1 = 2
+// 2  --> parent  (2+1)/2-1 = 0
+type TreeNode struct {
+    Val int
+    Left *TreeNode
+    Right *TreeNode
+}
+
+type FindElements struct {
+	recovered map[int]struct{}
+}
+
+
+func Constructor(root *TreeNode) FindElements {
+	recovered := make(map[int]struct{})
+	var recover func(node *TreeNode)
+	recover = func(node *TreeNode) {
+		if node == nil {
+			return
+		}
+		if node.Left != nil {
+			node.Left.Val = 2*node.Val+1
+			recovered[node.Left.Val] = struct{}{}
+			recover(node.Left)
+		}
+		if node.Right != nil {
+			node.Right.Val = 2*node.Val+2
+			recovered[node.Right.Val] = struct{}{}
+			recover(node.Right)
+		}
+	}
+	if root != nil {
+		root.Val = 0;
+		recovered[root.Val] = struct{}{}
+	}
+	recover(root)
+	return FindElements{recovered: recovered}
+}
+
+
+func (this *FindElements) Find(target int) bool {
+	_, found := this.recovered[target]
+	return found
+}
+ 
+ 
+ /**
+  * Your FindElements object will be instantiated and called as such:
+  * obj := Constructor(root);
+  * param_1 := obj.Find(target);
+  */
 
 func main() {
 	fmt.Println(reductionOperations1887([]int{5, 1, 3, 1}))
