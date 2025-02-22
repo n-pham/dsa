@@ -1,0 +1,1 @@
+cat $1 | jq '[.[] | {date: .commit.committer.date, message: .commit.message}]' > data.json
