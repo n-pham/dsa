@@ -1624,8 +1624,9 @@ func numSpecialEquivGroups893(words []string) int {
 
 func memLeak1860(memory1 int, memory2 int) []int {
 	// 1860
-	//  8    8 5   0
-	// 11 10 8   4   -2
+	//  8     8  5   0
+	// 11 10  8    4   -2
+	// 19 18 16 13 9 4 -2  both
 	panic("not implemented")
 }
 
@@ -1672,8 +1673,55 @@ func maxArea11(height []int) int {
 	return maxArea
 }
 
+func recoverFromPreorder1028(traversal string) *TreeNode {
+	// 1028
+	// 1-401--349---90--88 DFS
+	//          parentStack
+	// {1 0}    0
+	// {401 1}  1>=0  0,1
+	// {349 2}  2>=1  1,401,249
+	// {90 3}   3>=2  1,401,249,90
+	// {88 2}   2<3   1,401,249
+	// 
+	type nodeInfo struct {
+		val   int
+		depth int
+	}
+	nodes := []nodeInfo{}
+	i := 0
+	for i < len(traversal) {
+		depth := 0
+		for i < len(traversal) && traversal[i] == '-' {
+			depth++
+			i++
+		}
+		valStart := i
+		for i < len(traversal) && traversal[i] >= '0' && traversal[i] <= '9' {
+			i++
+		}
+		val, _ := strconv.Atoi(traversal[valStart:i])
+		nodes = append(nodes, nodeInfo{val, depth})
+	}
+	root := &TreeNode{Val: nodes[0].val}
+	stack := []*TreeNode{root}
+	for i := 1; i < len(nodes); i++ {
+		node := &TreeNode{Val: nodes[i].val}
+		for len(stack) > nodes[i].depth {
+			stack = stack[:len(stack)-1]
+		}
+		if stack[len(stack)-1].Left == nil {
+			stack[len(stack)-1].Left = node
+		} else {
+			stack[len(stack)-1].Right = node
+		}
+		stack = append(stack, node)
+	}
+	return root
+}
+
 func main() {
-	fmt.Println(maxArea11([]int{1,8,6,2,5,4,8,3,7}))
+	fmt.Println(recoverFromPreorder1028("1-401--349---90--88"))
+	// fmt.Println(maxArea11([]int{1,8,6,2,5,4,8,3,7}))
 	// fmt.Println(numSpecialEquivGroups893([]string{"abc","acb","bac","bca","cab","cba"}))
 	// fmt.Println(numSpecialEquivGroups893([]string{"abcd","cdab","cbad","xyzz","zzxy","zzyx"}))
 	// fmt.Println(reductionOperations1887([]int{5, 1, 3, 1}))
