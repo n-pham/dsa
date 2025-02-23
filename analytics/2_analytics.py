@@ -1,5 +1,5 @@
 import ibis
-from datetime import timedelta
+from datetime import timedelta, datetime
 import matplotlib.pyplot as plt
 
 # Create an Ibis connection to DuckDB
@@ -122,6 +122,45 @@ axs[1].set_ylabel('Number of Commits')
 # Annotate bars with percentages
 for i, value in enumerate(day_counts):
     axs[1].text(i, value + 0.5, f'{day_percentages[i]:.1f}%', ha='center')
+
+# Calculate week_counts using SQL
+week_counts_query = """
+SELECT
+    strftime(CAST(commit->>'committer'->>'date' AS TIMESTAMP) + INTERVAL '7 hours', '%Y-%W') AS week,
+    COUNT(*) AS count
+FROM commits
+GROUP BY week
+ORDER BY week
+"""
+week_counts_df = con.raw_sql(week_counts_query).fetchdf()
+weeks = week_counts_df['week'].tolist()
+week_counts = week_counts_df['count'].tolist()
+
+# Bar Chart 3: Number of commits per week
+fig, ax = plt.subplots(figsize=(12, 5))
+ax.bar(weeks, week_counts, color='lightcoral')
+ax.set_title('Number of Commits per Week')
+ax.set_ylabel('Number of Commits')
+ax.set_xlabel('Week')
+
+# Annotate bars with counts
+for i, value in enumerate(week_counts):
+    ax.text(i, value + 0.5, f'{value}', ha='center', rotation=90)
+# Convert week labels to begin and end dates
+
+week_dates = []
+for week in weeks:
+    year, week_num = map(int, week.split('-'))
+    start_date = datetime.strptime(f'{year}-W{week_num}-1', '%Y-W%W-%w')
+    end_date = start_date + timedelta(days=6)
+    week_dates.append(f'{start_date.strftime("%b %d")} - {end_date.strftime("%b %d")}')
+
+# Update x-axis labels
+ax.set_xticks(range(len(week_dates)))
+ax.set_xticklabels(week_dates, rotation=45, ha='right')
+
+# Set y-axis to integer values
+ax.yaxis.set_major_locator(plt.MaxNLocator(integer=True))
 
 plt.tight_layout()
 plt.show()
