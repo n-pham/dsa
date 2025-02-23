@@ -1,4 +1,3 @@
-from __future__ import unicode_literals
 import ibis
 from datetime import timedelta
 import matplotlib.pyplot as plt
@@ -23,47 +22,85 @@ messages = [item[0]['message'] for item in data]
 # Define time ranges
 time_ranges = {
     'Early morning 5-9': (5, 9),
-    'Late morning 10-12' : (10, 12),
+    'Late morning 9-12': (9, 12),
     'Early afternoon 12-15': (12, 15),
     'Late afternoon 15-18': (15, 18),
     'Evening 18-21': (18, 21),
     'Night 21-5': (21, 5)
 }
 
-# Initialize counts
-time_counts = {key: 0 for key in time_ranges.keys()}
+# Calculate time_counts using SQL
+time_counts_query = """
+SELECT
+    CASE
+        WHEN hour >= 5 AND hour < 9 THEN 'Early morning 5-9'
+        WHEN hour >= 10 AND hour < 12 THEN 'Late morning 10-12'
+        WHEN hour >= 12 AND hour < 15 THEN 'Early afternoon 12-15'
+        WHEN hour >= 15 AND hour < 18 THEN 'Late afternoon 15-18'
+        WHEN hour >= 18 AND hour < 21 THEN 'Evening 18-21'
+        ELSE 'Night 21-5'
+    END AS time_range,
+    COUNT(*) AS count
+FROM (
+    SELECT
+        strftime(CAST(commit->>'committer'->>'date' AS TIMESTAMP) + INTERVAL '7 hours', '%H')::INTEGER AS hour
+    FROM commits
+)
+GROUP BY time_range
+ORDER BY
+    CASE
+        WHEN time_range = 'Early morning 5-9' THEN 1
+        WHEN time_range = 'Late morning 10-12' THEN 2
+        WHEN time_range = 'Early afternoon 12-15' THEN 3
+        WHEN time_range = 'Late afternoon 15-18' THEN 4
+        WHEN time_range = 'Evening 18-21' THEN 5
+        ELSE 6
+    END
+"""
+time_counts_df = con.raw_sql(time_counts_query).fetchdf()
+time_counts = dict(zip(time_counts_df['time_range'], time_counts_df['count']))
 
-# Count commits in each time range
-for dt in datetimes:
-    hour = dt.hour
-    for time_range, (start, end) in time_ranges.items():
-        if start <= end:
-            if start <= hour < end:
-                time_counts[time_range] += 1
-        else:  # For ranges that span midnight
-            if hour >= start or hour < end:
-                time_counts[time_range] += 1
-
-# Plot the data as a pie chart
-# plt.figure(figsize=(10, 6))
-# plt.pie(time_counts.values(), labels=time_counts.keys(), autopct='%1.1f%%', startangle=140)
-# plt.title('Commits by Time of Day')
-# plt.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
-# plt.tight_layout()
-# plt.show()
-
-# Calculate percentages for time ranges
+# Calculate total commits
 total_commits = sum(time_counts.values())
+
+# Calculate time_percentages
 time_percentages = {key: (value / total_commits) * 100 for key, value in time_counts.items()}
 
-# Count commits per day of the week
-day_counts = [0] * 7
-for dt in datetimes:
-    day_counts[dt.weekday()] += 1
+# Calculate day_counts using SQL
+day_counts_query = """
+SELECT
+    CASE
+        WHEN day_of_week = 0 THEN 'Sunday'
+        WHEN day_of_week = 1 THEN 'Monday'
+        WHEN day_of_week = 2 THEN 'Tuesday'
+        WHEN day_of_week = 3 THEN 'Wednesday'
+        WHEN day_of_week = 4 THEN 'Thursday'
+        WHEN day_of_week = 5 THEN 'Friday'
+        ELSE 'Saturday'
+    END AS day_of_week,
+    COUNT(*) AS count
+FROM (
+    SELECT
+        strftime(CAST(commit->>'committer'->>'date' AS TIMESTAMP) + INTERVAL '7 hours', '%w')::INTEGER AS day_of_week
+    FROM commits
+)
+GROUP BY day_of_week
+ORDER BY
+    CASE
+        WHEN day_of_week = 1 THEN 1
+        WHEN day_of_week = 2 THEN 2
+        WHEN day_of_week = 3 THEN 3
+        WHEN day_of_week = 4 THEN 4
+        WHEN day_of_week = 5 THEN 5
+        WHEN day_of_week = 6 THEN 6
+        ELSE 7
+    END
+"""
+day_counts_df = con.raw_sql(day_counts_query).fetchdf()
+day_counts = [day_counts_df.loc[day_counts_df['day_of_week'] == day, 'count'].values[0] for day in ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']]
 
-# Calculate percentages for days of the week
+# Calculate day_percentages
 day_percentages = [(count / total_commits) * 100 for count in day_counts]
-days_of_week = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 
 # Plot the data
 fig, axs = plt.subplots(2, 1, figsize=(12, 10))
@@ -78,7 +115,7 @@ for i, (key, value) in enumerate(time_counts.items()):
     axs[0].text(i, value + 0.5, f'{time_percentages[key]:.1f}%', ha='center')
 
 # Bar Chart 2: Number of commits per day of the week
-axs[1].bar(days_of_week, day_counts, color='lightgreen')
+axs[1].bar(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'], day_counts, color='lightgreen')
 axs[1].set_title('Number of Commits per Day of the Week')
 axs[1].set_ylabel('Number of Commits')
 
