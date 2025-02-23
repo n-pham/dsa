@@ -1719,6 +1719,27 @@ func recoverFromPreorder1028(traversal string) *TreeNode {
 	return root
 }
 
+func constructFromPrePost889(preorder []int, postorder []int) *TreeNode {
+	// 889
+	if len(preorder) == 0 {
+		return nil
+	}
+	root := &TreeNode{Val: preorder[0]}
+	if len(preorder) == 1 {
+		return root
+	}
+	leftSize := 0
+	for i := range postorder {
+		if postorder[i] == preorder[1] {
+			leftSize = i + 1
+			break
+		}
+	}
+	root.Left = constructFromPrePost889(preorder[1:leftSize+1], postorder[:leftSize])
+	root.Right = constructFromPrePost889(preorder[leftSize+1:], postorder[leftSize:len(postorder)-1])
+	return root
+}
+
 func main() {
 	fmt.Println(recoverFromPreorder1028("1-401--349---90--88"))
 	// fmt.Println(maxArea11([]int{1,8,6,2,5,4,8,3,7}))
