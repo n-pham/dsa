@@ -1538,27 +1538,29 @@ func findDifferentBinaryString1980(nums []string) string {
 }
 
 // 1261
-//      0
-//    /   \
-//   1     2
-//  / \   /
+//
+//	    0
+//	  /   \
+//	 1     2
+//	/ \   /
+//
 // 3   4 5
-//      /
-//    11
+//
+//	  /
+//	11
 //
 // 11 --> parent (11+1)/2-1 = 5
 // 5  --> parent  (5+1)/2-1 = 2
 // 2  --> parent  (2+1)/2-1 = 0
 type TreeNode struct {
-    Val int
-    Left *TreeNode
-    Right *TreeNode
+	Val   int
+	Left  *TreeNode
+	Right *TreeNode
 }
 
 type FindElements struct {
 	recovered map[int]struct{}
 }
-
 
 func Constructor(root *TreeNode) FindElements {
 	recovered := make(map[int]struct{})
@@ -1568,36 +1570,34 @@ func Constructor(root *TreeNode) FindElements {
 			return
 		}
 		if node.Left != nil {
-			node.Left.Val = 2*node.Val+1
+			node.Left.Val = 2*node.Val + 1
 			recovered[node.Left.Val] = struct{}{}
 			recover(node.Left)
 		}
 		if node.Right != nil {
-			node.Right.Val = 2*node.Val+2
+			node.Right.Val = 2*node.Val + 2
 			recovered[node.Right.Val] = struct{}{}
 			recover(node.Right)
 		}
 	}
 	if root != nil {
-		root.Val = 0;
+		root.Val = 0
 		recovered[root.Val] = struct{}{}
 	}
 	recover(root)
 	return FindElements{recovered: recovered}
 }
 
-
 func (this *FindElements) Find(target int) bool {
 	_, found := this.recovered[target]
 	return found
 }
- 
- 
- /**
-  * Your FindElements object will be instantiated and called as such:
-  * obj := Constructor(root);
-  * param_1 := obj.Find(target);
-  */
+
+/**
+ * Your FindElements object will be instantiated and called as such:
+ * obj := Constructor(root);
+ * param_1 := obj.Find(target);
+ */
 
 func numSpecialEquivGroups893(words []string) int {
 	// 893
@@ -1636,12 +1636,12 @@ func maxArea11_time(height []int) int {
 	maxArea := 0
 	for i := 0; i < len(height)-1; i++ {
 		hi := height[i]
-		for j := i+1; j < len(height); j++ {
+		for j := i + 1; j < len(height); j++ {
 			hj, area := height[j], 0
 			if hj < hi {
-				area = (j-i)*hj
+				area = (j - i) * hj
 			} else {
-				area = (j-i)*hi
+				area = (j - i) * hi
 			}
 			if area > maxArea {
 				maxArea = area
@@ -1658,11 +1658,11 @@ func maxArea11(height []int) int {
 	hl, hr := height[0], height[len(height)-1]
 	for l < r {
 		if hl < hr {
-			area = (r-l)*hl
+			area = (r - l) * hl
 			l++
 			hl = height[l]
 		} else {
-			area = (r-l)*hr
+			area = (r - l) * hr
 			r--
 			hr = height[r]
 		}
@@ -1682,7 +1682,7 @@ func recoverFromPreorder1028(traversal string) *TreeNode {
 	// {349 2}  2>=1  1,401,249
 	// {90 3}   3>=2  1,401,249,90
 	// {88 2}   2<3   1,401,249
-	// 
+	//
 	type nodeInfo struct {
 		val   int
 		depth int
@@ -1740,8 +1740,42 @@ func constructFromPrePost889(preorder []int, postorder []int) *TreeNode {
 	return root
 }
 
+func numOfSubarrays1524_7ms(arr []int) int {
+	// 1524
+	isOdd := make([]byte, len(arr))
+	for i, v := range arr {
+		if v&1 == 1 {
+			isOdd[i] = 1
+		}
+	}
+	oddCount, evenCount, totalOddSubarrays := 0, 1, 0
+	for _, odd := range isOdd {
+		if odd == 1 {
+			oddCount, evenCount = evenCount, oddCount+1
+		} else {
+			oddCount, evenCount = oddCount, evenCount+1
+		}
+		totalOddSubarrays += oddCount
+	}
+	return totalOddSubarrays % (1e9 + 7)
+}
+
+func numOfSubarrays1524(arr []int) int {
+	// 1524
+	oddCount, evenCount, totalOddSubarrays := 0, 1, 0
+	for _, v := range arr {
+		if v&1 == 1 {
+			oddCount, evenCount = evenCount, oddCount+1
+		} else {
+			oddCount, evenCount = oddCount, evenCount+1
+		}
+		totalOddSubarrays += oddCount
+	}
+	return totalOddSubarrays % (1e9 + 7)
+}
+
 func main() {
-	fmt.Println(recoverFromPreorder1028("1-401--349---90--88"))
+	// fmt.Println(recoverFromPreorder1028("1-401--349---90--88"))
 	// fmt.Println(maxArea11([]int{1,8,6,2,5,4,8,3,7}))
 	// fmt.Println(numSpecialEquivGroups893([]string{"abc","acb","bac","bca","cab","cba"}))
 	// fmt.Println(numSpecialEquivGroups893([]string{"abcd","cdab","cbad","xyzz","zzxy","zzyx"}))
