@@ -1774,6 +1774,24 @@ func numOfSubarrays1524(arr []int) int {
 	return totalOddSubarrays % (1e9 + 7)
 }
 
+func maxAbsoluteSum1749(nums []int) int {
+	// 1749
+	// 1,-3, 2, 3,-4
+	// 1 -2  0  3 -1 prefixSum
+	prefixSum := make([]int, len(nums)+1)
+	minSum, maxSum := 0, 0
+	for i, num := range nums {
+		prefixSum[i+1] = prefixSum[i] + num
+		if prefixSum[i+1] < minSum {
+			minSum = prefixSum[i+1]
+		}
+		if prefixSum[i+1] > maxSum {
+			maxSum = prefixSum[i+1]
+		}
+	}
+	return maxSum - minSum
+}
+
 func main() {
 	// fmt.Println(recoverFromPreorder1028("1-401--349---90--88"))
 	// fmt.Println(maxArea11([]int{1,8,6,2,5,4,8,3,7}))
