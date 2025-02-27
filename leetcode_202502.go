@@ -1792,6 +1792,55 @@ func maxAbsoluteSum1749(nums []int) int {
 	return maxSum - minSum
 }
 
+// tried
+//    1,2,3,4,5,6,7,8
+//    1 2 3   5     8
+//    1   3 4     7
+//    1       5 6
+//      2   4   6
+//    1         6 7
+//      2     5   7
+//    1           7 8
+//      2       6   8
+//        3   5     8
+// 1    1
+// 2    1, 2, 3=1+2
+// 3    1, 2, 3, 4=3+1, 5=3+2
+// 4    1, 2, 3, 4, 4+1, 4+2, 4+3
+// 5
+// 6
+// 7
+// 8
+func lenLongestFibSubseq873_fail(arr []int) int {
+	// 873
+	index := make(map[int]int)
+	for i, num := range arr {
+		index[num] = i
+	}
+	fibSeqLengths := make([][]int, len(arr))
+	for i := range fibSeqLengths {
+		fibSeqLengths[i] = make([]int, len(arr))
+	}
+	maxLen := 0
+	for i := 0; i < len(arr); i++ {
+		for j := i + 1; j < len(arr); j++ {
+			prev := arr[j] - arr[i]
+			if prev < arr[i] && index[prev] != 0 {
+				fibSeqLengths[i][j] = fibSeqLengths[index[prev]][i] + 1
+				if fibSeqLengths[i][j] > maxLen {
+					maxLen = fibSeqLengths[i][j]
+				}
+			} else {
+				fibSeqLengths[i][j] = 1
+			}
+		}
+	}
+	if maxLen > 2 {
+		return maxLen
+	}
+	return 0
+}
+
 func main() {
 	// fmt.Println(recoverFromPreorder1028("1-401--349---90--88"))
 	// fmt.Println(maxArea11([]int{1,8,6,2,5,4,8,3,7}))
