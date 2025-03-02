@@ -53,6 +53,37 @@ func applyOperations2460_fail(nums []int) []int {
 	return nums[:newLen]
 }
 
+func mergeArrays2570(nums1 [][]int, nums2 [][]int) [][]int {
+	// 2570
+	i1, i2 := 0, 0
+	rs, rsIdx := [][]int{}, 0
+	for i1 < len(nums1) && i2 < len(nums2) {
+		idx1, idx2 := nums1[i1][0], nums2[i2][0]
+		if idx1 == idx2 {
+			rs = append(rs, []int{idx2, nums1[i1][1] + nums2[i2][1]})
+			rsIdx++
+			i1++
+			i2++
+		} else if idx1 > idx2 {
+			rs = append(rs, []int{idx2, nums2[i2][1]})
+			i2++
+		} else {
+			rs = append(rs, []int{idx1, nums1[i1][1]})
+			i1++
+		}
+	}
+	for i1 < len(nums1) {
+		rs = append(rs, []int{nums1[i1][0], nums1[i1][1]})
+		i1++
+	}
+	for i2 < len(nums2) {
+		rs = append(rs, []int{nums2[i2][0], nums2[i2][1]})
+		i2++
+	}
+	return rs
+}
+
 func main() {
 	fmt.Println(applyOperations2460([]int{1,2,2,1,1,0}))
+	fmt.Println(mergeArrays2570([][]int{{1,2},{2,3},{4,5}}, [][]int{{1,4},{3,2},{4,1}}))
 }
