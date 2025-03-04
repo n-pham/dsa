@@ -3,6 +3,7 @@ package main
 import (
 
 	"fmt"
+	"github.com/mxschmitt/golang-combinations"
 	// "math"
 	// "slices"
 	// "strconv"
@@ -81,6 +82,33 @@ func mergeArrays2570(nums1 [][]int, nums2 [][]int) [][]int {
 		i2++
 	}
 	return rs
+}
+
+func pivotArray26ms(nums []int, pivot int) []int {
+	panic("not implemented")
+}
+
+func checkPowersOfThree1780(n int) bool {
+	// 1780
+	powers := []int{}
+	for i := 0; i < 15; i++ {
+		power := int(math.Pow(3, float64(i)))
+		if power > n {
+			break
+		}
+		powers = append(powers, power)
+		combinations := combinations.All(powers)
+		for _, combination := range combinations {
+			total := 0
+			for _, num := range combination {
+				total += num
+			}
+			if total == n {
+				return true
+			}
+		}
+	}
+	return false
 }
 
 func main() {
