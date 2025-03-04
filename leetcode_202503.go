@@ -3,8 +3,9 @@ package main
 import (
 
 	"fmt"
-	"github.com/mxschmitt/golang-combinations"
-	// "math"
+	// "github.com/mxschmitt/golang-combinations"
+	"math"
+	// "math/bits"
 	// "slices"
 	// "strconv"
 	// "strings"
@@ -88,7 +89,29 @@ func pivotArray26ms(nums []int, pivot int) []int {
 	panic("not implemented")
 }
 
-func checkPowersOfThree1780(n int) bool {
+func All[T any](set []T) (subsets [][]T) {
+	length := uint(len(set))
+
+	// Go through all possible combinations of objects
+	// from 1 (only first object in subset) to 2^length (all objects in subset)
+	for subsetBits := 1; subsetBits < (1 << length); subsetBits++ {
+		var subset []T
+
+		for object := uint(0); object < length; object++ {
+			// checks if object is contained in subset
+			// by checking if bit 'object' is set in subsetBits
+			if (subsetBits>>object)&1 == 1 {
+				// add object to subset
+				subset = append(subset, set[object])
+			}
+		}
+		// add subset to subsets
+		subsets = append(subsets, subset)
+	}
+	return subsets
+}
+
+func checkPowersOfThree1780_15ms(n int) bool {
 	// 1780
 	powers := []int{}
 	for i := 0; i < 15; i++ {
@@ -97,7 +120,7 @@ func checkPowersOfThree1780(n int) bool {
 			break
 		}
 		powers = append(powers, power)
-		combinations := combinations.All(powers)
+		combinations := All(powers)
 		for _, combination := range combinations {
 			total := 0
 			for _, num := range combination {
@@ -111,7 +134,42 @@ func checkPowersOfThree1780(n int) bool {
 	return false
 }
 
+func twoSum1_23ms(nums []int, target int) []int {
+	// 1
+	for i := 0; i < len(nums)-1; i++ {
+		for j := i+1; j < len(nums); j++ {
+			if nums[i] + nums[j] == target {
+				return []int{i, j}
+			}
+		}
+	}
+	return []int{}
+}
+
+func longestCommonPrefix_14(strs []string) string {
+	// 14
+	i := 0
+	minLen := len(strs[0])
+	for _, s := range strs[1:] {
+		if len(s) < minLen {
+			minLen = len(s)
+		}
+	}
+	for i = 0; i < minLen; i++ {
+		c := strs[0][i]
+		for j := 1; j < len(strs); j++ {
+			if strs[j][i] != c {
+				return strs[0][:i]
+			}
+		}
+	}
+	return strs[0][:i]
+}
+
 func main() {
-	fmt.Println(applyOperations2460([]int{1,2,2,1,1,0}))
-	fmt.Println(mergeArrays2570([][]int{{1,2},{2,3},{4,5}}, [][]int{{1,4},{3,2},{4,1}}))
+	fmt.Println(longestCommonPrefix_14([]string{"flower","flow","flight"}))
+	// fmt.Println(twoSum1([]int{3, 2, 4}, 6))
+	// fmt.Println(checkPowersOfThree1780(91))
+	// fmt.Println(applyOperations2460([]int{1,2,2,1,1,0}))
+	// fmt.Println(mergeArrays2570([][]int{{1,2},{2,3},{4,5}}, [][]int{{1,4},{3,2},{4,1}}))
 }
