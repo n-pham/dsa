@@ -166,6 +166,14 @@ func longestCommonPrefix_14(strs []string) string {
 	return strs[0][:i]
 }
 
+func coloredCells2579(n int) int64 {
+	// 2579
+	if n == 1 {
+		return 1
+	}
+	return int64(1 + 2*n*(n-1))
+}
+
 func main() {
 	fmt.Println(longestCommonPrefix_14([]string{"flower","flow","flight"}))
 	// fmt.Println(twoSum1([]int{3, 2, 4}, 6))
