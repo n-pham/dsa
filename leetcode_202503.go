@@ -1,7 +1,6 @@
 package main
 
 import (
-
 	"fmt"
 	// "github.com/mxschmitt/golang-combinations"
 	"math"
@@ -10,6 +9,7 @@ import (
 	// "strconv"
 	// "strings"
 )
+
 func applyOperations2460(nums []int) []int {
 	// 2460
 	// 1,2,2,1,1,0
@@ -43,7 +43,7 @@ func applyOperations2460_fail(nums []int) []int {
 		num := nums[i]
 		fmt.Println(prev, num)
 		if num == prev {
-			nums[newLen] = 2*prev
+			nums[newLen] = 2 * prev
 			i += 2
 		} else if prev > 0 {
 			nums[newLen] = prev
@@ -137,8 +137,8 @@ func checkPowersOfThree1780_15ms(n int) bool {
 func twoSum1_23ms(nums []int, target int) []int {
 	// 1
 	for i := 0; i < len(nums)-1; i++ {
-		for j := i+1; j < len(nums); j++ {
-			if nums[i] + nums[j] == target {
+		for j := i + 1; j < len(nums); j++ {
+			if nums[i]+nums[j] == target {
 				return []int{i, j}
 			}
 		}
@@ -174,8 +174,38 @@ func coloredCells2579(n int) int64 {
 	return int64(1 + 2*n*(n-1))
 }
 
+func countSubstrings1638(s string, t string) int {
+	// 1638
+	panic("not implemented")
+}
+
+func findMissingAndRepeatedValues2965(grid [][]int) []int {
+	// 2965
+	// 1+2+3+4+5+6+7+8+9
+	// 1 2 3 4   6 7 8 9 7
+	n := len(grid)
+	m := make([]byte, n*n+1)
+	dup, total := 0, 0
+	for _, r := range grid {
+		for _, v := range r {
+			total += v
+			if dup > 0 {
+				continue
+			}
+			if m[v] == 1 {
+				dup = v
+			} else {
+				m[v] = 1
+			}
+		}
+	}
+	diff := total - (n * n * (n*n + 1) / 2) // dup - mis
+	return []int{dup, dup - diff}
+}
+
 func main() {
-	fmt.Println(longestCommonPrefix_14([]string{"flower","flow","flight"}))
+	fmt.Println(findMissingAndRepeatedValues2965([][]int{{9, 1, 7}, {8, 7, 2}, {3, 4, 6}}))
+	fmt.Println(longestCommonPrefix_14([]string{"flower", "flow", "flight"}))
 	// fmt.Println(twoSum1([]int{3, 2, 4}, 6))
 	// fmt.Println(checkPowersOfThree1780(91))
 	// fmt.Println(applyOperations2460([]int{1,2,2,1,1,0}))
