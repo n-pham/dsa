@@ -203,6 +203,44 @@ func findMissingAndRepeatedValues2965(grid [][]int) []int {
 	return []int{dup, dup - diff}
 }
 
+func closestPrimes_93ms(left int, right int) []int {
+	// 2523
+	isPrime := make([]bool, right+1)
+	for i := 2; i <= right; i++ {
+		isPrime[i] = true
+	}
+	for i := 2; i*i <= right; i++ {
+		if isPrime[i] {
+			for j := i * i; j <= right; j += i {
+				isPrime[j] = false
+			}
+		}
+	}
+
+	primes := []int{}
+	for i := left; i <= right; i++ {
+		if isPrime[i] {
+			primes = append(primes, i)
+		}
+	}
+
+	if len(primes) < 2 {
+		return []int{-1, -1}
+	}
+
+	minDiff := right - left
+	result := []int{primes[0], primes[1]}
+	for i := 1; i < len(primes); i++ {
+		diff := primes[i] - primes[i-1]
+		if diff < minDiff {
+			minDiff = diff
+			result = []int{primes[i-1], primes[i]}
+		}
+	}
+
+	return result
+}
+
 func main() {
 	fmt.Println(findMissingAndRepeatedValues2965([][]int{{9, 1, 7}, {8, 7, 2}, {3, 4, 6}}))
 	fmt.Println(longestCommonPrefix_14([]string{"flower", "flow", "flight"}))
