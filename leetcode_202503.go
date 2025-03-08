@@ -264,16 +264,16 @@ func minimumRecolors(blocks string, k int) int {
 	//    >     3
 	countB := 0
 	for i := 0; i < k; i++ {
-		if blocks[i] == byte("B") {
+		if blocks[i] == 'B' {
 			countB++
 		}
 	}
 	maxB := countB
 	for i := k; i < len(blocks); i++ {
-		if blocks[i-k] == byte("B") {
+		if blocks[i-k] == 'B' {
 			countB--
 		}
-		if blocks[i] == byte("B") {
+		if blocks[i] == 'B' {
 			countB++
 		}
 		if countB > maxB {
