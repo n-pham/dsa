@@ -4,7 +4,7 @@ import (
 	"fmt"
 	// "github.com/mxschmitt/golang-combinations"
 	"math"
-	// "math/bits"
+	"math/bits"
 	// "slices"
 	// "strconv"
 	// "strings"
@@ -282,6 +282,7 @@ func shipWithinDays_solution(weights []int, days int) int {
 func partition(s string) [][]string {
 	// 131
 	// aab --> a a b    aa b
+	panic("not implemented")
 }
 
 func Combinations[T any](set []T, n int) (subsets [][]T) {
@@ -360,8 +361,85 @@ func minimumRecolors(blocks string, k int) int {
 	return k - maxB
 }
 
+func countSubstrings_580ms(s string) int {
+	// 647
+	combinations := [][]byte{}
+	for i := 0; i < len(s); i++ {
+		for j := i + 1; j <= len(s); j++ {
+			combinations = append(combinations, []byte(s[i:j]))
+		}
+	}
+	fmt.Println(combinations)
+	cnt := len(combinations)
+	for _, combination := range combinations {
+		for i := 0; i < len(combination)/2; i++ {
+			if combination[i] != combination[len(combination)-1-i] {
+				cnt--
+				break
+			}
+		}
+	}
+	return cnt
+}
+
+func maxDistance(position []int, m int) int {
+	// 1552
+	// 1234  7    3
+	// x  x  x
+	// 12345   1000000000    2
+	// x       x
+	panic("not implemented")
+}
+
+func pancakeSort(arr []int) []int {
+	// 969
+	panic("not understood")
+}
+
+func singleNumber(nums []int) []int {
+	// 260
+	// 1,2,1,3,2,5
+    m := make(map[int]byte)
+    for _, num := range nums {
+        m[num] ^= 1
+    }
+    rs := []int{}
+    for num, val := range m {
+        if val == 1 {
+			rs = append(rs, num)
+        }
+    }
+    return rs
+}
+
+func singleNumber_solution(nums []int) []int {
+	// 260
+	// 1,2,1,3,2,5
+    xor := 0
+    for _, num := range nums {
+        xor ^= num
+    }
+
+    // Get the rightmost set bit
+    rightmostSetBit := xor & -xor
+
+    num1, num2 := 0, 0
+    for _, num := range nums {
+        if num&rightmostSetBit == 0 {
+            num1 ^= num
+        } else {
+            num2 ^= num
+        }
+    }
+
+    return []int{num1, num2}
+}
+
 func main() {
-	fmt.Println(stoneGame([]int{5, 3, 4, 5}))
+	fmt.Println(singleNumber([]int{1,2,1,3,2,5}))
+	// fmt.Println(countSubstrings("fdsklf"))
+	// fmt.Println(countSubstrings("aaa"))
+	// fmt.Println(stoneGame([]int{5, 3, 4, 5}))
 	// fmt.Println(findMissingAndRepeatedValues2965([][]int{{9, 1, 7}, {8, 7, 2}, {3, 4, 6}}))
 	// fmt.Println(longestCommonPrefix_14([]string{"flower", "flow", "flight"}))
 	// fmt.Println(twoSum1([]int{3, 2, 4}, 6))
