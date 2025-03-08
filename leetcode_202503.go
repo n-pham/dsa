@@ -176,7 +176,8 @@ func coloredCells2579(n int) int64 {
 
 func countSubstrings1638(s string, t string) int {
 	// 1638
-	panic("not implemented")
+	// "aba", "baba"
+	panic("not implemented - Trie")
 }
 
 func findMissingAndRepeatedValues2965(grid [][]int) []int {
@@ -243,15 +244,91 @@ func closestPrimes_93ms(left int, right int) []int {
 
 func stoneGame(piles []int) bool {
 	// 877
+	// 5,3,4,5
+	// DP
 	panic("not implemented")
 }
 
-func shipWithinDays(weights []int, days int) int {
+func shipWithinDays_solution(weights []int, days int) int {
 	// 1011
-	// 3, 2, 2, 4, 1, 4    3 --> merge 6-3 elements
-	//
-	// 3  5  7 11 12 16
-	panic("not implemented")
+	left, right := 0, 0
+	for _, weight := range weights {
+		if weight > left {
+			left = weight
+		}
+		right += weight
+	}
+
+	for left < right {
+		mid := (left + right) / 2
+		currentWeight, requiredDays := 0, 1
+		for _, weight := range weights {
+			if currentWeight+weight > mid {
+				requiredDays++
+				currentWeight = 0
+			}
+			currentWeight += weight
+		}
+		if requiredDays > days {
+			left = mid + 1
+		} else {
+			right = mid
+		}
+	}
+
+	return left
+}
+
+func partition(s string) [][]string {
+	// 131
+	// aab --> a a b    aa b
+}
+
+func Combinations[T any](set []T, n int) (subsets [][]T) {
+	length := uint(len(set))
+
+	if n > len(set) {
+		n = len(set)
+	}
+
+	// Go through all possible combinations of objects
+	// from 1 (only first object in subset) to 2^length (all objects in subset)
+	for subsetBits := 1; subsetBits < (1 << length); subsetBits++ {
+		if n > 0 && bits.OnesCount(uint(subsetBits)) != n {
+			continue
+		}
+
+		var subset []T
+
+		for object := uint(0); object < length; object++ {
+			// checks if object is contained in subset
+			// by checking if bit 'object' is set in subsetBits
+			if (subsetBits>>object)&1 == 1 {
+				// add object to subset
+				subset = append(subset, set[object])
+			}
+		}
+		// add subset to subsets
+		subsets = append(subsets, subset)
+	}
+	return subsets
+}
+
+func combinationSum3(k int, n int) [][]int {
+	// 216
+	// 3,9 --> 1,2,6 1,3,5 2,3,4
+	rs := [][]int{}
+	combinations := Combinations([]int{1, 2, 3, 4, 5, 6, 7, 8, 9}, k)
+	for _, combination := range combinations {
+		total := 0
+		for _, num := range combination {
+			total += num
+		}
+		if total == n {
+			rs = append(rs, combination)
+		}
+	}
+	return rs
 }
 
 func minimumRecolors(blocks string, k int) int {
