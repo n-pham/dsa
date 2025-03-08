@@ -241,9 +241,52 @@ func closestPrimes_93ms(left int, right int) []int {
 	return result
 }
 
+func stoneGame(piles []int) bool {
+	// 877
+	panic("not implemented")
+}
+
+func shipWithinDays(weights []int, days int) int {
+	// 1011
+	// 3, 2, 2, 4, 1, 4    3 --> merge 6-3 elements
+	//
+	// 3  5  7 11 12 16
+	panic("not implemented")
+}
+
+func minimumRecolors(blocks string, k int) int {
+	// 2379
+	// 0123456789
+	// .BB..BB.B.  7
+	// >     4
+	//  >     4
+	//   >     4
+	//    >     3
+	countB := 0
+	for i := 0; i < k; i++ {
+		if blocks[i] == byte("B") {
+			countB++
+		}
+	}
+	maxB := countB
+	for i := k; i < len(blocks); i++ {
+		if blocks[i-k] == byte("B") {
+			countB--
+		}
+		if blocks[i] == byte("B") {
+			countB++
+		}
+		if countB > maxB {
+			maxB = countB
+		}
+	}
+	return k - maxB
+}
+
 func main() {
-	fmt.Println(findMissingAndRepeatedValues2965([][]int{{9, 1, 7}, {8, 7, 2}, {3, 4, 6}}))
-	fmt.Println(longestCommonPrefix_14([]string{"flower", "flow", "flight"}))
+	fmt.Println(stoneGame([]int{5, 3, 4, 5}))
+	// fmt.Println(findMissingAndRepeatedValues2965([][]int{{9, 1, 7}, {8, 7, 2}, {3, 4, 6}}))
+	// fmt.Println(longestCommonPrefix_14([]string{"flower", "flow", "flight"}))
 	// fmt.Println(twoSum1([]int{3, 2, 4}, 6))
 	// fmt.Println(checkPowersOfThree1780(91))
 	// fmt.Println(applyOperations2460([]int{1,2,2,1,1,0}))
