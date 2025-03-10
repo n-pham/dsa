@@ -399,40 +399,40 @@ func pancakeSort(arr []int) []int {
 func singleNumber(nums []int) []int {
 	// 260
 	// 1,2,1,3,2,5
-    m := make(map[int]byte)
-    for _, num := range nums {
-        m[num] ^= 1
-    }
-    rs := []int{}
-    for num, val := range m {
-        if val == 1 {
+	m := make(map[int]byte)
+	for _, num := range nums {
+		m[num] ^= 1
+	}
+	rs := []int{}
+	for num, val := range m {
+		if val == 1 {
 			rs = append(rs, num)
-        }
-    }
-    return rs
+		}
+	}
+	return rs
 }
 
 func singleNumber_solution(nums []int) []int {
 	// 260
 	// 1,2,1,3,2,5
-    xor := 0
-    for _, num := range nums {
-        xor ^= num
-    }
+	xor := 0
+	for _, num := range nums {
+		xor ^= num
+	}
 
-    // Get the rightmost set bit
-    rightmostSetBit := xor & -xor
+	// Get the rightmost set bit
+	rightmostSetBit := xor & -xor
 
-    num1, num2 := 0, 0
-    for _, num := range nums {
-        if num&rightmostSetBit == 0 {
-            num1 ^= num
-        } else {
-            num2 ^= num
-        }
-    }
+	num1, num2 := 0, 0
+	for _, num := range nums {
+		if num&rightmostSetBit == 0 {
+			num1 ^= num
+		} else {
+			num2 ^= num
+		}
+	}
 
-    return []int{num1, num2}
+	return []int{num1, num2}
 }
 
 func equalPairs(grid [][]int) int {
@@ -453,11 +453,56 @@ func numberOfAlternatingGroups(colors []int, k int) int {
 	// 0 1 0
 	//   1 0 1
 	//     0 1 0
+	count := 0
+	for i := 0; i < len(colors)-k+1; i++ {
+		valid := true
+		for j := 1; j < k; j++ {
+			if colors[i+j] == colors[i+j-1] {
+				valid = false
+				break
+			}
+		}
+		if valid {
+			count++
+		}
+	}
+	return count
+}
+
+func countOfSubstrings(word string, k int) int64 {
+	// 3306
 	panic("not implemented")
 }
 
+func countOfSubstrings_time(word string, k int) int64 {
+	// 3306
+	// ieaouqqieaouqq    1
+	// ieqouq
+	//       qieaou
+	//        ieqouq
+	cnt := int64(0)
+	for l := 0; l <= len(word)-5-k; l++ {
+		missingVowels := map[byte]struct{}{'a': struct{}{}, 'e': struct{}{}, 'i': struct{}{}, 'o': struct{}{}, 'u': struct{}{}}
+		consonantCnt := k
+		for r := l; r < len(word); r++ {
+			if word[r] == 'a' || word[r] == 'e' || word[r] == 'i' || word[r] == 'o' || word[r] == 'u' {
+				delete(missingVowels, word[r])
+			} else {
+				consonantCnt--
+			}
+			if len(missingVowels) == 0 && consonantCnt == 0 {
+				fmt.Println(word[l:r+1])
+				cnt++
+			}
+		}
+	}
+	return cnt
+}
+
 func main() {
-	fmt.Println(singleNumber([]int{1,2,1,3,2,5}))
+	fmt.Println(countOfSubstrings("aeiou", 0))
+	fmt.Println(countOfSubstrings("ieaouqqieaouqq", 1))
+	// fmt.Println(singleNumber([]int{1,2,1,3,2,5}))
 	// fmt.Println(countSubstrings("fdsklf"))
 	// fmt.Println(countSubstrings("aaa"))
 	// fmt.Println(stoneGame([]int{5, 3, 4, 5}))
