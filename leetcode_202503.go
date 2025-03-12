@@ -525,6 +525,42 @@ func maximumCount(nums []int) int {
 	return negCnt
 }
 
+func containsDuplicate_8ms_struct(nums []int) bool {
+	// leetcode 217, neetcode
+	m := make(map[int]struct{}, len(nums))
+	for _, num := range nums {
+		if _, found := m[num]; found {
+			return true
+		}
+		m[num] = struct{}{}
+	}
+	return false
+}
+
+func containsDuplicate_10ms_or_more(nums []int) bool {
+	// leetcode 217, neetcode, 
+    m := make(map[int]bool, len(nums))
+    for _, num := range nums {
+        if m[num] {
+            return true
+        }
+        m[num] = true
+    }
+    return false 
+}
+
+func containsDuplicate_8ms_byte(nums []int) bool {
+	// leetcode 217, neetcode
+    m := make(map[int]byte, len(nums))
+    for _, num := range nums {
+        if m[num] == 1 {
+            return true
+        }
+        m[num] = 1
+    }
+    return false 
+}
+
 func main() {
 	fmt.Println(countOfSubstrings("aeiou", 0))
 	fmt.Println(countOfSubstrings("ieaouqqieaouqq", 1))
