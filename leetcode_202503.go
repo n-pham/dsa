@@ -499,6 +499,32 @@ func countOfSubstrings_time(word string, k int) int64 {
 	return cnt
 }
 
+func numberOfSubstrings(s string) int {
+	// 1358
+	// abcabc
+	// ...     4
+	//  ...    3
+	//   ...   2
+	//    ...  1
+	panic("not implemented")
+}
+
+func maximumCount(nums []int) int {
+	// 2529
+	posCnt, negCnt := 0, 0
+	for _, num := range nums {
+		if num > 0 {
+			posCnt++
+		} else if num < 0 {
+			negCnt++
+		}
+	}
+	if posCnt > negCnt {
+		return posCnt
+	}
+	return negCnt
+}
+
 func main() {
 	fmt.Println(countOfSubstrings("aeiou", 0))
 	fmt.Println(countOfSubstrings("ieaouqqieaouqq", 1))
