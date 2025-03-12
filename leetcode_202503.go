@@ -618,8 +618,41 @@ func topKFrequent(nums []int, k int) []int {
 	return rs[:k]
 }
 
+func isPalindrome(s string) bool {
+	// 125
+	// A man, a plan, a canal: Panama
+	// amanaplanacanalpanama
+	l, r := 0, len(s)-1
+	for l <= r {
+		lc, rc := s[l], s[r]
+		fmt.Println(string(lc), string(rc))
+		if !(lc >= 'a' && lc <= 'z') && !(lc >= 'A' && lc <= 'Z') && !(lc >= '0' && lc <= '9') {
+			l++
+			continue
+		}
+		if !(rc >= 'a' && rc <= 'z') && !(rc >= 'A' && rc <= 'Z') && !(rc >= '0' && rc <= '9') {
+			r--
+			continue
+		}
+		if lc >= 'A' && lc <= 'Z' {
+			lc += 32
+		}
+		if rc >= 'A' && rc <= 'Z' {
+			rc += 32
+		}
+		if lc != rc {
+			return false
+		}
+        l++
+        r--
+	}
+	return true
+}
+
 func main() {
-	fmt.Println(groupAnagrams([]string{"eat","tea","tan","ate","nat","bat"}))
+	fmt.Println(isPalindrome("0P"))
+	fmt.Println(isPalindrome("A man, a plan, a canal: Panama"))
+	// fmt.Println(groupAnagrams([]string{"eat","tea","tan","ate","nat","bat"}))
 	// fmt.Println(countOfSubstrings("aeiou", 0))
 	// fmt.Println(countOfSubstrings("ieaouqqieaouqq", 1))
 	// fmt.Println(singleNumber([]int{1,2,1,3,2,5}))
