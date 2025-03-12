@@ -561,9 +561,48 @@ func containsDuplicate_8ms_byte(nums []int) bool {
     return false 
 }
 
+func groupAnagrams_9ms(strs []string) [][]string {
+	// 49
+	iByM := make(map[[26]int]int)
+	rs, rsLen := [][]string{}, -1
+	for _, s := range strs {
+		m := [26]int{}
+		for _, c := range s {
+			m[c-'a']++
+		}
+		if p, found := iByM[m]; found {
+			rs[p] = append(rs[p], s)
+		} else {
+			rsLen++
+			rs = append(rs, []string{s})
+			iByM[m] = rsLen
+		}
+	}
+	return rs
+}
+
+func groupAnagrams(strs []string) [][]string {
+	// 49, 5ms
+	groupsByM := make(map[[26]int][]string)
+	for _, s := range strs {
+		m := [26]int{}
+		for _, c := range s {
+			m[c-'a']++
+		}
+		groupsByM[m] = append(groupsByM[m], s)
+	}
+	fmt.Println(groupsByM)
+	rs := make([][]string, 0, len(groupsByM))
+	for _, g := range groupsByM {
+        rs = append(rs, g)
+    }
+	return rs
+}
+
 func main() {
-	fmt.Println(countOfSubstrings("aeiou", 0))
-	fmt.Println(countOfSubstrings("ieaouqqieaouqq", 1))
+	fmt.Println(groupAnagrams([]string{"eat","tea","tan","ate","nat","bat"}))
+	// fmt.Println(countOfSubstrings("aeiou", 0))
+	// fmt.Println(countOfSubstrings("ieaouqqieaouqq", 1))
 	// fmt.Println(singleNumber([]int{1,2,1,3,2,5}))
 	// fmt.Println(countSubstrings("fdsklf"))
 	// fmt.Println(countSubstrings("aaa"))
