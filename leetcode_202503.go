@@ -599,6 +599,25 @@ func groupAnagrams(strs []string) [][]string {
 	return rs
 }
 
+func topKFrequent(nums []int, k int) []int {
+	// 347
+	frequencyMap := make(map[int]int)
+	for _, num := range nums {
+		frequencyMap[num]++
+	}
+	buckets := make([][]int, len(nums)+1)
+	for num, freq := range frequencyMap {
+		buckets[freq] = append(buckets[freq], num)
+	}
+	rs := []int{}
+	for i := len(buckets) - 1; i >= 0 && len(rs) < k; i-- {
+		if len(buckets[i]) > 0 {
+			rs = append(rs, buckets[i]...)
+		}
+	}
+	return rs[:k]
+}
+
 func main() {
 	fmt.Println(groupAnagrams([]string{"eat","tea","tan","ate","nat","bat"}))
 	// fmt.Println(countOfSubstrings("aeiou", 0))
