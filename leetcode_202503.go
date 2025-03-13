@@ -649,9 +649,35 @@ func isPalindrome(s string) bool {
 	return true
 }
 
+func minZeroArray_time(nums []int, queries [][]int) int {
+	// 3356
+	m := make(map[int]int, len(nums))
+	for i, num := range nums {
+        if num > 0 {
+		    m[i] = num
+        }
+	}
+    if len(m) == 0 {
+		return 0
+	}
+	for i, q := range queries {
+		for j := q[0]; j <= q[1]; j++ {
+			m[j] -= q[2]
+			if m[j] <= 0 {
+				delete(m, j)
+			}
+		}
+		if len(m) == 0 {
+			return i+1
+		}
+	}
+	return -1
+}
+
 func main() {
-	fmt.Println(isPalindrome("0P"))
-	fmt.Println(isPalindrome("A man, a plan, a canal: Panama"))
+	fmt.Println(minZeroArray([]int{2,0,2}, [][]int{{0,2,1},{0,2,1},{1,1,3}}))
+	// fmt.Println(isPalindrome("0P"))
+	// fmt.Println(isPalindrome("A man, a plan, a canal: Panama"))
 	// fmt.Println(groupAnagrams([]string{"eat","tea","tan","ate","nat","bat"}))
 	// fmt.Println(countOfSubstrings("aeiou", 0))
 	// fmt.Println(countOfSubstrings("ieaouqqieaouqq", 1))
