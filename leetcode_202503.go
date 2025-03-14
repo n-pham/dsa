@@ -662,6 +662,9 @@ func minZeroArray_time(nums []int, queries [][]int) int {
 	}
 	for i, q := range queries {
 		for j := q[0]; j <= q[1]; j++ {
+			if m[j] == 0 {
+				continue
+			}
 			m[j] -= q[2]
 			if m[j] <= 0 {
 				delete(m, j)
@@ -672,6 +675,20 @@ func minZeroArray_time(nums []int, queries [][]int) int {
 		}
 	}
 	return -1
+}
+
+func findMin(nums []int) int {
+	// 153 sorted --> binary search
+	left, right := 0, len(nums)-1
+	for left < right {
+		mid := left + (right-left)/2
+		if nums[mid] > nums[right] {
+			left = mid + 1
+		} else {
+			right = mid
+		}
+	}
+	return nums[left]
 }
 
 func main() {
