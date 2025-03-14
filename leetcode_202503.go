@@ -691,7 +691,7 @@ func findMin(nums []int) int {
 	return nums[left]
 }
 
-func maximumCandies_fail(candies []int, k int64) int {
+func maximumCandies_time(candies []int, k int64) int {
 	// 2226
 	// 5 8 6    3 --> 5
 	// 5 8 6    3 --> 5
@@ -715,7 +715,25 @@ func maximumCandies_fail(candies []int, k int64) int {
 	return 0
 }
 
+func search(nums []int, target int) int {
+	// 704 sorted --> binary search
+	left, right := 0, len(nums)-1
+	for left < right {
+		mid := left + (right-left)/2
+		if nums[mid] < target {
+			left = mid + 1
+		} else {
+			right = mid
+		}
+	}
+	if nums[left] == target {
+		return left
+	} 
+	return -1
+}
+
 func main() {
+	fmt.Println(search([]int{-1,0,3,5,9,12}, 9))
 	// fmt.Println(maximumCandies([]int{1,2,3,4,10}, 5))
 	// fmt.Println(maximumCandies([]int{5,8,6}, 3))
 	// fmt.Println(maximumCandies([]int{5,8,6}, 4))
