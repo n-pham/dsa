@@ -751,8 +751,39 @@ func searchMatrix(matrix [][]int, target int) bool {
 	return false
 }
 
+func minEatingSpeed(piles []int, h int) int {
+	// 875 max speed = max pile, min speed = 1 --> binary search
+	//    3,6,7,11 27 > 8
+	//  2 2 3 4  6
+	//  3 1 2 3  4
+	//  4 1 2 2  3  8 = 8
+	// ...
+	// 11 1 1 1  1  4 < 8
+	left := 1
+	right := math.MinInt
+	for _, num := range piles {
+		if num > right {
+			right = num
+		}
+	}
+	for left < right {
+		mid := (left + right) / 2
+		hours := 0
+		for _, num := range piles {
+			hours += (num + mid - 1) / mid // ceiling of num / mid
+		}
+		if hours > h {
+			left = mid + 1
+		} else {
+			right = mid
+		}
+	}
+	return left
+}
+
 func main() {
-	fmt.Println(searchMatrix([][]int{{1,3,5,7},{10,11,16,20},{23,30,34,60}}, 3))
+	fmt.Println(minEatingSpeed([]int{3,6,7,11}, 8))
+	// fmt.Println(searchMatrix([][]int{{1,3,5,7},{10,11,16,20},{23,30,34,60}}, 3))
 	// fmt.Println(search([]int{-1,0,3,5,9,12}, 9))
 	// fmt.Println(maximumCandies([]int{1,2,3,4,10}, 5))
 	// fmt.Println(maximumCandies([]int{5,8,6}, 3))
