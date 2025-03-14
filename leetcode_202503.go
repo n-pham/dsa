@@ -781,8 +781,75 @@ func minEatingSpeed(piles []int, h int) int {
 	return left
 }
 
+func maximumCandies_25ms(candies []int, k int64) int {
+	// 2226  max = max num, min = 1 --> binary search
+	// rs    1 8 8   4
+	// 1     1 8 8
+	// 2     0 4 4
+	// ...
+	// 4     0 2 2
+	// 8     0 1 1
+	left, right, total := 1, math.MinInt, int64(0)
+	for _, num := range candies {
+		total += int64(num)
+		if num > right {
+			right = num
+		}
+	}
+	if total < k {
+		return 0
+	}
+	for left < right {
+		mid := (left + right + 1) / 2
+		cnt := int64(0)
+		for _, num := range candies {
+			cnt += int64(num / mid)
+		}
+		if cnt >= k {
+			left = mid
+		} else {
+			right = mid - 1
+		}
+	}
+	return left
+}
+
+func maximumCandies(candies []int, k int64) int {
+	// 2226  max = total/k, min = 1 --> binary search
+	// rs    1 8 8   4
+	// 1     1 8 8
+	// 2     0 4 4
+	// ...
+	// 4     0 2 2
+	// 8     0 1 1
+	left, total := 1, int64(0)
+	for _, num := range candies {
+		total += int64(num)
+	}
+	if total < k {
+		return 0
+	}
+	right := int(total/k)
+	for left < right {
+		mid := left + 1 + (right - left) / 2
+		cnt := int64(0)
+		for _, num := range candies {
+			cnt += int64(num / mid)
+		}
+		if cnt >= k {
+			left = mid
+		} else {
+			right = mid - 1
+		}
+	}
+	return left
+}
+
 func main() {
-	fmt.Println(minEatingSpeed([]int{3,6,7,11}, 8))
+	fmt.Println(maximumCandies([]int{5,6,4,10,10,1,1,2,2,2}, 9))
+	fmt.Println(maximumCandies([]int{2,5}, 11))
+	fmt.Println(maximumCandies([]int{1,8,8}, 4))
+	// fmt.Println(minEatingSpeed([]int{3,6,7,11}, 8))
 	// fmt.Println(searchMatrix([][]int{{1,3,5,7},{10,11,16,20},{23,30,34,60}}, 3))
 	// fmt.Println(search([]int{-1,0,3,5,9,12}, 9))
 	// fmt.Println(maximumCandies([]int{1,2,3,4,10}, 5))
