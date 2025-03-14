@@ -691,8 +691,36 @@ func findMin(nums []int) int {
 	return nums[left]
 }
 
+func maximumCandies_fail(candies []int, k int64) int {
+	// 2226
+	// 5 8 6    3 --> 5
+	// 5 8 6    3 --> 5
+	// 5 8 6    5 --> 8? 7? 6? 5? 4? 3
+	rs := math.MinInt
+	for _, num := range candies {
+		if num > rs {
+			rs = num
+		}
+	}
+	for rs > 0 {
+		cnt := int64(0)
+		for _, num := range candies {
+			cnt += int64(num / rs)
+		}
+		if cnt >= k {
+			return rs
+		}
+		rs--
+	}
+	return 0
+}
+
 func main() {
-	fmt.Println(minZeroArray([]int{2,0,2}, [][]int{{0,2,1},{0,2,1},{1,1,3}}))
+	// fmt.Println(maximumCandies([]int{1,2,3,4,10}, 5))
+	// fmt.Println(maximumCandies([]int{5,8,6}, 3))
+	// fmt.Println(maximumCandies([]int{5,8,6}, 4))
+	// fmt.Println(maximumCandies([]int{5,8,6}, 5))
+	// fmt.Println(minZeroArray([]int{2,0,2}, [][]int{{0,2,1},{0,2,1},{1,1,3}}))
 	// fmt.Println(isPalindrome("0P"))
 	// fmt.Println(isPalindrome("A man, a plan, a canal: Panama"))
 	// fmt.Println(groupAnagrams([]string{"eat","tea","tan","ate","nat","bat"}))
