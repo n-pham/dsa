@@ -732,8 +732,28 @@ func search(nums []int, target int) int {
 	return -1
 }
 
+func searchMatrix(matrix [][]int, target int) bool {
+	// 74 sorted --> binary search
+	left, right := 0, len(matrix)*len(matrix[0])-1
+	for left < right {
+		mid := left + (right-left)/2
+		midR, midC := mid/len(matrix[0]), mid%len(matrix[0])
+		if matrix[midR][midC] < target {
+			left = mid + 1
+		} else {
+			right = mid
+		}
+	}
+	leftR, leftC := left/len(matrix[0]), left%len(matrix[0])
+	if matrix[leftR][leftC] == target {
+		return true
+	} 
+	return false
+}
+
 func main() {
-	fmt.Println(search([]int{-1,0,3,5,9,12}, 9))
+	fmt.Println(searchMatrix([][]int{{1,3,5,7},{10,11,16,20},{23,30,34,60}}, 3))
+	// fmt.Println(search([]int{-1,0,3,5,9,12}, 9))
 	// fmt.Println(maximumCandies([]int{1,2,3,4,10}, 5))
 	// fmt.Println(maximumCandies([]int{5,8,6}, 3))
 	// fmt.Println(maximumCandies([]int{5,8,6}, 4))
