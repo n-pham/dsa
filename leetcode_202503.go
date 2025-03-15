@@ -5,7 +5,7 @@ import (
 	// "github.com/mxschmitt/golang-combinations"
 	"math"
 	"math/bits"
-	// "slices"
+	"slices"
 	// "strconv"
 	// "strings"
 )
@@ -150,7 +150,7 @@ func twoSum(nums []int, target int) []int {
 	// 1
 	iByNum := make(map[int]int, len(nums))
 	for i, num := range nums {
-		if j, found := iByNum[target - num]; found {
+		if j, found := iByNum[target-num]; found {
 			if i < j {
 				return []int{i, j}
 			}
@@ -506,7 +506,7 @@ func countOfSubstrings_time(word string, k int) int64 {
 				consonantCnt--
 			}
 			if len(missingVowels) == 0 && consonantCnt == 0 {
-				fmt.Println(word[l:r+1])
+				fmt.Println(word[l : r+1])
 				cnt++
 			}
 		}
@@ -553,27 +553,27 @@ func containsDuplicate_8ms_struct(nums []int) bool {
 }
 
 func containsDuplicate_10ms_or_more(nums []int) bool {
-	// leetcode 217, neetcode, 
-    m := make(map[int]bool, len(nums))
-    for _, num := range nums {
-        if m[num] {
-            return true
-        }
-        m[num] = true
-    }
-    return false 
+	// leetcode 217, neetcode,
+	m := make(map[int]bool, len(nums))
+	for _, num := range nums {
+		if m[num] {
+			return true
+		}
+		m[num] = true
+	}
+	return false
 }
 
 func containsDuplicate_8ms_byte(nums []int) bool {
 	// leetcode 217, neetcode
-    m := make(map[int]byte, len(nums))
-    for _, num := range nums {
-        if m[num] == 1 {
-            return true
-        }
-        m[num] = 1
-    }
-    return false 
+	m := make(map[int]byte, len(nums))
+	for _, num := range nums {
+		if m[num] == 1 {
+			return true
+		}
+		m[num] = 1
+	}
+	return false
 }
 
 func groupAnagrams_9ms(strs []string) [][]string {
@@ -609,8 +609,8 @@ func groupAnagrams(strs []string) [][]string {
 	fmt.Println(groupsByM)
 	rs := make([][]string, 0, len(groupsByM))
 	for _, g := range groupsByM {
-        rs = append(rs, g)
-    }
+		rs = append(rs, g)
+	}
 	return rs
 }
 
@@ -658,8 +658,8 @@ func isPalindrome(s string) bool {
 		if lc != rc {
 			return false
 		}
-        l++
-        r--
+		l++
+		r--
 	}
 	return true
 }
@@ -668,11 +668,11 @@ func minZeroArray_time(nums []int, queries [][]int) int {
 	// 3356
 	m := make(map[int]int, len(nums))
 	for i, num := range nums {
-        if num > 0 {
-		    m[i] = num
-        }
+		if num > 0 {
+			m[i] = num
+		}
 	}
-    if len(m) == 0 {
+	if len(m) == 0 {
 		return 0
 	}
 	for i, q := range queries {
@@ -686,7 +686,7 @@ func minZeroArray_time(nums []int, queries [][]int) int {
 			}
 		}
 		if len(m) == 0 {
-			return i+1
+			return i + 1
 		}
 	}
 	return -1
@@ -743,7 +743,7 @@ func search(nums []int, target int) int {
 	}
 	if nums[left] == target {
 		return left
-	} 
+	}
 	return -1
 }
 
@@ -762,7 +762,7 @@ func searchMatrix(matrix [][]int, target int) bool {
 	leftR, leftC := left/len(matrix[0]), left%len(matrix[0])
 	if matrix[leftR][leftC] == target {
 		return true
-	} 
+	}
 	return false
 }
 
@@ -844,9 +844,9 @@ func maximumCandies(candies []int, k int64) int {
 	if total < k {
 		return 0
 	}
-	right := int(total/k)
+	right := int(total / k)
 	for left < right {
-		mid := left + 1 + (right - left) / 2
+		mid := left + 1 + (right-left)/2
 		cnt := int64(0)
 		for _, num := range candies {
 			cnt += int64(num / mid)
@@ -867,18 +867,62 @@ func minCapability(nums []int, k int) int {
 	panic("how to find minimum of any k non-consecutive elements?")
 }
 
-func threeSum(nums []int) [][]int {
+func threeSum_dup(nums []int) [][]int {
 	// 15
-	// -1,0,1,2,-1,-4
-	for _, first := range nums {
+	rs := [][]int{}
+	for iFirst, first := range nums {
 		if first > 0 {
 			continue
 		}
+		numM := make(map[int]struct{}, len(nums))
+		for iSecond, second := range nums {
+			if iSecond == iFirst {
+				continue
+			}
+			if _, found := numM[-first-second]; found {
+				rs = append(rs, []int{first, second, -first - second})
+			}
+			numM[first+second] = struct{}{}
+
+		}
 	}
-	panic("not implemented")
+	return rs
+}
+
+func threeSum_solution(nums []int) [][]int {
+	// 15
+	// -1,0,1,2,-1,-4
+	slices.Sort(nums)
+	rs := [][]int{}
+	for i := 0; i < len(nums)-2; i++ {
+		if i > 0 && nums[i] == nums[i-1] {
+			continue
+		}
+		left, right := i+1, len(nums)-1
+		for left < right {
+			sum := nums[i] + nums[left] + nums[right]
+			if sum == 0 {
+				rs = append(rs, []int{nums[i], nums[left], nums[right]})
+				for left < right && nums[left] == nums[left+1] {
+					left++
+				}
+				for left < right && nums[right] == nums[right-1] {
+					right--
+				}
+				left++
+				right--
+			} else if sum < 0 {
+				left++
+			} else {
+				right--
+			}
+		}
+	}
+	return rs
 }
 
 func main() {
+	// fmt.Println(threeSum([]int{-1,0,1,2,-1,-4}))
 	// fmt.Println(maximumCandies([]int{5,6,4,10,10,1,1,2,2,2}, 9))
 	// fmt.Println(maximumCandies([]int{2,5}, 11))
 	// fmt.Println(maximumCandies([]int{1,8,8}, 4))
@@ -901,8 +945,8 @@ func main() {
 	// fmt.Println(stoneGame([]int{5, 3, 4, 5}))
 	// fmt.Println(findMissingAndRepeatedValues2965([][]int{{9, 1, 7}, {8, 7, 2}, {3, 4, 6}}))
 	// fmt.Println(longestCommonPrefix_14([]string{"flower", "flow", "flight"}))
-	fmt.Println(twoSum([]int{3, 2, 4}, 6))
-	fmt.Println(twoSum([]int{2,7,11,15}, 9))
+	// fmt.Println(twoSum([]int{3, 2, 4}, 6))
+	// fmt.Println(twoSum([]int{2,7,11,15}, 9))
 	// fmt.Println(checkPowersOfThree1780(91))
 	// fmt.Println(applyOperations2460([]int{1,2,2,1,1,0}))
 	// fmt.Println(mergeArrays2570([][]int{{1,2},{2,3},{4,5}}, [][]int{{1,4},{3,2},{4,1}}))
