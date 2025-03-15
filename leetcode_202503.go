@@ -845,6 +845,13 @@ func maximumCandies(candies []int, k int64) int {
 	return left
 }
 
+func minCapability(nums []int, k int) int {
+	// 2560
+	// 2,7,9,3,1    2
+	// 1+x to 9+y
+	panic("how to find minimum of any k non-consecutive elements?")
+}
+
 func main() {
 	fmt.Println(maximumCandies([]int{5,6,4,10,10,1,1,2,2,2}, 9))
 	fmt.Println(maximumCandies([]int{2,5}, 11))
