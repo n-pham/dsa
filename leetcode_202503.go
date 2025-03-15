@@ -921,7 +921,28 @@ func threeSum_solution(nums []int) [][]int {
 	return rs
 }
 
+func maxProfit(prices []int) int {
+	// 121
+	// 7,1,5,3,6,4
+	maxProfit := math.MinInt
+	minBuyBefore := prices[0]
+	for sellAt := 1; sellAt < len(prices); sellAt++ {
+		profit := prices[sellAt] - minBuyBefore
+		if profit > maxProfit {
+			maxProfit = profit
+		}
+		if prices[sellAt] < minBuyBefore {
+			minBuyBefore = prices[sellAt]
+		}
+	}
+	if maxProfit > 0 {
+		return maxProfit
+	}
+	return 0
+}
+
 func main() {
+	fmt.Println(maxProfit([]int{7, 1, 5, 3, 6, 4}))
 	// fmt.Println(threeSum([]int{-1,0,1,2,-1,-4}))
 	// fmt.Println(maximumCandies([]int{5,6,4,10,10,1,1,2,2,2}, 9))
 	// fmt.Println(maximumCandies([]int{2,5}, 11))
