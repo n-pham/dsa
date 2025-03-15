@@ -134,7 +134,7 @@ func checkPowersOfThree1780_15ms(n int) bool {
 	return false
 }
 
-func twoSum1_23ms(nums []int, target int) []int {
+func twoSum_23ms(nums []int, target int) []int {
 	// 1
 	for i := 0; i < len(nums)-1; i++ {
 		for j := i + 1; j < len(nums); j++ {
@@ -142,6 +142,21 @@ func twoSum1_23ms(nums []int, target int) []int {
 				return []int{i, j}
 			}
 		}
+	}
+	return []int{}
+}
+
+func twoSum(nums []int, target int) []int {
+	// 1
+	iByNum := make(map[int]int, len(nums))
+	for i, num := range nums {
+		if j, found := iByNum[target - num]; found {
+			if i < j {
+				return []int{i, j}
+			}
+			return []int{j, i}
+		}
+		iByNum[num] = i
 	}
 	return []int{}
 }
@@ -852,10 +867,21 @@ func minCapability(nums []int, k int) int {
 	panic("how to find minimum of any k non-consecutive elements?")
 }
 
+func threeSum(nums []int) [][]int {
+	// 15
+	// -1,0,1,2,-1,-4
+	for _, first := range nums {
+		if first > 0 {
+			continue
+		}
+	}
+	panic("not implemented")
+}
+
 func main() {
-	fmt.Println(maximumCandies([]int{5,6,4,10,10,1,1,2,2,2}, 9))
-	fmt.Println(maximumCandies([]int{2,5}, 11))
-	fmt.Println(maximumCandies([]int{1,8,8}, 4))
+	// fmt.Println(maximumCandies([]int{5,6,4,10,10,1,1,2,2,2}, 9))
+	// fmt.Println(maximumCandies([]int{2,5}, 11))
+	// fmt.Println(maximumCandies([]int{1,8,8}, 4))
 	// fmt.Println(minEatingSpeed([]int{3,6,7,11}, 8))
 	// fmt.Println(searchMatrix([][]int{{1,3,5,7},{10,11,16,20},{23,30,34,60}}, 3))
 	// fmt.Println(search([]int{-1,0,3,5,9,12}, 9))
@@ -875,7 +901,8 @@ func main() {
 	// fmt.Println(stoneGame([]int{5, 3, 4, 5}))
 	// fmt.Println(findMissingAndRepeatedValues2965([][]int{{9, 1, 7}, {8, 7, 2}, {3, 4, 6}}))
 	// fmt.Println(longestCommonPrefix_14([]string{"flower", "flow", "flight"}))
-	// fmt.Println(twoSum1([]int{3, 2, 4}, 6))
+	fmt.Println(twoSum([]int{3, 2, 4}, 6))
+	fmt.Println(twoSum([]int{2,7,11,15}, 9))
 	// fmt.Println(checkPowersOfThree1780(91))
 	// fmt.Println(applyOperations2460([]int{1,2,2,1,1,0}))
 	// fmt.Println(mergeArrays2570([][]int{{1,2},{2,3},{4,5}}, [][]int{{1,4},{3,2},{4,1}}))
