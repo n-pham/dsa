@@ -941,6 +941,45 @@ func maxProfit(prices []int) int {
 	return 0
 }
 
+func characterReplacement(s string, k int) int {
+	// 424
+	// ABAB  2 --> window with 2 chars
+	panic("not implemented")
+}
+
+func repairCars(ranks []int, cars int) int64 {
+	// 2594
+	// 4 2 3 1  cars=10
+	// 4*2*2 , 2*2*2 , 3*2*2 , 1*4*4
+	panic("not implemented")
+}
+
+func divideArray_5ms(nums []int) bool {
+	// 2206
+	oddM := make(map[int]struct{})
+	for _, num := range nums {
+		if _, found := oddM[num]; found {
+			delete(oddM, num)
+		} else {
+			oddM[num] = struct{}{}
+		}
+	}
+	return len(oddM) == 0
+}
+
+func divideArray(nums []int) bool {
+	// 2206
+	oddM := make(map[int]byte)
+	for _, num := range nums {
+		if oddM[num] > 0 {
+			delete(oddM, num)
+		} else {
+			oddM[num] = 1
+		}
+	}
+	return len(oddM) == 0
+}
+
 func main() {
 	fmt.Println(maxProfit([]int{7, 1, 5, 3, 6, 4}))
 	// fmt.Println(threeSum([]int{-1,0,1,2,-1,-4}))
