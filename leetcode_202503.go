@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	// "github.com/mxschmitt/golang-combinations"
+	"maps"
 	"math"
 	"math/bits"
 	"slices"
@@ -980,8 +981,87 @@ func divideArray(nums []int) bool {
 	return len(oddM) == 0
 }
 
+func checkInclusion_fail(s1 string, s2 string) bool {
+	// 567
+	// abc  lecabee  true
+	// abc  lecaabee false
+	m1 := make(map[rune]int)
+	for _, c := range s1 {
+		m1[c]++
+	}
+	m2 := maps.Clone(m1)
+	for _, c := range s2 {
+		if len(m2) == 0 {
+			return true
+		}
+		cnt := m2[c]
+		if cnt == 0 {
+			m2 = maps.Clone(m1)
+			continue
+		} else if cnt == 1 {
+			delete(m2, c)
+		} else {
+			m2[c] = cnt-1
+		}
+	}
+	return false
+}
+
+func checkInclusion(s1 string, s2 string) bool {
+	// 567
+	// abc  lecabee  true
+	// abc  lecaabee false
+	// Sliding window approach
+	if len(s1) > len(s2) {
+		return false
+	}
+
+	s1Count := [26]int{}
+	s2Count := [26]int{}
+
+	for i := 0; i < len(s1); i++ {
+		s1Count[s1[i]-'a']++
+		s2Count[s2[i]-'a']++
+	}
+
+	matches := 0
+	for i := 0; i < 26; i++ {
+		if s1Count[i] == s2Count[i] {
+			matches++
+		}
+	}
+
+	for i := 0; i < len(s2)-len(s1); i++ {
+		if matches == 26 {
+			return true
+		}
+
+		leftChar := s2[i] - 'a'
+		rightChar := s2[i+len(s1)] - 'a'
+
+		s2Count[rightChar]++
+		if s2Count[rightChar] == s1Count[rightChar] {
+			matches++
+		} else if s2Count[rightChar] == s1Count[rightChar]+1 {
+			matches--
+		}
+
+		s2Count[leftChar]--
+		if s2Count[leftChar] == s1Count[leftChar] {
+			matches++
+		} else if s2Count[leftChar] == s1Count[leftChar]-1 {
+			matches--
+		}
+	}
+
+	return matches == 26
+}
+
 func main() {
-	fmt.Println(maxProfit([]int{7, 1, 5, 3, 6, 4}))
+	fmt.Println(checkInclusion("adc", "dcda"))
+	fmt.Println(checkInclusion("abc", "lecabee"))
+	fmt.Println(checkInclusion("abc", "lecaabee"))
+	// fmt.Println(maxProfit([]int{7, 1, 5, 3, 6, 4}))
 	// fmt.Println(threeSum([]int{-1,0,1,2,-1,-4}))
 	// fmt.Println(maximumCandies([]int{5,6,4,10,10,1,1,2,2,2}, 9))
 	// fmt.Println(maximumCandies([]int{2,5}, 11))
