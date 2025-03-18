@@ -944,7 +944,14 @@ func maxProfit(prices []int) int {
 
 func characterReplacement(s string, k int) int {
 	// 424
-	// ABAB  2 --> window with 2 chars
+	// A.A.  2 --> window with 2 chars
+	cntMax, cntByChar := 0, [26]int{}
+	for _, c := range s {
+		cntByChar[c-'a']++
+		if cntByChar[c-'a'] > cntMax {
+			cntMax = cntByChar[c-'a']
+		}
+	}
 	panic("not implemented")
 }
 
@@ -1066,10 +1073,83 @@ func longestNiceSubarray(nums []int) int {
 	panic("backtrack?")
 }
 
+func isValid_fail(s string) bool {
+	// 20
+	var pCnt, bCnt, cCnt int
+	var prev rune
+	for _, c := range s {
+		switch c {
+		case '(':
+			pCnt++
+		case '[':
+			bCnt++
+		case '{':
+			cCnt++
+		case ')':
+			if prev == '[' || prev == '{' {
+				return false
+			}
+			pCnt--
+		case ']':			
+			if prev == '(' || prev == '{' {
+				return false
+			}
+			bCnt--
+		case '}':
+			if prev == '[' || prev == '(' {
+				return false
+			}
+			cCnt--
+		}
+		if pCnt < 0 || bCnt < 0 || cCnt < 0 {
+			return false
+		}
+		prev = c
+	}
+	if pCnt != 0 || bCnt != 0 || cCnt != 0 {
+		return false
+	}
+	return true
+}
+
+func isValid(s string) bool {
+	// 20
+	lenStack, stack := 0, make([]rune, len(s))
+	for _, c := range s {
+		switch c {
+		case '(', '[', '{':
+			stack[lenStack] = c
+			lenStack++
+		case ')':
+			if lenStack == 0 || stack[lenStack-1] != '(' {
+				return false
+			}
+			lenStack--
+		case ']':
+			if lenStack == 0 || stack[lenStack-1] != '[' {
+				return false
+			}
+			lenStack--
+		case '}':
+			if lenStack == 0 || stack[lenStack-1] != '{' {
+				return false
+			}
+			lenStack--
+		}
+	}
+    if lenStack > 0 {
+        return false
+    }
+	return true
+}
+
 func main() {
-	fmt.Println(checkInclusion("adc", "dcda"))
-	fmt.Println(checkInclusion("abc", "lecabee"))
-	fmt.Println(checkInclusion("abc", "lecaabee"))
+	fmt.Println(isValid("([)]"))
+	fmt.Println(isValid("([])"))
+	fmt.Println(isValid("[([]])"))
+	// fmt.Println(checkInclusion("adc", "dcda"))
+	// fmt.Println(checkInclusion("abc", "lecabee"))
+	// fmt.Println(checkInclusion("abc", "lecaabee"))
 	// fmt.Println(maxProfit([]int{7, 1, 5, 3, 6, 4}))
 	// fmt.Println(threeSum([]int{-1,0,1,2,-1,-4}))
 	// fmt.Println(maximumCandies([]int{5,6,4,10,10,1,1,2,2,2}, 9))
