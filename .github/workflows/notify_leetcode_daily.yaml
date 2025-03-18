@@ -62,7 +62,7 @@ jobs:
             const slug = `{{ steps.parse_problem.outputs.slug }}`;
             const date = `{{ steps.parse_problem.outputs.date }}`;
             const issueTitle = `${date} - ${status} LeetCode ${difficulty} ${problemId} ${title}`;
-            const { data: issue } = await github.issues.create({
+            const { data: issue } = await github.rest.issues.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
               title: issueTitle,
