@@ -1057,6 +1057,15 @@ func checkInclusion(s1 string, s2 string) bool {
 	return matches == 26
 }
 
+func longestNiceSubarray(nums []int) int {
+	// 2401
+	// 1,3,8,48,10
+	//     11
+	//   1000
+	// 110000
+	panic("backtrack?")
+}
+
 func main() {
 	fmt.Println(checkInclusion("adc", "dcda"))
 	fmt.Println(checkInclusion("abc", "lecabee"))
