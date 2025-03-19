@@ -1184,7 +1184,7 @@ func reverseList(head *ListNode) *ListNode {
 }
 
 func main() {
-	fmt.Println(minOperations([]int{0,1,1,1,0,0}))
+	// fmt.Println(minOperations([]int{0,1,1,1,0,0}))
 	// fmt.Println(isValid("([)]"))
 	// fmt.Println(isValid("([])"))
 	// fmt.Println(isValid("[([]])"))
