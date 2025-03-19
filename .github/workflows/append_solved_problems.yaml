@@ -1,0 +1,36 @@
+name: Append Solved Problems
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  append-solved-problems:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Extract commit message
+        id: extract-message
+        run: echo "message=$(git log -1 --pretty=%B)" >> $GITHUB_ENV
+
+      - name: Check if commit message is an integer
+        id: check-integer
+        run: |
+          if [[ $message =~ ^[0-9]+$ ]]; then
+            echo "is_integer=true" >> $GITHUB_ENV
+          else
+            echo "is_integer=false" >> $GITHUB_ENV
+
+      - name: Append to solved_problems.txt
+        if: env.is_integer == 'true'
+        run: |
+          echo $message >> solved_problems.txt
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add solved_problems.txt
+          git commit -m "Append solved_problems.txt"
+          git push
