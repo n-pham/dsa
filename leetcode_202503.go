@@ -1143,10 +1143,29 @@ func isValid(s string) bool {
 	return true
 }
 
+func minOperations(nums []int) int {
+	// 3191 5ms
+	rs := 0
+	for i := 0; i < len(nums)-2; i++ {
+		if nums[i] == 0 {
+			// nums[i] = 1
+			nums[i+1] ^= 1
+			nums[i+2] ^= 1
+			rs++
+		}
+		fmt.Println(i, nums)
+	}
+	if nums[len(nums)-2] == 1 && nums[len(nums)-1] == 1 {
+		return rs
+	}
+	return -1
+}
+
 func main() {
-	fmt.Println(isValid("([)]"))
-	fmt.Println(isValid("([])"))
-	fmt.Println(isValid("[([]])"))
+	fmt.Println(minOperations([]int{0,1,1,1,0,0}))
+	// fmt.Println(isValid("([)]"))
+	// fmt.Println(isValid("([])"))
+	// fmt.Println(isValid("[([]])"))
 	// fmt.Println(checkInclusion("adc", "dcda"))
 	// fmt.Println(checkInclusion("abc", "lecabee"))
 	// fmt.Println(checkInclusion("abc", "lecaabee"))
