@@ -1161,6 +1161,28 @@ func minOperations(nums []int) int {
 	return -1
 }
 
+type ListNode struct {
+    Val int
+    Next *ListNode
+}
+ 
+func reverseList(head *ListNode) *ListNode {
+	// 206
+	if head == nil {
+		return nil
+	}
+	current := head
+	next := current.Next
+	head.Next = nil // Set the original head's Next pointer to nil
+	for next != nil {
+		next2 := next.Next
+		next.Next = current
+		current = next
+		next = next2
+	}
+	return current
+}
+
 func main() {
 	fmt.Println(minOperations([]int{0,1,1,1,0,0}))
 	// fmt.Println(isValid("([)]"))
