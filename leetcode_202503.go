@@ -1183,6 +1183,40 @@ func reverseList(head *ListNode) *ListNode {
 	return current
 }
 
+func minimumCost_fail(n int, edges [][]int, query [][]int) []int {
+	// 3108
+	rs := []int{}
+	for _, q:= range query {
+		fmt.Println(q)
+		visited := make(map[int]bool)
+		stack := []int{q[0]}
+		min := math.MaxInt
+		for len(stack) > 0 {
+			v := stack[len(stack)-1]
+			stack = stack[:len(stack)-1]
+			if !visited[v] {
+				visited [v] = true
+			}
+			for _, e := range edges {
+				if e[0] == v && !visited[e[1]] {
+					stack = append(stack, e[1])
+				}
+				if e[0] == v || e[1] == v {
+					if e[2] < min {
+						min = e[2]
+					}
+				}
+			}
+		}
+		if min < math.MaxInt {
+			rs = append(rs, min)
+		} else {
+			rs = append(rs, -1)
+		}
+	}
+	return rs
+}
+
 func main() {
 	// fmt.Println(minOperations([]int{0,1,1,1,0,0}))
 	// fmt.Println(isValid("([)]"))
