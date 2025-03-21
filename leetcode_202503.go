@@ -1008,7 +1008,7 @@ func checkInclusion_fail(s1 string, s2 string) bool {
 		} else if cnt == 1 {
 			delete(m2, c)
 		} else {
-			m2[c] = cnt-1
+			m2[c] = cnt - 1
 		}
 	}
 	return false
@@ -1090,7 +1090,7 @@ func isValid_fail(s string) bool {
 				return false
 			}
 			pCnt--
-		case ']':			
+		case ']':
 			if prev == '(' || prev == '{' {
 				return false
 			}
@@ -1137,9 +1137,9 @@ func isValid(s string) bool {
 			lenStack--
 		}
 	}
-    if lenStack > 0 {
-        return false
-    }
+	if lenStack > 0 {
+		return false
+	}
 	return true
 }
 
@@ -1162,10 +1162,10 @@ func minOperations(nums []int) int {
 }
 
 type ListNode struct {
-    Val int
-    Next *ListNode
+	Val  int
+	Next *ListNode
 }
- 
+
 func reverseList(head *ListNode) *ListNode {
 	// 206
 	if head == nil {
@@ -1186,7 +1186,7 @@ func reverseList(head *ListNode) *ListNode {
 func minimumCost_fail(n int, edges [][]int, query [][]int) []int {
 	// 3108
 	rs := []int{}
-	for _, q:= range query {
+	for _, q := range query {
 		fmt.Println(q)
 		visited := make(map[int]bool)
 		stack := []int{q[0]}
@@ -1195,7 +1195,7 @@ func minimumCost_fail(n int, edges [][]int, query [][]int) []int {
 			v := stack[len(stack)-1]
 			stack = stack[:len(stack)-1]
 			if !visited[v] {
-				visited [v] = true
+				visited[v] = true
 			}
 			for _, e := range edges {
 				if e[0] == v && !visited[e[1]] {
@@ -1217,7 +1217,40 @@ func minimumCost_fail(n int, edges [][]int, query [][]int) []int {
 	return rs
 }
 
+func findAllRecipes_fail(recipes []string, ingredients [][]string, supplies []string) []string {
+	// 2115
+	m := make(map[string]bool)
+	mContainsAll := func(ingredients []string) bool {
+		for _, i := range ingredients {
+			if !m[i] {
+				return false
+			}
+		}
+		return true
+	}
+	for _, s := range supplies {
+		m[s] = true
+	}
+	rs := []string{}
+	found := true
+	for found {
+		found = false
+		for i := 0; i < len(recipes); i++ {
+			if mContainsAll(ingredients[i]) {
+				m[recipes[i]] = true
+				rs = append(rs, recipes[i])
+				found = true
+				recipes = append(recipes[:i], recipes[i+1:]...)
+				break
+			}
+		}
+	}
+	return rs
+}
+
 func main() {
+	fmt.Println(findAllRecipes([]string{"ju","fzjnm","x","e","zpmcz","h","q"}, [][]string{{"cpivl","zpmcz","h","e","fzjnm","ju"}, {"cpivl","hveml","zpmcz","ju","h"}, {"h","fzjnm","e","q","x"}, {"d","hveml","cpivl","q","zpmcz","ju","e","x"}, {"f","hveml","cpivl"}}, []string{"f","hveml","cpivl","d"})) // "ju","fzjnm","q"
+	// fmt.Println(findAllRecipes([]string{"bread", "sandwich", "burger"}, [][]string{{"yeast", "flour"}, {"bread", "meat"}, {"sandwich", "meat", "bread"}}, []string{"yeast", "flour", "meat"}))
 	// fmt.Println(minOperations([]int{0,1,1,1,0,0}))
 	// fmt.Println(isValid("([)]"))
 	// fmt.Println(isValid("([])"))
