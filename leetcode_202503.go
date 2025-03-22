@@ -1249,28 +1249,33 @@ func findAllRecipes_fail(recipes []string, ingredients [][]string, supplies []st
 }
 
 func mergeTwoLists(list1 *ListNode, list2 *ListNode) *ListNode {
-	// 21
-	// 1-2-4
-	// 1-3-4
-	panic("not implemented")
+	// 21 needed Copilot
+    if list1 == nil {
+        return list2
+    }
+    if list2 == nil {
+        return list1
+    }
 	head := list2
 	thisCurrent, otherCurrent := list2, list1
 	if list1.Val < list2.Val {
 		head = list1
 		thisCurrent, otherCurrent = list1, list2
 	}
-	for {
-		thisNext := thisCurrent.Next
-		if thisNext.Val > otherCurrent.Val {
-			thisCurrent.Next = otherCurrent
+	for otherCurrent != nil {
+		if thisCurrent.Next == nil || thisCurrent.Next.Val > otherCurrent.Val {
 			tmp := otherCurrent.Next
-			otherCurrent.Next = thisNext
-			thisCurrent = thisNext
+			otherCurrent.Next = thisCurrent.Next
+			thisCurrent.Next = otherCurrent
 			otherCurrent = tmp
 		} else {
-
+			thisCurrent = thisCurrent.Next
 		}
 	}
+    // Append the remaining nodes of the other list
+    if otherCurrent != nil {
+        thisCurrent.Next = otherCurrent
+    }
 	return head
 }
 
@@ -1280,8 +1285,8 @@ func countCompleteComponents(n int, edges [][]int) int {
 }
 
 func main() {
-	fmt.Println(6, [][]int{{0,1},{0,2},{1,2},{3,4}})
-	fmt.Println(6, [][]int{{0,1},{0,2},{1,2},{3,4},{3,5}})
+	fmt.Println(countCompleteComponents(6, [][]int{{0,1},{0,2},{1,2},{3,4}}))
+	fmt.Println(countCompleteComponents(6, [][]int{{0,1},{0,2},{1,2},{3,4},{3,5}}))
 	// fmt.Println(findAllRecipes([]string{"ju","fzjnm","x","e","zpmcz","h","q"}, [][]string{{"cpivl","zpmcz","h","e","fzjnm","ju"}, {"cpivl","hveml","zpmcz","ju","h"}, {"h","fzjnm","e","q","x"}, {"d","hveml","cpivl","q","zpmcz","ju","e","x"}, {"f","hveml","cpivl"}}, []string{"f","hveml","cpivl","d"})) // "ju","fzjnm","q"
 	// fmt.Println(findAllRecipes([]string{"bread", "sandwich", "burger"}, [][]string{{"yeast", "flour"}, {"bread", "meat"}, {"sandwich", "meat", "bread"}}, []string{"yeast", "flour", "meat"}))
 	// fmt.Println(minOperations([]int{0,1,1,1,0,0}))
