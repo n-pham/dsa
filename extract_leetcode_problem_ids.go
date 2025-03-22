@@ -32,7 +32,34 @@ func main() {
         log.Fatal(err)
     }
 
-    numbers := extractNumbersFromFunctionNames(string(fileContent))
+    // numbers := extractNumbersFromFunctionNames(string(fileContent))
 
-    fmt.Println("Extracted Numbers:", numbers)
+    // fmt.Println("Extracted Numbers:", numbers)
+
+    re := regexp.MustCompile(`(?ms)^func.*?\n\s*//\s*(\d+)`)
+    matches := re.FindAllStringSubmatch(string(fileContent), -1)
+    m := make(map[string]struct{})
+    for _, match := range matches {
+        // fmt.Println(match[1]) // Extracted number
+        m[match[1]] = struct{}{}
+    }
+
+    solvedProblems, err := ioutil.ReadFile("solved_problems.txt")
+    if err != nil {
+        log.Fatal(err)
+    }
+
+    solvedSet := make(map[string]struct{})
+    for _, line := range strings.Split(string(solvedProblems), "\n") {
+        line = strings.TrimSpace(line)
+        if line != "" {
+            solvedSet[line] = struct{}{}
+        }
+    }
+
+    for num := range m {
+        if _, exists := solvedSet[num]; !exists {
+            fmt.Println(num)
+        }
+    }
 }
