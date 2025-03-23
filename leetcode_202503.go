@@ -1316,6 +1316,58 @@ func numIslands(grid [][]byte) int {
 	return cnt
 }
 
+type Node struct {
+    Val int
+    Neighbors []*Node
+}
+
+func cloneGraph_3ms(node *Node) *Node {
+	m := make(map[*Node]*Node)
+	var recur func(*Node) *Node
+	recur = func(node *Node) *Node {
+		if node == nil {
+			return nil
+		}
+		neighbors := make([]*Node, len(node.Neighbors))
+		clone := &Node{Val: node.Val, Neighbors: neighbors}
+		m[node] = clone
+		for i, x := range node.Neighbors {
+			if m[x] == nil {
+				neighbors[i] = recur(x)
+			} else {
+				neighbors[i] = m[x]
+			}
+		}
+		return clone
+	}
+	return recur(node)
+}
+
+
+func cloneGraph(node *Node) *Node {
+	// 133
+	// 0ms using queue and map Val to *Node
+	if node == nil {
+		return nil
+	}
+	m := make(map[int]*Node)
+	m[node.Val] = &Node{Val: node.Val}
+	queue := []*Node{node}
+	for len(queue) > 0 {
+		node := queue[0]
+		queue = queue[1:]
+		for _, neighbor := range node.Neighbors {
+			if clone := m[neighbor.Val]; clone == nil {
+				clone =  &Node{Val: neighbor.Val}
+				m[neighbor.Val] = clone
+				queue = append(queue, neighbor)
+			}
+			m[node.Val].Neighbors = append(m[node.Val].Neighbors, m[neighbor.Val])
+		}
+	}
+	return m[node.Val]
+}
+
 func main() {
 	fmt.Println(numIslands([][]byte{{'1','1','0','0','0'},{'1','1','0','0','0'},{'0','0','1','0','0'},{'0','0','0','1','1'}}))
 	// fmt.Println(countPaths(7, [][]int{{0,6,7},{0,1,2},{1,2,3},{1,3,3},{6,3,3},{3,5,1},{6,5,1},{2,5,1},{0,4,5},{4,6,2}}))
