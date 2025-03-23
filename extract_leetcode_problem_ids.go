@@ -36,7 +36,7 @@ func main() {
 
     // fmt.Println("Extracted Numbers:", numbers)
 
-    re := regexp.MustCompile(`(?ms)^func.*?\n\s*//\s*(\d+)`)
+    re := regexp.MustCompile(`(?ms)^func.*?\n\s*//\s*(\d+)\n`)
     matches := re.FindAllStringSubmatch(string(fileContent), -1)
     m := make(map[string]struct{})
     for _, match := range matches {
