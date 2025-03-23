@@ -1289,8 +1289,36 @@ func countPaths(n int, roads [][]int) int {
 	panic("not implemented")
 }
 
+func numIslands(grid [][]byte) int {
+	// 200
+	// recur single data structure
+	height, width := len(grid), len(grid[0])
+	var recur func(int, int)
+	recur = func(i, j int) {
+		if i < 0 || j < 0 || i >= height || j >= width || grid[i][j] == '0' {
+			return
+		}
+		grid[i][j] = '0'
+		recur(i-1, j)
+		recur(i+1, j)
+		recur(i, j-1)
+		recur(i, j+1)
+	}
+	cnt := 0
+	for i := 0; i < height; i++ {
+		for j := 0; j < width; j++ {
+			if grid[i][j] == '1' {
+				cnt++
+				recur(i, j)
+			}
+		}
+	}
+	return cnt
+}
+
 func main() {
-	fmt.Println(countPaths(7, [][]int{{0,6,7},{0,1,2},{1,2,3},{1,3,3},{6,3,3},{3,5,1},{6,5,1},{2,5,1},{0,4,5},{4,6,2}}))
+	fmt.Println(numIslands([][]byte{{'1','1','0','0','0'},{'1','1','0','0','0'},{'0','0','1','0','0'},{'0','0','0','1','1'}}))
+	// fmt.Println(countPaths(7, [][]int{{0,6,7},{0,1,2},{1,2,3},{1,3,3},{6,3,3},{3,5,1},{6,5,1},{2,5,1},{0,4,5},{4,6,2}}))
 	// fmt.Println(countCompleteComponents(6, [][]int{{0,1},{0,2},{1,2},{3,4}}))
 	// fmt.Println(countCompleteComponents(6, [][]int{{0,1},{0,2},{1,2},{3,4},{3,5}}))
 	// fmt.Println(findAllRecipes([]string{"ju","fzjnm","x","e","zpmcz","h","q"}, [][]string{{"cpivl","zpmcz","h","e","fzjnm","ju"}, {"cpivl","hveml","zpmcz","ju","h"}, {"h","fzjnm","e","q","x"}, {"d","hveml","cpivl","q","zpmcz","ju","e","x"}, {"f","hveml","cpivl"}}, []string{"f","hveml","cpivl","d"})) // "ju","fzjnm","q"
