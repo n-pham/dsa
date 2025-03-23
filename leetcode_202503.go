@@ -191,7 +191,7 @@ func coloredCells2579(n int) int64 {
 }
 
 func countSubstrings1638(s string, t string) int {
-	// 1638
+	// not implemented 1638
 	// "aba", "baba"
 	panic("not implemented - Trie")
 }
@@ -259,7 +259,7 @@ func closestPrimes_93ms(left int, right int) []int {
 }
 
 func stoneGame(piles []int) bool {
-	// 877
+	// not implemented 877
 	// 5,3,4,5
 	// DP
 	panic("not implemented")
@@ -296,7 +296,7 @@ func shipWithinDays_solution(weights []int, days int) int {
 }
 
 func partition(s string) [][]string {
-	// 131
+	// not implemented 131
 	// aab --> a a b    aa b
 	panic("not implemented")
 }
@@ -399,7 +399,7 @@ func countSubstrings_580ms(s string) int {
 }
 
 func maxDistance(position []int, m int) int {
-	// 1552
+	// not implemented 1552
 	// 1234  7    3
 	// x  x  x
 	// 12345   1000000000    2
@@ -408,7 +408,7 @@ func maxDistance(position []int, m int) int {
 }
 
 func pancakeSort(arr []int) []int {
-	// 969
+	// not implemented 969
 	panic("not understood")
 }
 
@@ -452,7 +452,7 @@ func singleNumber_solution(nums []int) []int {
 }
 
 func equalPairs(grid [][]int) int {
-	// 2352
+	// not implemented 2352
 	// 3,1,2,2
 	// 1,4,4,5
 	// 2,4,2,2
@@ -486,7 +486,7 @@ func numberOfAlternatingGroups(colors []int, k int) int {
 }
 
 func countOfSubstrings(word string, k int) int64 {
-	// 3306
+	// not implemented 3306
 	panic("not implemented")
 }
 
@@ -516,7 +516,7 @@ func countOfSubstrings_time(word string, k int) int64 {
 }
 
 func numberOfSubstrings(s string) int {
-	// 1358
+	// not implemented 1358
 	// abcabc
 	// ...     4
 	//  ...    3
@@ -578,7 +578,6 @@ func containsDuplicate_8ms_byte(nums []int) bool {
 }
 
 func groupAnagrams_9ms(strs []string) [][]string {
-	// 49
 	iByM := make(map[[26]int]int)
 	rs, rsLen := [][]string{}, -1
 	for _, s := range strs {
@@ -598,7 +597,8 @@ func groupAnagrams_9ms(strs []string) [][]string {
 }
 
 func groupAnagrams(strs []string) [][]string {
-	// 49, 5ms
+	// 49
+	// 5ms
 	groupsByM := make(map[[26]int][]string)
 	for _, s := range strs {
 		m := [26]int{}
@@ -862,7 +862,7 @@ func maximumCandies(candies []int, k int64) int {
 }
 
 func minCapability(nums []int, k int) int {
-	// 2560
+	// not implemented 2560
 	// 2,7,9,3,1    2
 	// 1+x to 9+y
 	panic("how to find minimum of any k non-consecutive elements?")
@@ -943,7 +943,7 @@ func maxProfit(prices []int) int {
 }
 
 func characterReplacement(s string, k int) int {
-	// 424
+	// not implemented 424
 	// A.A.  2 --> window with 2 chars
 	cntMax, cntByChar := 0, [26]int{}
 	for _, c := range s {
@@ -956,7 +956,7 @@ func characterReplacement(s string, k int) int {
 }
 
 func repairCars(ranks []int, cars int) int64 {
-	// 2594
+	// not implemented 2594
 	// 4 2 3 1  cars=10
 	// 4*2*2 , 2*2*2 , 3*2*2 , 1*4*4
 	panic("not implemented")
@@ -1065,7 +1065,7 @@ func checkInclusion(s1 string, s2 string) bool {
 }
 
 func longestNiceSubarray(nums []int) int {
-	// 2401
+	// not implemented 2401
 	// 1,3,8,48,10
 	//     11
 	//   1000
@@ -1280,13 +1280,19 @@ func mergeTwoLists(list1 *ListNode, list2 *ListNode) *ListNode {
 }
 
 func countCompleteComponents(n int, edges [][]int) int {
-	// 2685
+	// not implemented 2685
+	panic("not implemented")
+}
+
+func countPaths(n int, roads [][]int) int {
+	// not implemented 1976 
 	panic("not implemented")
 }
 
 func main() {
-	fmt.Println(countCompleteComponents(6, [][]int{{0,1},{0,2},{1,2},{3,4}}))
-	fmt.Println(countCompleteComponents(6, [][]int{{0,1},{0,2},{1,2},{3,4},{3,5}}))
+	fmt.Println(countPaths(7, [][]int{{0,6,7},{0,1,2},{1,2,3},{1,3,3},{6,3,3},{3,5,1},{6,5,1},{2,5,1},{0,4,5},{4,6,2}}))
+	// fmt.Println(countCompleteComponents(6, [][]int{{0,1},{0,2},{1,2},{3,4}}))
+	// fmt.Println(countCompleteComponents(6, [][]int{{0,1},{0,2},{1,2},{3,4},{3,5}}))
 	// fmt.Println(findAllRecipes([]string{"ju","fzjnm","x","e","zpmcz","h","q"}, [][]string{{"cpivl","zpmcz","h","e","fzjnm","ju"}, {"cpivl","hveml","zpmcz","ju","h"}, {"h","fzjnm","e","q","x"}, {"d","hveml","cpivl","q","zpmcz","ju","e","x"}, {"f","hveml","cpivl"}}, []string{"f","hveml","cpivl","d"})) // "ju","fzjnm","q"
 	// fmt.Println(findAllRecipes([]string{"bread", "sandwich", "burger"}, [][]string{{"yeast", "flour"}, {"bread", "meat"}, {"sandwich", "meat", "bread"}}, []string{"yeast", "flour", "meat"}))
 	// fmt.Println(minOperations([]int{0,1,1,1,0,0}))
