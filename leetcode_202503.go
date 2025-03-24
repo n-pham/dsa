@@ -1386,11 +1386,34 @@ func merge(intervals [][]int) [][]int {
 	return newIntervals
 }
 
-func main() {
-	fmt.Println(merge([][]int{{1, 3}, {8, 10}, {15, 18}, {2, 6}}))
-	fmt.Println(merge([][]int{{1, 3}, {8, 15}, {15, 18}, {2, 6}}))
-	fmt.Println(merge([][]int{{1, 4}, {1, 4}}))
+func countDays(days int, meetings [][]int) int {
+	// 3169
+	slices.SortFunc(meetings, func(a, b []int) int {
+		return a[0] - b[0]
+	})
+	prevMeeting := meetings[0]
+	rs := prevMeeting[0] - 1
+	for _, meeting := range meetings[1:] {
+		if prevMeeting[1] < meeting[0] {
+			rs += meeting[0] - prevMeeting[1] - 1
+			prevMeeting = meeting
+		} else if prevMeeting[1] < meeting[1] {
+			prevMeeting[1] = meeting[1]
+		}
+		if meeting[1] >= days {
+			break
+		}
+	}
+	return rs + days - prevMeeting[1]
+}
 
+func main() {
+	fmt.Println(countDays(10, [][]int{{5, 7}, {1, 3}, {9, 10}}))
+	fmt.Println(countDays(5, [][]int{{2, 4}, {1, 3}}))
+	fmt.Println(countDays(8, [][]int{{3, 4}, {4, 8}, {2, 5}, {3, 8}}))
+	// fmt.Println(merge([][]int{{1, 3}, {8, 10}, {15, 18}, {2, 6}}))
+	// fmt.Println(merge([][]int{{1, 3}, {8, 15}, {15, 18}, {2, 6}}))
+	// fmt.Println(merge([][]int{{1, 4}, {1, 4}}))
 	// fmt.Println(numIslands([][]byte{{'1','1','0','0','0'},{'1','1','0','0','0'},{'0','0','1','0','0'},{'0','0','0','1','1'}}))
 	// fmt.Println(countPaths(7, [][]int{{0,6,7},{0,1,2},{1,2,3},{1,3,3},{6,3,3},{3,5,1},{6,5,1},{2,5,1},{0,4,5},{4,6,2}}))
 	// fmt.Println(countCompleteComponents(6, [][]int{{0,1},{0,2},{1,2},{3,4}}))
