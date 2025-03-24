@@ -1250,12 +1250,12 @@ func findAllRecipes_fail(recipes []string, ingredients [][]string, supplies []st
 
 func mergeTwoLists(list1 *ListNode, list2 *ListNode) *ListNode {
 	// 21 needed Copilot
-    if list1 == nil {
-        return list2
-    }
-    if list2 == nil {
-        return list1
-    }
+	if list1 == nil {
+		return list2
+	}
+	if list2 == nil {
+		return list1
+	}
 	head := list2
 	thisCurrent, otherCurrent := list2, list1
 	if list1.Val < list2.Val {
@@ -1272,10 +1272,10 @@ func mergeTwoLists(list1 *ListNode, list2 *ListNode) *ListNode {
 			thisCurrent = thisCurrent.Next
 		}
 	}
-    // Append the remaining nodes of the other list
-    if otherCurrent != nil {
-        thisCurrent.Next = otherCurrent
-    }
+	// Append the remaining nodes of the other list
+	if otherCurrent != nil {
+		thisCurrent.Next = otherCurrent
+	}
 	return head
 }
 
@@ -1285,7 +1285,7 @@ func countCompleteComponents(n int, edges [][]int) int {
 }
 
 func countPaths(n int, roads [][]int) int {
-	// not implemented 1976 
+	// not implemented 1976
 	panic("not implemented")
 }
 
@@ -1317,8 +1317,8 @@ func numIslands(grid [][]byte) int {
 }
 
 type Node struct {
-    Val int
-    Neighbors []*Node
+	Val       int
+	Neighbors []*Node
 }
 
 func cloneGraph_3ms(node *Node) *Node {
@@ -1343,7 +1343,6 @@ func cloneGraph_3ms(node *Node) *Node {
 	return recur(node)
 }
 
-
 func cloneGraph(node *Node) *Node {
 	// 133
 	// 0ms using queue and map Val to *Node
@@ -1358,7 +1357,7 @@ func cloneGraph(node *Node) *Node {
 		queue = queue[1:]
 		for _, neighbor := range node.Neighbors {
 			if clone := m[neighbor.Val]; clone == nil {
-				clone =  &Node{Val: neighbor.Val}
+				clone = &Node{Val: neighbor.Val}
 				m[neighbor.Val] = clone
 				queue = append(queue, neighbor)
 			}
@@ -1368,8 +1367,31 @@ func cloneGraph(node *Node) *Node {
 	return m[node.Val]
 }
 
+func merge(intervals [][]int) [][]int {
+	// 56
+	slices.SortFunc(intervals, func(a, b []int) int {
+		return a[0] - b[0]
+	})
+	newIntervals := [][]int{}
+	prevInterval := intervals[0]
+	for _, interval := range intervals[1:] {
+		if prevInterval[1] < interval[0] {
+			newIntervals = append(newIntervals, prevInterval)
+			prevInterval = interval
+		} else if prevInterval[1] < interval[1] {
+			prevInterval[1] = interval[1]
+		}
+	}
+	newIntervals = append(newIntervals, prevInterval) // Add the last interval
+	return newIntervals
+}
+
 func main() {
-	fmt.Println(numIslands([][]byte{{'1','1','0','0','0'},{'1','1','0','0','0'},{'0','0','1','0','0'},{'0','0','0','1','1'}}))
+	fmt.Println(merge([][]int{{1, 3}, {8, 10}, {15, 18}, {2, 6}}))
+	fmt.Println(merge([][]int{{1, 3}, {8, 15}, {15, 18}, {2, 6}}))
+	fmt.Println(merge([][]int{{1, 4}, {1, 4}}))
+
+	// fmt.Println(numIslands([][]byte{{'1','1','0','0','0'},{'1','1','0','0','0'},{'0','0','1','0','0'},{'0','0','0','1','1'}}))
 	// fmt.Println(countPaths(7, [][]int{{0,6,7},{0,1,2},{1,2,3},{1,3,3},{6,3,3},{3,5,1},{6,5,1},{2,5,1},{0,4,5},{4,6,2}}))
 	// fmt.Println(countCompleteComponents(6, [][]int{{0,1},{0,2},{1,2},{3,4}}))
 	// fmt.Println(countCompleteComponents(6, [][]int{{0,1},{0,2},{1,2},{3,4},{3,5}}))
