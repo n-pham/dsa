@@ -1407,10 +1407,25 @@ func countDays(days int, meetings [][]int) int {
 	return rs + days - prevMeeting[1]
 }
 
+func shipWithinDays(weights []int, days int) int {
+	// 1011
+	panic("not implemented")
+}
+
+func checkValidCuts(n int, rectangles [][]int) bool {
+	// 3394
+	// {{1,0,5,2},{0,2,2,4},{3,2,5,3},{0,4,4,5}}
+	// 1,5 0,2 3,5 0,4
+	// 0,2 2,4 2,3 4,5
+	panic("not implemented")
+}
+
 func main() {
-	fmt.Println(countDays(10, [][]int{{5, 7}, {1, 3}, {9, 10}}))
-	fmt.Println(countDays(5, [][]int{{2, 4}, {1, 3}}))
-	fmt.Println(countDays(8, [][]int{{3, 4}, {4, 8}, {2, 5}, {3, 8}}))
+	fmt.Println(shipWithinDays([]int{1,2,3,4,5,6,7,8,9,10}, 5))
+	fmt.Println(checkValidCuts(5, [][]int{}))
+	// fmt.Println(countDays(10, [][]int{{5, 7}, {1, 3}, {9, 10}}))
+	// fmt.Println(countDays(5, [][]int{{2, 4}, {1, 3}}))
+	// fmt.Println(countDays(8, [][]int{{3, 4}, {4, 8}, {2, 5}, {3, 8}}))
 	// fmt.Println(merge([][]int{{1, 3}, {8, 10}, {15, 18}, {2, 6}}))
 	// fmt.Println(merge([][]int{{1, 3}, {8, 15}, {15, 18}, {2, 6}}))
 	// fmt.Println(merge([][]int{{1, 4}, {1, 4}}))
