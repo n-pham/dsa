@@ -1,5 +1,6 @@
 package main
 
+//lint:file-ignore U1000 Ignore all unused code, it's generated
 import (
 	"cmp"
 	// "container/heap"
@@ -188,7 +189,8 @@ func minimumSize1760_fail_1(nums []int, maxOperations int) int {
 }
 
 func minimumSize1760(nums []int, maxOperations int) int {
-	panic("minimumSize1760 not implemented")
+	fmt.Println("minimumSize1760 not implemented", nums, maxOperations)
+	return 0
 }
 
 func isArraySpecial3152_1(nums []int, queries []int) bool {
@@ -199,6 +201,7 @@ func isArraySpecial3152_1(nums []int, queries []int) bool {
 	//   1           nums1[0:2]
 	//     1   1     nums1[2:5]
 	//       0   0   nums2[2:5]
+	fmt.Println("not implemented", nums, queries)
 	return true
 }
 
@@ -726,7 +729,7 @@ func continuousSubarrays2762(nums []int) int64 {
 }
 
 func longestPalindrome5(s string) string {
-	panic("not implemented")
+	fmt.Println("not implemented")
 	// b a b a d
 	// i j k
 	//   i j k
@@ -804,7 +807,7 @@ func maxAverageRatio1792(classes [][]int, extraStudents int) float64 {
 }
 
 func getFinalState3264(nums []int, k int, multiplier int) []int {
-	sortedNums := nums[0:len(nums)]
+	sortedNums := nums[0:]
 	slices.Sort(sortedNums)
 	for i := 0; i < k; i++ {
 		replaced := sortedNums[0] * multiplier
@@ -846,7 +849,7 @@ func repeatLimitedString2182_fail_1(s string, repeatLimit int) string {
 				return string(rs)
 			}
 			c = sortedChars[len(sortedChars)-2]
-			if cnt, _ := countByChar[c]; cnt > 0 {
+			if cnt := countByChar[c]; cnt > 0 {
 				countByChar[c] = countByChar[c] - 1
 				rs = append(rs, c)
 				length = 1
@@ -856,7 +859,7 @@ func repeatLimitedString2182_fail_1(s string, repeatLimit int) string {
 			continue
 		}
 		c = sortedChars[len(sortedChars)-1]
-		if cnt, _ := countByChar[c]; cnt > 0 {
+		if cnt := countByChar[c]; cnt > 0 {
 			countByChar[c] = countByChar[c] - 1
 			if len(rs) > 0 && rs[len(rs)-1] == c {
 				length += 1
@@ -1429,7 +1432,7 @@ func onesMinusZeros2482(grid [][]int) [][]int {
 	}
 	fmt.Println(oneMinusZeroHorizontal, oneMinusZeroVertical)
 	for i, row := range grid {
-		for j, _ := range row {
+		for j := range row {
 			rs[i][j] = oneMinusZeroHorizontal[i] + oneMinusZeroVertical[j]
 		}
 	}
@@ -1441,7 +1444,7 @@ func numWays1639(words []string, target string) int {
 	// a̲cca̲ a̲cca̲ a̲cca acca̲ acca̲ acca
 	// bb̲bb bb̲bb bbb̲b bbb̲b bbb̲b bbb̲b
 	// caca caca caca̲ caca ca̲ca ca̲ca̲
-	panic("not implemented")
+	fmt.Println("not implemented")
 	if len(target) == 0 {
 		return 0
 	}
@@ -1519,25 +1522,25 @@ func checkArithmeticSubarrays1630(nums []int, l []int, r []int) []bool {
 }
 
 func factorial(x int) *big.Int {
-    result := big.NewInt(1)
-    for i := 2; i <= x; i++ {
-        result.Mul(result, big.NewInt(int64(i)))
-    }
+	result := big.NewInt(1)
+	for i := 2; i <= x; i++ {
+		result.Mul(result, big.NewInt(int64(i)))
+	}
 	// fmt.Println("factorial", x, result.Int64())
-    return result
+	return result
 }
 
 // binomialCoefficient calculates C(n, k) = n! / (k! * (n-k)!) iteratively
 func binomialCoefficient(n, k int) int {
-    if k > n-k {
-        k = n-k
-    }
-    result := 1
-    for i := 0; i < k; i++ {
-        result *= (n - i)
-        result /= (i + 1)
-    }
-    return result
+	if k > n-k {
+		k = n - k
+	}
+	result := 1
+	for i := 0; i < k; i++ {
+		result *= (n - i)
+		result /= (i + 1)
+	}
+	return result
 }
 
 func countGoodStrings2466_wrong(low int, high int, zero int, one int) int {
@@ -1553,10 +1556,10 @@ func countGoodStrings2466_wrong(low int, high int, zero int, one int) int {
 		// m*zero + n*one == len
 		for m := 0; m*zero <= len; m++ {
 			if (len-m*zero)%one == 0 {
-				n := (len-m*zero)/one
-				fmt.Println(len, strings.Repeat("0",m*zero), strings.Repeat("1",n*one))
-				ways := binomialCoefficient(m + n, m)
-                cnt += ways
+				n := (len - m*zero) / one
+				fmt.Println(len, strings.Repeat("0", m*zero), strings.Repeat("1", n*one))
+				ways := binomialCoefficient(m+n, m)
+				cnt += ways
 			}
 		}
 	}
@@ -1569,7 +1572,7 @@ func countGoodStrings2466(low int, high int, zero int, one int) int {
 
 func mincostTickets983(days []int, costs []int) int {
 	// 2, 7, 15
-    // 1 4 6 7 8 20
+	// 1 4 6 7 8 20
 	//       ↳ 4*2 > 1*7 (1-7)
 	//         ↳ 4*2 > 1*7 (2-8)
 	//            ↳ 1*2 < 1*7 (14-20) < 1*15 (1-20)
@@ -1596,7 +1599,7 @@ func deckRevealedIncreasing950_solution(deck []int) []int {
 }
 
 func deckRevealedIncreasing950(deck []int) []int {
-    // 17 13 11  2  3  5  7
+	// 17 13 11  2  3  5  7
 	//  2  3  5  7 11 13 17
 	//  2  ?  3  ?  5  ?  7
 	// i1 i3 i5
@@ -1609,7 +1612,7 @@ func deckRevealedIncreasing950(deck []int) []int {
 	rs := make([]int, len(deck))
 	var iQueue []int
 	iNext := 0
-	for i, _ := range deck {
+	for i := range deck {
 		if i%2 == 0 {
 			rs[i] = deck[iNext]
 			iNext += 1
@@ -1636,7 +1639,7 @@ func deckRevealedIncreasing950(deck []int) []int {
 }
 
 func main() {
-	fmt.Println(deckRevealedIncreasing950([]int {17,13,11,2,3,5,7})) // 2,13,3,11,5,17,7
+	fmt.Println(deckRevealedIncreasing950([]int{17, 13, 11, 2, 3, 5, 7})) // 2,13,3,11,5,17,7
 	// fmt.Println(mincostTickets983([]int {1,4,6,7,8,20}, []int {2,7,15})) // 11
 	// fmt.Println(countGoodStrings2466(200, 200, 10, 1)) // 5
 	// fmt.Println(countGoodStrings2466(2, 3, 1, 2)) // 5

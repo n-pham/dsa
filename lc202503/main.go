@@ -1,5 +1,6 @@
 package main
 
+//lint:file-ignore U1000 Ignore all unused code, it's generated
 import (
 	"fmt"
 	// "github.com/mxschmitt/golang-combinations"
@@ -498,7 +499,7 @@ func countOfSubstrings_time(word string, k int) int64 {
 	//        ieqouq
 	cnt := int64(0)
 	for l := 0; l <= len(word)-5-k; l++ {
-		missingVowels := map[byte]struct{}{'a': struct{}{}, 'e': struct{}{}, 'i': struct{}{}, 'o': struct{}{}, 'u': struct{}{}}
+		missingVowels := map[byte]struct{}{'a': {}, 'e': {}, 'i': {}, 'o': {}, 'u': {}}
 		consonantCnt := k
 		for r := l; r < len(word); r++ {
 			if word[r] == 'a' || word[r] == 'e' || word[r] == 'i' || word[r] == 'o' || word[r] == 'u' {
@@ -761,10 +762,7 @@ func searchMatrix(matrix [][]int, target int) bool {
 		}
 	}
 	leftR, leftC := left/len(matrix[0]), left%len(matrix[0])
-	if matrix[leftR][leftC] == target {
-		return true
-	}
-	return false
+	return matrix[leftR][leftC] == target
 }
 
 func minEatingSpeed(piles []int, h int) int {
@@ -945,14 +943,15 @@ func maxProfit(prices []int) int {
 func characterReplacement(s string, k int) int {
 	// not implemented 424
 	// A.A.  2 --> window with 2 chars
-	cntMax, cntByChar := 0, [26]int{}
-	for _, c := range s {
-		cntByChar[c-'a']++
-		if cntByChar[c-'a'] > cntMax {
-			cntMax = cntByChar[c-'a']
-		}
-	}
-	panic("not implemented")
+	fmt.Println("not implemented", s, k)
+	// cntMax, cntByChar := 0, [26]int{}
+	// for _, c := range s {
+	// 	cntByChar[c-'a']++
+	// 	if cntByChar[c-'a'] > cntMax {
+	// 		cntMax = cntByChar[c-'a']
+	// 	}
+	// }
+	return 0
 }
 
 func repairCars(ranks []int, cars int) int64 {
@@ -1137,10 +1136,7 @@ func isValid(s string) bool {
 			lenStack--
 		}
 	}
-	if lenStack > 0 {
-		return false
-	}
-	return true
+	return lenStack <= 0
 }
 
 func minOperations(nums []int) int {
@@ -1187,7 +1183,7 @@ func minimumCost_fail(n int, edges [][]int, query [][]int) []int {
 	// 3108
 	rs := []int{}
 	for _, q := range query {
-		fmt.Println(q)
+		fmt.Println(n, q)
 		visited := make(map[int]bool)
 		stack := []int{q[0]}
 		min := math.MaxInt
@@ -1271,10 +1267,6 @@ func mergeTwoLists(list1 *ListNode, list2 *ListNode) *ListNode {
 		} else {
 			thisCurrent = thisCurrent.Next
 		}
-	}
-	// Append the remaining nodes of the other list
-	if otherCurrent != nil {
-		thisCurrent.Next = otherCurrent
 	}
 	return head
 }
@@ -1420,14 +1412,14 @@ func checkValidCuts(n int, rectangles [][]int) bool {
 	panic("not implemented")
 }
 
-func minOperations(grid [][]int, x int) int {
+func minOperations2023(grid [][]int, x int) int {
 	// 2023
-	panic("why median?")	
+	panic("why median?")
 }
 
 func main() {
-	fmt.Println(minOperations(2, [][]int{{2,4},{6,8}}))
-	fmt.Println(shipWithinDays([]int{1,2,3,4,5,6,7,8,9,10}, 5))
+	fmt.Println(minOperations2023([][]int{{2, 4}, {6, 8}}, 2))
+	fmt.Println(shipWithinDays([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 5))
 	fmt.Println(checkValidCuts(5, [][]int{}))
 	// fmt.Println(countDays(10, [][]int{{5, 7}, {1, 3}, {9, 10}}))
 	// fmt.Println(countDays(5, [][]int{{2, 4}, {1, 3}}))

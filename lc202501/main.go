@@ -1,5 +1,6 @@
 package main
 
+//lint:file-ignore U1000 Ignore all unused code, it's generated
 import (
 	"fmt"
 	"math"
@@ -13,7 +14,7 @@ func maxScore1422_fail(s string) int {
 	// iZCount = -1,0,4
 	// zCount 2: oCount = len-1 - iZCount[zCount]
 	// zCount 1: oCount = len-1 - iZCount[zCount] - 1 // zCount == 2
-	panic("not implemented")
+	fmt.Println("not implemented")
 	iZCount := []int{-1}
 	zTotal := 0
 	for i, c := range s {
@@ -295,7 +296,7 @@ func countPalindromicSubsequence1930(s string) int {
 	//         1 1 2 3 3      first a:0 b:2 c:3  last a:4 b:2 c:3
 	//         b b c b a b a
 	// uniqSum 1 1 2 2 3 3 3  first b:0 c:2 a:4  last b:5 c:2 a:6
-	panic("not implemented")
+	fmt.Println("not implemented")
 	uniqPrefixSum, firsts, lasts, rs := make([]int, len(s)), make(map[rune]int), [26]int{}, 0
 	for i, c := range s {
 		// fmt.Println(i, c, firsts, lasts)
@@ -306,7 +307,7 @@ func countPalindromicSubsequence1930(s string) int {
 		uniqPrefixSum[i] = len(firsts)
 	}
 	fmt.Println(uniqPrefixSum, firsts, lasts)
-	for i, _ := range firsts {
+	for i := range firsts {
 		rs += uniqPrefixSum[lasts[i]] - uniqPrefixSum[firsts[i]]
 	}
 	return rs
@@ -365,7 +366,7 @@ func shiftingLetters2381(s string, shifts [][]int) string {
 	//-1-1-1
 	//                 1
 	//  -1-1-1
-	panic("not implemented")
+	fmt.Println("not implemented", shifts)
 	ds := make([]int, len(s))
 	fmt.Print(ds)
 	rs := []byte(s)
@@ -462,7 +463,7 @@ func findingUsersActiveMinutes1817(logs [][]int, k int) []int {
 		if m, found := timesByUser[log[0]]; found {
 			m[log[1]] = struct{}{}
 		} else {
-			timesByUser[log[0]] = map[int]struct{}{log[1]: struct{}{}}
+			timesByUser[log[0]] = map[int]struct{}{log[1]: {}}
 		}
 	}
 	fmt.Println(timesByUser)
@@ -574,7 +575,7 @@ func buildArray1441(target []int, n int) []string {
 	rs, nextNum := []string{}, 1
 	for _, num := range target {
 		for i := nextNum; i < num; i++ {
-			fmt.Println(i, nextNum, num)
+			fmt.Println(i, nextNum, num, n)
 			rs = append(rs, "Push", "Pop")
 			nextNum += 1
 		}
@@ -814,10 +815,7 @@ func canConstruct1400(s string, k int) bool {
 	for _, v := range oddM {
 		oddCnt += v
 	}
-	if oddCnt > k {
-		return false
-	}
-	return true
+	return oddCnt <= k
 }
 
 func canConstruct1400_39ms(s string, k int) bool {
@@ -836,10 +834,7 @@ func canConstruct1400_39ms(s string, k int) bool {
 			oddM[c] = struct{}{}
 		}
 	}
-	if len(oddM) > k {
-		return false
-	}
-	return true
+	return len(oddM) <= k
 }
 
 func canBeValid2116_25ms(s string, locked string) bool {
@@ -851,7 +846,7 @@ func canBeValid2116_25ms(s string, locked string) bool {
 		return false
 	}
 	m, balance, lock := map[byte]int{')': -1, '(': 1}, 0, 0
-	for i, _ := range s {
+	for i := range s {
 		if locked[i] == '1' {
 			balance += m[s[i]]
 			lock++
@@ -883,7 +878,7 @@ func canBeValid2116(s string, locked string) bool {
 		return false
 	}
 	balance, lock := 0, 0
-	for i, _ := range s {
+	for i := range s {
 		if locked[i] == '1' {
 			if s[i] == '(' {
 				balance++
@@ -914,15 +909,15 @@ func canBeValid2116(s string, locked string) bool {
 }
 
 func minimumLength3223(s string) int {
-    // 3223
+	// 3223
 	l, m := 0, [26]int{}
 	for _, c := range s {
 		m[c-'a']++
 	}
 	for _, cnt := range m {
-        if cnt == 0 {
-            continue
-        }
+		if cnt == 0 {
+			continue
+		}
 		if cnt&1 == 1 {
 			l += 1 // odd --> 1 remains
 		} else {
@@ -944,8 +939,8 @@ func xorQueries1310(arr []int, queries [][]int) []int {
 	// 1-2 0111
 	rs, prefixXOR := make([]int, len(queries)), make([]int, len(arr)+1)
 	for i := 0; i < len(arr); i++ {
-        prefixXOR[i+1] = prefixXOR[i] ^ arr[i]
-    }
+		prefixXOR[i+1] = prefixXOR[i] ^ arr[i]
+	}
 	for i, q := range queries {
 		rs[i] = prefixXOR[q[1]+1] ^ prefixXOR[q[0]]
 	}
@@ -956,7 +951,7 @@ func minimizeXor2429(num1 int, num2 int) int {
 	// 2429
 	// num2 12 1100 --> 2x1
 	// num1 1  0001
-	panic("not implemented")
+	fmt.Println("not implemented")
 	setBits, s2 := 0, fmt.Sprintf("%b", num2)
 	format := fmt.Sprintf("%%0%db", len(s2))
 	s1 := fmt.Sprintf(format, num1)
@@ -976,7 +971,7 @@ func minimizeXor2429(num1 int, num2 int) int {
 			x[i] = '0'
 		}
 	}
-	for i := len(s1)-1; i >= 0 && setBits > 0; i-- {
+	for i := len(s1) - 1; i >= 0 && setBits > 0; i-- {
 		if x[i] != '1' {
 			setBits--
 			x[i] = '1'
@@ -993,8 +988,8 @@ func doesValidArrayExist2683(derived []int) bool {
 	//   ^ ^ ^
 	//   0 1 0
 	//   1 0(0)
-    //   1 0 1
-    //   0 1(1)
+	//   1 0 1
+	//   0 1(1)
 	current := 1
 	for _, v := range derived {
 		current = current ^ v
@@ -1022,7 +1017,7 @@ func xorAllNums2425(nums1 []int, nums2 []int) int {
 }
 
 func trapRainWater407_stackoverflow(heightMap [][]int) int {
-	var lowestWall func(i int, j int, m int, n int) int 
+	var lowestWall func(i int, j int, m int, n int) int
 	lowestWall = func(i int, j int, m int, n int) int {
 		if i < 0 || i >= m || j < 0 || j >= n {
 			return math.MaxInt
@@ -1031,7 +1026,7 @@ func trapRainWater407_stackoverflow(heightMap [][]int) int {
 	}
 	for i, row := range heightMap {
 		m, n := len(heightMap), len(heightMap[0])
-		for j, _ := range row {
+		for j := range row {
 			fmt.Println(lowestWall(i, j, m, n))
 		}
 	}
@@ -1043,12 +1038,12 @@ func trapRainWater407(heightMap [][]int) int {
 	// 1 4 3 1 3 2
 	// 3 2̲ 1̲ 3 2̲ 4
 	// 2 3 3 2 3 1
-	panic("not implemented")
+	fmt.Println("not implemented")
 	m, n := len(heightMap), len(heightMap[0])
 	cache := make([][]int, m)
 	flatCache := make([]int, m*n)
 	for i := range cache {
-    	cache[i], flatCache = flatCache[:n], flatCache[n:]
+		cache[i], flatCache = flatCache[:n], flatCache[n:]
 	}
 	var lowestWall func(i int, j int, m int, n int) int
 	lowestWall = func(i int, j int, m int, n int) int {
@@ -1064,7 +1059,7 @@ func trapRainWater407(heightMap [][]int) int {
 		return rs
 	}
 	for i, row := range heightMap {
-		for j, _ := range row {
+		for j := range row {
 			fmt.Println(lowestWall(i, j, m, n))
 		}
 	}
@@ -1090,7 +1085,7 @@ func firstCompleteIndex2661_14ms(arr []int, mat [][]int) int {
 			return i
 		}
 	}
-	return len(arr)-1
+	return len(arr) - 1
 }
 
 func firstCompleteIndex2661(arr []int, mat [][]int) int {
@@ -1112,7 +1107,7 @@ func firstCompleteIndex2661(arr []int, mat [][]int) int {
 			return i
 		}
 	}
-	return len(arr)-1
+	return len(arr) - 1
 }
 
 func maxEqualRowsAfterFlips1072(matrix [][]int) int {
@@ -1146,7 +1141,7 @@ func removeOccurrences1910_fail(s string, part string) string {
 	// ssln
 	cs, ps := []rune(s), []rune(part)
 	starts := []int{}
-	for i := 0; i <= len(cs) - len(ps); {
+	for i := 0; i <= len(cs)-len(ps); {
 		fmt.Println(string(cs), i, string(cs[i]), starts)
 		if cs[i] == ps[0] {
 			starts = append(starts, i)
@@ -1206,14 +1201,15 @@ func removeStars2390_time_2(s string) string {
 	// le    co  e
 	cs, csLen := []rune(s), len(s)
 	for i := 0; i < csLen; i++ {
-		j := 0 
-		for ; i+j < csLen && cs[i+j] == '*'; j++ { }
+		j := 0
+		for ; i+j < csLen && cs[i+j] == '*'; j++ {
+		}
 		fmt.Println(string(cs), i, i+j)
 		if j > 0 {
-            cs = append(cs[:i-j], cs[i+j:]...)
-            i = i-j
-            csLen = csLen-(2*j)
-        }
+			cs = append(cs[:i-j], cs[i+j:]...)
+			i = i - j
+			csLen = csLen - (2 * j)
+		}
 	}
 	return string(cs)
 }
@@ -1229,8 +1225,8 @@ func removeStars2390_time(s string) string {
 	for i := 0; i < csLen; i++ {
 		if cs[i] == '*' {
 			cs = append(cs[:i-1], cs[i+1:]...)
-			i = i-2
-			csLen = csLen-2
+			i = i - 2
+			csLen = csLen - 2
 		}
 	}
 	return string(cs)
@@ -1249,7 +1245,7 @@ func gridGame2017(grid [][]int) int64 {
 	panic("not implemented")
 }
 
-func rotate48(matrix [][]int)  {
+func rotate48(matrix [][]int) {
 	// 48
 	// 1 2 3
 	// 4 5 6
@@ -1280,18 +1276,17 @@ func subdomainVisits811(cpdomains []string) (rs []string) {
 		newCount, _ := strconv.Atoi(parts[0])
 		subdomains := strings.Split(parts[1], ".")
 		// slower for i, _ := range subdomains {
-        for i := len(subdomains) - 1; i >= 0; i-- {
+		for i := len(subdomains) - 1; i >= 0; i-- {
 			subdomain := strings.Join(subdomains[i:], ".")
 			m[subdomain] += newCount
 		}
 	}
 	for k, v := range m {
 		// slower rs = append(rs, fmt.Sprintf("%d %s", v, k))
-        rs = append(rs, strconv.Itoa(v)+" "+k)
+		rs = append(rs, strconv.Itoa(v)+" "+k)
 	}
 	return
 }
-
 
 func main() {
 	// fmt.Println(subdomainVisits811([]string{"900 google.mail.com", "50 yahoo.com", "1 intel.mail.com", "5 wiki.org"}))
@@ -1300,8 +1295,8 @@ func main() {
 	// fmt.Println(removeStars2390("erase*****"))
 	// fmt.Println(partitionString2405("abacaba"))
 	fmt.Println(removeOccurrences1910("hhvhvaahvahvhvaavhvaasshvahvaln", "hva")) // ssln
-	fmt.Println(removeOccurrences1910("gjzgbpggjzgbpgsvpwdk", "gjzgbpg")) // svpwdk
-	fmt.Println(removeOccurrences1910("daabcbaabcbc", "abc")) // dab
+	fmt.Println(removeOccurrences1910("gjzgbpggjzgbpgsvpwdk", "gjzgbpg"))        // svpwdk
+	fmt.Println(removeOccurrences1910("daabcbaabcbc", "abc"))                    // dab
 	// fmt.Println(maxEqualRowsAfterFlips1072([][]int{{0,0,0},{0,0,1},{1,1,0}}))
 	// fmt.Println(firstCompleteIndex2661([]int{2,8,7,4,1,3,5,6,9}, [][]int{{3,2,5},{1,4,6},{8,7,9}})) // 3
 	// fmt.Println(firstCompleteIndex2661([]int{6,2,3,1,4,5}, [][]int{{5,1},{2,4},{6,3}})) // ?

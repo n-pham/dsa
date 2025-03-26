@@ -1,5 +1,6 @@
 package main
 
+//lint:file-ignore U1000 Ignore all unused code, it's generated
 import (
 	"container/heap"
 	"fmt"
@@ -158,7 +159,7 @@ func eventualSafeNodes802(graph [][]int) (rs []int) {
 	//           0     1     2   3   4   5  6
 	//           [1,2],[2,3],[4],[0],[5],[],[]
 	// terminal                          5  6
-	panic("not implemented")
+	fmt.Println("not implemented")
 	m := make([]int, len(graph))
 	g := graph[:]
 	added := true
@@ -249,7 +250,7 @@ func isAnagram242(s string, t string) bool {
 
 func minChanges2914(s string) int {
 	// 2914
-	panic("not implemented")
+	fmt.Println("not implemented")
 	oddCnt, curCnt, prev := [2]int{}, 1, s[0]
 	for i := 1; i < len(s); i++ {
 		if prev == s[i] {
@@ -487,7 +488,7 @@ func getHappyString1415_226ms(n int, k int) string {
 			if i == prev {
 				continue
 			}
-			first := string('a' + i)
+			first := string(rune('a' + i))
 			for _, rest := range rec(n-1, i) {
 				rs = append(rs, first+rest)
 			}
@@ -534,7 +535,7 @@ func queryResults3160_memory(limit int, queries [][]int) []int {
 	rs, colorByLabel, colorCnt := make([]int, len(queries)), make([]int, limit+1), make(map[int]int)
 	for i, q := range queries {
 		if colorByLabel[q[0]] > 0 {
-			if v, _ := colorCnt[colorByLabel[q[0]]]; v == 1 {
+			if v := colorCnt[colorByLabel[q[0]]]; v == 1 {
 				delete(colorCnt, colorByLabel[q[0]])
 			} else {
 				colorCnt[colorByLabel[q[0]]]--
@@ -553,10 +554,11 @@ func queryResults3160(limit int, queries [][]int) []int {
 	// 2,5   1:4̲, 2:5       [5]++
 	// 1,3   1:3̲, 2:5       [4]-- [3]++
 	// 3,4   1:3, 2:5, 3:4  [4]++
+	fmt.Println(limit)
 	rs, colorByLabel, colorCnt := make([]int, len(queries)), make(map[int]int), make(map[int]int)
 	for i, q := range queries {
 		if color, found := colorByLabel[q[0]]; found {
-			if cnt, _ := colorCnt[color]; cnt == 1 {
+			if cnt := colorCnt[color]; cnt == 1 {
 				delete(colorCnt, color)
 			} else {
 				colorCnt[color]--
@@ -571,7 +573,7 @@ func queryResults3160(limit int, queries [][]int) []int {
 
 func findDifferentBinaryString1980_fail(nums []string) string {
 	// 1980
-	panic("not implemented")
+	fmt.Println("not implemented")
 	slices.Sort(nums)
 	for i := 1; i < len(nums); i++ {
 		num, _ := strconv.Atoi(nums[i])
@@ -588,7 +590,7 @@ func restoreArray1743(adjacentPairs [][]int) []int {
 	// 2,1   2̶1̶ 12
 	// 3,4   34 4̶3̶
 	// 3,2   3̶2̶ 23
-	panic("not implemented")
+	fmt.Println("not implemented")
 	numMap := make([]int, len(adjacentPairs)+2)
 	for _, pair := range adjacentPairs {
 		if numMap[pair[0]] == 0 {
@@ -668,20 +670,20 @@ type NumberContainers struct {
 // 	}
 // }
 
-func (this *NumberContainers) Change(index int, number int) map[int]int {
-	if oldNumber, exists := this.numberByIndex[index]; exists {
-		heap.Remove(this.indexByNumber[oldNumber], findIndex(this.indexByNumber[oldNumber], index))
-		if this.indexByNumber[oldNumber].Len() == 0 {
-			delete(this.indexByNumber, oldNumber)
+func (con *NumberContainers) Change(index int, number int) map[int]int {
+	if oldNumber, exists := con.numberByIndex[index]; exists {
+		heap.Remove(con.indexByNumber[oldNumber], findIndex(con.indexByNumber[oldNumber], index))
+		if con.indexByNumber[oldNumber].Len() == 0 {
+			delete(con.indexByNumber, oldNumber)
 		}
 	}
-	this.numberByIndex[index] = number
-	if _, exists := this.indexByNumber[number]; !exists {
-		this.indexByNumber[number] = &MinHeap{}
-		heap.Init(this.indexByNumber[number])
+	con.numberByIndex[index] = number
+	if _, exists := con.indexByNumber[number]; !exists {
+		con.indexByNumber[number] = &MinHeap{}
+		heap.Init(con.indexByNumber[number])
 	}
-	heap.Push(this.indexByNumber[number], index)
-	return this.numberByIndex
+	heap.Push(con.indexByNumber[number], index)
+	return con.numberByIndex
 }
 
 func findIndex(h *MinHeap, index int) int {
@@ -693,8 +695,8 @@ func findIndex(h *MinHeap, index int) int {
 	return -1
 }
 
-func (this *NumberContainers) Find(number int) int {
-	if indices, exists := this.indexByNumber[number]; exists && indices.Len() > 0 {
+func (con *NumberContainers) Find(number int) int {
+	if indices, exists := con.indexByNumber[number]; exists && indices.Len() > 0 {
 		return (*indices)[0]
 	}
 	return -1
@@ -739,7 +741,7 @@ func countBadPairs2364_44ms(nums []int) (cnt int64) {
 	prevCnt := make(map[int]int)
 	for i, num := range nums {
 		count := 0
-		count, _ = prevCnt[num-i]
+		count = prevCnt[num-i]
 		cnt += int64(i - count)
 		prevCnt[num-i]++
 	}
@@ -802,9 +804,8 @@ func canVisitAllRooms841(rooms [][]int) bool {
 	// 841
 	visited := make(map[int]byte)
 	q := []int{}
-	for _, k := range rooms[0] {
-		q = append(q, k)
-	}
+	q = append(q, rooms[0]...)
+
 	visited[0] = 1
 	var curNum int
 	for len(q) > 0 {
@@ -1066,20 +1067,20 @@ type ProductOfNumbers struct {
 // 	return ProductOfNumbers{products: []int{1}}
 // }
 
-func (this *ProductOfNumbers) Add(num int) {
+func (p *ProductOfNumbers) Add(num int) {
 	if num == 0 {
-		this.products = []int{1}
+		p.products = []int{1}
 	} else {
-		this.products = append(this.products, this.products[len(this.products)-1]*num)
+		p.products = append(p.products, p.products[len(p.products)-1]*num)
 	}
 }
 
-func (this *ProductOfNumbers) GetProduct(k int) int {
-	n := len(this.products)
+func (p *ProductOfNumbers) GetProduct(k int) int {
+	n := len(p.products)
 	if k >= n {
 		return 0
 	}
-	return this.products[n-1] / this.products[n-1-k]
+	return p.products[n-1] / p.products[n-1-k]
 }
 
 func punishmentNumber2698(n int) int {
@@ -1148,7 +1149,7 @@ func longestConsecutive128_time2(nums []int) int {
 		}
 	}
 	fmt.Println(firsts)
-	for num, _ := range firsts {
+	for num := range firsts {
 		right := 0
 		for found := true; found; right++ {
 			_, found = m[num+right+1]
@@ -1167,7 +1168,7 @@ func longestConsecutive128_41ms(nums []int) int {
 	for _, num := range nums {
 		m[num] = struct{}{}
 	}
-	for num, _ := range m {
+	for num := range m {
 		if _, found := m[num-1]; found {
 			continue
 		}
@@ -1406,7 +1407,7 @@ func findWinners2225_527ms(matches [][]int) [][]int {
 		}
 		delete(allId, id)
 	}
-	for id, _ := range allId {
+	for id := range allId {
 		idx, _ := slices.BinarySearch(win, id)
 		win = slices.Insert(win, idx, id)
 	}
@@ -1433,7 +1434,7 @@ func findWinners2225_125ms(matches [][]int) [][]int {
 		delete(allId, id)
 	}
 	fmt.Println(allId)
-	for id, _ := range allId {
+	for id := range allId {
 		idx, _ := slices.BinarySearch(win, id)
 		win = slices.Insert(win, idx, id)
 	}
@@ -1444,8 +1445,8 @@ func findWinners2225(matches [][]int) [][]int {
 	// 2225  increasing order --> array  55ms
 	lostCntById := make([]int, 100001) // 0 no player 1+ loss count -1 no loss
 	rs := [][]int{
-		[]int{},
-		[]int{},
+		{},
+		{},
 	}
 	for _, m := range matches {
 		win, loss := m[0], m[1]
@@ -1507,7 +1508,7 @@ func reductionOperations1887(nums []int) (cnt int) {
 	// 5 1 3 1
 	// 0 2 0 1 0 1
 	// numCnt := [50001]int{}
-	panic("not implemented")
+	fmt.Println("not implemented")
 	numCnt := [6]int{}
 	for _, num := range nums {
 		numCnt[num]++
@@ -1588,8 +1589,8 @@ func Constructor(root *TreeNode) FindElements {
 	return FindElements{recovered: recovered}
 }
 
-func (this *FindElements) Find(target int) bool {
-	_, found := this.recovered[target]
+func (e *FindElements) Find(target int) bool {
+	_, found := e.recovered[target]
 	return found
 }
 
@@ -1753,7 +1754,7 @@ func numOfSubarrays1524_7ms(arr []int) int {
 		if odd == 1 {
 			oddCount, evenCount = evenCount, oddCount+1
 		} else {
-			oddCount, evenCount = oddCount, evenCount+1
+			evenCount = evenCount + 1
 		}
 		totalOddSubarrays += oddCount
 	}
@@ -1767,7 +1768,7 @@ func numOfSubarrays1524(arr []int) int {
 		if v&1 == 1 {
 			oddCount, evenCount = evenCount, oddCount+1
 		} else {
-			oddCount, evenCount = oddCount, evenCount+1
+			evenCount = evenCount + 1
 		}
 		totalOddSubarrays += oddCount
 	}
