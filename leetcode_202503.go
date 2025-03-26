@@ -1420,7 +1420,13 @@ func checkValidCuts(n int, rectangles [][]int) bool {
 	panic("not implemented")
 }
 
+func minOperations(grid [][]int, x int) int {
+	// 2023
+	panic("why median?")	
+}
+
 func main() {
+	fmt.Println(minOperations(2, [][]int{{2,4},{6,8}}))
 	fmt.Println(shipWithinDays([]int{1,2,3,4,5,6,7,8,9,10}, 5))
 	fmt.Println(checkValidCuts(5, [][]int{}))
 	// fmt.Println(countDays(10, [][]int{{5, 7}, {1, 3}, {9, 10}}))
