@@ -1443,6 +1443,57 @@ func hasCycle(head *ListNode) bool {
 	return false
 }
 
+func reorderList_slow(head *ListNode) {
+	// 143
+	// 0  arr               0
+	// T1  T1   6           6
+	// 1                    1
+	// T2  T2  T2   5       5
+	// 2                    2
+	// T3  T3  T3  T3   4   4
+	// 3                    3
+	// T4  T4  T4  T4
+	// 4
+	// T5  T5  T5
+	// 5
+	// T6  T6
+	// 6
+	// end
+	panic("not implemented")
+}
+
+func reorderList(head *ListNode) {
+	// 143
+	// 1 2 3 4 5 --> 1 5 2 4 3
+	//               1   2
+	//                 5   4 3
+	p1, p2 := head, head
+	for p2 != nil && p2.Next != nil {
+		p1 = p1.Next
+		p2 = p2.Next.Next
+	}
+	other := p1
+	// reverse
+	var prev *ListNode
+	for other != nil {
+		next := other.Next
+		other.Next = prev
+		prev = other
+		other = next
+	}
+	other = prev
+	c := head
+	for other != nil && c != nil {
+		tmp := c.Next
+		c.Next = other
+		c = other
+		other = tmp
+	}
+	if c != nil {
+		c.Next = nil // Ensure the last node points to nil to avoid infinite loop
+	}
+}
+
 func main() {
 	fmt.Println(minOperations2023([][]int{{2, 4}, {6, 8}}, 2))
 	fmt.Println(shipWithinDays([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 5))
