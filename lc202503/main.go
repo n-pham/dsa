@@ -1417,6 +1417,32 @@ func minOperations2023(grid [][]int, x int) int {
 	panic("why median?")
 }
 
+func hasCycle_7ms(head *ListNode) bool {
+	// 7ms 141
+	m := make(map[*ListNode]struct{})
+	for node := head; node != nil; node = node.Next {
+		if _, found := m[node]; found {
+			return true
+		}
+		m[node] = struct{}{}
+	}
+	return false
+}
+
+func hasCycle(head *ListNode) bool {
+	// 141
+	// 2 slow and fast pointers
+	p1, p2 := head, head
+	for p2 != nil && p2.Next != nil {
+		p1 = p1.Next
+		p2 = p2.Next.Next
+		if p1 == p2 {
+			return true
+		}
+	}
+	return false
+}
+
 func main() {
 	fmt.Println(minOperations2023([][]int{{2, 4}, {6, 8}}, 2))
 	fmt.Println(shipWithinDays([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 5))
