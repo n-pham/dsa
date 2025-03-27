@@ -1522,6 +1522,27 @@ func minimumIndex(nums []int) int {
 	return -1
 }
 
+func removeNthFromEnd(head *ListNode, n int) *ListNode {
+	// 19
+	// 1,2,3,4,5    2
+	// 1   3
+	//   2   4
+	//     3   5
+	// 1 2
+	// p pn
+	dummy := &ListNode{Next: head}
+	p, pn := dummy, dummy
+	for i := 0; i < n; i++ {
+		pn = pn.Next
+	}
+	for pn.Next != nil {
+		pn = pn.Next
+		p = p.Next
+	}
+	p.Next = p.Next.Next
+	return dummy.Next
+}
+
 func main() {
 	fmt.Println(minOperations2023([][]int{{2, 4}, {6, 8}}, 2))
 	fmt.Println(shipWithinDays([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 5))
