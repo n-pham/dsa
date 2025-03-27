@@ -1494,6 +1494,34 @@ func reorderList(head *ListNode) {
 	}
 }
 
+func minimumIndex(nums []int) int {
+	// 2780
+	// 17ms
+	// TODO For each index in [0, n - 2], calculate f1, x’s frequency in the subarray [0, i] when looping the index. And f2, x’s frequency in the subarray [i + 1, n - 1] which is equal to f - f1. Then we can check whether x is dominant in both subarrays.
+	cntByNum := make(map[int]int, len(nums))
+	for _, num := range nums {
+		cntByNum[num]++
+	}
+	dominant, dominantCnt := 0, 0
+	for num, cnt := range cntByNum {
+		if dominantCnt < cnt {
+			dominant, dominantCnt = num, cnt
+		}
+	}
+	leftCnt := 0
+	for i, num := range nums {
+		if num == dominant {
+			leftCnt++
+		}
+		leftDominant := 2*leftCnt > i+1
+		rightDominant := 2*(dominantCnt-leftCnt) > len(nums)-i-1
+		if leftDominant && rightDominant {
+			return i
+		}
+	}
+	return -1
+}
+
 func main() {
 	fmt.Println(minOperations2023([][]int{{2, 4}, {6, 8}}, 2))
 	fmt.Println(shipWithinDays([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 5))
