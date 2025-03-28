@@ -1543,6 +1543,14 @@ func removeNthFromEnd(head *ListNode, n int) *ListNode {
 	return dummy.Next
 }
 
+func maxPoints(grid [][]int, queries []int) []int {
+	// 2503
+	// 1 2 3    5
+	// 2 5̲ 7̲
+	// 3 5̲ 1
+	panic("not implemented")
+}
+
 func main() {
 	fmt.Println(minOperations2023([][]int{{2, 4}, {6, 8}}, 2))
 	fmt.Println(shipWithinDays([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 5))
