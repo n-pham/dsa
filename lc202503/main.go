@@ -1551,10 +1551,43 @@ func maxPoints(grid [][]int, queries []int) []int {
 	panic("not implemented")
 }
 
+func partitionLabels(s string) []int {
+	// 763
+	// ababcbacadefegdehijhklij
+	// a       a
+	//  b   b
+	//     c  c
+	//          d    d
+	//           e    e
+	//            f
+	//              g
+	//                 h  h
+	//                     k
+	//                  i    i
+	//                   j    j
+	//                      l
+	last := [26]int{}
+	for i, c := range s {
+		last[c-'a'] = i
+	}
+	rs, start, end := []int{}, 0, 0
+	for i, c := range s {
+		if last[c-'a'] > end {
+			end = last[c-'a']
+		}
+		if i == end {
+			rs = append(rs, end-start+1)
+			start = end + 1
+		}
+	}
+	return rs
+}
+
 func main() {
-	fmt.Println(minOperations2023([][]int{{2, 4}, {6, 8}}, 2))
-	fmt.Println(shipWithinDays([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 5))
-	fmt.Println(checkValidCuts(5, [][]int{}))
+	fmt.Println(partitionLabels("ababcbacadefegdehijhklij"))
+	// fmt.Println(minOperations2023([][]int{{2, 4}, {6, 8}}, 2))
+	// fmt.Println(shipWithinDays([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 5))
+	// fmt.Println(checkValidCuts(5, [][]int{}))
 	// fmt.Println(countDays(10, [][]int{{5, 7}, {1, 3}, {9, 10}}))
 	// fmt.Println(countDays(5, [][]int{{2, 4}, {1, 3}}))
 	// fmt.Println(countDays(8, [][]int{{3, 4}, {4, 8}, {2, 5}, {3, 8}}))

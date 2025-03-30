@@ -525,7 +525,7 @@ func minimumPushes3016(word string) int {
 	return rs
 }
 
-func partitionLabels763(s string) []int {
+func partitionLabels763_fail(s string) []int {
 	// 763
 	// ababcbacadefegdehijhklij
 	// a       a
