@@ -1625,9 +1625,29 @@ func maxSubArray(nums []int) int {
 	return maxSum
 }
 
+func putMarbles(weights []int, k int) int64 {
+	// 2551
+	// 1   3   5   2
+	//    1+3 3+5 5+2
+	// (1+3+5+2) - (1+1+3+2)
+	n := len(weights)
+	pairCost := make([]int64, n-1)
+	for i := 0; i < n-1; i++ {
+		pairCost[i] = int64(weights[i] + weights[i+1])
+	}
+	slices.Sort(pairCost)
+	var min, max int64
+	for i := 0; i < k-1; i++ {
+		min += pairCost[i]
+		max += pairCost[n-i-2]
+	}
+	return max - min
+}
+
 func main() {
-	fmt.Println(maxSubArray([]int{5, 4, -1, 7, 8}))
-	fmt.Println(maxSubArray([]int{-2, 1, -3, 4, -1, 2, 1, -5, 4}))
+	fmt.Println(putMarbles([]int{1, 3, 5, 1}, 2))
+	// fmt.Println(maxSubArray([]int{5, 4, -1, 7, 8}))
+	// fmt.Println(maxSubArray([]int{-2, 1, -3, 4, -1, 2, 1, -5, 4}))
 	// fmt.Println(partitionLabels("ababcbacadefegdehijhklij"))
 	// fmt.Println(minOperations2023([][]int{{2, 4}, {6, 8}}, 2))
 	// fmt.Println(shipWithinDays([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 5))
