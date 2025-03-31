@@ -1583,8 +1583,52 @@ func partitionLabels(s string) []int {
 	return rs
 }
 
+func maxSubArray_fail(nums []int) int {
+	// 53
+	left := 0
+	minLeft, iLeft := math.MaxInt, 0
+	for i, num := range nums {
+		left += num
+		if left < minLeft {
+			minLeft = left
+			iLeft = i
+		}
+	}
+	fmt.Println(iLeft, minLeft, left)
+	right := 0
+	minRight, iRight := math.MaxInt, len(nums)-1
+	for i := len(nums) - 1; i > -1; i-- {
+		right += nums[i]
+		if right < minRight {
+			minRight = right
+			iRight = i
+		}
+	}
+	fmt.Println(iRight, minRight)
+	return left - minRight - minLeft
+}
+
+func maxSubArray(nums []int) int {
+	// 53
+	// -2, 1, -3, 4, -1, 2, 1, -5, 4
+	maxSum, currentSum := nums[0], nums[0]
+	for _, num := range nums[1:] {
+		if currentSum > 0 {
+			currentSum += num
+		} else {
+			currentSum = num
+		}
+		if currentSum > maxSum {
+			maxSum = currentSum
+		}
+	}
+	return maxSum
+}
+
 func main() {
-	fmt.Println(partitionLabels("ababcbacadefegdehijhklij"))
+	fmt.Println(maxSubArray([]int{5, 4, -1, 7, 8}))
+	fmt.Println(maxSubArray([]int{-2, 1, -3, 4, -1, 2, 1, -5, 4}))
+	// fmt.Println(partitionLabels("ababcbacadefegdehijhklij"))
 	// fmt.Println(minOperations2023([][]int{{2, 4}, {6, 8}}, 2))
 	// fmt.Println(shipWithinDays([]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 5))
 	// fmt.Println(checkValidCuts(5, [][]int{}))
