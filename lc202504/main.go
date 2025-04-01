@@ -25,7 +25,29 @@ func mostPoints_time(questions [][]int) int64 {
 
 func mostPoints(questions [][]int) int64 {
 	// 2140
-	panic("Dynamic Programming")
+	// 43ms
+	m := make([]int64, len(questions))
+	var recur func(int) int64
+	recur = func(index int) int64 {
+		if index >= len(questions) {
+			return 0
+		}
+		if val := m[index]; val > 0 {
+			return val
+		}
+		skip0 := recur(index + 1)
+		solve0 := int64(questions[index][0])
+		if index+questions[index][1]+1 < len(questions) {
+			solve0 += recur(index + questions[index][1] + 1)
+		}
+		if solve0 > skip0 {
+			m[index] = solve0
+		} else {
+			m[index] = skip0
+		}
+		return m[index]
+	}
+	return recur(0)
 }
 
 func climbStairs(n int) int {
@@ -46,6 +68,6 @@ func climbStairs(n int) int {
 }
 
 func main() {
-	// fmt.Println(mostPoints([][]int{{3, 2}, {4, 3}, {4, 4}, {2, 5}}))
-	fmt.Println(climbStairs(3))
+	fmt.Println(mostPoints([][]int{{3, 2}, {4, 3}, {4, 4}, {2, 5}}))
+	// fmt.Println(climbStairs(3))
 }
