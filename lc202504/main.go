@@ -28,6 +28,24 @@ func mostPoints(questions [][]int) int64 {
 	panic("Dynamic Programming")
 }
 
+func climbStairs(n int) int {
+	// 70
+	m := map[int]int{}
+	var recur func(int) int
+	recur = func(n int) int {
+		if n <= 2 {
+			return n
+		}
+		if val, exists := m[n]; exists {
+			return val
+		}
+		m[n] = recur(n-1) + recur(n-2)
+		return m[n]
+	}
+	return recur(n)
+}
+
 func main() {
-	fmt.Println(mostPoints([][]int{{3, 2}, {4, 3}, {4, 4}, {2, 5}}))
+	// fmt.Println(mostPoints([][]int{{3, 2}, {4, 3}, {4, 4}, {2, 5}}))
+	fmt.Println(climbStairs(3))
 }
