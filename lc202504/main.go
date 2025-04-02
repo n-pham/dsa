@@ -3,6 +3,7 @@ package main
 //lint:file-ignore U1000 Ignore all unused code, it's generated
 import (
 	"fmt"
+	"math"
 	// "github.com/mxschmitt/golang-combinations"
 	// "strconv"
 	// "strings"
@@ -67,7 +68,27 @@ func climbStairs(n int) int {
 	return recur(n)
 }
 
+func maximumTripletValue(nums []int) int64 {
+	// 2873
+	var max int64 = math.MinInt64
+	for i := 0; i < len(nums)-2; i++ {
+		for j := i + 1; j < len(nums)-1; j++ {
+			for k := j + 1; k < len(nums); k++ {
+				val := int64(nums[i]-nums[j]) * int64(nums[k])
+				if max < val {
+					max = val
+				}
+			}
+		}
+	}
+	if max < 0 {
+		return 0
+	}
+	return max
+}
+
 func main() {
-	fmt.Println(mostPoints([][]int{{3, 2}, {4, 3}, {4, 4}, {2, 5}}))
+	fmt.Println(maximumTripletValue([]int{12, 6, 1, 2, 7}))
+	// fmt.Println(mostPoints([][]int{{3, 2}, {4, 3}, {4, 4}, {2, 5}}))
 	// fmt.Println(climbStairs(3))
 }
