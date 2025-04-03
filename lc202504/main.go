@@ -200,6 +200,25 @@ func minimumSum2(nums []int) int {
 	return rs
 }
 
+type TreeNode struct {
+	Val   int
+	Left  *TreeNode
+	Right *TreeNode
+}
+
+func invertTree(root *TreeNode) *TreeNode {
+	// 226
+	if root == nil {
+		return nil
+	}
+	tmp := root.Left
+	root.Left = root.Right
+	root.Right = tmp
+	invertTree(root.Left)
+	invertTree(root.Right)
+	return root
+}
+
 func main() {
 	fmt.Println(minimumSum2([]int{6, 5, 4, 3, 4, 5}))  // -1
 	fmt.Println(minimumSum2([]int{5, 4, 8, 7, 10, 2})) // 13
