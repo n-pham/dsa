@@ -164,9 +164,45 @@ func minimumSum(nums []int) int {
 	return rs
 }
 
+func minimumSum2(nums []int) int {
+	// 2909
+	n := len(nums)
+	prefixMin, suffixMin := make([]int, n), make([]int, n)
+	prefixMin[0] = nums[0]
+	for i := 1; i < n; i++ {
+		prefixMin[i] = nums[i]
+		if prefixMin[i] > prefixMin[i-1] {
+			prefixMin[i] = prefixMin[i-1]
+		}
+	}
+	suffixMin[n-1] = nums[n-1]
+	for i := n - 2; i >= 0; i-- {
+		suffixMin[i] = nums[i]
+		if suffixMin[i] > suffixMin[i+1] {
+			suffixMin[i] = suffixMin[i+1]
+		}
+	}
+	fmt.Println(prefixMin)
+	fmt.Println(nums)
+	fmt.Println(suffixMin)
+	rs := math.MaxInt
+	for j := 1; j < n-1; j++ {
+		if prefixMin[j-1] < nums[j] && nums[j] > suffixMin[j+1] {
+			tmp := prefixMin[j-1] + nums[j] + suffixMin[j+1]
+			if rs > tmp {
+				rs = tmp
+			}
+		}
+	}
+	if rs == math.MaxInt {
+		return -1
+	}
+	return rs
+}
+
 func main() {
-	fmt.Println(minimumSum([]int{6, 5, 4, 3, 4, 5}))  // -1
-	fmt.Println(minimumSum([]int{5, 4, 8, 7, 10, 2})) // 13
+	fmt.Println(minimumSum2([]int{6, 5, 4, 3, 4, 5}))  // -1
+	fmt.Println(minimumSum2([]int{5, 4, 8, 7, 10, 2})) // 13
 	// fmt.Println(arithmeticTriplets([]int{0, 1, 4, 6, 7, 10}, 3))
 	// fmt.Println(maximumTripletValue([]int{12, 6, 1, 2, 7}))
 	// fmt.Println(mostPoints([][]int{{3, 2}, {4, 3}, {4, 4}, {2, 5}}))
