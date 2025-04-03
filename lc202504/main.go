@@ -232,6 +232,23 @@ func maxDepth(root *TreeNode) int {
 	return rightDepth + 1
 }
 
+func isSameTree(p *TreeNode, q *TreeNode) bool {
+	// 100
+	if p == nil && q == nil {
+		return true
+	}
+	if p == nil || q == nil {
+		return false
+	}
+	if p.Val != q.Val {
+		return false
+	}
+	if sameLeft := isSameTree(p.Left, q.Left); sameLeft {
+		return isSameTree(p.Right, q.Right)
+	}
+	return false
+}
+
 func main() {
 	fmt.Println(minimumSum2([]int{6, 5, 4, 3, 4, 5}))  // -1
 	fmt.Println(minimumSum2([]int{5, 4, 8, 7, 10, 2})) // 13
