@@ -219,6 +219,19 @@ func invertTree(root *TreeNode) *TreeNode {
 	return root
 }
 
+func maxDepth(root *TreeNode) int {
+	// 104
+	if root == nil {
+		return 0
+	}
+	leftDepth := maxDepth(root.Left)
+	rightDepth := maxDepth(root.Right)
+	if leftDepth > rightDepth {
+		return leftDepth + 1
+	}
+	return rightDepth + 1
+}
+
 func main() {
 	fmt.Println(minimumSum2([]int{6, 5, 4, 3, 4, 5}))  // -1
 	fmt.Println(minimumSum2([]int{5, 4, 8, 7, 10, 2})) // 13
