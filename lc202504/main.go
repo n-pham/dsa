@@ -249,6 +249,27 @@ func isSameTree(p *TreeNode, q *TreeNode) bool {
 	return false
 }
 
+func subtreeWithAllDeepest(root *TreeNode) *TreeNode {
+	// 865
+	var recur func(*TreeNode) (*TreeNode, int)
+	recur = func(root *TreeNode) (*TreeNode, int) {
+		if root == nil {
+			return nil, 0
+		}
+		leftCandidate, leftDepth := recur(root.Left)
+		rightCandidate, rightDepth := recur(root.Right)
+		if leftDepth == rightDepth {
+			return root, leftDepth + 1
+		}
+		if leftDepth > rightDepth {
+			return leftCandidate, leftDepth + 1
+		}
+		return rightCandidate, rightDepth + 1
+	}
+	node, _ := recur(root)
+	return node
+}
+
 func main() {
 	fmt.Println(minimumSum2([]int{6, 5, 4, 3, 4, 5}))  // -1
 	fmt.Println(minimumSum2([]int{5, 4, 8, 7, 10, 2})) // 13
