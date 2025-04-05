@@ -240,13 +240,7 @@ func isSameTree(p *TreeNode, q *TreeNode) bool {
 	if p == nil || q == nil {
 		return false
 	}
-	if p.Val != q.Val {
-		return false
-	}
-	if sameLeft := isSameTree(p.Left, q.Left); sameLeft {
-		return isSameTree(p.Right, q.Right)
-	}
-	return false
+	return p.Val == q.Val && isSameTree(p.Left, q.Left) && isSameTree(p.Right, q.Right)
 }
 
 func subtreeWithAllDeepest(root *TreeNode) *TreeNode {
@@ -306,6 +300,14 @@ func subsetXORSum(nums []int) (rs int) {
 	}
 	recur(0, 0)
 	return rs
+}
+
+func isSubtree(root *TreeNode, subRoot *TreeNode) bool {
+	// 572
+	if root == nil {
+		return false
+	}
+	return isSameTree(root, subRoot) || isSubtree(root.Left, subRoot) || isSubtree(root.Right, subRoot)
 }
 
 func main() {
