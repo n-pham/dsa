@@ -292,9 +292,26 @@ func lcaDeepestLeaves(root *TreeNode) *TreeNode {
 	return node
 }
 
+func subsetXORSum(nums []int) (rs int) {
+	// 1863
+	// 1, 3  --> 0 xor 1 + 1 xor 3 + 0 xor 3
+	var recur func(int, int)
+	recur = func(index int, prev_xor int) {
+		fmt.Println(index, prev_xor)
+		rs += prev_xor
+		for i := index; i < len(nums); i++ { // backtrack
+			next_xor := prev_xor ^ nums[i]
+			recur(i+1, next_xor)
+		}
+	}
+	recur(0, 0)
+	return rs
+}
+
 func main() {
-	fmt.Println(minimumSum2([]int{6, 5, 4, 3, 4, 5}))  // -1
-	fmt.Println(minimumSum2([]int{5, 4, 8, 7, 10, 2})) // 13
+	fmt.Println(subsetXORSum([]int{1, 3}))
+	// fmt.Println(minimumSum2([]int{6, 5, 4, 3, 4, 5}))  // -1
+	// fmt.Println(minimumSum2([]int{5, 4, 8, 7, 10, 2})) // 13
 	// fmt.Println(arithmeticTriplets([]int{0, 1, 4, 6, 7, 10}, 3))
 	// fmt.Println(maximumTripletValue([]int{12, 6, 1, 2, 7}))
 	// fmt.Println(mostPoints([][]int{{3, 2}, {4, 3}, {4, 4}, {2, 5}}))
