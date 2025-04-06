@@ -18,15 +18,15 @@ jobs:
 
       - name: Extract commit message
         id: extract-message
-        run: echo "MESSAGE=$(git log -1 --pretty=%B)" >> $GITHUB_ENV
+        run: echo "MESSAGE=$(git log -1 --pretty=%B)" >> $GITHUB_OUTPUT
 
       - name: Check if commit message is an integer
         id: check-integer
         run: |
           if [[ $MESSAGE =~ ^[0-9]+$ ]]; then
-            echo "IS_INTEGER=true" >> $GITHUB_ENV
+            echo "IS_INTEGER=true" >> $GITHUB_OUTPUT
           else
-            echo "IS_INTEGER=false" >> $GITHUB_ENV
+            echo "IS_INTEGER=false" >> $GITHUB_OUTPUT
           fi
 
   append-solved:
