@@ -7,13 +7,13 @@ on:
   workflow_dispatch:
 
 jobs:
-  append-solved-problems:
+  check-integer:
     runs-on: ubuntu-latest
+    outputs:
+      is_integer: ${{ env.is_integer }}
+      message: ${{ env.message }}
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
       - name: Extract commit message
         id: extract-message
         run: echo "message=$(git log -1 --pretty=%B)" >> $GITHUB_ENV
@@ -27,12 +27,36 @@ jobs:
             echo "is_integer=false" >> $GITHUB_ENV
           fi
 
+append-solved:
+    needs: check-integer
+    runs-on: ubuntu-latest
+    if: ${{ env.is_integer == 'true' }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
       - name: Append to solved_problems.txt
-        if: env.is_integer == 'true'
+        env:
+          MESSAGE: ${{ env.message }}
         run: |
-          echo $message >> solved_problems.txt
+          echo $MESSAGE >> solved_problems.txt
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add solved_problems.txt
           git commit -m "Append solved_problems.txt"
           git push
+
+close-issue:
+    needs: check-integer
+    runs-on: ubuntu-latest
+    if: ${{ env.is_integer == 'true' }}
+    steps:
+      - name: Close related GitHub issue
+        env:
+          MESSAGE: ${{ env.message }}
+        run: |
+          issue_number=$(gh issue list --state open --search "LeetCode $MESSAGE" --json number,title \
+            --jq ".[] | select(.title | test(\"LeetCode Easy $MESSAGE|LeetCode Medium $MESSAGE|LeetCode Hard $MESSAGE\")) | .number")
+          if [ -n "$issue_number" ]; then
+            gh issue close $issue_number --comment "Issue resolved by solving problem $MESSAGE."
+          fi
