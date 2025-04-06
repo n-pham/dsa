@@ -89,34 +89,22 @@ func maximumTripletValue(nums []int) int64 {
 
 func maximumTripletValue2(nums []int) int64 {
 	// 2874
-	// 7ms
+	// 6ms
 	n := len(nums)
 	prefixMax, suffixMax := make([]int, n), make([]int, n)
 	prefixMax[0] = nums[0]
 	for i := 1; i < n; i++ {
-		prefixMax[i] = nums[i]
-		if prefixMax[i] < prefixMax[i-1] {
-			prefixMax[i] = prefixMax[i-1]
-		}
+		prefixMax[i] = max(nums[i], prefixMax[i-1])
 	}
 	suffixMax[n-1] = nums[n-1]
 	for i := n - 2; i >= 0; i-- {
-		suffixMax[i] = nums[i]
-		if suffixMax[i] < suffixMax[i+1] {
-			suffixMax[i] = suffixMax[i+1]
-		}
+		suffixMax[i] = max(nums[i], suffixMax[i+1])
 	}
-	var max int64 = math.MinInt64
+	var bigger int64 = math.MinInt64
 	for j := 1; j < len(nums)-1; j++ {
-		maxJ := int64(prefixMax[j-1]-nums[j]) * int64(suffixMax[j+1])
-		if maxJ > max {
-			max = maxJ
-		}
+		bigger = max(bigger, int64(prefixMax[j-1]-nums[j])*int64(suffixMax[j+1]))
 	}
-	if max < 0 {
-		return 0
-	}
-	return max
+	return max(0, bigger)
 }
 
 func arithmeticTriplets(nums []int, diff int) (rs int) {
