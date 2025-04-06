@@ -11,23 +11,23 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       MESSAGE: ${{ steps.extract-message.outputs.MESSAGE }}
-      IS_INTEGER: ${{ steps.check-integer.outputs.IS_INTEGER }}
+      IS_INTEGER: ${{ steps.extract-message.outputs.IS_INTEGER }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 1 # Perform a shallow checkout
 
       - name: Extract commit message
         id: extract-message
-        run: echo "MESSAGE=$(git log -1 --pretty=%B)" >> $GITHUB_OUTPUT
-
-      - name: Check if commit message is an integer
-        id: check-integer
         run: |
+          MESSAGE=$(git log -1 --pretty=%B)
           if [[ $MESSAGE =~ ^[0-9]+$ ]]; then
             echo "IS_INTEGER=true" >> $GITHUB_OUTPUT
           else
             echo "IS_INTEGER=false" >> $GITHUB_OUTPUT
           fi
+          echo "MESSAGE=$MESSAGE" >> $GITHUB_OUTPUT
 
   append-solved:
       needs: extract
@@ -36,6 +36,8 @@ jobs:
       steps:
         - name: Checkout repository
           uses: actions/checkout@v3
+          with:
+            fetch-depth: 1 # Perform a shallow checkout
 
         - name: Append to solved_problems.txt
           env:
