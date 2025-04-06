@@ -370,6 +370,21 @@ func levelOrder(root *TreeNode) [][]int {
 	return rs
 }
 
+func isValidBST(root *TreeNode) bool {
+	// 98
+	var recur func(node *TreeNode, min, max int) bool
+	recur = func(node *TreeNode, min, max int) bool {
+		if node == nil {
+			return true
+		}
+		if node.Val <= min || node.Val >= max {
+			return false
+		}
+		return recur(node.Left, min, node.Val) && recur(node.Right, node.Val, max)
+	}
+	return recur(root, math.MinInt, math.MaxInt)
+}
+
 func main() {
 	fmt.Println(subsetXORSum([]int{1, 3}))
 	// fmt.Println(minimumSum2([]int{6, 5, 4, 3, 4, 5}))  // -1
