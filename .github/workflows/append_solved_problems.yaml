@@ -7,8 +7,11 @@ on:
   workflow_dispatch:
 
 jobs:
-  check-integer:
+  extract:
     runs-on: ubuntu-latest
+    outputs:
+      MESSAGE: ${{ steps.extract-message.outputs.MESSAGE }}
+      IS_INTEGER: ${{ steps.check-integer.outputs.IS_INTEGER }}
     steps:
       - name: Extract commit message
         id: extract-message
@@ -24,16 +27,16 @@ jobs:
           fi
 
   append-solved:
-      needs: check-integer
+      needs: extract
       runs-on: ubuntu-latest
-      if: env.IS_INTEGER == 'true'
+      if: needs.extract.outputs.IS_INTEGER == 'true'
       steps:
         - name: Checkout repository
           uses: actions/checkout@v3
 
         - name: Append to solved_problems.txt
           env:
-            MESSAGE: ${{ env.MESSAGE }}
+            MESSAGE: ${{ needs.extract.outputs.MESSAGE }}
           run: |
             echo $MESSAGE >> solved_problems.txt
             git config user.name "github-actions[bot]"
@@ -43,13 +46,13 @@ jobs:
             git push
 
   close-issue:
-      needs: check-integer
+      needs: extract
       runs-on: ubuntu-latest
-      if: env.IS_INTEGER == 'true'
+      if: needs.extract.outputs.IS_INTEGER == 'true'
       steps:
         - name: Close related GitHub issue
           env:
-            MESSAGE: ${{ env.MESSAGE }}
+            MESSAGE: ${{ needs.extract.outputs.MESSAGE }}
           run: |
             issue_number=$(gh issue list --state open --search "LeetCode $MESSAGE" --json number,title \
               --jq ".[] | select(.title | test(\"LeetCode Easy $MESSAGE|LeetCode Medium $MESSAGE|LeetCode Hard $MESSAGE\")) | .number")
