@@ -58,6 +58,7 @@ jobs:
         - name: Close related GitHub issue
           env:
             MESSAGE: ${{ needs.extract.outputs.MESSAGE }}
+            GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           run: |
             issue_number=$(gh issue list --state open --search "LeetCode $MESSAGE" --json number,title \
               --jq ".[] | select(.title | test(\"LeetCode Easy $MESSAGE|LeetCode Medium $MESSAGE|LeetCode Hard $MESSAGE\")) | .number")
