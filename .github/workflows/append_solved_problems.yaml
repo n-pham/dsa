@@ -9,35 +9,31 @@ on:
 jobs:
   check-integer:
     runs-on: ubuntu-latest
-    outputs:
-      is_integer: ${{ env.is_integer }}
-      message: ${{ env.message }}
-
     steps:
       - name: Extract commit message
         id: extract-message
-        run: echo "message=$(git log -1 --pretty=%B)" >> $GITHUB_ENV
+        run: echo "MESSAGE=$(git log -1 --pretty=%B)" >> $GITHUB_ENV
 
       - name: Check if commit message is an integer
         id: check-integer
         run: |
-          if [[ $message =~ ^[0-9]+$ ]]; then
-            echo "is_integer=true" >> $GITHUB_ENV
+          if [[ $MESSAGE =~ ^[0-9]+$ ]]; then
+            echo "IS_INTEGER=true" >> $GITHUB_ENV
           else
-            echo "is_integer=false" >> $GITHUB_ENV
+            echo "IS_INTEGER=false" >> $GITHUB_ENV
           fi
 
   append-solved:
       needs: check-integer
       runs-on: ubuntu-latest
-      if: ${{ env.is_integer == 'true' }}
+      if: env.IS_INTEGER == 'true'
       steps:
         - name: Checkout repository
           uses: actions/checkout@v3
 
         - name: Append to solved_problems.txt
           env:
-            MESSAGE: ${{ env.message }}
+            MESSAGE: ${{ env.MESSAGE }}
           run: |
             echo $MESSAGE >> solved_problems.txt
             git config user.name "github-actions[bot]"
@@ -49,11 +45,11 @@ jobs:
   close-issue:
       needs: check-integer
       runs-on: ubuntu-latest
-      if: ${{ env.is_integer == 'true' }}
+      if: env.IS_INTEGER == 'true'
       steps:
         - name: Close related GitHub issue
           env:
-            MESSAGE: ${{ env.message }}
+            MESSAGE: ${{ env.MESSAGE }}
           run: |
             issue_number=$(gh issue list --state open --search "LeetCode $MESSAGE" --json number,title \
               --jq ".[] | select(.title | test(\"LeetCode Easy $MESSAGE|LeetCode Medium $MESSAGE|LeetCode Hard $MESSAGE\")) | .number")
