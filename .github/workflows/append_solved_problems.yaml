@@ -60,8 +60,8 @@ jobs:
             MESSAGE: ${{ needs.extract.outputs.MESSAGE }}
             GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           run: |
-            issue_number=$(gh issue list --state open --search "LeetCode $MESSAGE" --json number,title \
+            issue_number=$(gh issue list --repo $GITHUB_REPOSITORY --state open --search "LeetCode $MESSAGE" --json number,title \
               --jq ".[] | select(.title | test(\"LeetCode Easy $MESSAGE|LeetCode Medium $MESSAGE|LeetCode Hard $MESSAGE\")) | .number")
             if [ -n "$issue_number" ]; then
-              gh issue close $issue_number --comment "Issue resolved by solving problem $MESSAGE."
+              gh issue close $issue_number --repo $GITHUB_REPOSITORY --comment "Issue resolved by solving problem $MESSAGE."
             fi
