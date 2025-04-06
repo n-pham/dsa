@@ -315,6 +315,61 @@ func largestDivisibleSubset(nums []int) []int {
 	panic("not implemented")
 }
 
+func levelOrder_notsogreat(root *TreeNode) [][]int {
+	if root == nil {
+		return [][]int{}
+	}
+	rs := [][]int{{}}
+	rsLen := 0
+	currQ, nextQ := []*TreeNode{root}, []*TreeNode{}
+	for len(currQ) > 0 {
+		node := currQ[0]
+		currQ = currQ[1:]
+		rs[rsLen] = append(rs[rsLen], node.Val)
+		if node.Left != nil {
+			nextQ = append(nextQ, node.Left)
+		}
+		if node.Right != nil {
+			nextQ = append(nextQ, node.Right)
+		}
+		if len(currQ) == 0 {
+			currQ = nextQ
+			nextQ = []*TreeNode{}
+			rs = append(rs, []int{})
+			rsLen++
+		}
+	}
+	// Remove the last empty slice if it exists
+	if len(rs[len(rs)-1]) == 0 {
+		rs = rs[:len(rs)-1]
+	}
+	return rs
+}
+
+func levelOrder(root *TreeNode) [][]int {
+	// 102
+	if root == nil {
+		return [][]int{}
+	}
+	rs := [][]int{}
+	currQ, nextQ := []*TreeNode{root}, []*TreeNode{}
+	for len(currQ) > 0 {
+		level := []int{}
+		for _, node := range currQ {
+			level = append(level, node.Val)
+			if node.Left != nil {
+				nextQ = append(nextQ, node.Left)
+			}
+			if node.Right != nil {
+				nextQ = append(nextQ, node.Right)
+			}
+		}
+		rs = append(rs, level)
+		currQ, nextQ = nextQ, []*TreeNode{}
+	}
+	return rs
+}
+
 func main() {
 	fmt.Println(subsetXORSum([]int{1, 3}))
 	// fmt.Println(minimumSum2([]int{6, 5, 4, 3, 4, 5}))  // -1
