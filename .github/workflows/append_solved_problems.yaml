@@ -13,6 +13,9 @@ jobs:
       MESSAGE: ${{ steps.extract-message.outputs.MESSAGE }}
       IS_INTEGER: ${{ steps.check-integer.outputs.IS_INTEGER }}
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
       - name: Extract commit message
         id: extract-message
         run: echo "MESSAGE=$(git log -1 --pretty=%B)" >> $GITHUB_ENV
