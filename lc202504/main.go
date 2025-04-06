@@ -41,11 +41,7 @@ func mostPoints(questions [][]int) int64 {
 		if index+questions[index][1]+1 < len(questions) {
 			solve0 += recur(index + questions[index][1] + 1)
 		}
-		if solve0 > skip0 {
-			m[index] = solve0
-		} else {
-			m[index] = skip0
-		}
+		m[index] = max(solve0, skip0)
 		return m[index]
 	}
 	return recur(0)
