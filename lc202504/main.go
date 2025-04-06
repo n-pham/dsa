@@ -70,21 +70,15 @@ func climbStairs(n int) int {
 
 func maximumTripletValue(nums []int) int64 {
 	// 2873
-	var max int64 = math.MinInt64
+	var bigger int64 = math.MinInt64
 	for i := 0; i < len(nums)-2; i++ {
 		for j := i + 1; j < len(nums)-1; j++ {
 			for k := j + 1; k < len(nums); k++ {
-				val := int64(nums[i]-nums[j]) * int64(nums[k])
-				if max < val {
-					max = val
-				}
+				bigger = max(bigger, int64(nums[i]-nums[j])*int64(nums[k]))
 			}
 		}
 	}
-	if max < 0 {
-		return 0
-	}
-	return max
+	return max(0, bigger)
 }
 
 func maximumTripletValue2(nums []int) int64 {
