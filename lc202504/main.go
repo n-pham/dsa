@@ -4,6 +4,7 @@ package main
 import (
 	"fmt"
 	"math"
+	"slices"
 	// "github.com/mxschmitt/golang-combinations"
 	// "strconv"
 	// "strings"
@@ -363,8 +364,35 @@ func isValidBST(root *TreeNode) bool {
 	return recur(root, math.MinInt, math.MaxInt)
 }
 
+func canPartition_fail(nums []int) bool {
+	slices.Sort(nums)
+	n := len(nums)
+	prefixSum := make([]int, n+1)
+	for i, num := range nums {
+		prefixSum[i+1] = prefixSum[i] + num
+	}
+	fmt.Println(prefixSum)
+	if prefixSum[n]%2 == 1 {
+		return false
+	}
+	halfSum := prefixSum[n] / 2
+	for i := n - 1; i > 0; i-- {
+		fmt.Println(prefixSum[i], halfSum)
+		if prefixSum[i] == halfSum {
+			return true
+		}
+	}
+	return false
+}
+
+func canPartition(nums []int) bool {
+	// 416
+	panic("not implemented")
+}
+
 func main() {
-	fmt.Println(subsetXORSum([]int{1, 3}))
+	fmt.Println(canPartition([]int{2, 2, 1, 1}))
+	// fmt.Println(subsetXORSum([]int{1, 3}))
 	// fmt.Println(minimumSum2([]int{6, 5, 4, 3, 4, 5}))  // -1
 	// fmt.Println(minimumSum2([]int{5, 4, 8, 7, 10, 2})) // 13
 	// fmt.Println(arithmeticTriplets([]int{0, 1, 4, 6, 7, 10}, 3))
