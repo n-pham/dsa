@@ -390,6 +390,15 @@ func canPartition(nums []int) bool {
 	panic("not implemented")
 }
 
+func runningSum(nums []int) []int {
+	// 1480
+	rs := make([]int, len(nums)+1)
+	for i, num := range nums {
+		rs[i+1] = rs[i] + num
+	}
+	return rs[1:]
+}
+
 func main() {
 	fmt.Println(canPartition([]int{2, 2, 1, 1}))
 	// fmt.Println(subsetXORSum([]int{1, 3}))
