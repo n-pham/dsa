@@ -399,6 +399,21 @@ func runningSum(nums []int) []int {
 	return rs[1:]
 }
 
+func maximumWealth(accounts [][]int) int {
+	// 1672
+	biggest := math.MinInt
+	for _, amounts := range accounts {
+		wealth := 0
+		for _, amount := range amounts {
+			wealth += amount
+		}
+		if wealth > biggest {
+			biggest = wealth
+		}
+	}
+	return biggest
+}
+
 func main() {
 	fmt.Println(canPartition([]int{2, 2, 1, 1}))
 	// fmt.Println(subsetXORSum([]int{1, 3}))
