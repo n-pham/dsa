@@ -414,8 +414,34 @@ func maximumWealth(accounts [][]int) int {
 	return biggest
 }
 
+func minimumOperations(nums []int) int {
+	// 3396
+	// 1,2,3,4,2,3,3,5,7
+	// 3 3 2 1 1 1 0 0 0 suffixDup is overkill
+	n := len(nums)
+	iLastDup := 0
+	iByNum := make(map[int]int)
+	iByNum[nums[n-1]] = n - 1
+	for i := n - 2; i >= 0; i-- {
+		fmt.Println(i, iByNum)
+		if iByNum[nums[i]] > 0 {
+			iLastDup = i
+			break
+		}
+		iByNum[nums[i]] = i
+	}
+	fmt.Println(nums[iLastDup], iLastDup, iByNum[nums[iLastDup]])
+	if iLastDup == 0 && iByNum[nums[iLastDup]] == 0 {
+		return 0
+	}
+	return (iLastDup + 3) / 3
+}
+
 func main() {
-	fmt.Println(canPartition([]int{2, 2, 1, 1}))
+	fmt.Println(minimumOperations([]int{5, 5}))
+	fmt.Println(minimumOperations([]int{6, 7, 8, 9}))
+	fmt.Println(minimumOperations([]int{1, 2, 3, 4, 2, 3, 3, 5, 7}))
+	// fmt.Println(canPartition([]int{2, 2, 1, 1}))
 	// fmt.Println(subsetXORSum([]int{1, 3}))
 	// fmt.Println(minimumSum2([]int{6, 5, 4, 3, 4, 5}))  // -1
 	// fmt.Println(minimumSum2([]int{5, 4, 8, 7, 10, 2})) // 13
