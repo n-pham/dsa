@@ -437,6 +437,38 @@ func minimumOperations(nums []int) int {
 	return (iLastDup + 3) / 3
 }
 
+func minOperations_11ms(nums []int, k int) int {
+	m := make(map[int]struct{})
+	for _, num := range nums {
+		if num < k {
+			return -1
+		}
+		m[num] = struct{}{}
+	}
+	if _, found := m[k]; found {
+		return len(m) - 1
+	}
+	return len(m)
+}
+
+func minOperations(nums []int, k int) int {
+	// 3375
+	slices.Sort(nums)
+	if nums[0] < k {
+		return -1
+	}
+	rs := 0
+	for i := len(nums) - 1; i >= 1; i-- {
+		if nums[i] != nums[i-1] {
+			rs++
+		}
+	}
+	if nums[0] > k {
+		rs++
+	}
+	return rs
+}
+
 func main() {
 	fmt.Println(minimumOperations([]int{5, 5}))
 	fmt.Println(minimumOperations([]int{6, 7, 8, 9}))
