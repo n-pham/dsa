@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"math"
 	"slices"
+	"strconv"
 	// "github.com/mxschmitt/golang-combinations"
 	// "strconv"
 	// "strings"
@@ -469,10 +470,72 @@ func minOperations(nums []int, k int) int {
 	return rs
 }
 
+func numberOfPowerfulInt_memory(start int64, finish int64, limit int, s string) int64 {
+	// 2999
+	generateNumers := func(digitCnt, limit int) []int {
+		var result []int
+		var generate func(current int, length int)
+
+		generate = func(current int, length int) {
+			if length == digitCnt {
+				result = append(result, current)
+				return
+			}
+			for i := 0; i <= limit; i++ {
+				generate(current*10+i, length+1)
+			}
+		}
+
+		generate(0, 0)
+		return result
+	}
+
+	IntPow := func(base, exp int) int64 {
+		result := int64(1)
+		for {
+			if exp&1 == 1 {
+				result *= int64(base)
+			}
+			exp >>= 1
+			if exp == 0 {
+				break
+			}
+			base *= base
+		}
+		return result
+	}
+	fmt.Println(generateNumers(1, 4))
+	sInt, _ := strconv.Atoi(s)
+	sLen := 0
+	for t := sInt; t > 0; t = t / 10 {
+		sLen++
+	}
+	fLen := 0
+	for t := finish; t > 0; t = t / 10 {
+		fLen++
+	}
+	digitCnt := fLen - sLen
+	nums := generateNumers(digitCnt, limit)
+	cnt := int64(0)
+	for _, num := range nums {
+		t := int64(num)*IntPow(10, sLen) + int64(sInt)
+		if t >= start && t <= finish {
+			cnt++
+		}
+	}
+	return cnt
+}
+
+func numberOfPowerfulInt(start int64, finish int64, limit int, s string) int64 {
+	// 2999
+	panic("not implemented")
+}
+
 func main() {
-	fmt.Println(minimumOperations([]int{5, 5}))
-	fmt.Println(minimumOperations([]int{6, 7, 8, 9}))
-	fmt.Println(minimumOperations([]int{1, 2, 3, 4, 2, 3, 3, 5, 7}))
+	fmt.Println(numberOfPowerfulInt(1, 6000, 4, "124"))
+	// fmt.Println(minimumOperations([]int{5, 5}))
+	// fmt.Println(minimumOperations([]int{6, 7, 8, 9}))
+	// fmt.Println(minimumOperations([]int{1, 2, 3, 4, 2, 3, 3, 5, 7}))
 	// fmt.Println(canPartition([]int{2, 2, 1, 1}))
 	// fmt.Println(subsetXORSum([]int{1, 3}))
 	// fmt.Println(minimumSum2([]int{6, 5, 4, 3, 4, 5}))  // -1
