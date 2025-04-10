@@ -1140,7 +1140,7 @@ func isValid(s string) bool {
 }
 
 func minOperations(nums []int) int {
-	// 3191 5ms
+	// 3191
 	rs := 0
 	for i := 0; i < len(nums)-2; i++ {
 		if nums[i] == 0 {
