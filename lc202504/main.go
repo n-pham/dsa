@@ -292,7 +292,31 @@ func isSubtree(root *TreeNode, subRoot *TreeNode) bool {
 
 func largestDivisibleSubset(nums []int) []int {
 	// 368
-	panic("not implemented")
+	// 1 2 3 4 9 81
+	// 1036ms
+	slices.Sort(nums)
+	memoi := make(map[[2]int][]int)
+	var recur func(int, int) []int
+	recur = func(i int, j int) []int {
+		if j == len(nums) {
+			return []int{}
+		}
+		if result, exists := memoi[[2]int{i, j}]; exists {
+			return result
+		}
+		rs := recur(i, j+1) // skip j
+		if i == -1 || nums[j]%nums[i] == 0 {
+			includeJ := append([]int{nums[j]}, recur(j, j+1)...)
+			if len(includeJ) > len(rs) {
+				rs = includeJ
+			}
+		}
+		memoi[[2]int{i, j}] = rs
+		return rs
+	}
+	t := recur(-1, 0)
+	fmt.Println(memoi)
+	return t
 }
 
 func levelOrder_notsogreat(root *TreeNode) [][]int {
@@ -545,7 +569,8 @@ func numberOfPowerfulInt(start int64, finish int64, limit int, s string) int64 {
 }
 
 func main() {
-	fmt.Println(numberOfPowerfulInt(1, 6000, 4, "124"))
+	fmt.Println(largestDivisibleSubset([]int{1, 2, 3, 4, 9, 81}))
+	// fmt.Println(numberOfPowerfulInt(1, 6000, 4, "124"))
 	// fmt.Println(minimumOperations([]int{5, 5}))
 	// fmt.Println(minimumOperations([]int{6, 7, 8, 9}))
 	// fmt.Println(minimumOperations([]int{1, 2, 3, 4, 2, 3, 3, 5, 7}))
