@@ -474,19 +474,32 @@ func numberOfPowerfulInt_memory(start int64, finish int64, limit int, s string) 
 	// 2999
 	generateNumers := func(digitCnt, limit int) []int {
 		var result []int
-		var generate func(current int, length int)
 
-		generate = func(current int, length int) {
-			if length == digitCnt {
-				result = append(result, current)
-				return
+		// Start from 0, iteratively generate numbers of length 'digitCnt'
+		start := 0
+		end := 1
+		for i := 0; i < digitCnt; i++ {
+			start = start * 10 // Expand range start
+			end = end * 10     // Expand range end
+		}
+
+		// Generate numbers within the range, respecting the limit
+		for i := start; i < end; i++ {
+			valid := true
+			num := i
+			for num > 0 {
+				digit := num % 10
+				if digit > limit {
+					valid = false
+					break
+				}
+				num /= 10
 			}
-			for i := 0; i <= limit; i++ {
-				generate(current*10+i, length+1)
+			if valid {
+				result = append(result, i)
 			}
 		}
 
-		generate(0, 0)
 		return result
 	}
 
@@ -504,7 +517,7 @@ func numberOfPowerfulInt_memory(start int64, finish int64, limit int, s string) 
 		}
 		return result
 	}
-	fmt.Println(generateNumers(1, 4))
+
 	sInt, _ := strconv.Atoi(s)
 	sLen := 0
 	for t := sInt; t > 0; t = t / 10 {
