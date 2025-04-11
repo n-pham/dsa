@@ -597,8 +597,35 @@ func countSymmetricIntegers(low int, high int) (rs int) {
 	return rs
 }
 
+func minOperations2033(grid [][]int, x int) (rs int) {
+	// 2033
+	// 30ms
+	arr, iNext := make([]int, len(grid)*len(grid[0])), 0
+	remainder := grid[0][0] % x
+	for _, r := range grid {
+		for _, e := range r {
+			if e%x != remainder {
+				return -1
+			}
+			arr[iNext] = e
+			iNext++
+		}
+	}
+	slices.Sort(arr)
+	median := arr[len(arr)/2]
+	for _, num := range arr {
+		diff := num - median
+		if diff < 0 {
+			diff = -diff
+		}
+		rs += diff / x
+	}
+	return rs
+}
+
 func main() {
-	fmt.Println(largestDivisibleSubset([]int{1, 2, 3, 4, 9, 81}))
+	fmt.Println(minOperations2033([][]int{{2, 4}, {6, 8}}, 2))
+	// fmt.Println(largestDivisibleSubset([]int{1, 2, 3, 4, 9, 81}))
 	// fmt.Println(numberOfPowerfulInt(1, 6000, 4, "124"))
 	// fmt.Println(minimumOperations([]int{5, 5}))
 	// fmt.Println(minimumOperations([]int{6, 7, 8, 9}))
