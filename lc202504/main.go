@@ -568,6 +568,35 @@ func numberOfPowerfulInt(start int64, finish int64, limit int, s string) int64 {
 	panic("not implemented")
 }
 
+func countSymmetricIntegers(low int, high int) (rs int) {
+	// 2843
+	// 4ms
+	for i := low; i <= high; {
+		length := 0
+		for t := i; t > 0; t /= 10 {
+			length++
+		}
+		if length%2 == 0 {
+			t, rightSum, leftSum := i, 0, 0
+			for j := 0; j < length/2; j++ {
+				rightSum += t % 10
+				t /= 10
+			}
+			for j := 0; j < length/2; j++ {
+				leftSum += t % 10
+				t /= 10
+			}
+			if leftSum == rightSum {
+				rs++
+				i += 9 // math: next 8 numbers will not be equal
+				continue
+			}
+		}
+		i++
+	}
+	return rs
+}
+
 func main() {
 	fmt.Println(largestDivisibleSubset([]int{1, 2, 3, 4, 9, 81}))
 	// fmt.Println(numberOfPowerfulInt(1, 6000, 4, "124"))
