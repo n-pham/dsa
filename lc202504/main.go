@@ -623,6 +623,26 @@ func minOperations2033(grid [][]int, x int) (rs int) {
 	return rs
 }
 
+func countGoodTriplets(arr []int, a int, b int, c int) (cnt int) {
+	// 1534
+	// 6ms
+	for i := 0; i < len(arr)-2; i++ {
+		for j := i + 1; j < len(arr)-1; j++ {
+			ij := arr[i] - arr[j]
+			if ij <= a && ij >= -a {
+				for k := j + 1; k < len(arr); k++ {
+					jk, ik := arr[j]-arr[k], arr[i]-arr[k]
+					if jk <= b && jk >= -b && ik <= c && ik >= -c {
+						cnt++
+					}
+				}
+			}
+
+		}
+	}
+	return cnt
+}
+
 func main() {
 	fmt.Println(minOperations2033([][]int{{2, 4}, {6, 8}}, 2))
 	// fmt.Println(largestDivisibleSubset([]int{1, 2, 3, 4, 9, 81}))
