@@ -643,8 +643,14 @@ func countGoodTriplets(arr []int, a int, b int, c int) (cnt int) {
 	return cnt
 }
 
+func countGoodNumbers(n int64) int {
+	// 1922
+	panic("Modular Exponentiation")
+}
+
 func main() {
-	fmt.Println(minOperations2033([][]int{{2, 4}, {6, 8}}, 2))
+	fmt.Println(countGoodNumbers(806166225460393))
+	// fmt.Println(minOperations2033([][]int{{2, 4}, {6, 8}}, 2))
 	// fmt.Println(largestDivisibleSubset([]int{1, 2, 3, 4, 9, 81}))
 	// fmt.Println(numberOfPowerfulInt(1, 6000, 4, "124"))
 	// fmt.Println(minimumOperations([]int{5, 5}))
