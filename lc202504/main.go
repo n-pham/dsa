@@ -3,6 +3,7 @@ package main
 //lint:file-ignore U1000 Ignore all unused code, it's generated
 import (
 	"fmt"
+	"maps"
 	"math"
 	"slices"
 	"strconv"
@@ -648,8 +649,93 @@ func countGoodNumbers(n int64) int {
 	panic("Modular Exponentiation")
 }
 
+func goodTriplets_fail(nums1 []int, nums2 []int) int64 {
+	// 2 0 1   3
+	//   0 1 2 3
+	//   x y   z
+	currentM := make(map[int]struct{})
+	nums1BeforeY := make([]map[int]struct{}, len(nums1))
+	for i, num := range nums1 {
+		nums1BeforeY[i] = maps.Clone(currentM)
+		currentM[num] = struct{}{}
+	}
+	fmt.Println(nums1BeforeY)
+	currentM = make(map[int]struct{})
+	nums2BeforeY := make([]map[int]struct{}, len(nums2))
+	for i, num := range nums2 {
+		nums2BeforeY[i] = maps.Clone(currentM)
+		currentM[num] = struct{}{}
+	}
+	fmt.Println(nums2BeforeY)
+	currentM = make(map[int]struct{})
+	nums1AfterY := make([]map[int]struct{}, len(nums1))
+	for i := len(nums1) - 1; i > -1; i-- {
+		nums1AfterY[i] = maps.Clone(currentM)
+		currentM[nums1[i]] = struct{}{}
+	}
+	fmt.Println(nums1AfterY)
+	currentM = make(map[int]struct{})
+	nums2AfterY := make([]map[int]struct{}, len(nums2))
+	for i := len(nums2) - 1; i > -1; i-- {
+		nums2AfterY[i] = maps.Clone(currentM)
+		currentM[nums2[i]] = struct{}{}
+	}
+	fmt.Println(nums2AfterY)
+	cnt := int64(0)
+	for i := range nums1 {
+		for numBefore := range nums1BeforeY[i] {
+			if _, exists := nums2BeforeY[i][numBefore]; !exists {
+				continue
+			}
+			for numAfter := range nums1AfterY[i] {
+				if _, exists := nums2AfterY[i][numAfter]; !exists {
+					continue
+				}
+				cnt++
+				fmt.Println(nums1[i])
+			}
+		}
+	}
+	return cnt
+}
+
+func goodTriplets_solution(nums1 []int, nums2 []int) int64 {
+	// not implemented 2179
+	indexMap := make(map[int]int)
+	for i, num := range nums2 {
+		indexMap[num] = i
+	}
+
+	bit := make([]int, len(nums1)+1)
+	update := func(idx, val int) {
+		for idx < len(bit) {
+			bit[idx] += val
+			idx += idx & -idx
+		}
+	}
+	query := func(idx int) int {
+		sum := 0
+		for idx > 0 {
+			sum += bit[idx]
+			idx -= idx & -idx
+		}
+		return sum
+	}
+
+	cnt := int64(0)
+	for _, num := range nums1 {
+		pos := indexMap[num] + 1
+		leftCount := query(pos - 1)
+		rightCount := int64(query(len(nums1)) - query(pos))
+		cnt += int64(leftCount) * rightCount
+		update(pos, 1)
+	}
+	return cnt
+}
+
 func main() {
-	fmt.Println(countGoodNumbers(806166225460393))
+	fmt.Println(goodTriplets_solution([]int{2, 0, 1, 3}, []int{0, 1, 2, 3}))
+	// fmt.Println(countGoodNumbers(806166225460393))
 	// fmt.Println(minOperations2033([][]int{{2, 4}, {6, 8}}, 2))
 	// fmt.Println(largestDivisibleSubset([]int{1, 2, 3, 4, 9, 81}))
 	// fmt.Println(numberOfPowerfulInt(1, 6000, 4, "124"))
