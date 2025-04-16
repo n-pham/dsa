@@ -733,6 +733,31 @@ func goodTriplets_solution(nums1 []int, nums2 []int) int64 {
 	return cnt
 }
 
+func countGood(nums []int, k int) (rs int64) {
+	// 2537
+	// 38ms
+	// 1 2 2 1                   k = 2
+	// 1       [1]=1       sum=0
+	//   2     [1]=1 [2]=1 sum=0
+	//     2   [1]=1 [2]=2 sum=1
+	//       1 [1]=2 [2]=2 sum=2
+	left, sum := 0, 0
+	cntByNum := make(map[int]int)
+	for _, num := range nums {
+		sum += cntByNum[num]
+		cntByNum[num]++
+		for sum-cntByNum[nums[left]]+1 >= k {
+			cntByNum[nums[left]] -= 1
+			sum -= cntByNum[nums[left]]
+			left++
+		}
+		if sum >= k {
+			rs += int64(left + 1)
+		}
+	}
+	return rs
+}
+
 func main() {
 	fmt.Println(goodTriplets_solution([]int{2, 0, 1, 3}, []int{0, 1, 2, 3}))
 	// fmt.Println(countGoodNumbers(806166225460393))
