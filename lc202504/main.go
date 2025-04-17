@@ -758,6 +758,22 @@ func countGood(nums []int, k int) (rs int64) {
 	return rs
 }
 
+func countPairs(nums []int, k int) (cnt int) {
+	// 2176
+	iByNum := map[int][]int{}
+	for j := 0; j < len(nums); j++ {
+		if indices, exists := iByNum[nums[j]]; exists {
+			for _, i := range indices {
+				if (i*j)%k == 0 {
+					cnt++
+				}
+			}
+		}
+		iByNum[nums[j]] = append(iByNum[nums[j]], j)
+	}
+	return cnt
+}
+
 func main() {
 	fmt.Println(goodTriplets_solution([]int{2, 0, 1, 3}, []int{0, 1, 2, 3}))
 	// fmt.Println(countGoodNumbers(806166225460393))
