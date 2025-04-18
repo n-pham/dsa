@@ -774,8 +774,49 @@ func countPairs(nums []int, k int) (cnt int) {
 	return cnt
 }
 
+func freqFromIntStr(s string) (rs [][]byte) {
+	cnt, prev := byte(1), s[0]
+	for i := 1; i < len(s); i++ {
+		c := s[i]
+		if c == prev {
+			cnt++
+			continue
+		}
+		rs = append(rs, []byte{prev - '0', cnt})
+		cnt = byte(1)
+		prev = c
+	}
+	rs = append(rs, []byte{prev - '0', cnt})
+	return rs
+}
+
+func intStrFromFreq(freq [][]byte) string {
+	s := ""
+	for _, pair := range freq {
+		s += fmt.Sprintf("%d%d", pair[1], pair[0])
+	}
+	return s
+}
+
+func countAndSay(n int) string {
+	// 38
+	// 15ms
+	if n == 1 {
+		return "1"
+	}
+	current := "1"
+	for i := 1; i < n; i++ {
+		freq := freqFromIntStr(current)
+		current = intStrFromFreq(freq)
+	}
+	return current
+}
+
 func main() {
-	fmt.Println(goodTriplets_solution([]int{2, 0, 1, 3}, []int{0, 1, 2, 3}))
+	fmt.Println(countAndSay(4))
+	// fmt.Println(freqFromInt(223314444411))
+	// fmt.Println(intFromFreq(freqFromInt(223314444411)))
+	// fmt.Println(goodTriplets_solution([]int{2, 0, 1, 3}, []int{0, 1, 2, 3}))
 	// fmt.Println(countGoodNumbers(806166225460393))
 	// fmt.Println(minOperations2033([][]int{{2, 4}, {6, 8}}, 2))
 	// fmt.Println(largestDivisibleSubset([]int{1, 2, 3, 4, 9, 81}))
