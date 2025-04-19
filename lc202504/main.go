@@ -6,6 +6,7 @@ import (
 	"maps"
 	"math"
 	"slices"
+	"sort"
 	"strconv"
 	// "github.com/mxschmitt/golang-combinations"
 	// "strconv"
@@ -812,8 +813,46 @@ func countAndSay(n int) string {
 	return current
 }
 
+func countFairPairs_time(nums []int, lower int, upper int) (cnt int64) {
+	// 0,1,4,4,5,7  lower 3 upper 6
+	// 0 4,4,5
+	// 1 4,4,5
+	slices.Sort(nums)
+	for i, numi := range nums {
+		// if numi > upper {
+		// 	break
+		// }
+		for j, numj := range nums[i+1:] {
+			sum := numi + numj
+			fmt.Println(i, j)
+			// if sum > upper {
+			// 	break
+			// }
+			if sum >= lower && sum <= upper {
+				cnt++
+			}
+		}
+	}
+	return cnt
+}
+
+func countFairPairs(nums []int, lower int, upper int) (cnt int64) {
+	// 2563
+	// 63ms
+	slices.Sort(nums)
+	for i := 0; i < len(nums); i++ {
+		low := lower - nums[i]
+		high := upper - nums[i]
+		left := sort.Search(len(nums)-i-1, func(j int) bool { return nums[i+1+j] >= low })
+		right := sort.Search(len(nums)-i-1, func(j int) bool { return nums[i+1+j] > high })
+		cnt += int64(right - left)
+	}
+	return cnt
+}
+
 func main() {
-	fmt.Println(countAndSay(4))
+	fmt.Println(countFairPairs([]int{-5, -7, -5, -7, -5}, -12, -12))
+	// fmt.Println(countAndSay(4))
 	// fmt.Println(freqFromInt(223314444411))
 	// fmt.Println(intFromFreq(freqFromInt(223314444411)))
 	// fmt.Println(goodTriplets_solution([]int{2, 0, 1, 3}, []int{0, 1, 2, 3}))
