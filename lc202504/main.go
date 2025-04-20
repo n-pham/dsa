@@ -850,6 +850,24 @@ func countFairPairs(nums []int, lower int, upper int) (cnt int64) {
 	return cnt
 }
 
+func numRabbits(answers []int) (smallest int) {
+	// 781
+	// 1,1,2     [1]=2 [2]=1
+	// 10,10,10  [10]=3
+	// 1,0,1,0,0 [1]=2 [0]=3
+	// 0,0,1,1,1 [0]=2 [1]=3
+	mapAnswerCount := make(map[int]int)
+	for _, otherCount := range answers {
+		mapAnswerCount[otherCount]++
+	}
+	for otherCount, answerCount := range mapAnswerCount {
+		groupSize := otherCount + 1
+		groups := (answerCount + groupSize - 1) / groupSize // Calculate the number of groups
+		smallest += groups * groupSize
+	}
+	return smallest
+}
+
 func main() {
 	fmt.Println(countFairPairs([]int{-5, -7, -5, -7, -5}, -12, -12))
 	// fmt.Println(countAndSay(4))
