@@ -868,8 +868,31 @@ func numRabbits(answers []int) (smallest int) {
 	return smallest
 }
 
+func numberOfArrays(differences []int, lower int, upper int) int {
+	// 2145
+	// 0 1 -3 4
+	current, mn, mx := 0, 0, 0
+	for _, d := range differences {
+		current += d
+		// fmt.Print(" ", current)
+		if mn > current {
+			mn = current
+		}
+		if mx < current {
+			mx = current
+		}
+	}
+	rs := upper - lower - (mx - mn) + 1
+	if rs < 0 {
+		return 0
+	}
+	return rs
+}
+
 func main() {
-	fmt.Println(countFairPairs([]int{-5, -7, -5, -7, -5}, -12, -12))
+	fmt.Println(numberOfArrays([]int{-40}, -46, 53))
+	fmt.Println(numberOfArrays([]int{1, -3, 4}, 1, 6))
+	// fmt.Println(countFairPairs([]int{-5, -7, -5, -7, -5}, -12, -12))
 	// fmt.Println(countAndSay(4))
 	// fmt.Println(freqFromInt(223314444411))
 	// fmt.Println(intFromFreq(freqFromInt(223314444411)))
