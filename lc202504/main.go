@@ -889,6 +889,31 @@ func numberOfArrays(differences []int, lower int, upper int) int {
 	return rs
 }
 
+func idealArrays_fail(n int, maxValue int) int {
+	// fail 2338
+	memoi := make(map[[2]int]int)
+	var recur func(int, int) int
+	recur = func(length int, maxVal int) int {
+		if length == 1 {
+			return maxVal
+		}
+		if result, exists := memoi[[2]int{length, maxVal}]; exists {
+			return result
+		}
+		count := 0
+		for i := 1; i <= maxVal; i++ {
+			count = (count + recur(length-1, i)) % 1_000_000_007
+		}
+		memoi[[2]int{length, maxVal}] = count
+		return count
+	}
+	var result int
+	for length := 1; length <= n; length++ {
+		result = (result + recur(length, maxValue)) % 1_000_000_007
+	}
+	return result
+}
+
 func main() {
 	fmt.Println(numberOfArrays([]int{-40}, -46, 53))
 	fmt.Println(numberOfArrays([]int{1, -3, 4}, 1, 6))
