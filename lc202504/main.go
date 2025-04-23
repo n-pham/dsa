@@ -914,9 +914,50 @@ func idealArrays_fail(n int, maxValue int) int {
 	return result
 }
 
+func countLargestGroup_fail(n int) int {
+	// 1399
+	// 13 [1,10], [2,11], [3,12], [4,13], [5], [6], [7], [8], [9]
+	// 46 1,10  2,11,20  3,12,21,30  4,13,22,31,40  5,14,23,32,41  6,15,24,33,42  7,16,25,34,43  8,17,26,35,44  9,18,27,36,45  19,28,37,46  29,38  39
+	// +9 to get the next number in group if still <= n
+	mapCnt := [36]int{} // 10^4 --> max 9+9+9+9
+	for i := 0; i < 36; i++ {
+		num, cnt := i+1, 0
+		for num <= n {
+			cnt++
+			num += 9
+		}
+		mapCnt[i] = cnt
+	}
+	fmt.Println(mapCnt)
+	return 0
+}
+
+func countLargestGroup(n int) (rs int) {
+	// 1399
+	maxCnt, mapCnt := 0, make(map[int]int)
+	for i := 1; i <= n; i++ {
+		sum := 0
+		for tmp := i; tmp > 0; {
+			sum += tmp % 10
+			tmp /= 10
+		}
+		mapCnt[sum]++
+		if mapCnt[sum] > maxCnt {
+			maxCnt = mapCnt[sum]
+		}
+	}
+	for _, count := range mapCnt {
+		if count == maxCnt {
+			rs++
+		}
+	}
+	return rs
+}
+
 func main() {
-	fmt.Println(numberOfArrays([]int{-40}, -46, 53))
-	fmt.Println(numberOfArrays([]int{1, -3, 4}, 1, 6))
+	fmt.Println(countLargestGroup(46))
+	// fmt.Println(numberOfArrays([]int{-40}, -46, 53))
+	// fmt.Println(numberOfArrays([]int{1, -3, 4}, 1, 6))
 	// fmt.Println(countFairPairs([]int{-5, -7, -5, -7, -5}, -12, -12))
 	// fmt.Println(countAndSay(4))
 	// fmt.Println(freqFromInt(223314444411))
