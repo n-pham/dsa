@@ -954,6 +954,30 @@ func countLargestGroup(n int) (rs int) {
 	return rs
 }
 
+func countCompleteSubarrays(nums []int) (cnt int) {
+	// 2799
+	mapDistinct := make(map[int]struct{})
+	for _, num := range nums {
+		mapDistinct[num] = struct{}{}
+	}
+	totalDistinct := len(mapDistinct)
+	// Sliding window to count subarrays with all distinct elements
+	distinctCount := make(map[int]int)
+	left := 0
+	for right := 0; right < len(nums); right++ {
+		distinctCount[nums[right]]++
+		for len(distinctCount) == totalDistinct {
+			cnt += len(nums) - right
+			distinctCount[nums[left]]--
+			if distinctCount[nums[left]] == 0 {
+				delete(distinctCount, nums[left])
+			}
+			left++
+		}
+	}
+	return cnt
+}
+
 func main() {
 	fmt.Println(countLargestGroup(46))
 	// fmt.Println(numberOfArrays([]int{-40}, -46, 53))
