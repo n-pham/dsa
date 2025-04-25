@@ -978,8 +978,32 @@ func countCompleteSubarrays(nums []int) (cnt int) {
 	return cnt
 }
 
+func countInterestingSubarrays(nums []int, modulo int, k int) (rs int64) {
+	// 2845
+	// 96ms
+	//   3 1 9 6
+	// 0 1 1 2 3  prefixIndexCount
+	prefixIndexCount := make([]int, len(nums)+1)
+	for i, num := range nums {
+		prefixIndexCount[i+1] = prefixIndexCount[i]
+		if num%modulo == k {
+			prefixIndexCount[i+1]++
+		}
+	}
+	fmt.Println(prefixIndexCount)
+	countByRemainder := make(map[int]int)
+	countByRemainder[0] = 1
+	for _, count := range prefixIndexCount[1:] {
+		target := (count - k + modulo) % modulo
+		rs += int64(countByRemainder[target])
+		countByRemainder[count%modulo]++
+	}
+	return rs
+}
+
 func main() {
-	fmt.Println(countLargestGroup(46))
+	fmt.Println(countInterestingSubarrays([]int{3, 1, 9, 6}, 3, 0))
+	// fmt.Println(countLargestGroup(46))
 	// fmt.Println(numberOfArrays([]int{-40}, -46, 53))
 	// fmt.Println(numberOfArrays([]int{1, -3, 4}, 1, 6))
 	// fmt.Println(countFairPairs([]int{-5, -7, -5, -7, -5}, -12, -12))
