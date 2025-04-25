@@ -980,7 +980,6 @@ func countCompleteSubarrays(nums []int) (cnt int) {
 
 func countInterestingSubarrays(nums []int, modulo int, k int) (rs int64) {
 	// 2845
-	// 96ms
 	//   3 1 9 6
 	// 0 1 1 2 3  prefixIndexCount
 	prefixIndexCount := make([]int, len(nums)+1)
@@ -990,8 +989,7 @@ func countInterestingSubarrays(nums []int, modulo int, k int) (rs int64) {
 			prefixIndexCount[i+1]++
 		}
 	}
-	fmt.Println(prefixIndexCount)
-	countByRemainder := make(map[int]int)
+	countByRemainder := map[int]int{0: 1}
 	countByRemainder[0] = 1
 	for _, count := range prefixIndexCount[1:] {
 		target := (count - k + modulo) % modulo
