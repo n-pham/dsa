@@ -1001,17 +1001,21 @@ func countInterestingSubarrays(nums []int, modulo int, k int) (rs int64) {
 
 func countSubarrays(nums []int, minK int, maxK int) (rs int64) {
 	// 2444
-	subNums, currentNums := [][]int{}, []int{}
-	for _, num := range nums {
-		if num >= minK && num <= maxK {
-			currentNums = append(currentNums, num)
-			continue
+	subNums, start := [][]int{}, -1
+	for i, num := range nums {
+		if num < minK || num > maxK {
+			if start != -1 {
+				subNums = append(subNums, nums[start:i])
+				start = -1
+			}
+		} else if start == -1 {
+			start = i
 		}
-		// outside
-		subNums = append(subNums, currentNums)
-		currentNums = []int{}
 	}
-	subNums = append(subNums, currentNums)
+	if start != -1 {
+		subNums = append(subNums, nums[start:])
+	}
+	fmt.Println(subNums)
 	for _, subArray := range subNums {
 		minIndex, maxIndex := -1, -1
 		for i := 0; i < len(subArray); i++ {
@@ -1032,6 +1036,7 @@ func countSubarrays(nums []int, minK int, maxK int) (rs int64) {
 }
 
 func main() {
+	fmt.Println(countSubarrays([]int{4, 3}, 3, 3))
 	fmt.Println(countSubarrays([]int{1, 3, 5, 2, 7, 5}, 1, 5))
 	// fmt.Println(countInterestingSubarrays([]int{3, 1, 9, 6}, 3, 0))
 	// fmt.Println(countLargestGroup(46))
