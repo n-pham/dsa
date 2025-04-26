@@ -999,8 +999,41 @@ func countInterestingSubarrays(nums []int, modulo int, k int) (rs int64) {
 	return rs
 }
 
+func countSubarrays(nums []int, minK int, maxK int) (rs int64) {
+	// 2444
+	subNums, currentNums := [][]int{}, []int{}
+	for _, num := range nums {
+		if num >= minK && num <= maxK {
+			currentNums = append(currentNums, num)
+			continue
+		}
+		// outside
+		subNums = append(subNums, currentNums)
+		currentNums = []int{}
+	}
+	subNums = append(subNums, currentNums)
+	for _, subArray := range subNums {
+		minIndex, maxIndex := -1, -1
+		for i := 0; i < len(subArray); i++ {
+			if subArray[i] == minK {
+				minIndex = i
+			}
+			if subArray[i] == maxK {
+				maxIndex = i
+			}
+			leftBound := minIndex
+			if maxIndex < minIndex {
+				leftBound = maxIndex
+			}
+			rs += int64(leftBound + 1)
+		}
+	}
+	return rs
+}
+
 func main() {
-	fmt.Println(countInterestingSubarrays([]int{3, 1, 9, 6}, 3, 0))
+	fmt.Println(countSubarrays([]int{1, 3, 5, 2, 7, 5}, 1, 5))
+	// fmt.Println(countInterestingSubarrays([]int{3, 1, 9, 6}, 3, 0))
 	// fmt.Println(countLargestGroup(46))
 	// fmt.Println(numberOfArrays([]int{-40}, -46, 53))
 	// fmt.Println(numberOfArrays([]int{1, -3, 4}, 1, 6))
