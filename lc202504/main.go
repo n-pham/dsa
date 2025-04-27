@@ -1035,6 +1035,18 @@ func countSubarrays(nums []int, minK int, maxK int) (rs int64) {
 	return rs
 }
 
+func countSubarrays3392(nums []int) (cnt int) {
+	// 3392
+	first, mid := nums[0], nums[1]
+	for _, third := range nums[2:] {
+		if 2*(first+third) == mid {
+			cnt++
+		}
+		first, mid = mid, third
+	}
+	return cnt
+}
+
 func main() {
 	fmt.Println(countSubarrays([]int{4, 3}, 3, 3))
 	fmt.Println(countSubarrays([]int{1, 3, 5, 2, 7, 5}, 1, 5))
