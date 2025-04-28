@@ -1852,7 +1852,64 @@ func shortestCommonSupersequence1092(str1 string, str2 string) string {
 	panic("not implemented")
 }
 
+func lenLongestFibSubseq_fail2(arr []int) int {
+	// 873
+	//   1,2,3,4,5,6,7,8
+	// 1   3 5   8    13
+	// 2     5   8    13
+	sequences := make([]int, len(arr)-2)
+	for start := 0; start < len(arr)-2; start++ {
+		second, third := arr[start+1], arr[start]+arr[start+1]
+		for i := start + 2; i < len(arr); i++ {
+			fmt.Println("start", start, second, third)
+			if arr[i] == third {
+				sequences[start]++
+				tmp := second + third
+				second = third
+				third = tmp
+
+			}
+		}
+	}
+	fmt.Println(sequences)
+	rs := math.MinInt
+	for _, cnt := range sequences {
+		if rs < cnt {
+			rs = cnt
+		}
+	}
+	return rs + 2
+}
+
+func lenLongestFibSubseq_fail3(arr []int) (rs int) {
+	// 873
+	index := make(map[int]int)
+	for i, num := range arr {
+		index[num] = i
+	}
+	dp := make(map[[2]int]int)
+	for k := 0; k < len(arr); k++ {
+		for j := 0; j < k; j++ {
+			// Check if arr[k] - arr[j] exists and is valid
+			prev := arr[k] - arr[j]
+			if i, exists := index[prev]; exists && i < j {
+				if i < j {
+					dp[[2]int{j, k}] = dp[[2]int{i, j}] + 1
+					if dp[[2]int{j, k}] > rs {
+						rs = dp[[2]int{j, k}]
+					}
+				}
+			}
+		}
+	}
+	if rs > 2 {
+		return rs + 2
+	}
+	return 0
+}
+
 func main() {
+	// fmt.Println(lenLongestFibSubseq([]int{1, 2, 3, 4, 5, 6, 7, 8}))
 	// fmt.Println(recoverFromPreorder1028("1-401--349---90--88"))
 	// fmt.Println(maxArea11([]int{1,8,6,2,5,4,8,3,7}))
 	// fmt.Println(numSpecialEquivGroups893([]string{"abc","acb","bac","bca","cab","cba"}))
