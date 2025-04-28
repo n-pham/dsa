@@ -1048,7 +1048,7 @@ func countSubarrays3392(nums []int) (cnt int) {
 }
 
 func countSubarrays3202(nums []int, k int64) (cnt int64) {
-	// 3202
+	// 2302
 	left, sum := 0, 0
 	for right := 0; right < len(nums); right++ {
 		sum += nums[right]
