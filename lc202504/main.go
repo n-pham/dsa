@@ -889,27 +889,75 @@ func numberOfArrays(differences []int, lower int, upper int) int {
 	return rs
 }
 
-func idealArrays_fail(n int, maxValue int) int {
-	// fail 2338
+func idealArrays_fail(n int, maxValue int) (rs int) {
 	memoi := make(map[[2]int]int)
 	var recur func(int, int) int
 	recur = func(length int, maxVal int) int {
 		if length == 1 {
-			return maxVal
+			return 1
 		}
-		if result, exists := memoi[[2]int{length, maxVal}]; exists {
-			return result
+		if rs, exists := memoi[[2]int{length, maxVal}]; exists {
+			return rs
 		}
 		count := 0
 		for i := 1; i <= maxVal; i++ {
-			count = (count + recur(length-1, i)) % 1_000_000_007
+			if maxVal%i == 0 {
+				count = (count + recur(length-1, i)) % 1_000_000_007
+			}
 		}
 		memoi[[2]int{length, maxVal}] = count
 		return count
 	}
-	var result int
-	for length := 1; length <= n; length++ {
-		result = (result + recur(length, maxValue)) % 1_000_000_007
+	for i := 1; i <= maxValue; i++ {
+		rs = (rs + recur(n, i)) % 1_000_000_007
+	}
+	return rs
+}
+
+func idealArrays_fail2(n int, maxValue int) (rs int) {
+	// 2338
+	const MOD = 1_000_000_007
+	// Precompute divisors for each number up to maxValue
+	divisors := make([][]int, maxValue+1)
+	for i := 1; i <= maxValue; i++ {
+		for j := i; j <= maxValue; j += i {
+			divisors[j] = append(divisors[j], i)
+		}
+	}
+	// DP array to store counts for the current state
+	dp := make([]int, maxValue+1)
+	for i := 1; i <= maxValue; i++ {
+		dp[i] = 1 // Base case: arrays of length 1
+	}
+	for length := 2; length <= n; length++ {
+		next := make([]int, maxValue+1)
+		for value := 1; value <= maxValue; value++ {
+			for _, divisor := range divisors[value] {
+				next[value] = (next[value] + dp[divisor]) % MOD
+			}
+		}
+		dp = next
+	}
+	// Calculate combinations dynamically and sum up results
+	combinations := 1
+	for length := 1; length <= n-1; length++ {
+		for value := 1; value <= maxValue; value++ {
+			rs = (rs + dp[value]*combinations) % MOD
+		}
+		combinations = combinations * (n - length) % MOD * modInverse(length+1, MOD) % MOD
+	}
+	return rs
+}
+
+// Helper function to calculate modular inverse using Fermat's Little Theorem
+func modInverse(a, mod int) int {
+	result, power := 1, mod-2
+	for power > 0 {
+		if power%2 == 1 {
+			result = result * a % mod
+		}
+		a = a * a % mod
+		power /= 2
 	}
 	return result
 }
@@ -1063,7 +1111,10 @@ func countSubarrays3202(nums []int, k int64) (cnt int64) {
 }
 
 func main() {
-	fmt.Println(countSubarrays3202([]int{5, 2, 6, 8, 9, 7}, 50))
+	// fmt.Println(idealArrays(2, 5))       // Should return 10
+	// fmt.Println(idealArrays(5, 3))       // Should return 11
+	// fmt.Println(idealArrays(9767, 9557)) // Should not exceed time limit
+	// fmt.Println(countSubarrays3202([]int{5, 2, 6, 8, 9, 7}, 50))
 	// fmt.Println(countSubarrays([]int{4, 3}, 3, 3))
 	// fmt.Println(countSubarrays([]int{1, 3, 5, 2, 7, 5}, 1, 5))
 	// fmt.Println(countInterestingSubarrays([]int{3, 1, 9, 6}, 3, 0))
