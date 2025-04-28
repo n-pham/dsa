@@ -1047,9 +1047,25 @@ func countSubarrays3392(nums []int) (cnt int) {
 	return cnt
 }
 
+func countSubarrays3202(nums []int, k int64) (cnt int64) {
+	// 3202
+	left, sum := 0, 0
+	for right := 0; right < len(nums); right++ {
+		sum += nums[right]
+		for int64(sum*(right-left+1)) >= k {
+			sum -= nums[left]
+			left++
+		}
+		fmt.Println(nums[left], nums[right], right-left+1)
+		cnt += int64(right - left + 1)
+	}
+	return cnt
+}
+
 func main() {
-	fmt.Println(countSubarrays([]int{4, 3}, 3, 3))
-	fmt.Println(countSubarrays([]int{1, 3, 5, 2, 7, 5}, 1, 5))
+	fmt.Println(countSubarrays3202([]int{5, 2, 6, 8, 9, 7}, 50))
+	// fmt.Println(countSubarrays([]int{4, 3}, 3, 3))
+	// fmt.Println(countSubarrays([]int{1, 3, 5, 2, 7, 5}, 1, 5))
 	// fmt.Println(countInterestingSubarrays([]int{3, 1, 9, 6}, 3, 0))
 	// fmt.Println(countLargestGroup(46))
 	// fmt.Println(numberOfArrays([]int{-40}, -46, 53))
