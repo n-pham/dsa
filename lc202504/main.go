@@ -1110,6 +1110,32 @@ func countSubarrays3202(nums []int, k int64) (cnt int64) {
 	return cnt
 }
 
+func countSubarrays2962(nums []int, k int) (rs int64) {
+	// 2962
+	n, mx := len(nums), math.MinInt
+	for _, num := range nums {
+		if mx < num {
+			mx = num
+		}
+	}
+	right, cnt := 0, 0
+	for left := 0; left < n; left++ {
+		for ; right < n && cnt < k; right++ {
+			if nums[right] == mx {
+				cnt++
+			}
+		}
+		if cnt < k { // window contains fewer than k
+			break
+		}
+		rs += int64(n - right + 1)
+		if nums[left] == mx { // shrink
+			cnt--
+		}
+	}
+	return rs
+}
+
 func main() {
 	// fmt.Println(idealArrays(2, 5))       // Should return 10
 	// fmt.Println(idealArrays(5, 3))       // Should return 11
