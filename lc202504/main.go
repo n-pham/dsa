@@ -1136,6 +1136,20 @@ func countSubarrays2962(nums []int, k int) (rs int64) {
 	return rs
 }
 
+func findNumbers(nums []int) (cnt int) {
+	// 1295
+	for _, num := range nums {
+		digitLen := 0
+		for t := num; t > 0; t /= 10 {
+			digitLen++
+		}
+		if digitLen%2 == 0 {
+			cnt++
+		}
+	}
+	return cnt
+}
+
 func main() {
 	// fmt.Println(idealArrays(2, 5))       // Should return 10
 	// fmt.Println(idealArrays(5, 3))       // Should return 11
