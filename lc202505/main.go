@@ -12,6 +12,69 @@ func maxTaskAssign(tasks []int, workers []int, pills int, strength int) int {
 	return 0
 }
 
+func pushDominoes(dominoes string) string {
+	// 838
+	//  . L . R . . . L R . . L . .
+	// [0 0 0 1 2 3 4 0 1 2 3 0 0 0]
+	// [2 1 0 0 4 3 2 1 0 3 2 1 0 0]
+	cnt := 0
+	fallingRight, rightTimes := false, make([]int, len(dominoes))
+	fallingLeft, leftTimes := false, make([]int, len(dominoes))
+	for i, d := range dominoes {
+		fmt.Print(" ", string(d))
+		if d == 'L' {
+			fallingRight = false
+			continue
+		}
+		if d == 'R' {
+			fallingRight = true
+			rightTimes[i] = 1
+			cnt = 2
+		} else if d == '.' && fallingRight {
+			rightTimes[i] = cnt
+			cnt++
+		}
+	}
+	fmt.Println()
+	fmt.Println(rightTimes)
+	cnt = 0
+	for i := len(dominoes) - 1; i > -1; i-- {
+		d := dominoes[i]
+		if d == 'R' {
+			fallingLeft = false
+			continue
+		}
+		if d == 'L' {
+			fallingLeft = true
+			leftTimes[i] = 1
+			cnt = 2
+		} else if d == '.' && fallingLeft {
+			leftTimes[i] = cnt
+			cnt++
+		}
+	}
+	fmt.Println(leftTimes)
+	rs := make([]rune, len(dominoes))
+	for i, rightTime := range rightTimes {
+		leftTime := leftTimes[i]
+		if leftTime == rightTime {
+			rs[i] = '.'
+			continue
+		}
+		if leftTime == 0 {
+			rs[i] = 'R'
+		} else if rightTime == 0 {
+			rs[i] = 'L'
+		} else if leftTime < rightTime {
+			rs[i] = 'L'
+		} else {
+			rs[i] = 'R'
+		}
+	}
+	return string(rs)
+}
+
 func main() {
-	fmt.Println(maxTaskAssign([]int{3, 2, 1}, []int{0, 3, 3}, 1, 1))
+	fmt.Println(pushDominoes(".L.R...LR..L.."))
+	// fmt.Println(maxTaskAssign([]int{3, 2, 1}, []int{0, 3, 3}, 1, 1))
 }
