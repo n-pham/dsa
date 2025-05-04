@@ -74,7 +74,35 @@ func pushDominoes(dominoes string) string {
 	return string(rs)
 }
 
+func minDominoRotations(tops []int, bottoms []int) int {
+	// 1007
+	// 2,1,2,4,2,2
+	// 5,2,6,2,3,2
+	num1, num2 := 0, 0
+	for i := 0; i < len(tops); i++ {
+		top := tops[i]
+		bottom := bottoms[i]
+		if num1 == 0 {
+			num1 = top
+		} else if num2 == 0 {
+			num2 = top
+		}
+		if num1 == 0 {
+			num1 = bottom
+		} else if num2 == 0 {
+			num2 = bottom
+		}
+		fmt.Println(num1, num2, top, bottom)
+		if num1 != 0 && num2 != 0 && !((top == num1 || top == num2) && (bottom == num1 || bottom == num2)) {
+			return -1
+		}
+	}
+	return 0
+}
+
 func main() {
-	fmt.Println(pushDominoes(".L.R...LR..L.."))
+	fmt.Println(minDominoRotations([]int{2, 1, 2, 4, 2, 2}, []int{5, 2, 6, 2, 3, 2}))
+	fmt.Println(minDominoRotations([]int{3, 5, 1, 2, 3}, []int{3, 6, 3, 3, 4}))
+	// fmt.Println(pushDominoes(".L.R...LR..L.."))
 	// fmt.Println(maxTaskAssign([]int{3, 2, 1}, []int{0, 3, 3}, 1, 1))
 }
