@@ -100,8 +100,7 @@ func minDominoRotations(tops []int, bottoms []int) int {
 	return 0
 }
 
-func numEquivDominoPairs(dominoes [][]int) (pairCnt int) {
-	// 1128
+func numEquivDominoPairs_1(dominoes [][]int) (pairCnt int) {
 	mapCnt := make(map[[2]int]int)
 	for _, d := range dominoes {
 		smaller, bigger := d[0], d[1]
@@ -113,6 +112,20 @@ func numEquivDominoPairs(dominoes [][]int) (pairCnt int) {
 	fmt.Println(mapCnt)
 	for _, cnt := range mapCnt {
 		pairCnt += cnt * (cnt - 1) / 2
+	}
+	return pairCnt
+}
+
+func numEquivDominoPairs(dominoes [][]int) (pairCnt int) {
+	// 1128
+	mapCnt := make(map[[2]int]int, len(dominoes))
+	for _, d := range dominoes {
+		smaller, bigger := d[0], d[1]
+		if smaller > bigger {
+			smaller, bigger = d[1], d[0]
+		}
+		pairCnt += mapCnt[[2]int{smaller, bigger}]
+		mapCnt[[2]int{smaller, bigger}]++
 	}
 	return pairCnt
 }
