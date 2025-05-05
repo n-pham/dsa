@@ -130,6 +130,14 @@ func numEquivDominoPairs(dominoes [][]int) (pairCnt int) {
 	return pairCnt
 }
 
+func numTilings(n int) int {
+	// 790
+	// a  a a  a e  a e e  a i e  i i a  z z x  z x x  z z x x  z z e e x
+	// a  e e  a e  a i i  a i e  e e a  z x x  z z x  z a a x  z a a x x
+	// MOD = 1_000_000_007
+	panic("not implemented")
+}
+
 func main() {
 	fmt.Println(numEquivDominoPairs([][]int{{1, 2}, {2, 1}, {1, 1}, {1, 2}, {2, 2}, {2, 2}}))
 	// fmt.Println(minDominoRotations([]int{2, 1, 2, 4, 2, 2}, []int{5, 2, 6, 2, 3, 2}))
