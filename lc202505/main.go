@@ -134,8 +134,23 @@ func numTilings(n int) int {
 	// 790
 	// a  a a  a e  a e e  a i e  i i a  z z x  z x x  z z x x  z z e e x
 	// a  e e  a e  a i i  a i e  e e a  z x x  z z x  z a a x  z a a x x
-	// MOD = 1_000_000_007
-	panic("not implemented")
+	const MOD = 1_000_000_007
+	tilingWays := [4]int{1, 0, 0, 0}
+	for i := 1; i <= n; i++ {
+		newTilingWays := [4]int{0, 0, 0, 0}
+		// Full cover is obtained by adding one 2x2 tile or two 2x1 tiles to any of the four previous states.
+		newTilingWays[0] = (tilingWays[0] + tilingWays[1] + tilingWays[2] + tilingWays[3]) % MOD
+		// Top row missing one can be obtained by adding a 2x1 tile to the previous state of bottom row missing one or both top and bottom missing one.
+		newTilingWays[1] = (tilingWays[2] + tilingWays[3]) % MOD
+		// Bottom row missing one can be obtained by adding a 2x1 tile to the previous state of top row missing one or both top and bottom missing one.
+		newTilingWays[2] = (tilingWays[1] + tilingWays[3]) % MOD
+		// Both top and bottom missing one can only be obtained by placing a 2x2 tile in the full cover state.
+		newTilingWays[3] = tilingWays[0]
+
+		// Update tilingWays array with the new computed values.
+		tilingWays = newTilingWays
+	}
+	return tilingWays[0]
 }
 
 func main() {
