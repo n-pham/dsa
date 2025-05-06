@@ -162,8 +162,32 @@ func buildArray(nums []int) []int {
 	return ans
 }
 
+func romanToInt(s string) (num int) {
+	// 13
+	singleValue := map[string]int{"I": 1, "V": 5, "X": 10, "L": 50, "C": 100, "D": 500, "M": 1000}
+	doubleValue := map[string]int{"IV": 4, "IX": 9, "XL": 40, "XC": 90, "CD": 400, "CM": 900}
+	prev := ""
+	for i := 0; i < len(s); i++ {
+		c := string(s[i])
+		if prev == "" {
+			prev = c
+			continue
+		}
+		if dv := doubleValue[prev+c]; dv > 0 {
+			num += dv
+			prev = ""
+		} else {
+			num += singleValue[prev]
+			prev = c
+		}
+	}
+	num += singleValue[prev]
+	return num
+}
+
 func main() {
-	fmt.Println(numEquivDominoPairs([][]int{{1, 2}, {2, 1}, {1, 1}, {1, 2}, {2, 2}, {2, 2}}))
+	fmt.Println(romanToInt("LVIII"), romanToInt("MCMXCIV"))
+	// fmt.Println(numEquivDominoPairs([][]int{{1, 2}, {2, 1}, {1, 1}, {1, 2}, {2, 2}, {2, 2}}))
 	// fmt.Println(minDominoRotations([]int{2, 1, 2, 4, 2, 2}, []int{5, 2, 6, 2, 3, 2}))
 	// fmt.Println(minDominoRotations([]int{3, 5, 1, 2, 3}, []int{3, 6, 3, 3, 4}))
 	// fmt.Println(pushDominoes(".L.R...LR..L.."))
