@@ -95,11 +95,14 @@ def canChange2337_1(start: str, target: str) -> bool:
         j += 1
     return True
 
+
 def canChange2337(start: str, target: str) -> bool:
     pass
 
+
 # assert canChange2337("_L__R__R_", "L______RR") is True
 # assert canChange2337("_R", "_R") is False
+
 
 def maxTwoEvents_greedy_fail(events: list[list[int]]) -> int:
     # sorted_events = sorted(events, key=lambda e: -e[2])
@@ -109,20 +112,25 @@ def maxTwoEvents_greedy_fail(events: list[list[int]]) -> int:
         bisect.insort(sorted_events, event, key=lambda e: e[2])
         count_by_value[event[2]] = count_by_value.get(event[2], 0) + 1
     print(sorted_events, count_by_value)
-    for i in range(len(sorted_events)-1, -1, -1):
-        previous_single_value = sorted_events[i+1][2] if i < len(sorted_events)-1 else 0
-        for j in range(i-1, -1, -1):
+    for i in range(len(sorted_events) - 1, -1, -1):
+        previous_single_value = (
+            sorted_events[i + 1][2] if i < len(sorted_events) - 1 else 0
+        )
+        for j in range(i - 1, -1, -1):
             print(previous_single_value, sorted_events[i], sorted_events[j])
             if previous_single_value >= sorted_events[i][2] + sorted_events[j][2]:
                 return previous_single_value
-            if sorted_events[i][0] > sorted_events[j][1] or sorted_events[i][1] < sorted_events[j][0]:
+            if (
+                sorted_events[i][0] > sorted_events[j][1]
+                or sorted_events[i][1] < sorted_events[j][0]
+            ):
                 return sorted_events[i][2] + sorted_events[j][2]
-    return sorted_events[len(sorted_events)-1][2]
+    return sorted_events[len(sorted_events) - 1][2]
+
 
 def maxTwoEvents_time(events: list[list[int]]) -> int:
     print(events)
     sorted_ends = []
-    sorted_end_values = []
     sorted_starts = []
     for i in range(len(events)):
         bisect.insort(sorted_ends, events[i], key=lambda e: e[1])
@@ -131,27 +139,36 @@ def maxTwoEvents_time(events: list[list[int]]) -> int:
     max_value = 0
     for i in range(len(events)):
         # find events where end < start
-        end_index = bisect.bisect_right(sorted_ends, events[i][0]-1, key=lambda e: e[1])
+        end_index = bisect.bisect_right(
+            sorted_ends, events[i][0] - 1, key=lambda e: e[1]
+        )
         before_events = sorted_ends[:end_index]
         # print("start", events[i][0], before_events)
-        max_1 = events[i][2] + (max(event[2] for event in before_events) if before_events else 0)
+        max_1 = events[i][2] + (
+            max(event[2] for event in before_events) if before_events else 0
+        )
         # find events where start > end
-        start_index = bisect.bisect_left(sorted_starts, events[i][1]+1, key=lambda e: e[0])
+        start_index = bisect.bisect_left(
+            sorted_starts, events[i][1] + 1, key=lambda e: e[0]
+        )
         after_events = sorted_starts[start_index:]
         # print("end", events[i][1], after_events)
-        max_2 = events[i][2] + (max(event[2] for event in after_events) if after_events else 0)
+        max_2 = events[i][2] + (
+            max(event[2] for event in after_events) if after_events else 0
+        )
         # print(max_value, max_1, max_2)
         max_value = max(max_value, max_1, max_2)
     return max_value
+
 
 @functools.cache
 def cached_max(events: tuple) -> int:
     return max([event[2] for event in events])
 
+
 def maxTwoEvents_memory(events: list[list[int]]) -> int:
     print(events)
     sorted_ends = []
-    sorted_end_values = []
     sorted_starts = []
     for i in range(len(events)):
         bisect.insort(sorted_ends, tuple(events[i]), key=lambda e: e[1])
@@ -162,13 +179,17 @@ def maxTwoEvents_memory(events: list[list[int]]) -> int:
     max_value = 0
     for i in range(len(events)):
         # find events where end < start
-        end_index = bisect.bisect_right(sorted_ends, events[i][0]-1, key=lambda e: e[1])
+        end_index = bisect.bisect_right(
+            sorted_ends, events[i][0] - 1, key=lambda e: e[1]
+        )
         before_events = sorted_ends[:end_index]
         # print("start", events[i][0], before_events)
         # max_1 = events[i][2] + (max(event[2] for event in before_events) if before_events else 0)
         max_1 = events[i][2] + (cached_max(before_events) if before_events else 0)
         # find events where start > end
-        start_index = bisect.bisect_left(sorted_starts, events[i][1]+1, key=lambda e: e[0])
+        start_index = bisect.bisect_left(
+            sorted_starts, events[i][1] + 1, key=lambda e: e[0]
+        )
         after_events = sorted_starts[start_index:]
         # print("end", events[i][1], after_events)
         max_2 = events[i][2] + (cached_max(after_events) if after_events else 0)
@@ -176,18 +197,25 @@ def maxTwoEvents_memory(events: list[list[int]]) -> int:
         max_value = max(max_value, max_1, max_2)
     return max_value
 
+
 class MaxTwoEvents:
     @functools.cache
     def maxInBefore(self, index: int) -> int:
         if index == 0:
             return 0
-        return max(self.sorted_ends[index-1][2], self.maxInBefore(index-2) if index > 1 else 0)
+        return max(
+            self.sorted_ends[index - 1][2],
+            self.maxInBefore(index - 2) if index > 1 else 0,
+        )
 
     @functools.cache
     def maxInAfter(self, index: int) -> int:
         if index >= len(self.sorted_starts):
             return 0
-        return max(self.sorted_starts[index][2], self.maxInAfter(index+1) if index < len(self.sorted_starts)-1 else 0)
+        return max(
+            self.sorted_starts[index][2],
+            self.maxInAfter(index + 1) if index < len(self.sorted_starts) - 1 else 0,
+        )
 
     def maxTwoEvents(self, events: list[list[int]]) -> int:
         # print(events)
@@ -200,12 +228,16 @@ class MaxTwoEvents:
         max_value = 0
         for i in range(len(events)):
             # find events where end < start
-            end_index = bisect.bisect_right(self.sorted_ends, events[i][0]-1, key=lambda e: e[1])
+            end_index = bisect.bisect_right(
+                self.sorted_ends, events[i][0] - 1, key=lambda e: e[1]
+            )
             # print(events[i], "start", events[i][0])
             # print(f"{end_index=} {self.maxInBefore(end_index)=}")
             max_1 = events[i][2] + self.maxInBefore(end_index)
             # find events where start > end
-            start_index = bisect.bisect_left(self.sorted_starts, events[i][1]+1, key=lambda e: e[0])
+            start_index = bisect.bisect_left(
+                self.sorted_starts, events[i][1] + 1, key=lambda e: e[0]
+            )
             # print(events[i], "end", events[i][1])
             # print(f"{start_index=} {self.maxInAfter(start_index)=}")
             max_2 = events[i][2] + self.maxInAfter(start_index)
@@ -213,8 +245,9 @@ class MaxTwoEvents:
             max_value = max(max_value, max_1, max_2)
         return max_value
 
+
 def findScore2593(nums: list[int]) -> int:
-    nums = sorted([(v,i) for i,v in enumerate(nums)])
+    nums = sorted([(v, i) for i, v in enumerate(nums)])
     print(nums)
     total = 0
     marks = set()
@@ -222,10 +255,9 @@ def findScore2593(nums: list[int]) -> int:
         if n[1] in marks:
             continue
         total += n[0]
-        marks.add(n[1]-1)
-        marks.add(n[1]+1)
+        marks.add(n[1] - 1)
+        marks.add(n[1] + 1)
     return total
-
 
 
 def final_prices(prices):
@@ -245,6 +277,7 @@ def final_prices(prices):
             final_prices[update_laters.pop()] -= value
         update_laters.append(index)
     return final_prices
+
 
 assert final_prices([8, 4, 6, 2, 3]) == [4, 2, 4, 2, 3]
 
