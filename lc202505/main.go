@@ -153,6 +153,15 @@ func numTilings(n int) int {
 	return tilingWays[0]
 }
 
+func buildArray(nums []int) []int {
+	// 1920
+	ans := make([]int, len(nums))
+	for i, num := range nums {
+		ans[i] = nums[num]
+	}
+	return ans
+}
+
 func main() {
 	fmt.Println(numEquivDominoPairs([][]int{{1, 2}, {2, 1}, {1, 1}, {1, 2}, {2, 2}, {2, 2}}))
 	// fmt.Println(minDominoRotations([]int{2, 1, 2, 4, 2, 2}, []int{5, 2, 6, 2, 3, 2}))
