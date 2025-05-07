@@ -11,3 +11,6 @@ dev = [
 
 [tool.ruff.lint.per-file-ignores]
 "*.py" = ["F401"]
+
+[tool.uv]
+python-preference = "managed"
