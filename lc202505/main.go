@@ -185,6 +185,13 @@ func romanToInt(s string) (num int) {
 	return num
 }
 
+func minTimeToReach(moveTime [][]int) int {
+	// 3341
+	// 0 4  4↓ .
+	// 4 4  5→ 6
+	panic("not implemented")
+}
+
 func main() {
 	fmt.Println(romanToInt("LVIII"), romanToInt("MCMXCIV"))
 	// fmt.Println(numEquivDominoPairs([][]int{{1, 2}, {2, 1}, {1, 1}, {1, 2}, {2, 2}, {2, 2}}))
