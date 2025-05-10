@@ -192,8 +192,39 @@ func minTimeToReach(moveTime [][]int) int {
 	panic("not implemented")
 }
 
+func minSum(nums1 []int, nums2 []int) int64 {
+	// 2918
+	var sum1, sum2, zeroCnt1, zeroCnt2 int64
+	for _, num := range nums1 {
+		sum1 += int64(num)
+		if num == 0 {
+			zeroCnt1++
+		}
+	}
+	for _, num := range nums2 {
+		sum2 += int64(num)
+		if num == 0 {
+			zeroCnt2++
+		}
+	}
+	sum1, sum2 = sum1+zeroCnt1, sum2+zeroCnt2
+	fmt.Println(sum1, sum2)
+	if sum1 == sum2 {
+		return sum1
+	} else if sum1 < sum2 {
+		if zeroCnt1 > 0 {
+			return sum2
+		}
+	} else if zeroCnt2 > 0 {
+		return sum1
+	}
+	return -1
+}
+
 func main() {
-	fmt.Println(romanToInt("LVIII"), romanToInt("MCMXCIV"))
+	fmt.Println(minSum([]int{0, 16, 28, 12, 10, 15, 25, 24, 6, 0, 0}, []int{20, 15, 19, 5, 6, 29, 25, 8, 12}))
+	fmt.Println(minSum([]int{9, 5}, []int{15, 12, 5, 21, 4, 26, 27, 9, 6, 29, 0, 18, 16, 0, 0, 0, 20}))
+	// fmt.Println(romanToInt("LVIII"), romanToInt("MCMXCIV"))
 	// fmt.Println(numEquivDominoPairs([][]int{{1, 2}, {2, 1}, {1, 1}, {1, 2}, {2, 2}, {2, 2}}))
 	// fmt.Println(minDominoRotations([]int{2, 1, 2, 4, 2, 2}, []int{5, 2, 6, 2, 3, 2}))
 	// fmt.Println(minDominoRotations([]int{3, 5, 1, 2, 3}, []int{3, 6, 3, 3, 4}))
