@@ -221,6 +221,22 @@ func minSum(nums1 []int, nums2 []int) int64 {
 	return -1
 }
 
+func threeConsecutiveOdds(arr []int) bool {
+	// 1550
+	consecutiveOddCnt := 0
+	for _, num := range arr {
+		if num%2 == 1 {
+			consecutiveOddCnt++
+			if consecutiveOddCnt == 3 {
+				return true
+			}
+		} else {
+			consecutiveOddCnt = 0
+		}
+	}
+	return false
+}
+
 func main() {
 	fmt.Println(minSum([]int{0, 16, 28, 12, 10, 15, 25, 24, 6, 0, 0}, []int{20, 15, 19, 5, 6, 29, 25, 8, 12}))
 	fmt.Println(minSum([]int{9, 5}, []int{15, 12, 5, 21, 4, 26, 27, 9, 6, 29, 0, 18, 16, 0, 0, 0, 20}))
