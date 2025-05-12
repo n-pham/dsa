@@ -2,7 +2,10 @@ package main
 
 //lint:file-ignore U1000 Ignore all unused code, it's generated
 
-import "fmt"
+import (
+	"fmt"
+	"slices"
+)
 
 func maxTaskAssign(tasks []int, workers []int, pills int, strength int) int {
 	// 2071
@@ -237,9 +240,64 @@ func threeConsecutiveOdds(arr []int) bool {
 	return false
 }
 
+func findEvenNumbers_183ms(digits []int) (nums []int) {
+	n := len(digits)
+	for k := 0; k < n; k++ {
+		if digits[k]%2 != 0 {
+			continue
+		}
+		for i := 0; i < n; i++ {
+			if i == k || digits[i] == 0 {
+				continue
+			}
+			for j := 0; j < n; j++ {
+				if j == k || j == i {
+					continue
+				}
+				val := 100*digits[i] + 10*digits[j] + digits[k]
+				if i, found := slices.BinarySearch(nums, val); !found {
+					nums = slices.Insert(nums, i, val)
+				}
+			}
+		}
+	}
+	return nums
+}
+
+func findEvenNumbers(digits []int) (nums []int) {
+	// 2094
+	freq := [10]int{}
+	for _, d := range digits {
+		freq[d]++
+	}
+	for i := 1; i < 10; i++ {
+		if freq[i] == 0 {
+			continue
+		}
+		freq[i]--
+		for j := 0; j < 10; j++ {
+			if freq[j] == 0 {
+				continue
+			}
+			freq[j]--
+			for k := 0; k < 10; k += 2 {
+				if freq[k] > 0 {
+					nums = append(nums, 100*i+10*j+k)
+				}
+			}
+			freq[j]++
+		}
+		freq[i]++
+	}
+	slices.Sort(nums)
+	return nums
+}
+
 func main() {
-	fmt.Println(minSum([]int{0, 16, 28, 12, 10, 15, 25, 24, 6, 0, 0}, []int{20, 15, 19, 5, 6, 29, 25, 8, 12}))
-	fmt.Println(minSum([]int{9, 5}, []int{15, 12, 5, 21, 4, 26, 27, 9, 6, 29, 0, 18, 16, 0, 0, 0, 20}))
+	fmt.Println(findEvenNumbers([]int{2, 1, 3, 0}))
+	fmt.Println(findEvenNumbers([]int{2, 2, 8, 8, 2}))
+	// fmt.Println(minSum([]int{0, 16, 28, 12, 10, 15, 25, 24, 6, 0, 0}, []int{20, 15, 19, 5, 6, 29, 25, 8, 12}))
+	// fmt.Println(minSum([]int{9, 5}, []int{15, 12, 5, 21, 4, 26, 27, 9, 6, 29, 0, 18, 16, 0, 0, 0, 20}))
 	// fmt.Println(romanToInt("LVIII"), romanToInt("MCMXCIV"))
 	// fmt.Println(numEquivDominoPairs([][]int{{1, 2}, {2, 1}, {1, 1}, {1, 2}, {2, 2}, {2, 2}}))
 	// fmt.Println(minDominoRotations([]int{2, 1, 2, 4, 2, 2}, []int{5, 2, 6, 2, 3, 2}))
