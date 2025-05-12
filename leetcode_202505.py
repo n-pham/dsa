@@ -94,7 +94,32 @@ def minTimeToReach3342(moveTime: list[list[int]]) -> int:
                     heapq.heappush(pq, (t, x, y))
 
 
-assert minTimeToReach([[0, 4], [4, 4]]) == 6
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+
+def mergeTwoLists(list1: ListNode, list2: ListNode) -> ListNode:
+    # 21
+    head = ListNode()
+    ls = head
+    while list1 is not None and list2 is not None:
+        if list1.val < list2.val:
+            ls.next = list1
+            list1 = list1.next
+        else:
+            ls.next = list2
+            list2 = list2.next
+        ls = ls.next
+    if list1 is None:
+        ls.next = list2
+    elif list2 is None:
+        ls.next = list1
+    return head.next
+
+
+# assert minTimeToReach([[0, 4], [4, 4]]) == 6
 
 # assert romanToInt("LVIII") == 58
 # assert romanToInt("MCMXCIV") == 1994
