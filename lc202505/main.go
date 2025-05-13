@@ -293,9 +293,36 @@ func findEvenNumbers(digits []int) (nums []int) {
 	return nums
 }
 
+func lengthAfterTransformations(s string, t int) (ln int) {
+	// 3335
+	// a  b  c  y  y    2
+	// [1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2 0]
+	// [0 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2]
+	// [2 2 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
+	const MOD = 1_000_000_007
+	prev := [26]int{}
+	for _, c := range s {
+		prev[c-'a']++
+	}
+	for step := 0; step < t; step++ {
+		curr := [26]int{}
+		for i := 0; i < 25; i++ {
+			curr[i+1] = prev[i] % MOD
+		}
+		// z --> a + b
+		curr[0] = prev[25]
+		curr[1] = (curr[1] + prev[25]) % MOD
+		prev = curr
+	}
+	for _, cnt := range prev {
+		ln += cnt
+	}
+	return ln % MOD
+}
+
 func main() {
-	fmt.Println(findEvenNumbers([]int{2, 1, 3, 0}))
-	fmt.Println(findEvenNumbers([]int{2, 2, 8, 8, 2}))
+	// fmt.Println(findEvenNumbers([]int{2, 1, 3, 0}))
+	// fmt.Println(findEvenNumbers([]int{2, 2, 8, 8, 2}))
 	// fmt.Println(minSum([]int{0, 16, 28, 12, 10, 15, 25, 24, 6, 0, 0}, []int{20, 15, 19, 5, 6, 29, 25, 8, 12}))
 	// fmt.Println(minSum([]int{9, 5}, []int{15, 12, 5, 21, 4, 26, 27, 9, 6, 29, 0, 18, 16, 0, 0, 0, 20}))
 	// fmt.Println(romanToInt("LVIII"), romanToInt("MCMXCIV"))
