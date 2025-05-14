@@ -320,7 +320,81 @@ func lengthAfterTransformations(s string, t int) (ln int) {
 	return ln % MOD
 }
 
+func lengthAfterTransformations3337_failed(s string, t int, nums []int) (ln int) {
+	// time --> maybe to use matrix
+	const MOD = 1_000_000_007
+	prev := [26]int{}
+	for _, c := range s {
+		prev[c-'a']++
+	}
+	for step := 0; step < t; step++ {
+		curr := [26]int{}
+		for i := 0; i < 26; i++ {
+			if prev[i] == 0 {
+				continue
+			}
+			for j := 0; j < nums[i]; j++ {
+				next := (i + j + 1) % 26
+				curr[next] = (curr[next] + prev[i]) % MOD
+			}
+		}
+		prev = curr
+	}
+	for _, count := range prev {
+		ln = (ln + count) % MOD
+	}
+	return ln
+}
+
+func lengthAfterTransformations3337(s string, t int, nums []int) (ln int) {
+	// 3337
+	const MOD = 1_000_000_007
+	// Create transition matrix where each element (i,j) represents how many times
+	// character i transforms into character j in one step
+	matrix := make([][]int, 26)
+	for i := range matrix {
+		matrix[i] = make([]int, 26)
+		for j := 0; j < nums[i]; j++ {
+			next := (i + j + 1) % 26
+			matrix[i][next] = (matrix[i][next] + 1) % MOD
+		}
+	}
+	state := make([]int, 26)
+	for _, c := range s {
+		state[c-'a']++
+	}
+	// Fast matrix power to calculate state after t steps
+	for t > 0 {
+		if t&1 == 1 {
+			// Multiply state by matrix
+			newState := make([]int, 26)
+			for i := 0; i < 26; i++ {
+				for j := 0; j < 26; j++ {
+					newState[j] = (newState[j] + (state[i]*matrix[i][j])%MOD) % MOD
+				}
+			}
+			state = newState
+		}
+		newMatrix := make([][]int, 26)
+		for i := range newMatrix {
+			newMatrix[i] = make([]int, 26)
+			for j := 0; j < 26; j++ {
+				for k := 0; k < 26; k++ {
+					newMatrix[i][j] = (newMatrix[i][j] + (matrix[i][k]*matrix[k][j])%MOD) % MOD
+				}
+			}
+		}
+		matrix = newMatrix
+		t >>= 1
+	}
+	for _, count := range state {
+		ln = (ln + count) % MOD
+	}
+	return ln
+}
+
 func main() {
+	fmt.Println(lengthAfterTransformations3337("abcyy", 2, []int{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2}))
 	// fmt.Println(findEvenNumbers([]int{2, 1, 3, 0}))
 	// fmt.Println(findEvenNumbers([]int{2, 2, 8, 8, 2}))
 	// fmt.Println(minSum([]int{0, 16, 28, 12, 10, 15, 25, 24, 6, 0, 0}, []int{20, 15, 19, 5, 6, 29, 25, 8, 12}))
