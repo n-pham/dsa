@@ -1,8 +1,14 @@
 package main
 
-import "testing"
+import (
+	"slices"
+	"testing"
+)
 
 func TestLengthAfterTransformations(t *testing.T) {
+	if !slices.Equal([]string{"a", "c", "d"}, getLongestSubsequence([]string{"a", "b", "c", "d"}, []int{1, 1, 0, 1})) {
+		t.Errorf(`getLongestSubsequence`)
+	}
 	if 7 != lengthAfterTransformations3337("abcyy", 2, []int{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2}) {
 		t.Errorf(`lengthAfterTransformations3337`)
 	}

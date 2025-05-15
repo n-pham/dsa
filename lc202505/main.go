@@ -393,8 +393,23 @@ func lengthAfterTransformations3337(s string, t int, nums []int) (ln int) {
 	return ln
 }
 
+func getLongestSubsequence(words []string, groups []int) (rs []string) {
+	// 2900
+	// 1 0 1 1
+	prev := groups[0]
+	rs = append(rs, words[0])
+	for i, g := range groups[1:] {
+		if g != prev {
+			rs = append(rs, words[i+1])
+		}
+		prev = g
+	}
+	return rs
+}
+
 func main() {
-	fmt.Println(lengthAfterTransformations3337("abcyy", 2, []int{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2}))
+	// fmt.Println(getLongestSubsequence([]string{"a", "b", "c", "d"}, []int{1, 0, 1, 1}))
+	// fmt.Println(lengthAfterTransformations3337("abcyy", 2, []int{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2}))
 	// fmt.Println(findEvenNumbers([]int{2, 1, 3, 0}))
 	// fmt.Println(findEvenNumbers([]int{2, 2, 8, 8, 2}))
 	// fmt.Println(minSum([]int{0, 16, 28, 12, 10, 15, 25, 24, 6, 0, 0}, []int{20, 15, 19, 5, 6, 29, 25, 8, 12}))
