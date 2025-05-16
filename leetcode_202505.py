@@ -25,35 +25,33 @@ def romanToInt(s: str) -> int:
 
 def minTimeToReach(moveTime: list[list[int]]) -> int:
     # 3341
-    n, m = len(moveTime), len(moveTime[0])
-    dist = [[math.inf] * m for _ in range(n)]
+    n = len(moveTime)
+    m = len(moveTime[0])
+    INF = 1 << 30  # A large enough constant for our grid problems
+
+    # Preallocate grid distances
+    dist = [[INF] * m for _ in range(n)]
     dist[0][0] = 0
 
-    # Priority queue for Dijkstra's algorithm starting at top-left corner
     pq = [(0, 0, 0)]
+    # Directions: up, down, left, right
+    DIRS = [(-1, 0), (1, 0), (0, -1), (0, 1)]
 
-    dirs = (-1, 0, 1, 0, -1)
-
-    while True:
-        d, i, j = heapq.heappop(pq)  # Pop the smallest distance node
-
-        # If we've reached the bottom-right corner, return the total distance
+    while pq:
+        d, i, j = heapq.heappop(pq)
         if i == n - 1 and j == m - 1:
             return d
-
-        # Skip if we've found a shorter path to (i, j) already
         if d > dist[i][j]:
             continue
-
-        # Explore all 4 possible directions
-        for a, b in itertools.pairwise(dirs):
-            x, y = i + a, j + b
-            # Check if the new position is within bounds
+        for dx, dy in DIRS:
+            x = i + dx
+            y = j + dy
             if 0 <= x < n and 0 <= y < m:
-                # Calculate the time to reach this new position
-                t = max(moveTime[x][y], dist[i][j]) + 1
-                # If found a shorter path to (x, y), update distance and push to queue
-                if dist[x][y] > t:
+                nxtTime = dist[i][j]
+                cellTime = moveTime[x][y]
+                # Avoid calling max() for small ints by explicit comparison, a bit faster
+                t = cellTime + 1 if cellTime > nxtTime else nxtTime + 1
+                if t < dist[x][y]:
                     dist[x][y] = t
                     heapq.heappush(pq, (t, x, y))
 
