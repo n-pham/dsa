@@ -2,7 +2,9 @@
 name = "dsa"
 version = "0.1.0"
 requires-python = ">=3.11"
-dependencies = []
+dependencies = [
+    "codeflash>=0.12.2",
+]
 
 [dependency-groups]
 dev = [
@@ -14,3 +16,12 @@ dev = [
 
 [tool.uv]
 python-preference = "managed"
+
+[tool.codeflash]
+# All paths are relative to this pyproject.toml's directory.
+module-root = "."
+tests-root = "tests"
+test-framework = "pytest"
+benchmarks-root = ""
+ignore-paths = []
+formatter-cmds = ["ruff check --exit-zero --fix $file", "ruff format $file"]

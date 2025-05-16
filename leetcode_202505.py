@@ -102,9 +102,9 @@ class ListNode:
 
 def mergeTwoLists(list1: ListNode, list2: ListNode) -> ListNode:
     # 21
-    head = ListNode()
+    head = ls = ListNode()
     ls = head
-    while list1 is not None and list2 is not None:
+    while list1 and list2:
         if list1.val < list2.val:
             ls.next = list1
             list1 = list1.next
@@ -112,10 +112,7 @@ def mergeTwoLists(list1: ListNode, list2: ListNode) -> ListNode:
             ls.next = list2
             list2 = list2.next
         ls = ls.next
-    if list1 is None:
-        ls.next = list2
-    elif list2 is None:
-        ls.next = list1
+    ls.next = list1 or list2
     return head.next
 
 

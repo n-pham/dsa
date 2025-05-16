@@ -407,6 +407,15 @@ func getLongestSubsequence(words []string, groups []int) (rs []string) {
 	return rs
 }
 
+func getWordsInLongestSubsequence(words []string, groups []int) []string {
+	// 2901
+	// dp[i] represent the length of the longest subsequence ending with words[i] that satisfies the conditions.
+	// dp[i] = (maximum value of dp[j]) + 1 for indices j < i, where groups[i] != groups[j], words[i] and words[j] are equal in length, and the hamming distance between words[i] and words[j] is exactly 1.
+	// Keep track of the j values used to achieve the maximum dp[i] for each index i.
+	// The expected array's length is max(dp[0:n]), and starting from the index having the maximum value in dp, we can trace backward to get the words.
+	panic("not implemented")
+}
+
 func main() {
 	// fmt.Println(getLongestSubsequence([]string{"a", "b", "c", "d"}, []int{1, 0, 1, 1}))
 	// fmt.Println(lengthAfterTransformations3337("abcyy", 2, []int{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2}))
