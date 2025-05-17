@@ -5,7 +5,12 @@ import (
 	"testing"
 )
 
-func TestLengthAfterTransformations(t *testing.T) {
+func TestAll(t *testing.T) {
+	sortColorsNums := []int{2, 0, 2, 1, 1, 0}
+	sortColors(sortColorsNums)
+	if !slices.Equal(sortColorsNums, []int{0, 0, 1, 1, 2, 2}) {
+		t.Errorf(`sortColors`)
+	}
 	if !slices.Equal([]string{"a", "c", "d"}, getLongestSubsequence([]string{"a", "b", "c", "d"}, []int{1, 1, 0, 1})) {
 		t.Errorf(`getLongestSubsequence`)
 	}

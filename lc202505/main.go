@@ -416,6 +416,21 @@ func getWordsInLongestSubsequence(words []string, groups []int) []string {
 	panic("not implemented")
 }
 
+func sortColors(nums []int) {
+	// 75
+	mapCnt := [3]int{0, 0, 0}
+	for _, num := range nums {
+		mapCnt[num]++
+	}
+	i := 0
+	for color, v := range mapCnt {
+		for j := 0; j < v; j++ {
+			nums[i] = color
+			i++
+		}
+	}
+}
+
 func main() {
 	// fmt.Println(getLongestSubsequence([]string{"a", "b", "c", "d"}, []int{1, 0, 1, 1}))
 	// fmt.Println(lengthAfterTransformations3337("abcyy", 2, []int{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2}))
