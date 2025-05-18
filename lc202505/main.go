@@ -431,6 +431,31 @@ func sortColors(nums []int) {
 	}
 }
 
+type TreeNode struct {
+	Val   int
+	Left  *TreeNode
+	Right *TreeNode
+}
+
+func kthSmallest(root *TreeNode, k int) (rs int) {
+	// 230
+	var recur func(*TreeNode)
+	recur = func(node *TreeNode) {
+		if node == nil {
+			return
+		}
+		recur(node.Left)
+		k--
+		if k == 0 {
+			rs = node.Val
+			return
+		}
+		recur(node.Right)
+	}
+	recur(root)
+	return rs
+}
+
 func main() {
 	// fmt.Println(getLongestSubsequence([]string{"a", "b", "c", "d"}, []int{1, 0, 1, 1}))
 	// fmt.Println(lengthAfterTransformations3337("abcyy", 2, []int{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2}))
