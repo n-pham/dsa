@@ -456,6 +456,28 @@ func kthSmallest(root *TreeNode, k int) (rs int) {
 	return rs
 }
 
+func triangleType_fail(nums []int) string {
+	mapLen := make(map[int]struct{}, 3)
+	namesByLen := map[int]string{1: "equilateral", 2: "isosceles", 3: "scalene"}
+	for _, num := range nums {
+		mapLen[num] = struct{}{}
+	}
+	return namesByLen[len(mapLen)]
+}
+
+func triangleType(nums []int) string {
+	// 3024
+	a, b, c := nums[0], nums[1], nums[2]
+	if a+b <= c || a+c <= b || c+b <= a {
+		return "none"
+	} else if a == b && b == c && c == a {
+		return "equilateral"
+	} else if a == b || b == c || c == a {
+		return "isosceles"
+	}
+	return "scalene"
+}
+
 func main() {
 	// fmt.Println(getLongestSubsequence([]string{"a", "b", "c", "d"}, []int{1, 0, 1, 1}))
 	// fmt.Println(lengthAfterTransformations3337("abcyy", 2, []int{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2}))
