@@ -478,6 +478,50 @@ func triangleType(nums []int) string {
 	return "scalene"
 }
 
+func isZeroArray_fail(nums []int, queries [][]int) bool {
+	// 3355
+	//     1   3
+	//   0   2
+	// 0 1 2 2 1 prefixSum
+	//   4 3 2 1 nums
+	//   3 1 0 0
+	prefixSum := make([]int, len(nums)+1)
+	for i := 0; i < len(nums); i++ {
+		prefixSum[i+1] = prefixSum[i] + nums[i]
+	}
+	fmt.Println(prefixSum)
+	for _, q := range queries {
+		l, r := q[0], q[1]
+		if prefixSum[r+1]-prefixSum[l] != 0 {
+			return false
+		}
+	}
+	return true
+}
+
+func isZeroArray(nums []int, queries [][]int) bool {
+	// 3355
+	//     1   3
+	//   0   2
+	// 0 1 1 0-1-1 diff
+	// 0 1 2 2 1 0 sum
+	//   4 3 2 1 nums
+	//   3 1 0 0
+	diff := make([]int, len(nums)+1)
+	for _, q := range queries {
+		diff[q[0]]++
+		diff[q[1]+1]--
+	}
+	sum := 0
+	for i, num := range nums {
+		sum += diff[i]
+		if num > sum {
+			return false
+		}
+	}
+	return true
+}
+
 func main() {
 	// fmt.Println(getLongestSubsequence([]string{"a", "b", "c", "d"}, []int{1, 0, 1, 1}))
 	// fmt.Println(lengthAfterTransformations3337("abcyy", 2, []int{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2}))
