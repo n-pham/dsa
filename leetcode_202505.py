@@ -114,6 +114,22 @@ def mergeTwoLists(list1: ListNode, list2: ListNode) -> ListNode:
     return head.next
 
 
+def triangleType(nums: list[int]) -> str:
+    # 3024
+    return (
+        "none"
+        if nums[0] + nums[1] <= nums[2]
+        or nums[0] + nums[2] <= nums[1]
+        or nums[2] + nums[1] <= nums[0]
+        else {1: "equilateral", 2: "isosceles", 3: "scalene"}[len(set(nums))]
+    )
+
+
+assert triangleType([3, 3, 3]) == "equilateral"
+assert triangleType([3, 4, 5]) == "scalene"
+assert triangleType([3, 3, 5]) == "isosceles"
+assert triangleType([3, 4, 9]) == "none"
+
 # assert minTimeToReach([[0, 4], [4, 4]]) == 6
 
 # assert romanToInt("LVIII") == 58
