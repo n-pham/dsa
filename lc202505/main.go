@@ -503,19 +503,19 @@ func isZeroArray(nums []int, queries [][]int) bool {
 	// 3355
 	//     1   3
 	//   0   2
-	// 0 1 1 0-1-1 diff
-	// 0 1 2 2 1 0 sum
-	//   4 3 2 1 nums
+	//   1 1 0-1-1 diffs
+	// 0 1 2 2 1   prefixDiff
+	//   4 3 2 1   nums
 	//   3 1 0 0
-	diff := make([]int, len(nums)+1)
+	diffs := make([]int, len(nums)+1)
 	for _, q := range queries {
-		diff[q[0]]++
-		diff[q[1]+1]--
+		diffs[q[0]]++
+		diffs[q[1]+1]--
 	}
-	sum := 0
+	prefixDiff := 0
 	for i, num := range nums {
-		sum += diff[i]
-		if num > sum {
+		prefixDiff += diffs[i]
+		if num-prefixDiff > 0 {
 			return false
 		}
 	}
