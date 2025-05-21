@@ -522,7 +522,91 @@ func isZeroArray(nums []int, queries [][]int) bool {
 	return true
 }
 
+func setZeroes_fail(matrix [][]int) {
+	// 73
+	for i, r := range matrix {
+		for j, v := range r {
+			if v == 0 {
+				matrix[0][j] = 0
+				matrix[i][0] = 0
+			}
+		}
+	}
+	fmt.Println(matrix)
+	for i, r := range matrix[1:] {
+		if r[0] != 0 {
+			continue
+		}
+		for j := range r[1:] {
+			fmt.Println(i, j+1)
+			matrix[i][j+1] = 0
+		}
+	}
+	for j, v := range matrix[0] {
+		if v != 0 {
+			continue
+		}
+		for i := range matrix[1:] {
+			fmt.Println(i+1, j)
+			matrix[i+1][j] = 0
+		}
+	}
+	fmt.Println(matrix)
+}
+
+func setZeroes(matrix [][]int) {
+	// 73
+	rows, cols := len(matrix), len(matrix[0])
+	rowZero, colZero := false, false
+
+	// Determine if the first row or column should be zero
+	for i := 0; i < rows; i++ {
+		if matrix[i][0] == 0 {
+			colZero = true
+			break
+		}
+	}
+	for j := 0; j < cols; j++ {
+		if matrix[0][j] == 0 {
+			rowZero = true
+			break
+		}
+	}
+
+	// Use first row and column to mark zeroes
+	for i := 1; i < rows; i++ {
+		for j := 1; j < cols; j++ {
+			if matrix[i][j] == 0 {
+				matrix[i][0] = 0
+				matrix[0][j] = 0
+			}
+		}
+	}
+
+	// Set matrix cells to zero based on markers
+	for i := 1; i < rows; i++ {
+		for j := 1; j < cols; j++ {
+			if matrix[i][0] == 0 || matrix[0][j] == 0 {
+				matrix[i][j] = 0
+			}
+		}
+	}
+
+	// Handle the first row and column separately
+	if colZero {
+		for i := 0; i < rows; i++ {
+			matrix[i][0] = 0
+		}
+	}
+	if rowZero {
+		for j := 0; j < cols; j++ {
+			matrix[0][j] = 0
+		}
+	}
+}
+
 func main() {
+	setZeroes([][]int{{0, 1, 2, 0}, {3, 4, 5, 2}, {1, 3, 1, 5}})
 	// fmt.Println(getLongestSubsequence([]string{"a", "b", "c", "d"}, []int{1, 0, 1, 1}))
 	// fmt.Println(lengthAfterTransformations3337("abcyy", 2, []int{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2}))
 	// fmt.Println(findEvenNumbers([]int{2, 1, 3, 0}))
