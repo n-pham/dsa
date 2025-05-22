@@ -605,6 +605,11 @@ func setZeroes(matrix [][]int) {
 	}
 }
 
+func maxRemoval(nums []int, queries [][]int) int {
+	// 3362
+	panic("not implemented")
+}
+
 func main() {
 	setZeroes([][]int{{0, 1, 2, 0}, {3, 4, 5, 2}, {1, 3, 1, 5}})
 	// fmt.Println(getLongestSubsequence([]string{"a", "b", "c", "d"}, []int{1, 0, 1, 1}))

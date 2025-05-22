@@ -1,7 +1,9 @@
+import collections
 import functools
 import heapq
 import itertools
 import math
+import sortedcontainers
 
 
 def romanToInt(s: str) -> int:
@@ -123,6 +125,25 @@ def triangleType(nums: list[int]) -> str:
         or nums[2] + nums[1] <= nums[0]
         else {1: "equilateral", 2: "isosceles", 3: "scalene"}[len(set(nums))]
     )
+
+
+def maxRemoval(nums: list[int], queries: list[list[int]]) -> int:
+    # 3362
+    q = collections.deque(sorted(queries))
+    available = sortedcontainers.SortedList()  # available `r`s
+    running = sortedcontainers.SortedList()  # running `r`s
+
+    for i, num in enumerate(nums):
+        while q and q[0][0] <= i:
+            available.add(q.popleft()[1])
+        while running and running[0] < i:
+            running.pop(0)
+        while num > len(running):
+            if not available or available[-1] < i:
+                return -1
+            running.add(available.pop())
+
+    return len(available)
 
 
 assert triangleType([3, 3, 3]) == "equilateral"

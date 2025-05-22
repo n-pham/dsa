@@ -6,6 +6,9 @@ import (
 )
 
 func TestAll(t *testing.T) {
+	if 1 != maxRemoval([]int{2, 0, 2}, [][]int{{0, 2}, {0, 2}, {1, 1}}) {
+		t.Errorf(`maxRemoval`)
+	}
 	sortColorsNums := []int{2, 0, 2, 1, 1, 0}
 	sortColors(sortColorsNums)
 	if !slices.Equal(sortColorsNums, []int{0, 0, 1, 1, 2, 2}) {
