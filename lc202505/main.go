@@ -610,6 +610,19 @@ func maxRemoval(nums []int, queries [][]int) int {
 	panic("not implemented")
 }
 
+func findWordsContaining(words []string, x byte) (indices []int) {
+	// 2942
+	for i, word := range words {
+		for j := 0; j < len(word); j++ {
+			if word[j] == x {
+				indices = append(indices, i)
+				break
+			}
+		}
+	}
+	return indices
+}
+
 func main() {
 	setZeroes([][]int{{0, 1, 2, 0}, {3, 4, 5, 2}, {1, 3, 1, 5}})
 	// fmt.Println(getLongestSubsequence([]string{"a", "b", "c", "d"}, []int{1, 0, 1, 1}))
