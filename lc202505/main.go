@@ -623,6 +623,36 @@ func findWordsContaining(words []string, x byte) (indices []int) {
 	return indices
 }
 
+func longestPalindrome(words []string) int {
+	// 2131
+	// ab ty yt lc cl ab aa aa bb
+	// ba yt    cl    ba aa    bb cntByWord
+	//        1     2        3    palindromePairCnt
+	//                    1  0  1 sameCnt
+	// tylcaabbaaclyt             2*sameCnt + 4*palindromePairCnt
+	cntByWord := make(map[[2]byte]bool, len(words))
+	palindromePairCnt, sameCnt := 0, 0
+	for _, w := range words {
+		first, second := w[0], w[1]
+		if cntByWord[[2]byte{first, second}] {
+			palindromePairCnt++
+			if first == second {
+				sameCnt--
+			}
+		} else {
+			cntByWord[[2]byte{second, first}] = true
+			if first == second {
+				sameCnt++
+			}
+		}
+		fmt.Println(w, cntByWord, sameCnt, palindromePairCnt)
+	}
+	if sameCnt > 1 {
+		sameCnt = 1
+	}
+	return 2*sameCnt + 4*palindromePairCnt
+}
+
 func main() {
 	setZeroes([][]int{{0, 1, 2, 0}, {3, 4, 5, 2}, {1, 3, 1, 5}})
 	// fmt.Println(getLongestSubsequence([]string{"a", "b", "c", "d"}, []int{1, 0, 1, 1}))
