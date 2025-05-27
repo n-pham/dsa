@@ -653,6 +653,18 @@ func longestPalindrome(words []string) int {
 	return 2*sameCnt + 4*palindromePairCnt
 }
 
+func differenceOfSums(n int, m int) (rs int) {
+	// 2894
+	for num := 1; num <= n; num++ {
+		if num%m != 0 {
+			rs += num
+		} else {
+			rs -= num
+		}
+	}
+	return rs
+}
+
 func main() {
 	setZeroes([][]int{{0, 1, 2, 0}, {3, 4, 5, 2}, {1, 3, 1, 5}})
 	// fmt.Println(getLongestSubsequence([]string{"a", "b", "c", "d"}, []int{1, 0, 1, 1}))
