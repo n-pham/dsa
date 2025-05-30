@@ -683,7 +683,7 @@ func removeDuplicates(nums []int) (newLen int) {
 }
 
 func main() {
-	fmt.Println(removeDuplicates([]int{1, 1, 2}))
+	// fmt.Println(removeDuplicates([]int{1, 1, 2}))
 	// setZeroes([][]int{{0, 1, 2, 0}, {3, 4, 5, 2}, {1, 3, 1, 5}})
 	// fmt.Println(getLongestSubsequence([]string{"a", "b", "c", "d"}, []int{1, 0, 1, 1}))
 	// fmt.Println(lengthAfterTransformations3337("abcyy", 2, []int{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2}))
