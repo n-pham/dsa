@@ -665,8 +665,26 @@ func differenceOfSums(n int, m int) (rs int) {
 	return rs
 }
 
+func removeDuplicates(nums []int) (newLen int) {
+	// 26
+	prev := nums[0]
+	for _, num := range nums[1:] {
+		if num == prev {
+			continue
+		}
+		nums[newLen] = prev
+		newLen++
+		prev = num
+	}
+	nums[newLen] = prev
+	nums = nums[:newLen+1]
+	fmt.Println(nums)
+	return newLen + 1
+}
+
 func main() {
-	setZeroes([][]int{{0, 1, 2, 0}, {3, 4, 5, 2}, {1, 3, 1, 5}})
+	fmt.Println(removeDuplicates([]int{1, 1, 2}))
+	// setZeroes([][]int{{0, 1, 2, 0}, {3, 4, 5, 2}, {1, 3, 1, 5}})
 	// fmt.Println(getLongestSubsequence([]string{"a", "b", "c", "d"}, []int{1, 0, 1, 1}))
 	// fmt.Println(lengthAfterTransformations3337("abcyy", 2, []int{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2}))
 	// fmt.Println(findEvenNumbers([]int{2, 1, 3, 0}))
