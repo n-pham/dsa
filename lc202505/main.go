@@ -695,7 +695,26 @@ func removeElement(nums []int, val int) (newLen int) {
 	return newLen
 }
 
+func strStr(haystack string, needle string) int {
+	// 28
+	lenNeedle, lenHaystack := len(needle), len(haystack)
+	if lenNeedle > lenHaystack {
+		return -1
+	}
+	for iHaystack := range haystack[:lenHaystack-lenNeedle+1] {
+		iNeedle := 0
+		for ; iNeedle < lenNeedle && haystack[iHaystack+iNeedle] == needle[iNeedle]; iNeedle++ {
+		}
+		if iNeedle == lenNeedle {
+			return iHaystack
+		}
+	}
+	return -1
+}
+
 func main() {
+	fmt.Println(strStr("a", "a"))
+	fmt.Println(strStr("abb", "abaaa"))
 	// fmt.Println(removeDuplicates([]int{1, 1, 2}))
 	// setZeroes([][]int{{0, 1, 2, 0}, {3, 4, 5, 2}, {1, 3, 1, 5}})
 	// fmt.Println(getLongestSubsequence([]string{"a", "b", "c", "d"}, []int{1, 0, 1, 1}))
