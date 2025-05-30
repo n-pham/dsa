@@ -682,6 +682,19 @@ func removeDuplicates(nums []int) (newLen int) {
 	return newLen + 1
 }
 
+func removeElement(nums []int, val int) (newLen int) {
+	// 27
+	for _, num := range nums {
+		if num == val {
+			continue
+		}
+		nums[newLen] = num
+		newLen++
+	}
+	nums = nums[:newLen]
+	return newLen
+}
+
 func main() {
 	// fmt.Println(removeDuplicates([]int{1, 1, 2}))
 	// setZeroes([][]int{{0, 1, 2, 0}, {3, 4, 5, 2}, {1, 3, 1, 5}})
