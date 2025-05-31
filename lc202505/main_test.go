@@ -5,15 +5,18 @@ import (
 )
 
 func TestAll(t *testing.T) {
-	if 22 != longestPalindrome([]string{"dd", "aa", "bb", "dd", "aa", "dd", "bb", "dd", "aa", "cc", "bb", "cc", "dd", "cc"}) {
-		t.Error("longestPalindrome")
+	if 4 != lengthOfLastWord("   fly me   to   the moon  ") {
+		t.Error("lengthOfLastWord")
 	}
-	if 2 != longestPalindrome([]string{"cc", "ll", "xx"}) {
-		t.Error("longestPalindrome")
-	}
-	if 14 != longestPalindrome([]string{"ab", "ty", "yt", "lc", "cl", "ab", "aa", "aa", "bb"}) {
-		t.Error("longestPalindrome")
-	}
+	// if 22 != longestPalindrome([]string{"dd", "aa", "bb", "dd", "aa", "dd", "bb", "dd", "aa", "cc", "bb", "cc", "dd", "cc"}) {
+	// 	t.Error("longestPalindrome")
+	// }
+	// if 2 != longestPalindrome([]string{"cc", "ll", "xx"}) {
+	// 	t.Error("longestPalindrome")
+	// }
+	// if 14 != longestPalindrome([]string{"ab", "ty", "yt", "lc", "cl", "ab", "aa", "aa", "bb"}) {
+	// 	t.Error("longestPalindrome")
+	// }
 	// if !slices.Equal([]int{0, 2}, findWordsContaining([]string{"abc", "bcd", "aaaa", "cbc"}, 'a')) {
 	// 	t.Error("findWordsContaining")
 	// }

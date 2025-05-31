@@ -712,6 +712,17 @@ func strStr(haystack string, needle string) int {
 	return -1
 }
 
+func lengthOfLastWord(s string) (wordLen int) {
+	// 58
+	i := len(s) - 1
+	for ; i > -1 && s[i] == ' '; i-- {
+	}
+	for ; i > -1 && s[i] != ' '; i-- {
+		wordLen++
+	}
+	return wordLen
+}
+
 func main() {
 	fmt.Println(strStr("a", "a"))
 	fmt.Println(strStr("abb", "abaaa"))
