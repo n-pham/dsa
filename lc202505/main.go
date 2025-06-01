@@ -723,9 +723,22 @@ func lengthOfLastWord(s string) (wordLen int) {
 	return wordLen
 }
 
+func distributeCandies(n int, limit int) (count int64) {
+	// 2929
+	// max(0, n - i - limit) <= j <= min(limit, n - i), each j corresponding to a solution. So the number of solutions for some i is max(min(limit, n - i) - max(0, n - i - limit) + 1, 0). Sum the expression for every i in [0, min(n, limit)].
+	for i := 0; i <= min(n, limit); i++ {
+		minJ := max(0, n-i-limit)
+		maxJ := min(limit, n-i)
+		if minJ <= maxJ {
+			count += int64(maxJ - minJ + 1)
+		}
+	}
+	return count
+}
+
 func main() {
-	fmt.Println(strStr("a", "a"))
-	fmt.Println(strStr("abb", "abaaa"))
+	// fmt.Println(strStr("a", "a"))
+	// fmt.Println(strStr("abb", "abaaa"))
 	// fmt.Println(removeDuplicates([]int{1, 1, 2}))
 	// setZeroes([][]int{{0, 1, 2, 0}, {3, 4, 5, 2}, {1, 3, 1, 5}})
 	// fmt.Println(getLongestSubsequence([]string{"a", "b", "c", "d"}, []int{1, 0, 1, 1}))
