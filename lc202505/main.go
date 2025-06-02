@@ -736,7 +736,60 @@ func distributeCandies(n int, limit int) (count int64) {
 	return count
 }
 
+func candy_fail(ratings []int) (total int) {
+	prevNum, prevRating := 0, 0
+	for i, rating := range ratings {
+		var num int
+		if rating > prevRating {
+			num = prevNum + 1
+			total += num
+		} else if rating < prevRating {
+			num = prevNum - 1
+			if num <= 0 {
+				num = 1
+				total += i + 1 // +1 all previous nums
+			} else {
+				total += num
+			}
+		} else {
+			num = 1
+			total += num
+		}
+		prevNum, prevRating = num, rating
+	}
+	return total
+}
+
+func candy(ratings []int) (total int) {
+	// 135
+	n := len(ratings)
+	candies := make([]int, n)
+	// First pass: left to right
+	candies[0] = 1
+	for i := 1; i < n; i++ {
+		if ratings[i] > ratings[i-1] {
+			candies[i] = candies[i-1] + 1
+		} else {
+			candies[i] = 1
+		}
+	}
+	// Second pass: right to left
+	for i := n - 2; i >= 0; i-- {
+		if ratings[i] > ratings[i+1] {
+			candies[i] = max(candies[i], candies[i+1]+1)
+		}
+	}
+	// Sum up all candies
+	for _, c := range candies {
+		total += c
+	}
+	return total
+}
+
 func main() {
+	fmt.Println(candy([]int{1, 3, 2, 2, 1}))
+	fmt.Println(candy([]int{1, 2, 2}))
+	fmt.Println(candy([]int{1, 0, 2}))
 	// fmt.Println(strStr("a", "a"))
 	// fmt.Println(strStr("abb", "abaaa"))
 	// fmt.Println(removeDuplicates([]int{1, 1, 2}))
