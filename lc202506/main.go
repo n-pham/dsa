@@ -1,6 +1,8 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 //lint:file-ignore U1000 Ignore all unused code, it's generated
 
@@ -84,5 +86,76 @@ func robotWithString(s string) string {
 			stack = stack[:len(stack)-1]
 		}
 	}
+	return string(rs)
+}
+
+func clearStars_fail(s string) string {
+	rs := make([]byte, 0, len(s))
+	countsByChar := [26]int{}
+	for i := range s {
+		c := s[i]
+		if c != '*' {
+			countsByChar[c-'a']++
+		} else { // remove smallest char
+			smallestCharIndex := 0
+			for ; smallestCharIndex < 26 && countsByChar[smallestCharIndex] == 0; smallestCharIndex++ {
+			}
+			if smallestCharIndex == 26 {
+				continue
+			}
+			countsByChar[smallestCharIndex]--
+		}
+	}
+	for i := range s {
+		c := s[i]
+		if c != '*' && countsByChar[c-'a'] > 0 {
+			rs = append(rs, c)
+			countsByChar[c-'a']--
+		}
+	}
+	return string(rs)
+}
+
+func clearStars(s string) string {
+	// 3170 LTE
+	// aaba* --> aab
+	// Stack to store indices of characters
+	stack := make([]int, 0, len(s))
+	// Array to track if character at index i should be included
+	keep := make([]bool, len(s))
+
+	// Process each character
+	for i := range s {
+		if s[i] != '*' {
+			stack = append(stack, i)
+			keep[i] = true
+		} else if len(stack) > 0 {
+			// Find leftmost smallest character in stack
+			smallestIdx := stack[0]
+			smallestPos := 0
+
+			// Check all positions in stack for smallest character
+			for j := 1; j < len(stack); j++ {
+				if s[stack[j]] <= s[smallestIdx] {
+					smallestIdx = stack[j]
+					smallestPos = j
+				}
+			}
+
+			// Remove the character by marking it as not kept
+			keep[smallestIdx] = false
+			// Remove the position from stack
+			stack = append(stack[:smallestPos], stack[smallestPos+1:]...)
+		}
+	}
+
+	// Build result string
+	rs := make([]byte, 0, len(s))
+	for i := range s {
+		if keep[i] {
+			rs = append(rs, s[i])
+		}
+	}
+
 	return string(rs)
 }
