@@ -5,10 +5,13 @@ import (
 )
 
 func TestAll(t *testing.T) {
-	if "addb" != robotWithString("bdda") {
-		t.Error("robotWithString")
+	if "" != clearStars("d*o*") {
+		t.Error("clearStars")
 	}
-	if "abc" != robotWithString("bac") {
-		t.Error("robotWithString")
-	}
+	// if "addb" != robotWithString("bdda") {
+	// 	t.Error("robotWithString")
+	// }
+	// if "abc" != robotWithString("bac") {
+	// 	t.Error("robotWithString")
+	// }
 }

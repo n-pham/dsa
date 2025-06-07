@@ -1,4 +1,5 @@
 import collections
+import string
 
 
 def maxCandies(
@@ -51,6 +52,28 @@ def maxCandies(
                 found_boxes.add(new_box)
 
     return total_candies
+
+
+def clearStars(self, s: str) -> str:
+    # Dictionary to keep track of the indices of each alphabet character.
+    char_indices = collections.defaultdict(list)
+    n = len(s)  # Length of the input string.
+    remove = [False] * n  # Boolean array to mark characters for removal.
+    for i, char in enumerate(s):
+        if char == "*":
+            # Mark '*' for removal.
+            remove[i] = True
+            # Attempt to find the most recent alphabet character to remove.
+            for alphabet in string.ascii_lowercase:
+                if char_indices[alphabet]:
+                    # Mark the most recent occurrence for removal and break loop.
+                    remove[char_indices[alphabet].pop()] = True
+                    break
+        else:
+            # Record the index of the current alphabet character.
+            char_indices[char].append(i)
+    # Return the filtered string after removing marked characters.
+    return "".join(char for i, char in enumerate(s) if not remove[i])
 
 
 assert (

@@ -117,45 +117,30 @@ func clearStars_fail(s string) string {
 }
 
 func clearStars(s string) string {
-	// 3170 LTE
+	// 3170
 	// aaba* --> aab
-	// Stack to store indices of characters
-	stack := make([]int, 0, len(s))
-	// Array to track if character at index i should be included
-	keep := make([]bool, len(s))
-
-	// Process each character
+	indicesByChar := [26][]int{}
+	removes := make([]bool, len(s))
 	for i := range s {
-		if s[i] != '*' {
-			stack = append(stack, i)
-			keep[i] = true
-		} else if len(stack) > 0 {
-			// Find leftmost smallest character in stack
-			smallestIdx := stack[0]
-			smallestPos := 0
-
-			// Check all positions in stack for smallest character
-			for j := 1; j < len(stack); j++ {
-				if s[stack[j]] <= s[smallestIdx] {
-					smallestIdx = stack[j]
-					smallestPos = j
+		c := s[i]
+		if c == '*' {
+			removes[i] = true // remove *
+			for j, indices := range indicesByChar {
+				if len(indices) > 0 {
+					removes[indices[len(indices)-1]] = true
+					indicesByChar[j] = indices[:len(indices)-1]
+					break
 				}
 			}
-
-			// Remove the character by marking it as not kept
-			keep[smallestIdx] = false
-			// Remove the position from stack
-			stack = append(stack[:smallestPos], stack[smallestPos+1:]...)
+		} else {
+			indicesByChar[c-'a'] = append(indicesByChar[c-'a'], i)
 		}
 	}
-
-	// Build result string
 	rs := make([]byte, 0, len(s))
 	for i := range s {
-		if keep[i] {
+		if !removes[i] {
 			rs = append(rs, s[i])
 		}
 	}
-
 	return string(rs)
 }
