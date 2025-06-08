@@ -144,3 +144,21 @@ func clearStars(s string) string {
 	}
 	return string(rs)
 }
+
+func lexicalOrder(n int) (nums []int) {
+	// 386
+	var recur func(curr int)
+	recur = func(curr int) {
+		if curr > n {
+			return
+		}
+		nums = append(nums, curr)
+		for i := 0; i <= 9; i++ {
+			recur(curr*10 + i)
+		}
+	}
+	for i := 1; i <= 9; i++ {
+		recur(i)
+	}
+	return nums
+}
