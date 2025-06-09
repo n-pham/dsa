@@ -231,3 +231,22 @@ func searchInsert(nums []int, target int) int {
 	}
 	return left
 }
+
+func plusOne(digits []int) []int {
+	// 66
+	var val int
+	for i := len(digits) - 1; i > -1; i-- {
+		val = digits[i]
+		if val < 9 {
+			digits[i] = val + 1
+			return digits
+		} else {
+			digits[i] = 0
+		}
+		fmt.Println(val, digits[i])
+	}
+	if val == 9 {
+		return append([]int{1}, digits...)
+	}
+	return digits
+}
