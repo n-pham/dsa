@@ -162,3 +162,56 @@ func lexicalOrder(n int) (nums []int) {
 	}
 	return nums
 }
+
+func findKthNumber_time(n int, k int) int {
+	var recur func(curr int) int
+	recur = func(curr int) int {
+		if curr > n {
+			return 0
+		}
+		k--
+		if k == 0 {
+			return curr
+		}
+		for i := 0; i <= 9; i++ {
+			if num := recur(curr*10 + i); num > 0 {
+				return num
+			}
+		}
+		return 0
+	}
+	for i := 1; i <= 9; i++ {
+		if num := recur(i); num > 0 {
+			return num
+		}
+	}
+	return 0
+}
+
+func findKthNumber(n int, k int) int {
+	// 440
+	// Helper function to calculate the number of steps between two prefixes
+	steps := func(prefix, n int) int {
+		curr, next := prefix, prefix+1
+		count := 0
+		for curr <= n {
+			count += min(next, n+1) - curr
+			curr *= 10
+			next *= 10
+		}
+		return count
+	}
+	curr := 1
+	k--
+	for k > 0 {
+		count := steps(curr, n)
+		if k >= count {
+			curr++
+			k -= count
+		} else {
+			curr *= 10
+			k--
+		}
+	}
+	return curr
+}
