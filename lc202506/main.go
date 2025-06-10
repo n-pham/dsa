@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"math"
 )
 
 //lint:file-ignore U1000 Ignore all unused code, it's generated
@@ -249,4 +250,26 @@ func plusOne(digits []int) []int {
 		return append([]int{1}, digits...)
 	}
 	return digits
+}
+
+func maxDifference(s string) int {
+	// 3442
+	countsByChar := [26]int{}
+	for i := range s {
+		countsByChar[s[i]-'a']++
+	}
+	maxOdd, minEven := math.MinInt, math.MaxInt
+	for _, cnt := range countsByChar {
+		if cnt > 0 && cnt%2 == 0 {
+			if minEven > cnt {
+				minEven = cnt
+			}
+		} else {
+			if maxOdd < cnt {
+				maxOdd = cnt
+			}
+		}
+	}
+	fmt.Println(countsByChar, maxOdd, minEven)
+	return maxOdd - minEven
 }
