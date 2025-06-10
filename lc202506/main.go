@@ -244,7 +244,6 @@ func plusOne(digits []int) []int {
 		} else {
 			digits[i] = 0
 		}
-		fmt.Println(val, digits[i])
 	}
 	if val == 9 {
 		return append([]int{1}, digits...)
@@ -270,6 +269,5 @@ func maxDifference(s string) int {
 			}
 		}
 	}
-	fmt.Println(countsByChar, maxOdd, minEven)
 	return maxOdd - minEven
 }
