@@ -307,3 +307,36 @@ func maxDifference3445(s string, k int) int {
 	}
 	return maxDiff
 }
+
+func addBinary(a string, b string) string {
+	// 67
+	aLen, bLen := len(a), len(b)
+	minLen, maxLen := len(a), len(b)
+	if minLen > bLen {
+		minLen = bLen
+		maxLen = aLen
+	}
+	rs := make([]byte, maxLen)
+	var prev byte = 0
+	for i := 1; i <= minLen; i++ {
+		aDigit, bDigit := a[aLen-i]-'0', b[bLen-i]-'0'
+		total := aDigit + bDigit + prev
+		rs[maxLen-i] = '0' + (total % 2)
+		prev = total / 2
+	}
+	for i := maxLen - minLen - 1; i >= 0; i-- {
+		var digit byte
+		if aLen > bLen {
+			digit = a[i] - '0'
+		} else {
+			digit = b[i] - '0'
+		}
+		total := digit + prev
+		rs[i] = '0' + (total % 2)
+		prev = total / 2
+	}
+	if prev > 0 {
+		rs = append([]byte{'1'}, rs...)
+	}
+	return string(rs)
+}
