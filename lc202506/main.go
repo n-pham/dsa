@@ -271,3 +271,39 @@ func maxDifference(s string) int {
 	}
 	return maxOdd - minEven
 }
+
+func maxDifference3445(s string, k int) int {
+	// LTE
+	// s consists only of digits '0' to '4'
+	n := len(s)
+	prefixFreq := make([][5]int, n+1)
+	for i := 0; i < n; i++ {
+		for d := 0; d < 5; d++ {
+			prefixFreq[i+1][d] = prefixFreq[i][d]
+		}
+		prefixFreq[i+1][int(s[i]-'0')]++
+	}
+
+	maxDiff := math.MinInt
+	for l := 0; l < n; l++ {
+		for r := l + k - 1; r < n; r++ {
+			freq := [5]int{}
+			for d := 0; d < 5; d++ {
+				freq[d] = prefixFreq[r+1][d] - prefixFreq[l][d]
+			}
+			for a := 0; a < 5; a++ {
+				if freq[a] > 0 && freq[a]%2 == 1 {
+					for b := 0; b < 5; b++ {
+						if freq[b] > 0 && freq[b]%2 == 0 {
+							diff := freq[a] - freq[b]
+							if diff > maxDiff {
+								maxDiff = diff
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	return maxDiff
+}
