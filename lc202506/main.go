@@ -375,3 +375,11 @@ func deleteDuplicates(head *ListNode) *ListNode {
 	}
 	return head
 }
+
+func singleNumber(nums []int) (num int) {
+	// 136
+	for _, n := range nums {
+		num ^= n
+	}
+	return num
+}
