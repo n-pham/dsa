@@ -340,3 +340,20 @@ func addBinary(a string, b string) string {
 	}
 	return string(rs)
 }
+
+func maxAdjacentDistance(nums []int) int {
+	// 3423
+	maxDiff := math.MinInt
+	prev := nums[len(nums)-1]
+	for _, num := range nums {
+		diff := num - prev
+		if diff < 0 {
+			diff = -diff
+		}
+		if maxDiff < diff {
+			maxDiff = diff
+		}
+		prev = num
+	}
+	return maxDiff
+}
