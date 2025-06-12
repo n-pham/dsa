@@ -357,3 +357,21 @@ func maxAdjacentDistance(nums []int) int {
 	}
 	return maxDiff
 }
+
+type ListNode struct {
+	Val  int
+	Next *ListNode
+}
+
+func deleteDuplicates(head *ListNode) *ListNode {
+	// 83
+	prev, curr := head, head
+	for ; curr != nil; curr = curr.Next {
+		if curr.Val == prev.Val {
+			prev.Next = curr.Next
+		} else {
+			prev = curr
+		}
+	}
+	return head
+}
