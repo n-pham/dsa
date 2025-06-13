@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"math"
+	"sort"
 )
 
 //lint:file-ignore U1000 Ignore all unused code, it's generated
@@ -387,4 +388,34 @@ func singleNumber(nums []int) (num int) {
 func convertToTitle(columnNumber int) string {
 	// 168
 	panic("not implemented")
+}
+
+func minimizeMax(nums []int, p int) int {
+	// 2616
+	sort.Ints(nums)
+	n := len(nums)
+
+	// Helper function to check if we can form `p` pairs with max difference `maxDiff`
+	canFormPairs := func(maxDiff int) bool {
+		dp := make([]int, n+1)
+		for i := 2; i <= n; i++ {
+			dp[i] = dp[i-1]
+			if nums[i-1]-nums[i-2] <= maxDiff {
+				dp[i] = max(dp[i], dp[i-2]+1)
+			}
+		}
+		return dp[n] >= p
+	}
+
+	// Binary search for the minimum possible max difference
+	left, right := 0, nums[n-1]-nums[0]
+	for left < right {
+		mid := left + (right-left)/2
+		if canFormPairs(mid) {
+			right = mid
+		} else {
+			left = mid + 1
+		}
+	}
+	return left
 }
