@@ -383,3 +383,8 @@ func singleNumber(nums []int) (num int) {
 	}
 	return num
 }
+
+func convertToTitle(columnNumber int) string {
+	// 168
+	panic("not implemented")
+}
