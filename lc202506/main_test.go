@@ -2,6 +2,10 @@ package main
 
 import "fmt"
 
+func ExampleMinMaxDifference() {
+	fmt.Println(minMaxDifference(99999))
+	// Output: 99999
+}
 func ExampleAddBinary() {
 	fmt.Println(addBinary("1010", "1011"))
 	// Output: 10101

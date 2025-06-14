@@ -419,3 +419,33 @@ func minimizeMax(nums []int, p int) int {
 	}
 	return left
 }
+
+func minMaxDifference(num int) int {
+	// 2566
+	digits := make([]int, 0, 9)
+	for t := num; t > 0; t /= 10 {
+		digits = append([]int{t % 10}, digits...)
+	}
+	leftMost := digits[0]
+	leftMostUnder9 := 9
+	for _, digit := range digits {
+		if digit < 9 {
+			leftMostUnder9 = digit
+			break
+		}
+	}
+	maxVal, minVal := 0, 0
+	for _, digit := range digits {
+		minVal *= 10
+		if digit != leftMost {
+			minVal += digit
+		}
+		maxVal *= 10
+		if digit != leftMostUnder9 {
+			maxVal += digit
+		} else {
+			maxVal += 9
+		}
+	}
+	return maxVal - minVal
+}
