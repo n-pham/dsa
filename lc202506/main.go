@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"math"
 	"sort"
+	"strconv"
+	"strings"
 )
 
 //lint:file-ignore U1000 Ignore all unused code, it's generated
@@ -448,4 +450,37 @@ func minMaxDifference(num int) int {
 		}
 	}
 	return maxVal - minVal
+}
+
+func maxDiff(num int) int {
+	// 1432
+	// Convert number to string for easier digit manipulation
+	numStr := strconv.Itoa(num)
+	
+	// Find first non-9 digit for maximum number
+	maxNum := num
+	for i := 0; i < len(numStr); i++ {
+		if numStr[i] != '9' {
+			// Replace all occurrences of this digit with 9
+			maxNum, _ = strconv.Atoi(strings.ReplaceAll(numStr, string(numStr[i]), "9"))
+			break
+		}
+	}
+	
+	// Find first non-1 digit for minimum number
+	minNum := num
+	if numStr[0] != '1' {
+		// If first digit is not 1, replace all occurrences with 1
+		minNum, _ = strconv.Atoi(strings.ReplaceAll(numStr, string(numStr[0]), "1"))
+	} else {
+		// If first digit is 1, find first non-0 digit and replace with 0
+		for i := 1; i < len(numStr); i++ {
+			if numStr[i] != '0' && numStr[i] != '1' {
+				minNum, _ = strconv.Atoi(strings.ReplaceAll(numStr, string(numStr[i]), "0"))
+				break
+			}
+		}
+	}
+	
+	return maxNum - minNum
 }
