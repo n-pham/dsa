@@ -519,3 +519,20 @@ func maximumDifference(nums []int) int {
 	}
 	return maxDiff
 }
+
+func majorityElement(nums []int) int {
+	// 169
+	candidate, cnt := nums[0], 1
+	for _, num := range nums[1:] {
+		if num == candidate {
+			cnt++
+			continue
+		}
+		cnt--
+		if cnt == 0 {
+			candidate = num
+			cnt = 1
+		}
+	}
+	return candidate
+}
