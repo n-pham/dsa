@@ -456,7 +456,7 @@ func maxDiff(num int) int {
 	// 1432
 	// Convert number to string for easier digit manipulation
 	numStr := strconv.Itoa(num)
-	
+
 	// Find first non-9 digit for maximum number
 	maxNum := num
 	for i := 0; i < len(numStr); i++ {
@@ -466,7 +466,7 @@ func maxDiff(num int) int {
 			break
 		}
 	}
-	
+
 	// Find first non-1 digit for minimum number
 	minNum := num
 	if numStr[0] != '1' {
@@ -481,6 +481,41 @@ func maxDiff(num int) int {
 			}
 		}
 	}
-	
+
 	return maxNum - minNum
+}
+
+func maximumDifference_fail(nums []int) int {
+	n := len(nums)
+	prefixMin := make([]int, math.MaxInt, n+1)
+	for i, num := range nums {
+		prefixMin[i+1] = prefixMin[i]
+		if num < prefixMin[i] {
+			prefixMin[i+1] = num
+		}
+	}
+	maxDiff := 0
+	for i, num := range nums {
+		diff := num - prefixMin[i+1]
+		if diff < 0 {
+			diff = -diff
+		}
+		if maxDiff < diff {
+			maxDiff = diff
+		}
+	}
+	return maxDiff
+}
+
+func maximumDifference(nums []int) int {
+	// 2016
+	minVal, maxDiff := nums[0], -1
+	for i := 1; i < len(nums); i++ {
+		if nums[i] > minVal {
+			maxDiff = max(maxDiff, nums[i]-minVal)
+		} else {
+			minVal = nums[i]
+		}
+	}
+	return maxDiff
 }
