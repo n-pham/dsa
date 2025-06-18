@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"math"
+	"slices"
 	"sort"
 	"strconv"
 	"strings"
@@ -535,4 +536,25 @@ func majorityElement(nums []int) int {
 		}
 	}
 	return candidate
+}
+
+func divideArray(nums []int, k int) (result [][]int) {
+	// 2966
+	slices.Sort(nums)
+	group := []int{}
+	for _, num := range nums {
+		group = append(group, num)
+		if len(group) == 3 {
+			if group[len(group)-1]-group[0] <= k {
+				result = append(result, group)
+				group = []int{}
+			} else {
+				return [][]int{}
+			}
+		}
+	}
+	if len(group) > 0 {
+		return [][]int{}
+	}
+	return result
 }
