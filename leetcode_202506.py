@@ -105,6 +105,16 @@ def maxDifference(s: str, k: int) -> int:
 
     return ans
 
+def partitionArray(nums: list[int], k: int) -> int:
+    # 2294
+    nums.sort()
+    ans = 1
+    mn = nums[0]
+    for i in range(1, len(nums)):
+        if nums[i] - mn > k:
+            ans += 1
+            mn = nums[i]
+    return ans
 
 assert maxDifference("1122211", 3) == 1
 assert maxDifference("12233", 4) == -1
