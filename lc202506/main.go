@@ -558,3 +558,17 @@ func divideArray(nums []int, k int) (result [][]int) {
 	}
 	return result
 }
+
+func partitionArray(nums []int, k int) int {
+	// 2294
+	slices.Sort(nums)
+	result := 1
+	minNum := nums[0]
+	for _, num := range nums[1:] {
+		if num > minNum+k {
+			result++
+			minNum = num
+		}
+	}
+	return result
+}
