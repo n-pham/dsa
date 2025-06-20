@@ -572,3 +572,11 @@ func partitionArray(nums []int, k int) int {
 	}
 	return result
 }
+
+func HammingWeight(n int) (cnt int) {
+	// 191
+	for t := n; t > 0; t /= 2 {
+		cnt += t % 2
+	}
+	return cnt
+}

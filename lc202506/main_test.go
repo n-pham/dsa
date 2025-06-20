@@ -2,6 +2,11 @@ package main
 
 import "fmt"
 
+func ExampleHammingWeight() {
+	fmt.Println(HammingWeight(11))
+	// Output: 3
+}
+
 func ExampleMinMaxDifference() {
 	fmt.Println(minMaxDifference(99999))
 	// Output: 99999
