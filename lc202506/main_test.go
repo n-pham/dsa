@@ -8,33 +8,32 @@ func ExampleHammingWeight() {
 }
 
 func ExampleMinMaxDifference() {
-	fmt.Println(minMaxDifference(99999))
+	fmt.Println(MinMaxDifference(99999))
 	// Output: 99999
 }
 func ExampleAddBinary() {
-	fmt.Println(addBinary("1010", "1011"))
+	fmt.Println(AddBinary("1010", "1011"))
 	// Output: 10101
 }
 
 func ExampleMaxDifference() {
-	fmt.Println(maxDifference("aaaaabbc"))
+	fmt.Println(MaxDifference("aaaaabbc"))
 	// Output: 3
 }
 
-func ExamplePlusOne1() {
-	fmt.Println(plusOne([]int{9}))
+func ExamplePlusOne() {
+	fmt.Println(PlusOne([]int{9}))
 	// Output: [1 0]
 }
 
 func ExampleClearStars() {
-	fmt.Println(clearStars("d*o*"))
+	fmt.Println(ClearStars("d*o*"))
 	// Output:
 }
-func ExampleRobotWithString1() {
-	fmt.Println(robotWithString("bdda"))
-	// Output: addb
-}
-func ExampleRobotWithString2() {
-	fmt.Println(robotWithString("bac"))
-	// Output: abc
+func ExampleRobotWithString() {
+	fmt.Println(RobotWithString("bdda"))
+	fmt.Println(RobotWithString("bac"))
+	// Unordered output:
+	// abc
+	// addb
 }

@@ -11,7 +11,7 @@ import (
 
 //lint:file-ignore U1000 Ignore all unused code, it's generated
 
-func answerString(word string, numFriends int) string {
+func AnswerString(word string, numFriends int) string {
 	// 3403 1208ms
 	stringLen := len(word) - numFriends + 1
 	maxSubstr := ""
@@ -26,7 +26,7 @@ func answerString(word string, numFriends int) string {
 	return maxSubstr
 }
 
-func robotWithString_fail(s string) string {
+func RobotWithString_fail(s string) string {
 	// s: bdda
 	// q: abcd
 	//    1102
@@ -67,7 +67,7 @@ func robotWithString_fail(s string) string {
 	return string(rs)
 }
 
-func robotWithString(s string) string {
+func RobotWithString(s string) string {
 	// 2434
 	rs := make([]byte, 0, len(s))
 	stack := make([]byte, 0, len(s))
@@ -94,7 +94,7 @@ func robotWithString(s string) string {
 	return string(rs)
 }
 
-func clearStars_fail(s string) string {
+func ClearStars_fail(s string) string {
 	rs := make([]byte, 0, len(s))
 	countsByChar := [26]int{}
 	for i := range s {
@@ -121,7 +121,7 @@ func clearStars_fail(s string) string {
 	return string(rs)
 }
 
-func clearStars(s string) string {
+func ClearStars(s string) string {
 	// 3170
 	// aaba* --> aab
 	indicesByChar := [26][]int{}
@@ -150,7 +150,7 @@ func clearStars(s string) string {
 	return string(rs)
 }
 
-func lexicalOrder(n int) (nums []int) {
+func LexicalOrder(n int) (nums []int) {
 	// 386
 	var recur func(curr int)
 	recur = func(curr int) {
@@ -168,7 +168,7 @@ func lexicalOrder(n int) (nums []int) {
 	return nums
 }
 
-func findKthNumber_time(n int, k int) int {
+func FindKthNumber_time(n int, k int) int {
 	var recur func(curr int) int
 	recur = func(curr int) int {
 		if curr > n {
@@ -193,7 +193,7 @@ func findKthNumber_time(n int, k int) int {
 	return 0
 }
 
-func findKthNumber(n int, k int) int {
+func FindKthNumber(n int, k int) int {
 	// 440
 	// Helper function to calculate the number of steps between two prefixes
 	steps := func(prefix, n int) int {
@@ -221,7 +221,7 @@ func findKthNumber(n int, k int) int {
 	return curr
 }
 
-func searchInsert(nums []int, target int) int {
+func SearchInsert(nums []int, target int) int {
 	// 35
 	left, right := 0, len(nums)-1
 	for left <= right {
@@ -237,7 +237,7 @@ func searchInsert(nums []int, target int) int {
 	return left
 }
 
-func plusOne(digits []int) []int {
+func PlusOne(digits []int) []int {
 	// 66
 	var val int
 	for i := len(digits) - 1; i > -1; i-- {
@@ -255,7 +255,7 @@ func plusOne(digits []int) []int {
 	return digits
 }
 
-func maxDifference(s string) int {
+func MaxDifference(s string) int {
 	// 3442
 	countsByChar := [26]int{}
 	for i := range s {
@@ -276,7 +276,7 @@ func maxDifference(s string) int {
 	return maxOdd - minEven
 }
 
-func maxDifference3445(s string, k int) int {
+func MaxDifference3445(s string, k int) int {
 	// LTE
 	// s consists only of digits '0' to '4'
 	n := len(s)
@@ -312,7 +312,7 @@ func maxDifference3445(s string, k int) int {
 	return maxDiff
 }
 
-func addBinary(a string, b string) string {
+func AddBinary(a string, b string) string {
 	// 67
 	aLen, bLen := len(a), len(b)
 	minLen, maxLen := len(a), len(b)
@@ -345,7 +345,7 @@ func addBinary(a string, b string) string {
 	return string(rs)
 }
 
-func maxAdjacentDistance(nums []int) int {
+func MaxAdjacentDistance(nums []int) int {
 	// 3423
 	maxDiff := math.MinInt
 	prev := nums[len(nums)-1]
@@ -367,7 +367,7 @@ type ListNode struct {
 	Next *ListNode
 }
 
-func deleteDuplicates(head *ListNode) *ListNode {
+func DeleteDuplicates(head *ListNode) *ListNode {
 	// 83
 	prev, curr := head, head
 	for ; curr != nil; curr = curr.Next {
@@ -380,7 +380,7 @@ func deleteDuplicates(head *ListNode) *ListNode {
 	return head
 }
 
-func singleNumber(nums []int) (num int) {
+func SingleNumber(nums []int) (num int) {
 	// 136
 	for _, n := range nums {
 		num ^= n
@@ -388,12 +388,12 @@ func singleNumber(nums []int) (num int) {
 	return num
 }
 
-func convertToTitle(columnNumber int) string {
+func ConvertToTitle(columnNumber int) string {
 	// 168
 	panic("not implemented")
 }
 
-func minimizeMax(nums []int, p int) int {
+func MinimizeMax(nums []int, p int) int {
 	// 2616
 	sort.Ints(nums)
 	n := len(nums)
@@ -423,7 +423,7 @@ func minimizeMax(nums []int, p int) int {
 	return left
 }
 
-func minMaxDifference(num int) int {
+func MinMaxDifference(num int) int {
 	// 2566
 	digits := make([]int, 0, 9)
 	for t := num; t > 0; t /= 10 {
@@ -453,7 +453,7 @@ func minMaxDifference(num int) int {
 	return maxVal - minVal
 }
 
-func maxDiff(num int) int {
+func MaxDiff(num int) int {
 	// 1432
 	// Convert number to string for easier digit manipulation
 	numStr := strconv.Itoa(num)
@@ -486,7 +486,7 @@ func maxDiff(num int) int {
 	return maxNum - minNum
 }
 
-func maximumDifference_fail(nums []int) int {
+func MaximumDifference_fail(nums []int) int {
 	n := len(nums)
 	prefixMin := make([]int, math.MaxInt, n+1)
 	for i, num := range nums {
@@ -508,7 +508,7 @@ func maximumDifference_fail(nums []int) int {
 	return maxDiff
 }
 
-func maximumDifference(nums []int) int {
+func MaximumDifference(nums []int) int {
 	// 2016
 	minVal, maxDiff := nums[0], -1
 	for i := 1; i < len(nums); i++ {
@@ -521,7 +521,7 @@ func maximumDifference(nums []int) int {
 	return maxDiff
 }
 
-func majorityElement(nums []int) int {
+func MajorityElement(nums []int) int {
 	// 169
 	candidate, cnt := nums[0], 1
 	for _, num := range nums[1:] {
@@ -538,7 +538,7 @@ func majorityElement(nums []int) int {
 	return candidate
 }
 
-func divideArray(nums []int, k int) (result [][]int) {
+func DivideArray(nums []int, k int) (result [][]int) {
 	// 2966
 	slices.Sort(nums)
 	group := []int{}
@@ -559,7 +559,7 @@ func divideArray(nums []int, k int) (result [][]int) {
 	return result
 }
 
-func partitionArray(nums []int, k int) int {
+func PartitionArray(nums []int, k int) int {
 	// 2294
 	slices.Sort(nums)
 	result := 1
