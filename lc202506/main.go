@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"math"
 	"slices"
-	"sort"
 	"strconv"
 	"strings"
 )
@@ -395,7 +394,7 @@ func ConvertToTitle(columnNumber int) string {
 
 func MinimizeMax(nums []int, p int) int {
 	// 2616
-	sort.Ints(nums)
+	slices.Sort(nums)
 	n := len(nums)
 
 	// Helper function to check if we can form `p` pairs with max difference `maxDiff`
@@ -579,4 +578,37 @@ func HammingWeight(n int) (cnt int) {
 		cnt += t % 2
 	}
 	return cnt
+}
+
+func MinimumDeletions(word string, k int) int {
+	// 3085
+	// dabdcbdcdcd
+	// a:1 b:2 c:3 d:5
+	counts := [26]int{}
+	for i := 0; i < len(word); i++ {
+		counts[word[i]-'a']++
+	}
+	freqs := []int{}
+	for _, cnt := range counts {
+		if cnt > 0 {
+			freqs = append(freqs, cnt)
+		}
+	}
+	slices.Sort(freqs)
+	minDel := math.MaxInt
+	for i := 0; i < len(freqs); i++ {
+		target := freqs[i]
+		del := 0
+		for j := 0; j < len(freqs); j++ {
+			if freqs[j] < target {
+				del += freqs[j]
+			} else if freqs[j] > target+k {
+				del += freqs[j] - (target + k)
+			}
+		}
+		if del < minDel {
+			minDel = del
+		}
+	}
+	return minDel
 }
