@@ -612,3 +612,21 @@ func MinimumDeletions(word string, k int) int {
 	}
 	return minDel
 }
+
+func DivideString(s string, k int, fill byte) []string {
+	// 2138
+	strings := []string{}
+	n := len(s)
+	start := 0
+	for ; start <= n-k; start += k {
+		strings = append(strings, s[start:start+k])
+	}
+	if start < n {
+		last := s[start:]
+		for len(last) < k {
+			last += string(fill)
+		}
+		strings = append(strings, last)
+	}
+	return strings
+}

@@ -2,6 +2,14 @@ package main
 
 import "fmt"
 
+func ExampleDivideString() {
+	fmt.Println(DivideString("abcdefghi", 3, 'x'))
+	fmt.Println(DivideString("abcdefghij", 3, 'x'))
+	// Unordered output:
+	// [abc def ghi]
+	// [abc def ghi jxx]
+}
+
 func ExampleHammingWeight() {
 	fmt.Println(HammingWeight(11))
 	// Output: 3
