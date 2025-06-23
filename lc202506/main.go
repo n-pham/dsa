@@ -630,3 +630,23 @@ func DivideString(s string, k int, fill byte) []string {
 	}
 	return strings
 }
+
+func CountGoodNumbers(n int64) int {
+	// 1922 - fast pow
+	const MOD = 1_000_000_007
+	pow := func(a, b int64) int64 {
+		res := int64(1)
+		a = a % MOD
+		for b > 0 {
+			if b%2 == 1 {
+				res = (res * a) % MOD
+			}
+			a = (a * a) % MOD
+			b /= 2
+		}
+		return res
+	}
+	odd := n / 2
+	even := n - odd
+	return int((pow(5, even) * pow(4, odd)) % MOD)
+}
