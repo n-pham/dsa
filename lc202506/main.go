@@ -650,3 +650,36 @@ func CountGoodNumbers(n int64) int {
 	even := n - odd
 	return int((pow(5, even) * pow(4, odd)) % MOD)
 }
+
+func FindKDistantIndices_52ms(nums []int, key int, k int) []int {
+	m := make(map[int]struct{})
+	for i, num := range nums {
+		if num == key {
+			for j := max(0, i-k); j <= min(len(nums)-1, i+k); j++ {
+				m[j] = struct{}{}
+			}
+		}
+	}
+	result := make([]int, 0, len(m))
+	for idx := range m {
+		result = append(result, idx)
+	}
+	slices.Sort(result)
+	return result
+}
+
+func FindKDistantIndices(nums []int, key int, k int) (res []int) {
+	// 2200
+	right := 0
+	n := len(nums)
+	for i, num := range nums {
+		if num == key {
+			left := max(right, i-k)
+			right = min(n-1, i+k) + 1
+			for j := left; j < right; j++ {
+				res = append(res, j)
+			}
+		}
+	}
+	return res
+}
