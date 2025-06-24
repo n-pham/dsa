@@ -2,6 +2,11 @@ package main
 
 import "fmt"
 
+func ExampleContainsNearbyDuplicate() {
+	fmt.Println(ContainsNearbyDuplicate([]int{1, 2, 3, 1, 2, 3}, 2))
+	// Output: false
+}
+
 func ExampleDivideString() {
 	fmt.Println(DivideString("abcdefghi", 3, 'x'))
 	fmt.Println(DivideString("abcdefghij", 3, 'x'))

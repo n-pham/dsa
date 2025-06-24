@@ -683,3 +683,15 @@ func FindKDistantIndices(nums []int, key int, k int) (res []int) {
 	}
 	return res
 }
+
+func ContainsNearbyDuplicate(nums []int, k int) bool {
+	// 219
+	lastIndicesByNum := make(map[int]int)
+	for j, num := range nums {
+		if i := lastIndicesByNum[num]; i > 0 && j+1-i <= k {
+			return true
+		}
+		lastIndicesByNum[num] = j + 1 // 1-index to know num exists or not
+	}
+	return false
+}
