@@ -695,3 +695,16 @@ func ContainsNearbyDuplicate(nums []int, k int) bool {
 	}
 	return false
 }
+
+func AddDigits(num int) int {
+	// 258
+	newNum := num
+	for newNum > 9 {
+		t := newNum
+		newNum = 0
+		for ; t > 0; t /= 10 {
+			newNum += t % 10
+		}
+	}
+	return newNum
+}
