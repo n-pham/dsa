@@ -738,3 +738,18 @@ func FirstBadVersion(n int) int {
 	}
 	return left
 }
+
+func MoveZeroes(nums []int) {
+	// 283
+	i := 0
+	for _, num := range nums {
+		if num == 0 {
+			continue
+		}
+		nums[i] = num
+		i++
+	}
+	for j := i; j < len(nums); j++ {
+		nums[j] = 0
+	}
+}
