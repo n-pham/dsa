@@ -76,7 +76,7 @@ def clearStars(self, s: str) -> str:
     return "".join(char for i, char in enumerate(s) if not remove[i])
 
 
-def maxDifference(s: str, k: int) -> int:
+def maxDifference(s: str, k: int) -> float:
     def get_status(a, b):
         return ((a & 1) << 1) | (b & 1)
 
@@ -136,9 +136,51 @@ def _flip(self, s: str, k: int, direction: str) -> int:
 
     return res
 
-assert maxDifference("1122211", 3) == 1
-assert maxDifference("12233", 4) == -1
-assert maxDifference("000112233444", 5) == 2
+def kthSmallestProduct(nums1: list[int], nums2: list[int], k: int) -> int:
+    # 2040
+    A1 = [-num for num in nums1 if num < 0][::-1]
+    A2 = [num for num in nums1 if num >= 0]
+    B1 = [-num for num in nums2 if num < 0][::-1]
+    B2 = [num for num in nums2 if num >= 0]
+
+    negCount = len(A1) * len(B2) + len(A2) * len(B1)
+
+    if k > negCount:  # Find the (k - negCount)-th positive.
+        k -= negCount
+        sign = 1
+    else:
+        k = negCount - k + 1  # Find the (negCount - k + 1)-th abs(negative).
+        sign = -1
+        B1, B2 = B2, B1
+
+    def numProductNoGreaterThan(A: list[int], B: list[int], m: int) -> int:
+        ans = 0
+        j = len(B) - 1
+        for i in range(len(A)):
+            # For each A[i], find the first index j s.t. A[i] * B[j] <= m
+            # So numProductNoGreaterThan m for this row will be j + 1
+            while j >= 0 and A[i] * B[j] > m:
+                j -= 1
+            ans += j + 1
+        return ans
+
+    l = 0
+    r = 10**10
+
+    while l < r:
+        m = (l + r) // 2
+        if (numProductNoGreaterThan(A1, B1, m) +
+                numProductNoGreaterThan(A2, B2, m) >= k):
+            r = m
+        else:
+            l = m + 1
+
+    return sign * l
+
+assert kthSmallestProduct([2,5], [3,4], 2) == 8
+# assert maxDifference("1122211", 3) == 1
+# assert maxDifference("12233", 4) == -1
+# assert maxDifference("000112233444", 5) == 2
 
 # assert (
 #     maxCandies(
