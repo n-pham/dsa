@@ -753,3 +753,16 @@ func MoveZeroes(nums []int) {
 		nums[j] = 0
 	}
 }
+
+func LongestSubsequence(s string, k int) int {
+	// 2311
+	oneCount, num, pow := 0, 0, 1
+	for i := len(s) - 1; i > -1 && num+pow <= k; i-- {
+		if s[i] == '1' {
+			oneCount++
+			num += pow
+		}
+		pow *= 2
+	}
+	return strings.Count(s, "0") + oneCount
+}
