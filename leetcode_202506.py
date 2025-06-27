@@ -177,6 +177,44 @@ def kthSmallestProduct(nums1: list[int], nums2: list[int], k: int) -> int:
 
     return sign * l
 
+def longestSubsequenceRepeatedK(s: str, k: int) -> str:
+    # 2014
+    def is_subsequence(subseq: str, s: str, k: int) -> bool:
+        i = 0
+        for c in s:
+            if c == subseq[i]:
+                i += 1
+                if i == len(subseq):
+                    k -= 1
+                    if k == 0:
+                        return True
+                    i = 0
+        return False
+
+    count = [0] * 26
+    possible_chars = []
+    bfs_queue = collections.deque([""])
+
+    for c in s:
+        count[ord(c) - ord('a')] += 1
+
+    for c in range(26):
+        if count[c] >= k:
+            possible_chars.append(chr(ord('a') + c))
+
+    ans = ""
+    while bfs_queue:
+        curr_subseq = bfs_queue.popleft()
+        if len(curr_subseq) * k > len(s):
+            return ans
+        for c in possible_chars:
+            new_subseq = curr_subseq + c
+            if is_subsequence(new_subseq, s, k):
+                bfs_queue.append(new_subseq)
+                ans = new_subseq
+
+    return ans
+
 assert kthSmallestProduct([2,5], [3,4], 2) == 8
 # assert maxDifference("1122211", 3) == 1
 # assert maxDifference("12233", 4) == -1
