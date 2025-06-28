@@ -808,3 +808,29 @@ func MaxSubsequence(nums []int, k int) []int {
 	}
 	return res
 }
+
+func IsPalindrome(head *ListNode) bool {
+	// 234
+	slow, fast := head, head
+	var prev *ListNode
+	for fast != nil && fast.Next != nil {
+		fast = fast.Next.Next
+		// Reverse current node
+		next := slow.Next
+		slow.Next = prev
+		prev = slow
+		slow = next
+	}
+	// If odd number of nodes, skip the middle node
+	if fast != nil {
+		slow = slow.Next
+	}
+	for prev != nil && slow != nil {
+		if prev.Val != slow.Val {
+			return false
+		}
+		prev = prev.Next
+		slow = slow.Next
+	}
+	return true
+}
