@@ -766,3 +766,45 @@ func LongestSubsequence(s string, k int) int {
 	}
 	return strings.Count(s, "0") + oneCount
 }
+
+func MaxSubsequenceNoOrder(nums []int, k int) []int {
+	res := make([]int, 0, len(nums))
+	for _, num := range nums {
+		pos, _ := slices.BinarySearch(res, num)
+		res = slices.Insert(res, pos, num)
+		if len(res) > k {
+			res = res[1:]
+		}
+	}
+	return res
+}
+
+func MaxSubsequence(nums []int, k int) []int {
+	// 2099
+	type pair struct {
+		val int
+		idx int
+	}
+	n := len(nums)
+	pairs := make([]pair, n)
+	for i, v := range nums {
+		pairs[i] = pair{v, i}
+	}
+	// Sort by value descending, then by index ascending
+	slices.SortFunc(pairs, func(a, b pair) int {
+		if a.val != b.val {
+			return b.val - a.val
+		}
+		return a.idx - b.idx
+	})
+	selected := pairs[:k]
+	// Sort selected by index to preserve order
+	slices.SortFunc(selected, func(a, b pair) int {
+		return a.idx - b.idx
+	})
+	res := make([]int, k)
+	for i, p := range selected {
+		res[i] = p.val
+	}
+	return res
+}
