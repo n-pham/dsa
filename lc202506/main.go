@@ -222,18 +222,18 @@ func FindKthNumber(n int, k int) int {
 
 func SearchInsert(nums []int, target int) int {
 	// 35
-	left, right := 0, len(nums)-1
-	for left <= right {
-		mid := left + (right-left)/2
+	i, j := 0, len(nums)-1
+	for i <= j {
+		mid := i + (j-i)/2
 		if nums[mid] == target {
 			return mid
 		} else if nums[mid] < target {
-			left = mid + 1
+			i = mid + 1
 		} else {
-			right = mid - 1
+			j = mid - 1
 		}
 	}
-	return left
+	return i
 }
 
 func PlusOne(digits []int) []int {
@@ -410,16 +410,16 @@ func MinimizeMax(nums []int, p int) int {
 	}
 
 	// Binary search for the minimum possible max difference
-	left, right := 0, nums[n-1]-nums[0]
-	for left < right {
-		mid := left + (right-left)/2
+	i, j := 0, nums[n-1]-nums[0]
+	for i < j {
+		mid := i + (j-i)/2
 		if canFormPairs(mid) {
-			right = mid
+			j = mid
 		} else {
-			left = mid + 1
+			i = mid + 1
 		}
 	}
-	return left
+	return i
 }
 
 func MinMaxDifference(num int) int {
@@ -428,22 +428,22 @@ func MinMaxDifference(num int) int {
 	for t := num; t > 0; t /= 10 {
 		digits = append([]int{t % 10}, digits...)
 	}
-	leftMost := digits[0]
-	leftMostUnder9 := 9
+	iMost := digits[0]
+	iMostUnder9 := 9
 	for _, digit := range digits {
 		if digit < 9 {
-			leftMostUnder9 = digit
+			iMostUnder9 = digit
 			break
 		}
 	}
 	maxVal, minVal := 0, 0
 	for _, digit := range digits {
 		minVal *= 10
-		if digit != leftMost {
+		if digit != iMost {
 			minVal += digit
 		}
 		maxVal *= 10
-		if digit != leftMostUnder9 {
+		if digit != iMostUnder9 {
 			maxVal += digit
 		} else {
 			maxVal += 9
@@ -670,13 +670,13 @@ func FindKDistantIndices_52ms(nums []int, key int, k int) []int {
 
 func FindKDistantIndices(nums []int, key int, k int) (res []int) {
 	// 2200
-	right := 0
+	j := 0
 	n := len(nums)
 	for i, num := range nums {
 		if num == key {
-			left := max(right, i-k)
-			right = min(n-1, i+k) + 1
-			for j := left; j < right; j++ {
+			i := max(j, i-k)
+			j = min(n-1, i+k) + 1
+			for j := i; j < j; j++ {
 				res = append(res, j)
 			}
 		}
@@ -727,16 +727,16 @@ var isBadVersion func(int) bool
 
 func FirstBadVersion(n int) int {
 	// 278
-	left, right := 1, n
-	for left < right {
-		mid := left + (right-left)/2
+	i, j := 1, n
+	for i < j {
+		mid := i + (j-i)/2
 		if isBadVersion(mid) {
-			right = mid
+			j = mid
 		} else {
-			left = mid + 1
+			i = mid + 1
 		}
 	}
-	return left
+	return i
 }
 
 func MoveZeroes(nums []int) {
@@ -833,4 +833,26 @@ func IsPalindrome(head *ListNode) bool {
 		slow = slow.Next
 	}
 	return true
+}
+
+func NumSubseq(nums []int, target int) (cnt int) {
+	// 1498
+	const MOD = 1_000_000_007
+	n := len(nums)
+	slices.Sort(nums)
+	pow2 := make([]int, n+1)
+	pow2[0] = 1
+	for i := 1; i <= n; i++ {
+		pow2[i] = (pow2[i-1] * 2) % MOD
+	}
+	i, j := 0, n-1
+	for i <= j {
+		if nums[i]+nums[j] <= target {
+			cnt = (cnt + pow2[j-i]) % MOD
+			i++
+		} else {
+			j--
+		}
+	}
+	return cnt
 }

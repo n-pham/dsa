@@ -2,6 +2,11 @@ package main
 
 import "fmt"
 
+func ExampleNumSubseq() {
+	fmt.Println(NumSubseq([]int{3, 3, 6, 8}, 10))
+	// Output: 6
+}
+
 func ExampleContainsNearbyDuplicate() {
 	fmt.Println(ContainsNearbyDuplicate([]int{1, 2, 3, 1, 2, 3}, 2))
 	// Output: false
