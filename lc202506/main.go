@@ -856,3 +856,19 @@ func NumSubseq(nums []int, target int) (cnt int) {
 	}
 	return cnt
 }
+
+func FindLHS(nums []int) (longest int) {
+	// 594
+	countsByNum := make(map[int]int, len(nums))
+	for _, num := range nums {
+		countsByNum[num]++
+	}
+	for num, cnt := range countsByNum {
+		if cnt2 := countsByNum[num+1]; cnt2 > 0 {
+			if longest < cnt+cnt2 {
+				longest = cnt + cnt2
+			}
+		}
+	}
+	return longest
+}
