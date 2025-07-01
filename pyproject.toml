@@ -17,6 +17,9 @@ dev = [
 [tool.uv]
 python-preference = "managed"
 
+[tool.ty.rules]
+unresolved-import = "ignore"
+
 [tool.codeflash]
 # All paths are relative to this pyproject.toml's directory.
 module-root = "."
