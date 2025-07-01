@@ -872,3 +872,20 @@ func FindLHS(nums []int) (longest int) {
 	}
 	return longest
 }
+
+func PossibleStringCount(word string) (cnt int) {
+	// 3330
+	prev := word[0]
+	consecutiveCount := 1
+	for i := 1; i < len(word); i++ {
+		if word[i] == prev {
+			consecutiveCount++
+		} else {
+			cnt += consecutiveCount - 1
+			consecutiveCount = 1
+		}
+		prev = word[i]
+	}
+	cnt += consecutiveCount - 1
+	return cnt + 1
+}
