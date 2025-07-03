@@ -58,3 +58,16 @@ func PossibleStringCount_fail(word string, k int) (cnt int) {
 
 	return int(totalCnt)
 }
+
+func KthCharacter(k int) byte {
+	// 3304
+	// b  ab  abbc  abbcbccd
+	word := []int{0}
+	for len(word) < k {
+		m := len(word)
+		for i := 0; i < m; i++ {
+			word = append(word, (word[i]+1)%26)
+		}
+	}
+	return 'a' + byte(word[k-1])
+}
