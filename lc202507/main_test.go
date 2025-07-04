@@ -2,6 +2,12 @@ package main
 
 import "fmt"
 
+func ExampleWordPattern() {
+	fmt.Println(WordPattern("abba", "dog cat cat fish"))
+	// Unordered output:
+	// false
+}
+
 func ExampleKthCharacter() {
 	fmt.Println(KthCharacter(5))
 	// Unordered output:

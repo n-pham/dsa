@@ -2,6 +2,23 @@ package main
 
 //lint:file-ignore U1000 Ignore all unused code, it's generated
 
+import (
+	"log"
+	"os"
+	"strings"
+)
+
+var (
+	debugEnabled = os.Getenv("DEBUG") == "true"
+	debugLogger  = log.New(os.Stdout, "DEBUG: ", log.Ldate|log.Ltime|log.Lshortfile)
+)
+
+func debugLog(v ...any) {
+	if debugEnabled {
+		debugLogger.Println(v...)
+	}
+}
+
 type TreeNode struct {
 	Val   int
 	Left  *TreeNode
@@ -182,4 +199,33 @@ func canFinish_slower(numCourses int, prerequisites [][]int) bool {
 		}
 	}
 	return visited == numCourses
+}
+
+func WordPattern(pattern string, s string) bool {
+	// 290
+	words := strings.Fields(s)
+	if len(words) != len(pattern) {
+		return false
+	}
+	charToWord := make(map[byte]string)
+	wordToChar := make(map[string]byte)
+
+	for i := 0; i < len(pattern); i++ {
+		pChar := pattern[i]
+		word := words[i]
+
+		if mappedWord, ok := charToWord[pChar]; ok {
+			if mappedWord != word {
+				return false
+			}
+		} else {
+			if _, ok := wordToChar[word]; ok {
+				return false
+			}
+			charToWord[pChar] = word
+			wordToChar[word] = pChar
+		}
+	}
+
+	return true
 }
