@@ -1,0 +1,82 @@
+data/
+notebooks/
+scripts/
+requirements.txt
+
+
+public/
+src/
+tests/
+package.json
+
+
+migrations/
+src/
+terraform/
+tests/
+Dockerfile
+package.json
+
+
+dags/
+data/
+migrations/
+notebooks/
+src/
+terraform/
+tests/
+Dockerfile
+
+├── notebooks/
+│   ├── exploratory_analysis.ipynb
+│   └── report.ipynb
+├── data/
+│   └── sample_data.csv
+├── scripts/
+│   └── data_cleaning.py
+├── requirements.txt
+
+├── public/
+├── src/
+│   ├── components/
+│   ├── pages/
+│   ├── styles/
+│   └── App.js
+├── tests/
+├── package.json
+
+├── src/
+│   ├── controllers/
+│   ├── models/
+│   ├── routes/
+│   └── app.js
+├── migrations/
+│   └── 001_create_users_table.js
+├── tests/
+├── terraform/
+│   ├── main.tf
+│   ├── variables.tf
+│   └── outputs.tf
+├── Dockerfile
+├── package.json
+
+├── dags/
+│   └── example_dag.py
+├── airflow/
+│   ├── Dockerfile
+│   └── requirements.txt
+├── terraform/
+│   ├── main.tf
+│   ├── variables.tf
+│   └── outputs.tf
+├── migrations/
+│   └── 001_create_data_table.sql
+├── notebooks/
+│   └── etl_exploration.ipynb
+├── src/
+│   └── etl_job.py
+├── data/
+│   └── raw/
+├── tests/
+│   └── test_etl_job.py
+├── Dockerfile

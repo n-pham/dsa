@@ -71,3 +71,23 @@ func KthCharacter(k int) byte {
 	}
 	return 'a' + byte(word[k-1])
 }
+
+func KthCharacterII(k int64, operations []int) byte {
+	// 3307
+	k--
+	inc := 0
+	for i := len(operations) - 1; i >= 0; i-- {
+		if i >= 63 {
+			// k is at most 10^18, which is less than 2^63.
+			// 2^i for i>=63 will be larger than k, so k >= 2^i is false.
+			// We can skip these iterations.
+			continue
+		}
+		length := int64(1) << i
+		if k >= length {
+			k -= length
+			inc = (inc + operations[i]) % 26
+		}
+	}
+	return 'a' + byte(inc)
+}
