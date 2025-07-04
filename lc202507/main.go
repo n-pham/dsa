@@ -229,3 +229,19 @@ func WordPattern(pattern string, s string) bool {
 
 	return true
 }
+
+func ScoreOfString(s string) (score int) {
+	// 3110
+	prevChar := s[0]
+	for i := 1; i < len(s); i++ {
+		char := s[i]
+		if char > prevChar {
+			score += int(char - prevChar)
+		} else {
+			score += int(prevChar - char)
+		}
+		debugLog(char, prevChar, char-prevChar, score)
+		prevChar = char
+	}
+	return score
+}

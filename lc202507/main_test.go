@@ -2,6 +2,11 @@ package main
 
 import "fmt"
 
+func ExampleScoreOfString() {
+	fmt.Println(ScoreOfString("hello"))
+	// Unordered output:
+	// 13
+}
 func ExampleWordPattern() {
 	fmt.Println(WordPattern("abba", "dog cat cat fish"))
 	// Unordered output:
