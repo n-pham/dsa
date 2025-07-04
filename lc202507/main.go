@@ -118,6 +118,41 @@ func lowestCommonAncestor(root, p, q *TreeNode) *TreeNode {
 
 func canFinish(numCourses int, prerequisites [][]int) bool {
 	// 207
+	graph := make([][]int, numCourses)
+	for _, pre := range prerequisites {
+		to, from := pre[0], pre[1]
+		graph[from] = append(graph[from], to)
+	}
+	visited := make([]int, numCourses) // 0=unvisited, 1=visiting, 2=visited
+
+	var hasCycle func(int) bool
+	hasCycle = func(node int) bool {
+		if visited[node] == 1 {
+			return true // found a cycle
+		}
+		if visited[node] == 2 {
+			return false // already checked, no cycle
+		}
+		visited[node] = 1 // mark as visiting
+		for _, nei := range graph[node] {
+			if hasCycle(nei) {
+				return true
+			}
+		}
+		visited[node] = 2 // mark as visited
+		return false
+	}
+
+	for i := 0; i < numCourses; i++ {
+		if hasCycle(i) {
+			return false
+		}
+	}
+	return true
+}
+
+func canFinish_slower(numCourses int, prerequisites [][]int) bool {
+	// 207
 	// Topological Sort (Kahn's Algorithm)
 	// Build the adjacency list and in-degree array.
 	graph := make([][]int, numCourses)
