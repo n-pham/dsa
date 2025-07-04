@@ -1,5 +1,7 @@
 package main
 
+//lint:file-ignore U1000 Ignore all unused code, it's generated
+
 type TreeNode struct {
 	Val   int
 	Left  *TreeNode
@@ -112,4 +114,37 @@ func lowestCommonAncestor(root, p, q *TreeNode) *TreeNode {
 		return left
 	}
 	return right
+}
+
+func canFinish(numCourses int, prerequisites [][]int) bool {
+	// 207
+	// Topological Sort (Kahn's Algorithm)
+	// Build the adjacency list and in-degree array.
+	graph := make([][]int, numCourses)
+	inDegree := make([]int, numCourses)
+	for _, pre := range prerequisites {
+		to, from := pre[0], pre[1]
+		graph[from] = append(graph[from], to)
+		inDegree[to]++
+	}
+	// Collect nodes with in-degree 0.
+	queue := make([]int, 0)
+	for i := 0; i < numCourses; i++ {
+		if inDegree[i] == 0 {
+			queue = append(queue, i)
+		}
+	}
+	visited := 0
+	for len(queue) > 0 {
+		curr := queue[0]
+		queue = queue[1:]
+		visited++
+		for _, neighbor := range graph[curr] {
+			inDegree[neighbor]--
+			if inDegree[neighbor] == 0 {
+				queue = append(queue, neighbor)
+			}
+		}
+	}
+	return visited == numCourses
 }
