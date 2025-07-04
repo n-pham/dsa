@@ -1,5 +1,11 @@
 package main
 
+type TreeNode struct {
+	Val   int
+	Left  *TreeNode
+	Right *TreeNode
+}
+
 func PossibleStringCount_fail(word string, k int) (cnt int) {
 	// 3333
 	const MOD = 1e9 + 7
@@ -90,4 +96,20 @@ func KthCharacterII(k int64, operations []int) byte {
 		}
 	}
 	return 'a' + byte(inc)
+}
+
+func lowestCommonAncestor(root, p, q *TreeNode) *TreeNode {
+	// 235
+	if root == nil || root == p || root == q {
+		return root
+	}
+	left := lowestCommonAncestor(root.Left, p, q)
+	right := lowestCommonAncestor(root.Right, p, q)
+	if left != nil && right != nil {
+		return root
+	}
+	if left != nil {
+		return left
+	}
+	return right
 }
