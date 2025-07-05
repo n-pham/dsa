@@ -245,3 +245,17 @@ func ScoreOfString(s string) (score int) {
 	}
 	return score
 }
+
+func FindLucky(arr []int) int {
+	// 1394
+	cnts := [501]int{}
+	for _, num := range arr {
+		cnts[num]++
+	}
+	for num := 500; num > 0; num-- {
+		if cnts[num] == num {
+			return num
+		}
+	}
+	return -1
+}

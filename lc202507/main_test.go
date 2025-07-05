@@ -2,6 +2,11 @@ package main
 
 import "fmt"
 
+func ExampleFindLuck() {
+	fmt.Println(FindLucky([]int{1, 2, 2, 3, 3, 3}))
+	// Unordered output:
+	// 3
+}
 func ExampleScoreOfString() {
 	fmt.Println(ScoreOfString("hello"))
 	// Unordered output:
