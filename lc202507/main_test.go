@@ -2,7 +2,7 @@ package main
 
 import "fmt"
 
-func ExampleFindLuck() {
+func ExampleFindLucky() {
 	fmt.Println(FindLucky([]int{1, 2, 2, 3, 3, 3}))
 	// Unordered output:
 	// 3
