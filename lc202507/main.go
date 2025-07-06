@@ -259,3 +259,38 @@ func FindLucky(arr []int) int {
 	}
 	return -1
 }
+
+// 1865
+type FindSumPairs struct {
+	nums1 []int
+	nums2 []int
+	cnt2  map[int]int
+}
+
+func Constructor(nums1 []int, nums2 []int) FindSumPairs {
+	cnt2 := make(map[int]int)
+	for _, v := range nums2 {
+		cnt2[v]++
+	}
+	return FindSumPairs{
+		nums1: nums1,
+		nums2: nums2,
+		cnt2:  cnt2,
+	}
+}
+
+func (obj *FindSumPairs) Add(index int, val int) {
+	oldVal := obj.nums2[index]
+	obj.cnt2[oldVal]--
+	obj.nums2[index] += val
+	obj.cnt2[obj.nums2[index]]++
+}
+
+func (obj *FindSumPairs) Count(tot int) int {
+	count := 0
+	for _, v := range obj.nums1 {
+		need := tot - v
+		count += obj.cnt2[need]
+	}
+	return count
+}
