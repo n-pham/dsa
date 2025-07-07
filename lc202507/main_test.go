@@ -2,6 +2,12 @@ package main
 
 import "fmt"
 
+func ExampleMaxEvents() {
+	fmt.Println(MaxEvents([][]int{{1, 2}, {2, 3}, {3, 4}, {1, 2}}))
+	// Unordered output:
+	// 4
+}
+
 func ExampleFindLucky() {
 	fmt.Println(FindLucky([]int{1, 2, 2, 3, 3, 3}))
 	// Unordered output:

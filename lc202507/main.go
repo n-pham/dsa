@@ -3,8 +3,10 @@ package main
 //lint:file-ignore U1000 Ignore all unused code, it's generated
 
 import (
+	"cmp"
 	"log"
 	"os"
+	"slices"
 	"strings"
 )
 
@@ -293,4 +295,11 @@ func (obj *FindSumPairs) Count(tot int) int {
 		count += obj.cnt2[need]
 	}
 	return count
+}
+
+func MaxEvents(events [][]int) int {
+	// 1353
+	slices.SortFunc(events, func(a, b []int) int { return cmp.Compare(a[0], b[0]) })
+	debugLog(events)
+	return 0
 }
