@@ -70,7 +70,7 @@ def maxEvents(events: list[list[int]]) -> int:
     # Return the total number of events attended
     return max_events_attended
 
-def maxValue(self, events: list[list[int]], k: int) -> int:
+def maxValue(events: list[list[int]], k: int) -> int:
     # 1751
     n = len(events)
     events.sort()
@@ -100,6 +100,7 @@ def maxValue(self, events: list[list[int]], k: int) -> int:
     return dp(0, k)
 
 def maxFreeTime(eventTime: int, k: int, startTime: list[int], endTime: list[int]) -> int:
+    # 3439
     gaps = ([startTime[0]] +
             [startTime[i] - endTime[i - 1] for i in range(1, len(startTime))] +
             [eventTime - endTime[-1]])
@@ -111,4 +112,79 @@ def maxFreeTime(eventTime: int, k: int, startTime: list[int], endTime: list[int]
         ans = max(ans, windowSum)
 
     return ans
+
+def maxFreeTimeII(eventTime: int, startTime: list[int], endTime: list[int]) -> int:
+    # 3440
+
+    n = len(startTime)
+    meetings = sorted(zip(startTime, endTime))
+
+    durations = [e - s for s, e in meetings]
+    
+    gaps = [meetings[0][0]]
+    gaps.extend([meetings[i][0] - meetings[i-1][1] for i in range(1, n)])
+    gaps.append(eventTime - meetings[-1][1])
+
+    max_free_time = max(gaps) if gaps else eventTime
+
+    num_gaps = n + 1
+    
+    prefix_max1 = [-1] * num_gaps
+    prefix_max2 = [-1] * num_gaps
+    prefix_max1[0] = gaps[0]
+    for i in range(1, num_gaps):
+        if gaps[i] > prefix_max1[i-1]:
+            prefix_max1[i] = gaps[i]
+            prefix_max2[i] = prefix_max1[i-1]
+        else:
+            prefix_max1[i] = prefix_max1[i-1]
+            prefix_max2[i] = max(prefix_max2[i-1], gaps[i])
+
+    suffix_max1 = [-1] * num_gaps
+    suffix_max2 = [-1] * num_gaps
+    suffix_max1[num_gaps-1] = gaps[num_gaps-1]
+    for i in range(num_gaps - 2, -1, -1):
+        if gaps[i] > suffix_max1[i+1]:
+            suffix_max1[i] = gaps[i]
+            suffix_max2[i] = suffix_max1[i+1]
+        else:
+            suffix_max1[i] = suffix_max1[i+1]
+            suffix_max2[i] = max(suffix_max2[i+1], gaps[i])
+
+    for i in range(n): # For each meeting to be moved
+        duration = durations[i]
+        
+        new_gap = gaps[i] + duration + gaps[i+1]
+
+        candidates = [new_gap]
+        if i > 0:
+            candidates.append(prefix_max1[i-1])
+            if prefix_max2[i-1] != -1:
+                candidates.append(prefix_max2[i-1])
+        
+        if i + 2 < num_gaps:
+            candidates.append(suffix_max1[i+2])
+            if suffix_max2[i+2] != -1:
+                candidates.append(suffix_max2[i+2])
+        
+        temp_max1 = -1
+        temp_max2 = -1
+        # Find two largest from candidates
+        for c in candidates:
+            if c > temp_max1:
+                temp_max2 = temp_max1
+                temp_max1 = c
+            elif c > temp_max2:
+                temp_max2 = c
+
+        current_max_free = 0
+        if temp_max2 != -1 and duration <= temp_max2:
+            current_max_free = temp_max1
+        else:
+            if temp_max1 != -1:
+                current_max_free = max(temp_max2, temp_max1 - duration)
+        
+        max_free_time = max(max_free_time, current_max_free)
+
+    return max_free_time
 
