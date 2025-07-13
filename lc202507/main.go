@@ -303,3 +303,23 @@ func MaxEvents(events [][]int) int {
 	debugLog(events)
 	return 0
 }
+
+func MatchPlayersAndTrainers(players []int, trainers []int) (cnt int) {
+	// 2410
+	// 1 2 5 8 8  trainers
+	//     4 7 9  players
+	slices.Sort(players)
+	slices.Sort(trainers)
+	i, j := len(players) -1, len(trainers) - 1
+	for i >= 0 && j >= 0 {
+		debugLog(j, i, trainers[j], players[i])
+		if trainers[j] >= players[i] {
+			j--
+			i--
+			cnt++
+		} else {
+			i--
+		}
+	}
+    return cnt
+}
