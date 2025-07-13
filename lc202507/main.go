@@ -6,18 +6,31 @@ import (
 	"cmp"
 	"log"
 	"os"
+	"runtime"
 	"slices"
 	"strings"
 )
 
 var (
 	debugEnabled = os.Getenv("DEBUG") == "true"
-	debugLogger  = log.New(os.Stdout, "DEBUG: ", log.Ldate|log.Ltime|log.Lshortfile)
+	debugLogger  = log.New(os.Stdout, "DEBUG: ", log.Ldate|log.Ltime)
 )
 
 func debugLog(v ...any) {
 	if debugEnabled {
-		debugLogger.Println(v...)
+		pc, _, _, ok := runtime.Caller(1)
+		if !ok {
+				debugLogger.Println(v...)
+				return
+		}
+		if fn := runtime.FuncForPC(pc); fn != nil {
+			name := fn.Name()
+			if lastDot := strings.LastIndex(name, "."); lastDot != -1 {
+				name = name[lastDot+1:]
+			}
+			args := append([]any{name + ":"}, v...)
+			debugLogger.Println(args...)
+		}
 	}
 }
 
@@ -310,15 +323,12 @@ func MatchPlayersAndTrainers(players []int, trainers []int) (cnt int) {
 	//     4 7 9  players
 	slices.Sort(players)
 	slices.Sort(trainers)
-	i, j := len(players) -1, len(trainers) - 1
-	for i >= 0 && j >= 0 {
+	
+	for i, j := len(players)-1, len(trainers)-1; i >= 0 && j >= 0; i-- {
 		debugLog(j, i, trainers[j], players[i])
 		if trainers[j] >= players[i] {
 			j--
-			i--
 			cnt++
-		} else {
-			i--
 		}
 	}
     return cnt
