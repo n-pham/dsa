@@ -20,8 +20,8 @@ func debugLog(v ...any) {
 	if debugEnabled {
 		pc, _, _, ok := runtime.Caller(1)
 		if !ok {
-				debugLogger.Println(v...)
-				return
+			debugLogger.Println(v...)
+			return
 		}
 		if fn := runtime.FuncForPC(pc); fn != nil {
 			name := fn.Name()
@@ -38,6 +38,11 @@ type TreeNode struct {
 	Val   int
 	Left  *TreeNode
 	Right *TreeNode
+}
+
+type ListNode struct {
+	Val  int
+	Next *ListNode
 }
 
 func PossibleStringCount_fail(word string, k int) (cnt int) {
@@ -323,7 +328,7 @@ func MatchPlayersAndTrainers(players []int, trainers []int) (cnt int) {
 	//     4 7 9  players
 	slices.Sort(players)
 	slices.Sort(trainers)
-	
+
 	for i, j := len(players)-1, len(trainers)-1; i >= 0 && j >= 0; i-- {
 		debugLog(j, i, trainers[j], players[i])
 		if trainers[j] >= players[i] {
@@ -331,5 +336,13 @@ func MatchPlayersAndTrainers(players []int, trainers []int) (cnt int) {
 			cnt++
 		}
 	}
-    return cnt
+	return cnt
+}
+
+func GetDecimalValue(head *ListNode) (num int) {
+	// 1290
+	for ; head != nil; head = head.Next {
+		num = 2*num + head.Val
+	}
+	return num
 }
