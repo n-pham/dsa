@@ -9,6 +9,7 @@ import (
 	"runtime"
 	"slices"
 	"strings"
+	"unicode"
 )
 
 var (
@@ -345,4 +346,27 @@ func GetDecimalValue(head *ListNode) (num int) {
 		num = 2*num + head.Val
 	}
 	return num
+}
+
+func IsValid(word string) bool {
+	// 3136
+	if len(word) < 3 {
+		return false
+	}
+	hasVowel := false
+	hasConsonant := false
+	vowels := "aeiouAEIOU"
+	for _, ch := range word {
+		if !unicode.IsLetter(ch) && !unicode.IsDigit(ch) {
+			return false
+		}
+		if unicode.IsLetter(ch) {
+			if strings.ContainsRune(vowels, ch) {
+				hasVowel = true
+			} else {
+				hasConsonant = true
+			}
+		}
+	}
+	return hasVowel && hasConsonant
 }
