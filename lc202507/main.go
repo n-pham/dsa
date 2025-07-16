@@ -370,3 +370,29 @@ func IsValid(word string) bool {
 	}
 	return hasVowel && hasConsonant
 }
+
+func MaximumLength_fail(nums []int) (maxLen int) {
+	// 3201
+	// all even elements, all odd elements, alternate even odd, or alternate odd even elements
+	allEvenLen, allOddLen := 0, 0
+	prev := nums[0]
+	if prev%2 == 0 {
+		allEvenLen = 1
+	} else {
+		allOddLen = 1
+	}
+	debugLog(prev, allEvenLen, allOddLen, maxLen)
+	for _, num := range nums[1:] {
+		debugLog(num, allEvenLen, allOddLen, maxLen)
+		if num%2 == 0 {
+			allOddLen = 0
+			allEvenLen++
+		} else {
+			allEvenLen = 0
+			allOddLen++
+		}
+		maxLen = max(maxLen, allEvenLen, allOddLen)
+		prev = num
+	}
+	return maxLen
+}

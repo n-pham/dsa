@@ -2,6 +2,15 @@ package main
 
 import "fmt"
 
+//	func ExampleMaximumLength() {
+//		fmt.Println(MaximumLength([]int{2, 1, 3, 2, 6, 4}))
+//		fmt.Println(MaximumLength([]int{1, 2, 3, 4, 5, 7}))
+//		fmt.Println(MaximumLength([]int{1, 2, 1, 1, 2, 1, 2}))
+//		// Unordered output:
+//		// 3
+//		// 5
+//		// 6
+//	}
 func ExampleMatchPlayersAndTrainers() {
 	fmt.Println(MatchPlayersAndTrainers([]int{7, 4, 9}, []int{1, 8, 2, 5, 8}))
 	// Unordered output:
