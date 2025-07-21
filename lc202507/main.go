@@ -396,3 +396,26 @@ func MaximumLength_fail(nums []int) (maxLen int) {
 	}
 	return maxLen
 }
+
+func RemoveSubfolders(folder []string) []string {
+	// 1233
+	return []string{}
+}
+
+func MakeFancyString(s string) string {
+	// 1957
+	if len(s) < 3 {
+		return s
+	}
+	result := make([]byte, len(s))
+	first, second := s[0], s[1]
+	result = []byte{first, second}
+	for i := 2; i < len(s); i++ {
+		third := s[i]
+		if first != second || second != third {
+			result = append(result, third)
+		}
+		first, second = second, third
+	}
+	return string(result)
+}

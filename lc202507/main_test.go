@@ -2,6 +2,14 @@ package main
 
 import "fmt"
 
+func ExampleRemoveSubfolders() {
+	fmt.Println(RemoveSubfolders([]string{"/a", "/a/b", "/c/d", "/c/d/e", "/c/f"}))
+	fmt.Println(RemoveSubfolders([]string{"/a", "/a/b/c", "/a/b/d"}))
+	// Unordered output:
+	// [/a /c/d /c/f]
+	// [/a]
+}
+
 //	func ExampleMaximumLength() {
 //		fmt.Println(MaximumLength([]int{2, 1, 3, 2, 6, 4}))
 //		fmt.Println(MaximumLength([]int{1, 2, 3, 4, 5, 7}))
