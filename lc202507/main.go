@@ -5,6 +5,7 @@ package main
 import (
 	"cmp"
 	"log"
+	"math"
 	"os"
 	"runtime"
 	"slices"
@@ -418,4 +419,29 @@ func MakeFancyString(s string) string {
 		first, second = second, third
 	}
 	return string(result)
+}
+func MaxSum(nums []int) int {
+	// 3487
+	// If the maximum element in the array is less than zero, the answer is the maximum element.
+	// Otherwise, the answer is the sum of all unique values that are greater than or equal to zero.
+	uniques := [101]bool{} // nums[i] <= 100
+	maxNum := math.MinInt
+	for _, num := range nums {
+		if num > maxNum {
+			maxNum = num
+		}
+		if num > 0 {
+			uniques[num] = true
+		}
+	}
+	if maxNum < 0 {
+		return maxNum
+	}
+	sumUniques := 0
+	for num := 0; num <= 100; num++ {
+		if uniques[num] {
+			sumUniques += num
+		}
+	}
+	return sumUniques
 }
