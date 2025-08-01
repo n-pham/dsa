@@ -445,3 +445,21 @@ func MaxSum(nums []int) int {
 	}
 	return sumUniques
 }
+
+func CountHillValley(nums []int) (cnt int) {
+	// 2210
+	// 2,4,1,1,6,5  --> 3
+	for i, lastNonEqualInd := 1, 0; i < len(nums)-1; i++ {
+		if nums[i] == nums[i+1] {
+			continue
+		}
+		if nums[i] > nums[lastNonEqualInd] && nums[i] > nums[i+1] { // hill
+			cnt++
+		}
+		if nums[i] < nums[lastNonEqualInd] && nums[i] < nums[i+1] { // valley
+			cnt++
+		}
+		lastNonEqualInd = i
+	}
+	return
+}
