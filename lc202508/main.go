@@ -51,3 +51,19 @@ func Generate(numRows int) [][]int {
 	newRow[lenght-1] = 1
 	return append(rows, newRow)
 }
+
+func NumOfUnplacedFruits(fruits []int, baskets []int) (unplacedCnt int) {
+	// 3477
+	for _, fruitCnt := range fruits {
+		unplaced := 1
+		for i, basketCapacity := range baskets {
+			if basketCapacity >= fruitCnt {
+				baskets[i] = 0
+				unplaced = 0
+				break
+			}
+		}
+		unplacedCnt += unplaced
+	}
+	return
+}
