@@ -67,3 +67,13 @@ func NumOfUnplacedFruits(fruits []int, baskets []int) (unplacedCnt int) {
 	}
 	return
 }
+
+func CountBits(n int) []int {
+	// 338
+	//  i & (i - 1) results in i with the least significant 1 bit turned off.
+	counts := make([]int, n+1)
+	for i := 1; i <= n; i++ {
+		counts[i] = counts[i&(i-1)] + 1
+	}
+	return counts
+}
