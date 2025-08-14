@@ -2,6 +2,13 @@ package main
 
 import "fmt"
 
+func ExampleLargestGoodInteger() {
+	fmt.Println(LargestGoodInteger("6777133339"))
+	fmt.Println(LargestGoodInteger("2300019"))
+	// Unordered output:
+	// 777
+	// 000
+}
 func ExampleCountBits() {
 	fmt.Println(CountBits(2))
 	fmt.Println(CountBits(5))

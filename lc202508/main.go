@@ -77,3 +77,20 @@ func CountBits(n int) []int {
 	}
 	return counts
 }
+
+func LargestGoodInteger(num string) string {
+	// 2264
+	first, second := num[0], num[1]
+	var biggest byte = 47 // before '0'
+	for i := 2; i < len(num); i++ {
+		if first == second && second == num[i] && first > biggest {
+			biggest = first
+		}
+		first, second = second, num[i]
+	}
+	if biggest == 47 {
+		return ""
+	}
+	r := rune(biggest)
+	return string([]rune{r, r, r})
+}
