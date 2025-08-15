@@ -94,3 +94,10 @@ func LargestGoodInteger(num string) string {
 	r := rune(biggest)
 	return string([]rune{r, r, r})
 }
+
+func IsPowerOfFour(n int) bool {
+	// 342
+	// check power of two: only 1 bit set
+	// check that 1 bit is in correct position for power of four
+	return n > 0 && (n&(n-1)) == 0 && (n&0xAAAAAAAA) == 0
+}
