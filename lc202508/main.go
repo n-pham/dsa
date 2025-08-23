@@ -101,3 +101,14 @@ func IsPowerOfFour(n int) bool {
 	// check that 1 bit is in correct position for power of four
 	return n > 0 && (n&(n-1)) == 0 && (n&0xAAAAAAAA) == 0
 }
+
+func ReverseString(s []byte) {
+	// 344
+	length := len(s)
+	midIndex := length / 2
+	for i := 0; i < midIndex; i++ {
+		t := s[i]
+		s[i] = s[length-i-1]
+		s[length-i-1] = t
+	}
+}

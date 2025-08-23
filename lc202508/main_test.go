@@ -2,6 +2,19 @@ package main
 
 import "fmt"
 
+func ExampleReverseString() {
+	var s []byte
+	s = []byte{'h', 'e', 'l', 'l', 'o'}
+	ReverseString(s)
+	fmt.Println(s)
+	s = []byte{'H', 'a', 'n', 'n', 'a', 'h'}
+	ReverseString(s)
+	fmt.Println(s)
+	// Unordered output:
+	// [111 108 108 101 104]
+	// [104 97 110 110 97 72]
+}
+
 func ExampleLargestGoodInteger() {
 	fmt.Println(LargestGoodInteger("6777133339"))
 	fmt.Println(LargestGoodInteger("2300019"))
