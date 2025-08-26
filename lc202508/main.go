@@ -4,6 +4,7 @@ package main
 
 import (
 	"log"
+	"math"
 	"os"
 	"runtime"
 	"strings"
@@ -111,4 +112,22 @@ func ReverseString(s []byte) {
 		s[i] = s[length-i-1]
 		s[length-i-1] = t
 	}
+}
+
+func AreaOfMaxDiagonal(dimensions [][]int) int {
+	// 3000
+	length, width := dimensions[0][0], dimensions[0][1]
+	maxDiagonal := math.Sqrt(float64(length*length + width*width))
+	maxArea := length * width
+	for _, d := range dimensions[1:] {
+		length, width := d[0], d[1]
+		diagonal := math.Sqrt(float64(length*length + width*width))
+		if diagonal > maxDiagonal {
+			maxArea = length * width
+			maxDiagonal = diagonal
+		} else if diagonal == maxDiagonal {
+			maxArea = max(maxArea, length*width)
+		}
+	}
+	return maxArea
 }
