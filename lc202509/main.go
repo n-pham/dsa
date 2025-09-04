@@ -53,7 +53,7 @@ func Intersection(nums1 []int, nums2 []int) []int {
 }
 
 func FindClosest(x int, y int, z int) int {
-	// 3516
+	// 3516 
 	d1, d2 := math.Abs(float64(x-z)), math.Abs(float64(y-z))
 	if d1 == d2 {
 		return 0
