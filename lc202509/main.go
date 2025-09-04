@@ -4,6 +4,7 @@ package main
 
 import (
 	"log"
+	"math"
 	"os"
 	"runtime"
 	"strings"
@@ -49,4 +50,15 @@ func Intersection(nums1 []int, nums2 []int) []int {
 		commonNums = append(commonNums, num)
 	}
 	return commonNums
+}
+
+func FindClosest(x int, y int, z int) int {
+	// 3516
+	d1, d2 := math.Abs(float64(x-z)), math.Abs(float64(y-z))
+	if d1 == d2 {
+		return 0
+	} else if d1 > d2 {
+		return 2
+	}
+	return 1
 }
