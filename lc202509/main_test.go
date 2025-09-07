@@ -2,6 +2,14 @@ package main
 
 import "fmt"
 
+func ExampleSumZero() {
+	fmt.Println(SumZero(5))
+	fmt.Println(SumZero(4))
+	// Unordered output:
+	// [0 1 2 -1 -2]
+	// [-2 1 2 -1]
+}
+
 func ExampleIntersection() {
 	result1 := Intersection([]int{1, 2, 2, 1}, []int{2, 2})
 	for _, value := range result1 {
