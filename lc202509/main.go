@@ -81,3 +81,27 @@ func SumZero(n int) []int {
 
 	return result
 }
+
+func hasZero(n int) bool {
+	has := false
+	for t := n; t > 0; t /= 10 {
+		if t%10 == 0 {
+			has = true
+			break
+		}
+	}
+	return has
+}
+
+func GetNoZeroIntegers(n int) []int {
+	// 1317
+	for a := 1; a < n; a++ {
+		if hasZero(a) {
+			continue
+		}
+		if !hasZero(n - a) {
+			return []int{a, n - a}
+		}
+	}
+	return []int{}
+}
