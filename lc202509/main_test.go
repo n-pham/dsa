@@ -2,6 +2,14 @@ package main
 
 import "fmt"
 
+func ExampleMaxFreqSum() {
+	fmt.Println(MaxFreqSum("successes"))
+	fmt.Println(MaxFreqSum("aeiaeia"))
+	// Unordered output:
+	// 6
+	// 3
+}
+
 func ExampleSumZero() {
 	fmt.Println(SumZero(5))
 	fmt.Println(SumZero(4))

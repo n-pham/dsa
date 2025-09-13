@@ -105,3 +105,20 @@ func GetNoZeroIntegers(n int) []int {
 	}
 	return []int{}
 }
+
+func MaxFreqSum(s string) int {
+	// 3541
+	charCount := [26]int{}
+	for _, c := range s {
+		charCount[c-'a']++
+	}
+	maxVowelCount, maxConsonantCount := 0, 0
+	for i, cnt := range charCount {
+		if i == 0 || i == 4 || i == 8 || i == 14 || i == 20 {
+			maxVowelCount = max(maxVowelCount, cnt)
+		} else {
+			maxConsonantCount = max(maxConsonantCount, cnt)
+		}
+	}
+	return maxVowelCount + maxConsonantCount
+}
