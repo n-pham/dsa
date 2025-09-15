@@ -1,3 +1,6 @@
+def adjust_thermostat(temp, target):
+    return "heat" if temp < target else "cool" if temp > target else "hold"
+
 def find_missing_numbers(arr):
     result, maxNum, setNum = [], 0, set()
     for num in arr:
