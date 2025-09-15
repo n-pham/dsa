@@ -1,3 +1,9 @@
+from collections import Counter
+import re
+
+def get_words(paragraph):
+    return [item[0] for item in Counter(re.findall( r'\b\w+\b', paragraph.lower())).most_common(3)]
+
 def adjust_thermostat(temp, target):
     return "heat" if temp < target else "cool" if temp > target else "hold"
 
