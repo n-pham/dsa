@@ -2,6 +2,16 @@ package main
 
 import "fmt"
 
+func ExampleCanBeTypedWords() {
+	fmt.Println(CanBeTypedWords("hello world", "ad"))
+	fmt.Println(CanBeTypedWords("leet code", "lt"))
+	fmt.Println(CanBeTypedWords("leet code", "e"))
+	// Unordered output:
+	// 1
+	// 1
+	// 0
+}
+
 func ExampleMaxFreqSum() {
 	fmt.Println(MaxFreqSum("successes"))
 	fmt.Println(MaxFreqSum("aeiaeia"))

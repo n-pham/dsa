@@ -122,3 +122,26 @@ func MaxFreqSum(s string) int {
 	}
 	return maxVowelCount + maxConsonantCount
 }
+
+func CanBeTypedWords(text string, brokenLetters string) (cnt int) {
+	// 1935
+	brokenLetterMap := [26]bool{}
+	for _, letter := range brokenLetters {
+		brokenLetterMap[letter-'a'] = true
+	}
+	canTypeWord := true
+	for _, c := range text {
+		if c == ' ' {
+			if canTypeWord {
+				cnt++
+			}
+			canTypeWord = true
+		} else if canTypeWord && brokenLetterMap[c-'a'] {
+			canTypeWord = false
+		}
+	}
+	if canTypeWord {
+		cnt++
+	}
+	return
+}
