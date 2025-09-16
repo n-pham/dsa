@@ -1,6 +1,24 @@
 from collections import Counter
 import re
 
+def capitalize(paragraph):
+    prev = paragraph[0]
+    chars, ends = [prev.upper()], ['.', '?', '!']
+    for c in paragraph[1:]:
+        if prev in ends and c not in ends:
+            chars = chars + [c.upper()]
+        else:
+            chars = chars + [c]
+        if c != ' ':
+            prev = c
+    return "".join(chars)
+
+print(capitalize("this is a simple sentence."))
+print(capitalize("hello world. how are you?"))
+print(capitalize("i did today's coding challenge... it was fun!!"))
+print(capitalize("crazy!!!strange???unconventional...sentences."))
+print(capitalize("there's a space before this period . why is there a space before that period ?"))
+
 def get_words(paragraph):
     return [item[0] for item in Counter(re.findall( r'\b\w+\b', paragraph.lower())).most_common(3)]
 
