@@ -1,5 +1,27 @@
 from collections import Counter
 import re
+import string
+
+def generate_slug(str):
+    length = len(str)
+    firstIndex = 0
+    while firstIndex < length and str[firstIndex] not in string.digits and str[firstIndex] not in string.ascii_letters:
+        firstIndex += 1
+    prev = str[firstIndex]
+    chars = [prev.lower()] if prev in string.digits or prev in string.ascii_letters else []
+    for index, c in enumerate(str[firstIndex+1:]):
+        if c in string.digits or c in string.ascii_letters:
+            if prev == ' ':
+                chars = chars + ["%20"]
+            chars = chars + [c.lower()]
+        prev = c
+    return "".join(chars)
+
+print(generate_slug("helloWorld")+'.')
+print(generate_slug("hello world!")+'.')
+print(generate_slug(" hello-world ")+'.')
+print(generate_slug("hello  world")+'.')
+print(generate_slug("  ?H^3-1*1]0! W[0%R#1]D  ")+'.')
 
 def capitalize(paragraph):
     prev = paragraph[0]
