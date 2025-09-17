@@ -3,7 +3,7 @@ import re
 
 def capitalize(paragraph):
     prev = paragraph[0]
-    chars, ends = [prev.upper()], ['.', '?', '!']
+    chars, ends = [prev.upper()], {'.', '?', '!'}
     for c in paragraph[1:]:
         if prev in ends and c not in ends:
             chars = chars + [c.upper()]
