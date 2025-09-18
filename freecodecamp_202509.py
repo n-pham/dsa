@@ -2,6 +2,9 @@ from collections import Counter
 import re
 import string
 
+def cost_to_fill(tank_size, fuel_level, price_per_gallon):
+    return "${:.2f}".format((tank_size-fuel_level)*price_per_gallon)
+
 def generate_slug(str):
     length = len(str)
     firstIndex = 0
