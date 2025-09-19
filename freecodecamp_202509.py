@@ -2,6 +2,9 @@ from collections import Counter
 import re
 import string
 
+def number_of_photos(photo_size_mb, drive_size_gb):
+    return drive_size_gb * 1000 // photo_size_mb
+
 def cost_to_fill(tank_size, fuel_level, price_per_gallon):
     return "${:.2f}".format((tank_size-fuel_level)*price_per_gallon)
 
