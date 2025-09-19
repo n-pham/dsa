@@ -2,6 +2,14 @@ package main
 
 import "fmt"
 
+func ExampleReplaceNonCoprimes() {
+	fmt.Println(ReplaceNonCoprimes([]int{6, 4, 3, 2, 7, 6, 2}))
+	fmt.Println(ReplaceNonCoprimes([]int{2, 2, 1, 1, 3, 3, 3}))
+	// Unordered output:
+	// [12 7 6]
+	// [2 1 1 3]
+}
+
 func ExampleCanBeTypedWords() {
 	fmt.Println(CanBeTypedWords("hello world", "ad"))
 	fmt.Println(CanBeTypedWords("leet code", "lt"))

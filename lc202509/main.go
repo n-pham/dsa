@@ -33,6 +33,31 @@ func debugLog(v ...any) {
 	}
 }
 
+func gcd(a, b int) int {
+	for b != 0 {
+		a, b = b, a%b
+	}
+	return a
+}
+
+func ReplaceNonCoprimes(nums []int) []int {
+	// 2197
+	// For all two adjacent numbers in nums that are non-coprime, delete then replace them with their Least Common Multiple.
+	// Two values x and y are non-coprime if GCD(x, y) > 1 where GCD(x, y) is the Greatest Common Divisor of x and y.
+	res := []int{}
+	for _, num := range nums {
+		res = append(res, num)
+		for len(res) > 1 && gcd(res[len(res)-1], res[len(res)-2]) > 1 {
+			n1 := res[len(res)-1]
+			n2 := res[len(res)-2]
+			res = res[:len(res)-2]
+			lcm := (n1 * n2) / gcd(n1, n2)
+			res = append(res, lcm)
+		}
+	}
+	return res
+}
+
 func Intersection(nums1 []int, nums2 []int) []int {
 	// 349
 	num1Set := make([]bool, 1001)
