@@ -2,6 +2,9 @@ from collections import Counter
 import re
 import string
 
+def number_of_files(file_size, file_unit, drive_size_gb):
+    return 1_000_000_000 * drive_size_gb // (file_size * {"B": 1, "KB": 1_000, "MB": 1_000_000, "GB": 1_000_000_000}[file_unit])
+
 def number_of_photos(photo_size_mb, drive_size_gb):
     return drive_size_gb * 1000 // photo_size_mb
 
