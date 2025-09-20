@@ -59,7 +59,8 @@ def adjust_thermostat(temp, target):
 def find_missing_numbers(arr):
     max_num, set_num = 0, set() 
     for num in arr:
-        max_num = max(max_num, num)
+        if num > max_num:
+            max_num = num
         set_num = set_num | {num}
     return [num for num in range(1, max_num) if num not in set_num]
 
