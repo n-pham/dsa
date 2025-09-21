@@ -1,3 +1,5 @@
 {
-    "python-envs.pythonProjects": []
+    "python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python",
+    "python.languageServer": "None",
+    "editor.defaultFormatter": "charliermarsh.ruff",
 }

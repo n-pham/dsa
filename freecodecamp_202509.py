@@ -2,6 +2,22 @@ from collections import Counter
 import re
 import string
 
+def number_of_videos(video_size, video_unit, drive_size, drive_unit):
+    units = {
+        "B": 1,
+        "KB": 1_000,
+        "MB": 1_000_000,
+        "GB": 1_000_000_000,
+        "TB": 1_000_000_000_000,
+    }
+    return (drive_size * units[drive_unit]) // (video_size * units[video_unit])
+
+
+assert number_of_videos(100, "MB", 1, "GB") == 10
+assert number_of_videos(500, "MB", 1, "TB") == 2000
+assert number_of_videos(1, "GB", 1, "TB") == 1000
+assert number_of_videos(1, "TB", 1, "TB") == 1
+assert number_of_videos(2, "GB", 1, "GB") == 0
 
 def reverse_sentence(sentence):
     return " ".join(reversed(sentence.split()))
