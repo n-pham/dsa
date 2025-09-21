@@ -2,62 +2,96 @@ from collections import Counter
 import re
 import string
 
+
+def reverse_sentence(sentence):
+    return " ".join(reversed(sentence.split()))
+
+
 def number_of_files(file_size, file_unit, drive_size_gb):
-    return 1_000_000_000 * drive_size_gb // (file_size * {"B": 1, "KB": 1_000, "MB": 1_000_000, "GB": 1_000_000_000}[file_unit])
+    return (
+        1_000_000_000
+        * drive_size_gb
+        // (
+            file_size
+            * {"B": 1, "KB": 1_000, "MB": 1_000_000, "GB": 1_000_000_000}[file_unit]
+        )
+    )
+
 
 def number_of_photos(photo_size_mb, drive_size_gb):
     return drive_size_gb * 1000 // photo_size_mb
 
+
 def cost_to_fill(tank_size, fuel_level, price_per_gallon):
-    return "${:.2f}".format((tank_size-fuel_level)*price_per_gallon)
+    return "${:.2f}".format((tank_size - fuel_level) * price_per_gallon)
+
 
 def generate_slug(str):
     length = len(str)
     firstIndex = 0
-    while firstIndex < length and str[firstIndex] not in string.digits and str[firstIndex] not in string.ascii_letters:
+    while (
+        firstIndex < length
+        and str[firstIndex] not in string.digits
+        and str[firstIndex] not in string.ascii_letters
+    ):
         firstIndex += 1
     prev = str[firstIndex]
-    chars = [prev.lower()] if prev in string.digits or prev in string.ascii_letters else []
-    for index, c in enumerate(str[firstIndex+1:]):
+    chars = (
+        [prev.lower()] if prev in string.digits or prev in string.ascii_letters else []
+    )
+    for index, c in enumerate(str[firstIndex + 1 :]):
         if c in string.digits or c in string.ascii_letters:
-            if prev == ' ':
+            if prev == " ":
                 chars = chars + ["%20"]
             chars = chars + [c.lower()]
         prev = c
     return "".join(chars)
 
-print(generate_slug("helloWorld")+'.')
-print(generate_slug("hello world!")+'.')
-print(generate_slug(" hello-world ")+'.')
-print(generate_slug("hello  world")+'.')
-print(generate_slug("  ?H^3-1*1]0! W[0%R#1]D  ")+'.')
+
+print(generate_slug("helloWorld") + ".")
+print(generate_slug("hello world!") + ".")
+print(generate_slug(" hello-world ") + ".")
+print(generate_slug("hello  world") + ".")
+print(generate_slug("  ?H^3-1*1]0! W[0%R#1]D  ") + ".")
+
 
 def capitalize(paragraph):
     prev = paragraph[0]
-    chars, ends = [prev.upper()], {'.', '?', '!'}
+    chars, ends = [prev.upper()], {".", "?", "!"}
     for c in paragraph[1:]:
         if prev in ends and c not in ends:
             chars = chars + [c.upper()]
         else:
             chars = chars + [c]
-        if c != ' ':
+        if c != " ":
             prev = c
     return "".join(chars)
+
 
 print(capitalize("this is a simple sentence."))
 print(capitalize("hello world. how are you?"))
 print(capitalize("i did today's coding challenge... it was fun!!"))
 print(capitalize("crazy!!!strange???unconventional...sentences."))
-print(capitalize("there's a space before this period . why is there a space before that period ?"))
+print(
+    capitalize(
+        "there's a space before this period . why is there a space before that period ?"
+    )
+)
+
 
 def get_words(paragraph):
-    return [item[0] for item in Counter(re.findall( r'\b\w+\b', paragraph.lower())).most_common(3)]
+    return [
+        item[0]
+        for item in Counter(re.findall(r"\b\w+\b", paragraph.lower())).most_common(3)
+    ]
+
 
 def adjust_thermostat(temp, target):
     return "heat" if temp < target else "cool" if temp > target else "hold"
 
+
 def find_missing_numbers(arr):
-    max_num, set_num = 0, set() 
+    max_num, set_num = 0, set()
     for num in arr:
         if num > max_num:
             max_num = num
