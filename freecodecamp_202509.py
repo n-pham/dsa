@@ -61,7 +61,7 @@ def find_missing_numbers(arr):
     for num in arr:
         if num > max_num:
             max_num = num
-        set_num = set_num | {num}
+        set_num.add(num)
     return [num for num in range(1, max_num) if num not in set_num]
 
 
