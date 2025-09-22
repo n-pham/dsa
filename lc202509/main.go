@@ -37,12 +37,13 @@ func MaxFrequencyElements(nums []int) (result int) {
 	// 3005
 	cntByNum := [100]int{}
 	maxCnt := 0
-    for _, num := range nums {
-        cntByNum[num-1]++
-		maxCnt = max(maxCnt, cntByNum[num-1])
-    }
-	for _, cnt := range cntByNum {
-		if cnt == maxCnt {
+	for _, num := range nums {
+		cntByNum[num-1]++
+		currentCnt := cntByNum[num-1]
+		if currentCnt > maxCnt {
+			maxCnt = currentCnt
+			result = maxCnt
+		} else if currentCnt == maxCnt {
 			result += maxCnt
 		}
 	}
