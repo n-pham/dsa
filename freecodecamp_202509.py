@@ -2,6 +2,23 @@ from collections import Counter
 import re
 import string
 
+
+def digits_or_letters(s):
+    digit_count, letter_count = 0, 0
+    for c in s:
+        if c in string.digits:
+            digit_count += 1
+        elif c in string.ascii_letters:
+            letter_count += 1
+    return (
+        "digits"
+        if digit_count > letter_count
+        else "letters"
+        if letter_count > digit_count
+        else "tie"
+    )
+
+
 def number_of_videos(video_size, video_unit, drive_size, drive_unit):
     units = {
         "B": 1,
@@ -18,6 +35,7 @@ assert number_of_videos(500, "MB", 1, "TB") == 2000
 assert number_of_videos(1, "GB", 1, "TB") == 1000
 assert number_of_videos(1, "TB", 1, "TB") == 1
 assert number_of_videos(2, "GB", 1, "GB") == 0
+
 
 def reverse_sentence(sentence):
     return " ".join(reversed(sentence.split()))
