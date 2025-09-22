@@ -33,6 +33,22 @@ func debugLog(v ...any) {
 	}
 }
 
+func MaxFrequencyElements(nums []int) (result int) {
+	// 3005
+	cntByNum := [100]int{}
+	maxCnt := 0
+    for _, num := range nums {
+        cntByNum[num-1]++
+		maxCnt = max(maxCnt, cntByNum[num-1])
+    }
+	for _, cnt := range cntByNum {
+		if cnt == maxCnt {
+			result += maxCnt
+		}
+	}
+	return
+}
+
 func gcd(a, b int) int {
 	for b != 0 {
 		a, b = b, a%b
