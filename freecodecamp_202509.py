@@ -3,6 +3,30 @@ import re
 import string
 
 
+def is_mirror(str1, str2):
+    len1, i, j = len(str1), 0, len(str2) - 1
+    while i < len1 and j >= 0:
+        # print(i, j, str1[i], str2[j])
+        if not str1[i].isalpha():
+            i += 1
+        elif not str2[j].isalpha():
+            j -= 1
+        elif str1[i] != str2[j]:
+            return False
+        else:
+            i += 1
+            j -= 1
+    while j >= 0 and not str2[j].isalpha():
+        j -= 1
+    if i < len1 or j >= 0:
+        return False
+    return True
+
+
+assert is_mirror("Hello World", "dlroW olleH")
+assert is_mirror("Hello World", "!dlroW !olleH")
+
+
 def digits_or_letters(s):
     digit_count, letter_count = 0, 0
     for c in s:
