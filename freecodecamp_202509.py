@@ -4,6 +4,16 @@ import re
 import string
 
 
+def second_largest(arr):
+    largest, second_largest = float("-inf"), float("-inf")
+    for num in arr:
+        if num > largest:
+            second_largest = largest
+            largest = num
+        elif num > second_largest and num != largest:
+            second_largest = num
+    return second_largest
+
 def is_perfect_square(n):
     if n < 0:
         return False
