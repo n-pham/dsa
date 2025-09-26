@@ -4,6 +4,18 @@ import re
 import string
 
 
+def speeding(speeds, limit):
+    cnt, beyond = 0, 0
+    for speed in speeds:
+        if speed > limit:
+            cnt += 1
+            beyond += speed - limit
+    return [cnt, float(beyond) / cnt if cnt > 0 else 0]
+
+
+assert speeding([50, 60, 55], 60) == [0, 0]
+assert speeding([58, 50, 60, 55], 55) == [2, 4]
+
 def second_largest(arr):
     largest, second_largest = float("-inf"), float("-inf")
     for num in arr:
