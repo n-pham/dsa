@@ -33,6 +33,20 @@ func debugLog(v ...any) {
 	}
 }
 
+func LargestTriangleArea(points [][]int) float64 {
+	// 812
+	maxArea := 0.0
+	for i := 0; i < len(points); i++ {
+		for j := i + 1; j < len(points); j++ {
+			for k := j + 1; k < len(points); k++ {
+				area := 0.5 * math.Abs(float64(points[i][0]*points[j][1]+points[j][0]*points[k][1]+points[k][0]*points[i][1]-points[j][0]*points[i][1]-points[k][0]*points[j][1]-points[i][0]*points[k][1]))
+				maxArea = math.Max(maxArea, area)
+			}
+		}
+	}
+	return maxArea
+}
+
 func MaxFrequencyElements(nums []int) (result int) {
 	// 3005
 	cntByNum := [100]int{}
