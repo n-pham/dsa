@@ -4,6 +4,10 @@ import re
 import string
 
 
+def get_headings(csv):
+    return [w.strip() for w in csv.split(",")]
+
+
 def speeding(speeds, limit):
     cnt, beyond = 0, 0
     for speed in speeds:
@@ -16,6 +20,7 @@ def speeding(speeds, limit):
 assert speeding([50, 60, 55], 60) == [0, 0]
 assert speeding([58, 50, 60, 55], 55) == [2, 4]
 
+
 def second_largest(arr):
     largest, second_largest = float("-inf"), float("-inf")
     for num in arr:
@@ -25,6 +30,7 @@ def second_largest(arr):
         elif num > second_largest and num != largest:
             second_largest = num
     return second_largest
+
 
 def is_perfect_square(n):
     if n < 0:
