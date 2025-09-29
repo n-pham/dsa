@@ -4,6 +4,18 @@ import re
 import string
 
 
+def get_longest_word(sentence):
+    words = sentence.rstrip(".").split(" ")
+    longest = ""
+    for word in words:
+        if len(word) > len(longest):
+            longest = word
+    return longest
+
+
+assert get_longest_word("This sentence has multiple long words.") == "sentence"
+
+
 def get_headings(csv):
     return [w.strip() for w in csv.split(",")]
 
