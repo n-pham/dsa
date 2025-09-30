@@ -4,6 +4,13 @@ import re
 import string
 
 
+def format_number(number):
+    return f"+{number[0]} ({number[1:4]}) {number[4:7]}-{number[7:]}"
+
+
+assert format_number("12345678901") == "+1 (234) 567-8901"
+
+
 def get_longest_word(sentence):
     words = sentence.rstrip(".").split(" ")
     longest = ""
