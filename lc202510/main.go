@@ -41,3 +41,17 @@ func NumWaterBottles(numBottles int, numExchange int) (result int) {
 	}
 	return
 }
+
+func MaxBottlesDrunk(numBottles int, numExchange int) (result int) {
+	// 3100
+	result = numBottles
+	emptyBottles := numBottles
+	for emptyBottles >= numExchange {
+		// exchange 1 bottle
+		emptyBottles -= numExchange
+		result++
+		emptyBottles++
+		numExchange++
+	}
+	return
+}
