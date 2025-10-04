@@ -1,3 +1,18 @@
+def classification(temp):
+    if temp >= 30_000:
+        return "O"
+    elif temp >= 10_000:
+        return "B"
+    elif temp >= 7_500:
+        return "A"
+    elif temp >= 6_000:
+        return "F"
+    elif temp >= 5_200:
+        return "G"
+    elif temp >= 3_700:
+        return "K"
+    return "M"
+
 def check_strength_1(password):
     rules = [
         lambda p: len(p) >= 8,
