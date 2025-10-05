@@ -2,16 +2,18 @@ def has_exoplanet(readings):
     length, sum_level, min_level = 0, 0, 36
     for char in readings:
         length += 1
-        level = int(char) if '0' <= char <= '9' else ord(char) - 65 + 10
+        level = int(char) if "0" <= char <= "9" else ord(char) - 65 + 10
         sum_level += level
         if min_level > level:
             min_level = level
     print(f"{length=} {sum_level=} {0.8*(sum_level / length)=} {min_level=}")
-    return 0.8*(sum_level / length) >= min_level
+    return 0.8 * (sum_level / length) >= min_level
+
 
 assert has_exoplanet("FGFFCFFGG")
 assert has_exoplanet("FREECODECAMP")
 assert not has_exoplanet("665544554")
+
 
 def classification(temp):
     if temp >= 30_000:
@@ -28,6 +30,7 @@ def classification(temp):
         return "K"
     return "M"
 
+
 def check_strength_1(password):
     rules = [
         lambda p: len(p) >= 8,
@@ -40,7 +43,7 @@ def check_strength_1(password):
     return {4: "strong", 3: "medium", 2: "medium"}.get(sum(meets), "weak")
 
 
-def check_strength(password):
+def check_strength_2(password):
     meets = {rule: 0 for rule in ["len", "both cases", "number", "special char"]}
     if len(password) >= 8:
         meets["len"] = 1
@@ -57,6 +60,21 @@ def check_strength(password):
     if has_lower and has_upper:
         meets["both cases"] = 1
     return {4: "strong", 3: "medium", 2: "medium"}.get(sum(meets.values()), "weak")
+
+
+def check_strength(password):
+    has_lower, has_upper, has_digit, has_special = False, False, False, False
+    for char in password:
+        if char.islower():
+            has_lower = True
+        elif char.isupper():
+            has_upper = True
+        elif char.isdigit():
+            has_digit = True
+        elif char in "!@#$%^&*":
+            has_special = True
+    score = sum([len(password) >= 8, has_lower and has_upper, has_digit, has_special])
+    return {4: "strong", 3: "medium", 2: "medium"}.get(score, "weak")
 
 
 assert check_strength("pass!!!") == "weak"
