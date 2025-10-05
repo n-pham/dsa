@@ -33,6 +33,69 @@ func debugLog(v ...any) {
 	}
 }
 
+func PacificAtlantic(heights [][]int) [][]int {
+	// 417
+	rows, cols := len(heights), len(heights[0])
+	pacificReachable := make([][]bool, rows)
+	atlanticReachable := make([][]bool, rows)
+	for i := range pacificReachable {
+		pacificReachable[i] = make([]bool, cols)
+		atlanticReachable[i] = make([]bool, cols)
+	}
+
+	var dfs func(r, c int, reachable [][]bool)
+	dfs = func(r, c int, reachable [][]bool) {
+		if reachable[r][c] {
+			return
+		}
+		reachable[r][c] = true
+
+		// up
+		if r > 0 && heights[r-1][c] >= heights[r][c] {
+			dfs(r-1, c, reachable)
+		}
+		// down
+		if r < rows-1 && heights[r+1][c] >= heights[r][c] {
+			dfs(r+1, c, reachable)
+		}
+		// left
+		if c > 0 && heights[r][c-1] >= heights[r][c] {
+			dfs(r, c-1, reachable)
+		}
+		// right
+		if c < cols-1 && heights[r][c+1] >= heights[r][c] {
+			dfs(r, c+1, reachable)
+		}
+	}
+
+	// DFS from Pacific borders
+	for r := 0; r < rows; r++ {
+		dfs(r, 0, pacificReachable)
+	}
+	for c := 0; c < cols; c++ {
+		dfs(0, c, pacificReachable)
+	}
+
+	// DFS from Atlantic borders
+	for r := 0; r < rows; r++ {
+		dfs(r, cols-1, atlanticReachable)
+	}
+	for c := 0; c < cols; c++ {
+		dfs(rows-1, c, atlanticReachable)
+	}
+
+	var result [][]int
+	for r := 0; r < rows; r++ {
+		for c := 0; c < cols; c++ {
+			if pacificReachable[r][c] && atlanticReachable[r][c] {
+				result = append(result, []int{r, c})
+			}
+		}
+	}
+
+	return result
+}
+
 func TrapRainWater(heightMap [][]int) int {
 	// 407
 	m, n := len(heightMap), len(heightMap[0])
