@@ -1,3 +1,18 @@
+def has_exoplanet(readings):
+    length, sum_level, min_level = 0, 0, 36
+    for char in readings:
+        length += 1
+        level = int(char) if '0' <= char <= '9' else ord(char) - 65 + 10
+        sum_level += level
+        if min_level > level:
+            min_level = level
+    print(f"{length=} {sum_level=} {0.8*(sum_level / length)=} {min_level=}")
+    return 0.8*(sum_level / length) >= min_level
+
+assert has_exoplanet("FGFFCFFGG")
+assert has_exoplanet("FREECODECAMP")
+assert not has_exoplanet("665544554")
+
 def classification(temp):
     if temp >= 30_000:
         return "O"
