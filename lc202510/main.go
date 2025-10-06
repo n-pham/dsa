@@ -33,6 +33,43 @@ func debugLog(v ...any) {
 	}
 }
 
+func SwimInWater(grid [][]int) int {
+	// 778
+	n := len(grid)
+	pq := &MinHeap{}
+	heap.Init(pq)
+	visited := make([][]bool, n)
+	for i := range visited {
+		visited[i] = make([]bool, n)
+	}
+	// The "height" of a cell in the priority queue will be the maximum elevation
+	// on the path to that cell.
+	heap.Push(pq, &Cell{row: 0, col: 0, height: grid[0][0]})
+	visited[0][0] = true
+	directions := [][]int{{0, 1}, {0, -1}, {1, 0}, {-1, 0}}
+	for pq.Len() > 0 {
+		cell := heap.Pop(pq).(*Cell)
+		r, c, t := cell.row, cell.col, cell.height
+		if r == n-1 && c == n-1 {
+			return t
+		}
+		for _, dir := range directions {
+			nr, nc := r+dir[0], c+dir[1]
+			if nr >= 0 && nr < n && nc >= 0 && nc < n && !visited[nr][nc] {
+				visited[nr][nc] = true
+				// The time (max elevation) to reach the neighbor is the maximum of the
+				// current path's time and the neighbor's own elevation.
+				newTime := t
+				if grid[nr][nc] > newTime {
+					newTime = grid[nr][nc]
+				}
+				heap.Push(pq, &Cell{row: nr, col: nc, height: newTime})
+			}
+		}
+	}
+	return -1
+}
+
 func PacificAtlantic(heights [][]int) [][]int {
 	// 417
 	rows, cols := len(heights), len(heights[0])
