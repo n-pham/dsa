@@ -1,3 +1,14 @@
+def send_message(route):
+    seconds = 0
+    for distance in route[:-1]:
+        seconds += 0.5 + distance / 300_000
+    seconds += route[len(route)-1] / 300_000
+    return round(seconds, 4)
+
+
+assert send_message([300_000, 300_000]) == 2.5
+
+
 def has_exoplanet(readings):
     length, sum_level, min_level = 0, 0, 36
     for char in readings:
