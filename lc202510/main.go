@@ -7,6 +7,7 @@ import (
 	"log"
 	"os"
 	"runtime"
+	"sort"
 	"strings"
 )
 
@@ -31,6 +32,55 @@ func debugLog(v ...any) {
 			debugLogger.Println(args...)
 		}
 	}
+}
+
+func AvoidFlood(rains []int) []int {
+	// 1488
+	// The problem is to assign for each dry day (rains[i] == 0), which lake to dry.
+	// A lake needs to be dried if it's full and it's going to rain on it again.
+	// To make an optimal decision, when it's about to rain on a full lake,
+	// we should choose the earliest possible dry day that occurred *after* the lake was last filled.
+	// This leaves later dry days available for future potential floods.
+
+	ans := make([]int, len(rains))
+	// `fullLakes` maps a lake number to the index of the day it was last filled.
+	fullLakes := make(map[int]int)
+	// `dryDays` stores the indices of days with no rain, kept sorted.
+	dryDays := []int{}
+
+	for i, lake := range rains {
+		if lake == 0 {
+			// This is a dry day, add its index to our list of available dry days.
+			dryDays = append(dryDays, i)
+			// We'll decide what to do with this day later, so we tentatively set it to 1.
+			ans[i] = 1
+		} else {
+			// This is a rainy day.
+			ans[i] = -1
+			if lastRainDay, ok := fullLakes[lake]; ok {
+				// The lake is already full. We need to find a dry day to empty it.
+				// The dry day must have occurred after the lake was last filled.
+				// We use binary search to find the first available dry day after `lastRainDay`.
+				dryDayIndex := sort.SearchInts(dryDays, lastRainDay+1)
+
+				if dryDayIndex == len(dryDays) {
+					// No available dry day found after the lake was filled. A flood is inevitable.
+					return []int{}
+				}
+
+				// We found a suitable dry day. Let's use it.
+				dayToDry := dryDays[dryDayIndex]
+				ans[dayToDry] = lake
+
+				// This dry day is now used, so we remove it from our list of available dry days.
+				dryDays = append(dryDays[:dryDayIndex], dryDays[dryDayIndex+1:]...)
+			}
+			// Update the last rain day for this lake to the current day.
+			fullLakes[lake] = i
+		}
+	}
+
+	return ans
 }
 
 func SwimInWater(grid [][]int) int {

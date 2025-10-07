@@ -2,6 +2,18 @@ package main
 
 import "fmt"
 
+func ExampleAvoidFlood() {
+	fmt.Println(AvoidFlood([]int{1, 2, 3, 4}))
+	fmt.Println(AvoidFlood([]int{1,2,0,0,2,1}))
+	fmt.Println(AvoidFlood([]int{1,2,0,1,2}))
+	fmt.Println(AvoidFlood([]int{69,0,0,0,69}))
+	// Unordered output:
+	// [-1 -1 -1 -1]
+	// [-1 -1 2 1 -1 -1]
+	// []
+	// [-1 69 1 1 -1]
+}
+
 func ExampleSwimInWater() {
 	fmt.Println(SwimInWater([][]int{{0, 2}, {1, 3}}))
 	fmt.Println(SwimInWater([][]int{{0,1,2,3,4}, {24,23,22,21,5}, {12,13,14,15,16}, {11,17,18,19,20}, {10,9,8,7,6}}))
