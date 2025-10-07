@@ -1,3 +1,26 @@
+def find_landing_spot(matrix):
+    def get_total_danger(matrix, i, j: int) -> int:
+        up = matrix[i-1][j] if i >= 0 else 0
+        down = matrix[i+1][j] if i < len(matrix)-1 else 0
+        left = matrix[i][j-1] if j >= 0 else 0
+        right = matrix[i][j+1] if j < len(matrix[0])-1 else 0
+        return up + down + left + right
+    safest_spot, lowest_total_danger = [-1, -1], float("inf")
+    for i, row in enumerate(matrix):
+        for j, spot in enumerate(row):
+            if spot == 0:
+                total_danger = get_total_danger(matrix, i, j)
+                if total_danger < lowest_total_danger:
+                    lowest_total_danger = total_danger
+                    safest_spot = [i, j]
+    return safest_spot
+
+
+assert find_landing_spot([[1, 0], [2, 0]]) == [0, 1]
+assert find_landing_spot([[9, 0, 3], [7, 0, 4], [8, 0, 5]]) == [1, 1]
+assert find_landing_spot([[1, 2, 1], [0, 0, 2], [3, 0, 0]]) == [2, 2]
+assert find_landing_spot([[9, 6, 0, 8], [7, 1, 1, 0], [3, 0, 3, 9], [8, 6, 0, 9]]) == [2, 1]
+
 def send_message(route):
     seconds = 0
     for distance in route[:-1]:
