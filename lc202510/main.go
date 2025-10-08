@@ -34,6 +34,50 @@ func debugLog(v ...any) {
 	}
 }
 
+func SuccessfulPairs(spells []int, potions []int, success int64) []int {
+	// 2300
+	potionsLen := len(potions)
+	sort.Ints(potions)
+	result := make([]int, len(spells))
+	for i, spell := range spells {
+		if spell > 0 {
+			minPotion := (success + int64(spell) - 1) / int64(spell) // better way to calculate ceiling
+			idx := sort.Search(potionsLen, func(j int) bool {
+				return int64(potions[j]) >= minPotion
+			})
+			result[i] = potionsLen - idx
+		}
+	}
+	return result
+}
+
+func SuccessfulPairs_2(spells []int, potions []int, success int64) []int {
+	// 2300
+	type spellWithIndex struct {
+		value int
+		index int
+	}
+	sortedSpells := make([]spellWithIndex, len(spells))
+	for i, s := range spells {
+		sortedSpells[i] = spellWithIndex{value: s, index: i}
+	}
+	sort.Slice(sortedSpells, func(i, j int) bool {
+		return sortedSpells[i].value < sortedSpells[j].value
+	})
+	sort.Ints(potions)
+	result := make([]int, len(spells))
+	potionsLen := len(potions)
+	potionIndex := potionsLen - 1
+	for _, s := range sortedSpells {
+		// Move the potion pointer to the left as long as the current potion is strong enough.
+		for potionIndex >= 0 && int64(s.value)*int64(potions[potionIndex]) >= success {
+			potionIndex--
+		}
+		result[s.index] = potionsLen - (potionIndex + 1)
+	}
+	return result
+}
+
 func AvoidFlood(rains []int) []int {
 	// 1488
 	// The problem is to assign for each dry day (rains[i] == 0), which lake to dry.
