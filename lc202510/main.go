@@ -34,7 +34,25 @@ func debugLog(v ...any) {
 	}
 }
 
-func SuccessfulPairs(spells []int, potions []int, success int64) []int {
+func successfulPairs(spells []int, potions []int, success int64) []int {
+	// 2300 binary search and re-use
+	sort.Ints(potions)
+	for i := 0; i < len(spells); i++ {
+		start, end := 0, len(potions)
+		for start < end {
+			mid := (start + end) / 2
+			if int64(potions[mid])*int64(spells[i]) >= success {
+				end = mid
+			} else {
+				start = mid + 1
+			}
+		}
+		spells[i] = len(potions) - start
+	}
+	return spells
+}
+
+func SuccessfulPairs_1(spells []int, potions []int, success int64) []int {
 	// 2300
 	potionsLen := len(potions)
 	sort.Ints(potions)
