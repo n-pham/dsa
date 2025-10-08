@@ -1,3 +1,14 @@
+def goldilocks_zone(mass):
+    luminosity = mass**3.5
+    start = round(0.95 * luminosity**0.5, 2)
+    end = round(1.37 * luminosity**0.5, 2)
+    return [start, end]
+
+
+assert goldilocks_zone(1) == [0.95, 1.37]
+assert goldilocks_zone(2) == [3.2, 4.61]
+
+
 def find_landing_spot(matrix):
     def get_total_danger(matrix, i, j: int) -> int:
         up = matrix[i-1][j] if i >= 0 else 0
