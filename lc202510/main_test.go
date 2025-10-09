@@ -2,6 +2,16 @@ package main
 
 import "fmt"
 
+func ExampleMinTime() {
+	fmt.Println(MinTime([]int{1,5,2,4}, []int{5,1,4,2}))
+	fmt.Println(MinTime([]int{1,1,1}, []int{1,1,1}))
+	fmt.Println(MinTime([]int{1,2,3,4}, []int{1, 2}))
+	// Unordered output:
+	// 110
+	// 5
+	// 21
+}
+
 func ExampleAvoidFlood() {
 	fmt.Println(AvoidFlood([]int{1, 2, 3, 4}))
 	fmt.Println(AvoidFlood([]int{1,2,0,0,2,1}))

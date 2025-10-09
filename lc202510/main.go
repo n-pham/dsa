@@ -34,6 +34,39 @@ func debugLog(v ...any) {
 	}
 }
 
+func MinTime(skill []int, mana []int) int64 {
+	// 3494
+	n := len(skill)
+	m := len(mana)
+	// C_prev stores the completion times of the previous potion (j-1) for each wizard
+	C_prev := make([]int64, n)
+	C_prev[0] = int64(skill[0]) * int64(mana[0])
+	for i := 1; i < n; i++ {
+		C_prev[i] = C_prev[i-1] + int64(skill[i])*int64(mana[0])
+	}
+	for j := 1; j < m; j++ {
+		C_curr := make([]int64, n)
+		// Calculate the start time for the current potion j on the first wizard.
+		// This is the core of the "no-wait" logic, ensuring wizards are free.
+		var startTime int64 = 0
+		var p_sum_prefix int64 = 0
+		for i := 0; i < n; i++ {
+			term := C_prev[i] - p_sum_prefix
+			if term > startTime {
+				startTime = term
+			}
+			p_sum_prefix += int64(skill[i]) * int64(mana[j])
+		}
+		// Calculate completion times for the current potion j
+		C_curr[0] = startTime + int64(skill[0])*int64(mana[j])
+		for i := 1; i < n; i++ {
+			C_curr[i] = C_curr[i-1] + int64(skill[i])*int64(mana[j])
+		}
+		C_prev = C_curr
+	}
+	return C_prev[n-1]
+}
+
 func successfulPairs(spells []int, potions []int, success int64) []int {
 	// 2300 binary search and re-use
 	sort.Ints(potions)
