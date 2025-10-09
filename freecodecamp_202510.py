@@ -1,3 +1,25 @@
+from datetime import datetime
+
+
+def moon_phase(date_string):
+    reference_date = datetime.strptime("2000-01-06", "%Y-%m-%d")
+    current_date = datetime.strptime(date_string, "%Y-%m-%d")
+    days_diff = (current_date - reference_date).days
+    cycle_day = days_diff % 28 + 1
+    print(cycle_day)
+    if cycle_day < 8:
+        return "New"
+    elif cycle_day < 15:
+        return "Waxing"
+    elif cycle_day < 22:
+        return "Full"
+    else:
+        return "Waning"
+
+
+assert moon_phase("2000-01-13") == "Waxing"
+
+
 def goldilocks_zone(mass):
     luminosity = mass**3.5
     start = round(0.95 * luminosity**0.5, 2)
