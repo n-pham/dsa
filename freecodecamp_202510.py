@@ -1,6 +1,21 @@
 from datetime import datetime
 
 
+def launch_fuel(payload):
+    payload = float(payload)
+    fuel = 0.0
+    while True:
+        fuel_needed = (payload + fuel) / 5.0
+        additional_fuel = fuel_needed - fuel
+        if additional_fuel < 1:
+            return round(fuel_needed, 1)
+        fuel = fuel_needed
+
+
+assert launch_fuel(50) == 12.4
+assert launch_fuel(243) == 60.7
+
+
 def moon_phase(date_string):
     reference_date = datetime.strptime("2000-01-06", "%Y-%m-%d")
     current_date = datetime.strptime(date_string, "%Y-%m-%d")
