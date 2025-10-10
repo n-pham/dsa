@@ -5,6 +5,7 @@ package main
 import (
 	"container/heap"
 	"log"
+	"math"
 	"os"
 	"runtime"
 	"sort"
@@ -32,6 +33,35 @@ func debugLog(v ...any) {
 			debugLogger.Println(args...)
 		}
 	}
+}
+
+func MaximumEnergy(energy []int, k int) int {
+	// 3147
+	n, maxEnergy := len(energy), math.MinInt
+	for i := n - 1; i >= 0; i-- {
+		if i+k < n {
+			energy[i] += energy[i+k]
+		}
+		if energy[i] > maxEnergy {
+			maxEnergy = energy[i]
+		}
+	}
+	return maxEnergy
+}
+
+func MaximumEnergy_fail(energy []int, k int) int {
+	// 3147
+	sums := make([]int, k)
+	for i, val := range energy {
+		sums[i % k] += val
+	}
+	maxSum := sums[0]
+	for _, sum := range sums[1:] {
+		if sum > maxSum {
+			maxSum = sum
+		}
+	}
+	return maxSum
 }
 
 func MinTime(skill []int, mana []int) int64 {

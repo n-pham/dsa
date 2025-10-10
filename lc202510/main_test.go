@@ -2,6 +2,14 @@ package main
 
 import "fmt"
 
+func ExampleMaximumEnergy() {
+	fmt.Println(MaximumEnergy([]int{5,2,-10,-5,1}, 3))
+	fmt.Println(MaximumEnergy([]int{-2,-3,-1}, 2))
+	// Unordered output:
+	// 3
+	// -1
+}
+
 func ExampleMinTime() {
 	fmt.Println(MinTime([]int{1,5,2,4}, []int{5,1,4,2}))
 	fmt.Println(MinTime([]int{1,1,1}, []int{1,1,1}))
