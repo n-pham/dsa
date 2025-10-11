@@ -355,6 +355,45 @@ func TrapRainWater(heightMap [][]int) int {
 	return water
 }
 
+func maximumTotalDamage(power []int) int64 {
+	// 3186
+	counts := make(map[int]int)
+	for _, p := range power {
+		counts[p]++
+	}
+	uniquePowers := make([]int, 0, len(counts))
+	for p := range counts {
+		uniquePowers = append(uniquePowers, p)
+	}
+	sort.Ints(uniquePowers)
+	n := len(uniquePowers)
+	dp := make([]int64, n)
+	dp[0] = int64(uniquePowers[0]) * int64(counts[uniquePowers[0]])
+	for i := 1; i < n; i++ {
+		p_i := uniquePowers[i]
+		// Option 2: Do not cast spells with damage p_i.
+		damage_if_not_cast := dp[i-1]
+		// Option 1: Cast spells with damage p_i.
+		damage_i := int64(p_i) * int64(counts[p_i])
+		var prev_compatible_damage int64 = 0
+		// Use binary search to find largest `j < i` where `uniquePowers[j] < p_i - 2`.
+		target := p_i - 2
+		j := sort.Search(i, func(x int) bool {
+			return uniquePowers[x] >= target
+		})
+		if j > 0 {
+			prev_compatible_damage = dp[j-1]
+		}
+		damage_if_cast := damage_i + prev_compatible_damage
+		if damage_if_cast > damage_if_not_cast {
+			dp[i] = damage_if_cast
+		} else {
+			dp[i] = damage_if_not_cast
+		}
+	}
+	return dp[n-1]
+}
+
 type Cell struct {
 	row, col, height int
 }
