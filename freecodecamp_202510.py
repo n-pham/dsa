@@ -1,6 +1,18 @@
 from datetime import datetime
 
 
+def hex_to_decimal(hex):
+    result = 0
+    for i in range(len(hex)):
+        char = hex[i]
+        val = ord(char) - 48 if char <= "9" else ord(char) - 65 + 10
+        result += val * (16 ** (len(hex) - i - 1))
+    return result
+
+
+print(hex_to_decimal("A"))
+
+
 def launch_fuel(payload):
     payload = float(payload)
     fuel = 0.0
