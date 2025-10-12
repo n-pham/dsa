@@ -1,6 +1,25 @@
 from datetime import datetime
 
 
+def battle(our_team, opponent):
+    def get_char_value(char: str) -> int:
+        return 2*(ord(char) - 64) if char <= "Z" else ord(char) - 96
+    def get_word_value(word: str) -> int:
+        return sum([get_char_value(char) for char in word])
+    opponent_words = opponent.split(" ")
+    our_score, opponent_score = 0, 0
+    for i, our_word in enumerate(our_team.split(" ")):
+        our_word_value, opponent_word_value = get_word_value(our_word), get_word_value(opponent_words[i])
+        # print(f"{our_word_value=} {opponent_word_value=}")
+        if our_word_value > opponent_word_value:
+            our_score += 1
+        elif opponent_word_value > our_word_value:
+            opponent_score += 1
+    return "We win" if our_score > opponent_score else "We lose" if our_score < opponent_score else "Draw"
+
+
+assert battle("We must never surrender", "Our team must win") == "Draw"
+
 def hex_to_decimal(hex):
     result = 0
     for i in range(len(hex)):
