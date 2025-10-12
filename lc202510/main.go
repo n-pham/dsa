@@ -447,7 +447,7 @@ func TrapRainWater(heightMap [][]int) int {
 	return water
 }
 
-func maximumTotalDamage(power []int) int64 {
+func MaximumTotalDamage(power []int) int64 {
 	// 3186
 	counts := make(map[int]int)
 	for _, p := range power {

@@ -87,9 +87,9 @@ func ExampleNumWaterBottles() {
 }
 
 func ExampleMaximumTotalDamage() {
-	fmt.Println(maximumTotalDamage([]int{1, 1, 4, 5, 5, 6}))
-	fmt.Println(maximumTotalDamage([]int{7, 1, 6, 6}))
-	fmt.Println(maximumTotalDamage([]int{2, 3, 5}))
+	fmt.Println(MaximumTotalDamage([]int{1, 1, 4, 5, 5, 6}))
+	fmt.Println(MaximumTotalDamage([]int{7, 1, 6, 6}))
+	fmt.Println(MaximumTotalDamage([]int{2, 3, 5}))
 	// Unordered output:
 	// 12
 	// 13
