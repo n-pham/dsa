@@ -6,6 +6,7 @@ import (
 	"container/heap"
 	"log"
 	"math"
+	"math/bits"
 	"os"
 	"runtime"
 	"sort"
@@ -35,6 +36,97 @@ func debugLog(v ...any) {
 	}
 }
 
+const MOD = 1e9 + 7
+
+var memo [51][51][51]map[int]int64
+var C [51][51]int64
+var fact, invFact [51]int64
+var p [51][]int64
+var n int
+var Nums []int
+
+func power_m(base, exp int64) int64 {
+	var res int64 = 1
+	base %= MOD
+	for exp > 0 {
+		if exp%2 == 1 {
+			res = (res * base) % MOD
+		}
+		base = (base * base) % MOD
+		exp /= 2
+	}
+	return res
+}
+
+func precompute(m int) {
+	fact[0] = 1
+	invFact[0] = 1
+	for i := 1; i <= m; i++ {
+		fact[i] = (fact[i-1] * int64(i)) % MOD
+		invFact[i] = power_m(fact[i], MOD-2)
+	}
+
+	for i := 0; i <= m; i++ {
+		C[i][0] = 1
+		for j := 1; j <= i; j++ {
+			C[i][j] = (C[i-1][j-1] + C[i-1][j]) % MOD
+		}
+	}
+
+	for i := 0; i < n; i++ {
+		p[i] = make([]int64, m+1)
+		p[i][0] = 1
+		for j := 1; j <= m; j++ {
+			p[i][j] = (p[i][j-1] * int64(Nums[i])) % MOD
+		}
+	}
+}
+
+func solve(i, m, carry int) map[int]int64 {
+	if i == n {
+		if m == 0 {
+			return map[int]int64{bits.OnesCount(uint(carry)): 1}
+		} else {
+			return map[int]int64{}
+		}
+	}
+	if memo[i][m][carry] != nil {
+		return memo[i][m][carry]
+	}
+
+	res := make(map[int]int64)
+	for j := 0; j <= m; j++ {
+		sub := solve(i+1, m-j, (carry+j)>>1)
+		bit := (carry + j) & 1
+		term := (p[i][j] * invFact[j]) % MOD
+		for popcnt, v := range sub {
+			res[popcnt+bit] = (res[popcnt+bit] + v*term) % MOD
+		}
+	}
+	memo[i][m][carry] = res
+	return res
+}
+
+func MagicalSum(m int, k int, nums []int) int {
+	// 3539
+	n = len(nums)
+	Nums = nums
+	for i := 0; i <= n; i++ {
+		for j := 0; j <= m; j++ {
+			for l := 0; l <= m; l++ {
+				memo[i][j][l] = nil
+			}
+		}
+	}
+	for i := 0; i < 51; i++ {
+		p[i] = make([]int64, 51)
+	}
+
+	precompute(m)
+	ansMap := solve(0, m, 0)
+	return int((ansMap[k] * fact[m]) % MOD)
+}
+
 func MaximumEnergy(energy []int, k int) int {
 	// 3147
 	n, maxEnergy := len(energy), math.MinInt
@@ -53,7 +145,7 @@ func MaximumEnergy_fail(energy []int, k int) int {
 	// 3147
 	sums := make([]int, k)
 	for i, val := range energy {
-		sums[i % k] += val
+		sums[i%k] += val
 	}
 	maxSum := sums[0]
 	for _, sum := range sums[1:] {

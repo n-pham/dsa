@@ -2,18 +2,32 @@ package main
 
 import "fmt"
 
+func ExampleMagicalSum() {
+	fmt.Println(MagicalSum(5, 5, []int{1, 10, 100, 10000, 1000000}))
+	fmt.Println(MagicalSum(2, 2, []int{5, 4, 3, 2, 1}))
+	fmt.Println(MagicalSum(2, 2, []int{8}))
+	fmt.Println(MagicalSum(4, 2, []int{41}))
+	fmt.Println(MagicalSum(4, 3, []int{1}))
+	// Unordered output:
+	// 991600007
+	// 170
+	// 0
+	// 0
+	// 0
+}
+
 func ExampleMaximumEnergy() {
-	fmt.Println(MaximumEnergy([]int{5,2,-10,-5,1}, 3))
-	fmt.Println(MaximumEnergy([]int{-2,-3,-1}, 2))
+	fmt.Println(MaximumEnergy([]int{5, 2, -10, -5, 1}, 3))
+	fmt.Println(MaximumEnergy([]int{-2, -3, -1}, 2))
 	// Unordered output:
 	// 3
 	// -1
 }
 
 func ExampleMinTime() {
-	fmt.Println(MinTime([]int{1,5,2,4}, []int{5,1,4,2}))
-	fmt.Println(MinTime([]int{1,1,1}, []int{1,1,1}))
-	fmt.Println(MinTime([]int{1,2,3,4}, []int{1, 2}))
+	fmt.Println(MinTime([]int{1, 5, 2, 4}, []int{5, 1, 4, 2}))
+	fmt.Println(MinTime([]int{1, 1, 1}, []int{1, 1, 1}))
+	fmt.Println(MinTime([]int{1, 2, 3, 4}, []int{1, 2}))
 	// Unordered output:
 	// 110
 	// 5
@@ -22,9 +36,9 @@ func ExampleMinTime() {
 
 func ExampleAvoidFlood() {
 	fmt.Println(AvoidFlood([]int{1, 2, 3, 4}))
-	fmt.Println(AvoidFlood([]int{1,2,0,0,2,1}))
-	fmt.Println(AvoidFlood([]int{1,2,0,1,2}))
-	fmt.Println(AvoidFlood([]int{69,0,0,0,69}))
+	fmt.Println(AvoidFlood([]int{1, 2, 0, 0, 2, 1}))
+	fmt.Println(AvoidFlood([]int{1, 2, 0, 1, 2}))
+	fmt.Println(AvoidFlood([]int{69, 0, 0, 0, 69}))
 	// Unordered output:
 	// [-1 -1 -1 -1]
 	// [-1 -1 2 1 -1 -1]
@@ -34,15 +48,14 @@ func ExampleAvoidFlood() {
 
 func ExampleSwimInWater() {
 	fmt.Println(SwimInWater([][]int{{0, 2}, {1, 3}}))
-	fmt.Println(SwimInWater([][]int{{0,1,2,3,4}, {24,23,22,21,5}, {12,13,14,15,16}, {11,17,18,19,20}, {10,9,8,7,6}}))
+	fmt.Println(SwimInWater([][]int{{0, 1, 2, 3, 4}, {24, 23, 22, 21, 5}, {12, 13, 14, 15, 16}, {11, 17, 18, 19, 20}, {10, 9, 8, 7, 6}}))
 	// Unordered output:
 	// 3
 	// 16
 }
 
-
 func ExamplePacificAtlantic() {
-	fmt.Println(PacificAtlantic([][]int{{1,2,2,3,5},{3,2,3,4,4},{2,4,5,3,1},{6,7,1,4,5},{5,1,1,2,4}}))
+	fmt.Println(PacificAtlantic([][]int{{1, 2, 2, 3, 5}, {3, 2, 3, 4, 4}, {2, 4, 5, 3, 1}, {6, 7, 1, 4, 5}, {5, 1, 1, 2, 4}}))
 	fmt.Println(PacificAtlantic([][]int{{1}}))
 	// Unordered output:
 	// [[0 4] [1 3] [1 4] [2 2] [3 0] [3 1] [4 0]]
