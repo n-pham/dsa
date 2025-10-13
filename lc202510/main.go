@@ -36,6 +36,28 @@ func debugLog(v ...any) {
 	}
 }
 
+func RemoveAnagrams(words []string) (result []string) {
+	// 2273
+	prev := words[0]
+	prevCharCount := [26]int{}
+	for _, c := range prev {
+		prevCharCount[c-'a']++
+	}
+	result = append(result, prev)
+	for _, word := range words {
+		wordCharCount := [26]int{}
+		for _, c := range word {
+			wordCharCount[c-'a']++
+		}
+		if prevCharCount != wordCharCount {
+			result = append(result, word)
+			prev = word
+			prevCharCount = wordCharCount
+		}
+	}
+	return
+}
+
 const MOD = 1e9 + 7
 
 var memo [51][51][51]map[int]int64
