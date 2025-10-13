@@ -1,24 +1,50 @@
 from datetime import datetime
 
 
+def to_12(time):
+    suffix = "AM"
+    hour = int(time[:2])
+    if hour >= 12:
+        hour -= 12
+        suffix = "PM"
+    if hour == 0:
+        hour = 12
+    return f"{hour}:{time[-2:]} {suffix}"
+
+
+assert to_12("1124") == "11:24 AM"
+
+
 def battle(our_team, opponent):
     def get_char_value(char: str) -> int:
-        return 2*(ord(char) - 64) if char <= "Z" else ord(char) - 96
+        return 2 * (ord(char) - 64) if char <= "Z" else ord(char) - 96
+
     def get_word_value(word: str) -> int:
         return sum([get_char_value(char) for char in word])
+
     opponent_words = opponent.split(" ")
     our_score, opponent_score = 0, 0
     for i, our_word in enumerate(our_team.split(" ")):
-        our_word_value, opponent_word_value = get_word_value(our_word), get_word_value(opponent_words[i])
+        our_word_value, opponent_word_value = (
+            get_word_value(our_word),
+            get_word_value(opponent_words[i]),
+        )
         # print(f"{our_word_value=} {opponent_word_value=}")
         if our_word_value > opponent_word_value:
             our_score += 1
         elif opponent_word_value > our_word_value:
             opponent_score += 1
-    return "We win" if our_score > opponent_score else "We lose" if our_score < opponent_score else "Draw"
+    return (
+        "We win"
+        if our_score > opponent_score
+        else "We lose"
+        if our_score < opponent_score
+        else "Draw"
+    )
 
 
 assert battle("We must never surrender", "Our team must win") == "Draw"
+
 
 def hex_to_decimal(hex):
     result = 0
@@ -79,11 +105,12 @@ assert goldilocks_zone(2) == [3.2, 4.61]
 
 def find_landing_spot(matrix):
     def get_total_danger(matrix, i, j: int) -> int:
-        up = matrix[i-1][j] if i >= 0 else 0
-        down = matrix[i+1][j] if i < len(matrix)-1 else 0
-        left = matrix[i][j-1] if j >= 0 else 0
-        right = matrix[i][j+1] if j < len(matrix[0])-1 else 0
+        up = matrix[i - 1][j] if i >= 0 else 0
+        down = matrix[i + 1][j] if i < len(matrix) - 1 else 0
+        left = matrix[i][j - 1] if j >= 0 else 0
+        right = matrix[i][j + 1] if j < len(matrix[0]) - 1 else 0
         return up + down + left + right
+
     safest_spot, lowest_total_danger = [-1, -1], float("inf")
     for i, row in enumerate(matrix):
         for j, spot in enumerate(row):
@@ -98,13 +125,17 @@ def find_landing_spot(matrix):
 assert find_landing_spot([[1, 0], [2, 0]]) == [0, 1]
 assert find_landing_spot([[9, 0, 3], [7, 0, 4], [8, 0, 5]]) == [1, 1]
 assert find_landing_spot([[1, 2, 1], [0, 0, 2], [3, 0, 0]]) == [2, 2]
-assert find_landing_spot([[9, 6, 0, 8], [7, 1, 1, 0], [3, 0, 3, 9], [8, 6, 0, 9]]) == [2, 1]
+assert find_landing_spot([[9, 6, 0, 8], [7, 1, 1, 0], [3, 0, 3, 9], [8, 6, 0, 9]]) == [
+    2,
+    1,
+]
+
 
 def send_message(route):
     seconds = 0
     for distance in route[:-1]:
         seconds += 0.5 + distance / 300_000
-    seconds += route[len(route)-1] / 300_000
+    seconds += route[len(route) - 1] / 300_000
     return round(seconds, 4)
 
 
