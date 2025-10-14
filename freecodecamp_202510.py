@@ -1,6 +1,19 @@
 from datetime import datetime
 
 
+def count(text, parameter):
+    return text.count(parameter)
+
+
+def count2(text, parameter):
+    times = 0
+    len_param = len(parameter)
+    for i in range(len(text)-len_param+1):
+        if text[i:i+len_param] == parameter:
+            times += 1
+    return times
+
+
 def to_12(time):
     suffix = "AM"
     hour = int(time[:2])
