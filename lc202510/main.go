@@ -36,6 +36,46 @@ func debugLog(v ...any) {
 	}
 }
 
+func HasIncreasingSubarrays(nums []int, k int) bool {
+	// 3349
+	n := len(nums)
+	// `incRun[i]` will store the length of the strictly increasing subarray ending at index i.
+	incRun := make([]int, n)
+	incRun[0] = 1
+	for i := 1; i < n; i++ {
+		if nums[i] > nums[i-1] {
+			incRun[i] = incRun[i-1] + 1
+		} else {
+			incRun[i] = 1
+		}
+	}
+	// 1. `nums[a:a+k]` is increasing, which means `incRun[a+k-1] >= k`.
+	// 2. `nums[a+k:a+2*k]` is increasing, which means `incRun[a+2*k-1] >= k`.
+	for a := 0; a <= n-2*k; a++ {
+		if incRun[a+k-1] >= k && incRun[a+2*k-1] >= k {
+			return true
+		}
+	}
+	return false
+}
+
+func HasIncreasingSubarrays_1(nums []int, k int) bool {
+	// 3349
+	n := len(nums)
+	start := 0
+	prev := nums[0]
+	for i := 1; i < n; i++ {
+		num := nums[i]
+		if num <= prev {
+			start = i
+		}
+		if i - start >= k {
+			return true
+		}
+	}
+	return false
+}
+
 func RemoveAnagrams(words []string) (result []string) {
 	// 2273
 	prev := words[0]
