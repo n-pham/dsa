@@ -36,6 +36,45 @@ func debugLog(v ...any) {
 	}
 }
 
+func MaxIncreasingSubarrays(nums []int) int {
+	// 3350
+	n := len(nums)
+	// leftRun[i] = length of strictly increasing subarray ending at i
+	leftRun := make([]int, n)
+	leftRun[0] = 1
+	for i := 1; i < n; i++ {
+		if nums[i] > nums[i-1] {
+			leftRun[i] = leftRun[i-1] + 1
+		} else {
+			leftRun[i] = 1
+		}
+	}
+	maxK := 0
+	// rightRun is the length of the increasing subarray starting at i+1
+	rightRun := 1
+	// Loop from n-2 down to 0. The split is between i and i+1.
+	for i := n - 2; i >= 0; i-- {
+		// For the split between i and i+1:
+		// The left part is an increasing subarray ending at i. Max length is leftRun[i].
+		// The right part is an increasing subarray starting at i+1. Max length is rightRun.
+		// Calculate potential k for this split.
+		k := leftRun[i]
+		if rightRun < k {
+			k = rightRun
+		}
+		if k > maxK {
+			maxK = k
+		}
+		// Update rightRun for the next iteration. It will become the run starting at i.
+		if nums[i] < nums[i+1] {
+			rightRun++
+		} else {
+			rightRun = 1
+		}
+	}
+	return maxK
+}
+
 func HasIncreasingSubarrays(nums []int, k int) bool {
 	// 3349
 	n := len(nums)
