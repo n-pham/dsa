@@ -1,6 +1,18 @@
 from datetime import datetime
 
 
+def strip_tags(html):
+    first = html.find('>')
+    if first > - 1 and first < len(html)-1:
+        last = html.find('<', first)
+        # print(html[first+1:last], "*", html[last:])
+        return html[first+1:last] + strip_tags(html[last:])
+    return ''
+
+
+assert strip_tags('<p class="center">Hello <b>World</b>!</p>') == "Hello World!"
+
+
 def count(text, parameter):
     return text.count(parameter)
 
