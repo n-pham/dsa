@@ -632,3 +632,23 @@ func MaxBottlesDrunk(numBottles int, numExchange int) (result int) {
 	}
 	return
 }
+
+func FindSmallestInteger(nums []int, value int) int {
+    // 2598
+	counts := make([]int, value)
+	for _, num := range nums {
+		rem := num % value
+		if rem < 0 {
+			rem += value
+		}
+		counts[rem]++
+	}
+	for mex := 0; ; mex++ {
+		rem := mex % value
+		if counts[rem] > 0 {
+			counts[rem]--
+		} else {
+			return mex
+		}
+	}
+}
