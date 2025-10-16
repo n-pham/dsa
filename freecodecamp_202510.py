@@ -1,4 +1,26 @@
 from datetime import datetime
+import string
+
+
+def validate(email):
+    partIndex = email.find("@")
+    if partIndex == -1 or email.find("@", partIndex+1) > -1:
+        return False
+    local, domain = email[:partIndex], email[partIndex+1:]
+    allowedLocal = set(string.ascii_letters + string.digits + '.' + '_' + '-')
+    if local[0] == '.' or local[-1] == '.' or any(c not in allowedLocal for c in local) or local.find("..") > -1:
+        return False
+    domainDotIndex = domain.rfind('.')
+    if domainDotIndex == -1 or domain.find("..") > -1:
+        return False
+    topLevelDomain = domain[domainDotIndex+1:]
+    if any(c not in string.ascii_letters for c in topLevelDomain):
+        return False
+    return True
+
+assert validate("a@b.cd") 
+assert validate("example@test.c0") is False
+assert validate("develop.ment_user@c0D!NG.R.CKS")
 
 
 def strip_tags(html):
