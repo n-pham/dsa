@@ -278,21 +278,21 @@ def run_test(test_func):
     except Exception:
         return (test_func.__name__, "FAILED", traceback.format_exc())
 
-if __name__ == "__main__":
-    tests = [
-        test_validate,
-        test_strip_tags,
-        test_to_12,
-        test_battle,
-        test_launch_fuel,
-        test_moon_phase,
-        test_goldilocks_zone,
-        test_find_landing_spot,
-        test_send_message,
-        test_has_exoplanet,
-        test_check_strength,
-    ]
+tests = [
+    test_validate,
+    test_strip_tags,
+    test_to_12,
+    test_battle,
+    test_launch_fuel,
+    test_moon_phase,
+    test_goldilocks_zone,
+    test_find_landing_spot,
+    test_send_message,
+    test_has_exoplanet,
+    test_check_strength,
+]
 
+if __name__ == "__main__":
     with multiprocessing.Pool() as pool:
         results = pool.map(run_test, tests)
 
