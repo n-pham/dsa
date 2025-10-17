@@ -4,6 +4,10 @@ import multiprocessing
 import traceback
 
 
+def mask(card):
+    return f"****{card[4]}****{card[9]}****{card[14]}{card[-4:]}"
+
+
 def validate(email):
     partIndex = email.find("@")
     if partIndex == -1 or email.find("@", partIndex+1) > -1:
