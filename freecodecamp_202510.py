@@ -1,6 +1,5 @@
 from datetime import datetime
 import string
-import multiprocessing
 import traceback
 
 
@@ -295,19 +294,3 @@ tests = [
     test_has_exoplanet,
     test_check_strength,
 ]
-
-if __name__ == "__main__":
-    with multiprocessing.Pool() as pool:
-        results = pool.map(run_test, tests)
-
-    all_passed = True
-    for res in results:
-        print(f"{res[0]}: {res[1]}")
-        if res[1] == "FAILED":
-            all_passed = False
-            print(f"  Error: {res[2]}")
-
-    if all_passed:
-        print("\nAll tests passed.")
-    else:
-        print("\nSome tests failed.")
