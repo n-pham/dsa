@@ -652,3 +652,68 @@ func FindSmallestInteger(nums []int, value int) int {
 		}
 	}
 }
+
+var (
+    memo_maxPartitions map[State]int
+    s_maxPartitions    string
+    k_maxPartitions    int
+    n_maxPartitions    int
+)
+
+// State defines the state for memoization.
+type State struct {
+    index, current_chars, can_change int
+}
+
+// dfs_maxPartitions is the recursive helper function.
+// It calculates the max partitions for s[index:] given the state.
+func dfs_maxPartitions(index, current_chars, can_change int) int {
+    if index >= n_maxPartitions {
+        return 1
+    }
+    state := State{index, current_chars, can_change}
+    if val, ok := memo_maxPartitions[state]; ok {
+        return val
+    }
+    char_bit := 1 << (s_maxPartitions[index] - 'a')
+    next_chars := current_chars | char_bit
+    var result int
+    if bits.OnesCount(uint(next_chars)) > k_maxPartitions {
+        // Current character creates a new partition.
+        result = dfs_maxPartitions(index+1, char_bit, can_change) + 1
+    } else {
+        // Continue the current partition.
+        result = dfs_maxPartitions(index+1, next_chars, can_change)
+    }
+    if can_change == 1 {
+        for letter_index := 0; letter_index < 26; letter_index++ {
+            changed_char_bit := 1 << letter_index
+            next_chars_changed := current_chars | changed_char_bit
+            var current_res int
+            if bits.OnesCount(uint(next_chars_changed)) > k_maxPartitions {
+                // The change forces a new partition.
+                // The new partition starts with the changed character.
+                // `can_change` becomes 0 for the subsequent recursive calls.
+                current_res = dfs_maxPartitions(index+1, changed_char_bit, 0) + 1
+            } else {
+                // The change does not force a new partition.
+                // Continue the current partition with the changed character included.
+                current_res = dfs_maxPartitions(index+1, next_chars_changed, 0)
+            }
+            if current_res > result {
+                result = current_res
+            }
+        }
+    }
+    memo_maxPartitions[state] = result
+    return result
+}
+
+func maxPartitionsAfterOperations(s string, k int) int {
+	// 3003
+    s_maxPartitions = s
+    k_maxPartitions = k
+    n_maxPartitions = len(s)
+    memo_maxPartitions = make(map[State]int)
+    return dfs_maxPartitions(0, 0, 1)
+}
