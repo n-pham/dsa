@@ -36,6 +36,33 @@ func debugLog(v ...any) {
 	}
 }
 
+func MaxDistinctElements(nums []int, k int) int {
+	// 3397
+	// Loop from smallest try to select the smallest possible new value that is
+	// greater than the previously selected value. This maximizes the available
+	// space for subsequent numbers.
+	sort.Ints(nums)
+	count := 1
+	// For the first number, we select the smallest possible value.
+	prev := nums[0] - k
+	for i := 1; i < len(nums); i++ {
+		num := nums[i]
+		// The next value must be at least `prev + 1` to be distinct.
+		// It also must be at least `num - k` to be reachable from `num`.
+		// So we pick the larger of these two as our target.
+		target := prev + 1
+		if num-k > target {
+			target = num - k
+		}
+		// If the target is reachable (within `num + k`), we've found a new distinct number.
+		if target <= num+k {
+			count++
+			prev = target
+		}
+	}
+	return count
+}
+
 func MaxIncreasingSubarrays(nums []int) int {
 	// 3350
 	n := len(nums)
