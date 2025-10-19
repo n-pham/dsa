@@ -3,6 +3,26 @@ import string
 import traceback
 
 
+def extract_attributes(element):
+    attribute_str = element[
+        element.find(" ") : min(element.find("/") - 1, element.find(">"))
+    ]
+    parts = attribute_str.split('"')
+    keys_parts = parts[0::2]
+    values = parts[1::2]
+    keys = [p.strip().rstrip("=") for p in keys_parts if p.strip()]
+    return [f"{k}, {v}" for k, v in zip(keys, values)]
+
+
+assert extract_attributes(
+    '<input name="email" type="email" required="true" />'
+) == ["name, email", "type, email", "required, true"]
+assert extract_attributes('<span class="red"></span>') == ["class, red"]
+assert extract_attributes(
+    '<button id="submit" class="btn btn-primary">Submit</button>'
+) == ["id, submit", "class, btn btn-primary"]
+
+
 def sock_pairs(pairs, cycles):
     number = 2 * pairs
     for i in range(1, cycles + 1):
