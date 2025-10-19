@@ -95,3 +95,15 @@ func ExampleMaximumTotalDamage() {
 	// 13
 	// 7
 }
+
+func ExampleFindLexSmallestString() {
+	fmt.Println(FindLexSmallestString("5525", 9, 2))
+	fmt.Println(FindLexSmallestString("74", 5, 1))
+	fmt.Println(FindLexSmallestString("0011", 4, 2))
+	fmt.Println(FindLexSmallestString("43987654", 7, 3))
+	// Unordered output:
+	// 2050
+	// 24
+	// 0011
+	// 00553311
+}

@@ -740,3 +740,39 @@ func cachedFunction[K comparable, V any](f func(self func(K) V, key K) V) func(K
 	}
 	return recursive_call
 }
+
+func FindLexSmallestString(s string, a int, b int) string {
+	// 1625
+	q := []string{s}
+	visited := make(map[string]struct{})
+	visited[s] = struct{}{}
+	minS := s
+	for len(q) > 0 {
+		curr := q[0]
+		q = q[1:]
+		// Add operation
+		buf := []byte(curr)
+		for i := 1; i < len(buf); i += 2 {
+			buf[i] = byte(((int(buf[i]-'0') + a) % 10) + '0')
+		}
+		added := string(buf)
+		if _, seen := visited[added]; !seen {
+			visited[added] = struct{}{}
+			q = append(q, added)
+			if added < minS {
+				minS = added
+			}
+		}
+		// Rotate operation
+		n := len(curr)
+		rotated := curr[n-b:] + curr[:n-b]
+		if _, seen := visited[rotated]; !seen {
+			visited[rotated] = struct{}{}
+			q = append(q, rotated)
+			if rotated < minS {
+				minS = rotated
+			}
+		}
+	}
+	return minS
+}
