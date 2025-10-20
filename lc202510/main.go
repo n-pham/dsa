@@ -36,6 +36,15 @@ func debugLog(v ...any) {
 	}
 }
 
+func FinalValueAfterOperations(operations []string) (X int) {
+	// 2011
+	valByOp := map[string]int{"X++": 1, "++X": 1, "X--": -1, "--X": -1}
+	for _, op := range operations {
+		X += valByOp[op]
+	}
+	return
+}
+
 func MaxDistinctElements(nums []int, k int) int {
 	// 3397
 	// Loop from smallest try to select the smallest possible new value that is
@@ -135,7 +144,7 @@ func HasIncreasingSubarrays_1(nums []int, k int) bool {
 		if num <= prev {
 			start = i
 		}
-		if i - start >= k {
+		if i-start >= k {
 			return true
 		}
 	}
@@ -661,7 +670,7 @@ func MaxBottlesDrunk(numBottles int, numExchange int) (result int) {
 }
 
 func FindSmallestInteger(nums []int, value int) int {
-    // 2598
+	// 2598
 	counts := make([]int, value)
 	for _, num := range nums {
 		rem := num % value
