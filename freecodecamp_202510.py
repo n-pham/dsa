@@ -3,6 +3,20 @@ import string
 import traceback
 
 
+def calculate_tips(meal_price, custom_tip):
+    price = float(meal_price[1:])
+    return [
+        f"${0.15 * price:.2f}",
+        f"${0.2 * price:.2f}",
+        f"${float(custom_tip[:-1]) / 100 * price:.2f}",
+    ]
+
+
+def test_calculate_tips():
+    assert calculate_tips("$19.85", "9%") == ["$2.98", "$3.97", "$1.79"]
+    assert calculate_tips("$10.00", "25%") == ["$1.50", "$2.00", "$2.50"]
+
+
 def extract_attributes(element):
     attribute_str = element[
         element.find(" ") : min(element.find("/") - 1, element.find(">"))
@@ -14,13 +28,14 @@ def extract_attributes(element):
     return [f"{k}, {v}" for k, v in zip(keys, values)]
 
 
-assert extract_attributes(
-    '<input name="email" type="email" required="true" />'
-) == ["name, email", "type, email", "required, true"]
-assert extract_attributes('<span class="red"></span>') == ["class, red"]
-assert extract_attributes(
-    '<button id="submit" class="btn btn-primary">Submit</button>'
-) == ["id, submit", "class, btn btn-primary"]
+def test_extract_attributes():
+    assert extract_attributes(
+        '<input name="email" type="email" required="true" />'
+    ) == ["name, email", "type, email", "required, true"]
+    assert extract_attributes('<span class="red"></span>') == ["class, red"]
+    assert extract_attributes(
+        '<button id="submit" class="btn btn-primary">Submit</button>'
+    ) == ["id, submit", "class, btn btn-primary"]
 
 
 def sock_pairs(pairs, cycles):
@@ -37,7 +52,8 @@ def sock_pairs(pairs, cycles):
     return number // 2
 
 
-assert sock_pairs(2, 5) == 1
+def test_sock_pairs():
+    assert sock_pairs(2, 5) == 1
 
 
 def mask(card):
