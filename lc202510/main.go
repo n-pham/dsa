@@ -36,6 +36,16 @@ func debugLog(v ...any) {
 	}
 }
 
+func isPerfectSquare(num int) bool {
+	// 367 Newton-Raphson
+	for guess, nextGuess := num, 0; ; guess = nextGuess {
+		nextGuess = (guess + num/guess) / 2
+		if nextGuess >= guess {
+			return guess*guess == num
+		}
+	}
+}
+
 func FinalValueAfterOperations(operations []string) (X int) {
 	// 2011
 	valByOp := map[string]int{"X++": 1, "++X": 1, "X--": -1, "--X": -1}
