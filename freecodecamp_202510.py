@@ -3,6 +3,11 @@ import string
 import traceback
 
 
+def adjust_thermostat(current_f, target_c):
+    diff_f = (target_c * 1.8) + 32 - current_f
+    return f"Heat: {diff_f:.1f} degrees Fahrenheit" if diff_f > 0 else f"Cool: {-diff_f:.1f} degrees Fahrenheit" if diff_f < 0 else "Hold"
+
+
 def calculate_tips(meal_price, custom_tip):
     price = float(meal_price[1:])
     return [
