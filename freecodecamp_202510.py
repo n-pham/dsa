@@ -3,6 +3,28 @@ import string
 import traceback
 
 
+def array_diff(arr1, arr2):
+    arr, arr1, arr2 = [], sorted(arr1), sorted(arr2)
+    i1, i2, len1, len2 = 0, 0, len(arr1), len(arr2)
+    while i1 < len1 and i2 < len2:
+        if arr1[i1] < arr2[i2]:
+            arr.append(arr1[i1])
+            i1 += 1
+        elif arr1[i1] > arr2[i2]:
+            arr.append(arr2[i2])
+            i2 += 1
+        else:
+            i1, i2 = i1+1, i2+1
+    if i1 < len1:
+        arr.extend(arr1[i1:])
+    if i2 < len2:
+        arr.extend(arr2[i2:])
+    return arr
+
+
+assert array_diff(["apple", "banana"], ["apple", "banana", "cherry"]) == ["cherry"]
+
+
 def adjust_thermostat(current_f, target_c):
     diff_f = (target_c * 1.8) + 32 - current_f
     return f"Heat: {diff_f:.1f} degrees Fahrenheit" if diff_f > 0 else f"Cool: {-diff_f:.1f} degrees Fahrenheit" if diff_f < 0 else "Hold"
