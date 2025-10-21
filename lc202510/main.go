@@ -594,6 +594,63 @@ func TrapRainWater(heightMap [][]int) int {
 	return water
 }
 
+func maxFrequency(nums []int, k int, numOperations int) int {
+	// 3346
+	// max(s_i) - min(s_i) <= 2k.
+	// The number of operations is the number of `s_i` not equal to maxFrequency.
+	sort.Ints(nums)
+	n := len(nums)
+	maxFreq := 0
+	// Case 1: maxFrequency is not one of the original numbers in the chosen group.
+	// This requires `m` operations. So, we need `m <= numOperations`.
+	// We find the longest subarray `nums[left...right]` where `nums[right] - nums[left] <= 2k`
+	// and its length is at most `numOperations`.
+	left := 0
+	for right := 0; right < n; right++ {
+		for nums[right]-nums[left] > 2*k {
+			left++
+		}
+		m := right - left + 1
+		if m <= numOperations {
+			if m > maxFreq {
+				maxFreq = m
+			}
+		}
+	}
+	// Case 2: maxFrequency is one of the numbers from the original array.
+	// We iterate through each unique number in `nums` and treat it as a potential target.
+	counts := make(map[int]int)
+	for _, num := range nums {
+		counts[num]++
+	}
+	for i := 0; i < n; i++ {
+		if i > 0 && nums[i] == nums[i-1] {
+			continue
+		}
+		target := nums[i]
+		// Find the window of all elements that can be converted to `target`.
+		// These are numbers `num` such that `target-k <= num <= target+k`.
+		startIdx := sort.SearchInts(nums, target-k)
+		endIdx := sort.Search(n, func(j int) bool { return nums[j] > target+k }) - 1
+		if startIdx > endIdx {
+			continue
+		}
+		windowSize := endIdx - startIdx + 1
+		countOfTarget := counts[target]
+		others := windowSize - countOfTarget
+		achievableFreq := countOfTarget
+		if others < numOperations {
+			achievableFreq += others
+		} else {
+			achievableFreq += numOperations
+		}
+		if achievableFreq > maxFreq {
+			maxFreq = achievableFreq
+		}
+	}
+	return maxFreq
+}
+
 func MaximumTotalDamage(power []int) int64 {
 	// 3186
 	counts := make(map[int]int)
