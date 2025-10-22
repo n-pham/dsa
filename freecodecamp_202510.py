@@ -3,6 +3,29 @@ import string
 import traceback
 
 
+def wise_speak(sentence):
+    split_words = ["have", "must", "are", "will", "can"]
+    punctuation = sentence[-1]
+    words = sentence.split(" ")
+    i = next(i for i, word in enumerate(words) if word in split_words)
+    return " ".join(
+        [words[i + 1].capitalize()]
+        + words[i + 2 : -1]
+        + [words[-1][:-1] + ","]
+        + [words[0][0].lower() + words[0][1:]]
+        + words[1:i]
+        + [words[i] + punctuation]
+    )
+
+
+def test_wise_speak():
+    assert wise_speak("You must speak wisely.") == "Speak wisely, you must."
+    assert (
+        wise_speak("Do you think you will complete this?")
+        == "Complete this, do you think you will?"
+    )
+
+
 def array_diff(arr1, arr2):
     arr, arr1, arr2 = [], sorted(arr1), sorted(arr2)
     i1, i2, len1, len2 = 0, 0, len(arr1), len(arr2)
@@ -14,7 +37,7 @@ def array_diff(arr1, arr2):
             arr.append(arr2[i2])
             i2 += 1
         else:
-            i1, i2 = i1+1, i2+1
+            i1, i2 = i1 + 1, i2 + 1
     if i1 < len1:
         arr.extend(arr1[i1:])
     if i2 < len2:
@@ -22,12 +45,19 @@ def array_diff(arr1, arr2):
     return arr
 
 
-assert array_diff(["apple", "banana"], ["apple", "banana", "cherry"]) == ["cherry"]
+def test_array_diff():
+    assert array_diff(["apple", "banana"], ["apple", "banana", "cherry"]) == ["cherry"]
 
 
 def adjust_thermostat(current_f, target_c):
     diff_f = (target_c * 1.8) + 32 - current_f
-    return f"Heat: {diff_f:.1f} degrees Fahrenheit" if diff_f > 0 else f"Cool: {-diff_f:.1f} degrees Fahrenheit" if diff_f < 0 else "Hold"
+    return (
+        f"Heat: {diff_f:.1f} degrees Fahrenheit"
+        if diff_f > 0
+        else f"Cool: {-diff_f:.1f} degrees Fahrenheit"
+        if diff_f < 0
+        else "Hold"
+    )
 
 
 def calculate_tips(meal_price, custom_tip):
