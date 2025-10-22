@@ -651,6 +651,78 @@ func maxFrequency(nums []int, k int, numOperations int) int {
 	return maxFreq
 }
 
+func maxFrequency2(nums []int, k int, numOperations int) int {
+	// 3347
+	sort.Ints(nums)
+	n := len(nums)
+	counts := make(map[int]int)
+	maxFreq := 0
+	if n > 0 {
+		// maxFreq is at least 1 if there are elements.
+		maxFreq = 1
+		for _, num := range nums {
+			counts[num]++
+			if counts[num] > maxFreq {
+				maxFreq = counts[num]
+			}
+		}
+	}
+	if numOperations == 0 {
+		return maxFreq
+	}
+	// Case 1: The target value `T` is chosen optimally, but not necessarily from `nums`.
+	// If `T` is not in `nums`, its original count is 0.
+	// The achievable frequency is `min(|S_T|, numOperations)`, where `S_T` are
+	// elements convertible to `T`. We need to find `T` that maximizes `|S_T|`.
+	// `|S_T|` is the number of elements in `[T-k, T+k]`, a window of size `2k`.
+	// The max number of elements in any `2k` window is found with a sliding window.
+	max_m := 0
+	left := 0
+	for right := 0; right < n; right++ {
+		for nums[right]-nums[left] > 2*k {
+			left++
+		}
+		m := right - left + 1
+		if m > max_m {
+			max_m = m
+		}
+	}
+	freqCase1 := max_m
+	if freqCase1 > numOperations {
+		freqCase1 = numOperations
+	}
+	if freqCase1 > maxFreq {
+		maxFreq = freqCase1
+	}
+	// Case 2: The target value `T` is one of the numbers from the original array.
+	for i := 0; i < n; i++ {
+		if i > 0 && nums[i] == nums[i-1] {
+			continue // Iterate unique numbers only
+		}
+		target := nums[i]
+		// Find window of elements convertible to `target`: `[target-k, target+k]`
+		startIdx := sort.SearchInts(nums, target-k)
+		endIdx := sort.Search(n, func(j int) bool { return nums[j] > target+k }) - 1
+
+		if startIdx > endIdx {
+			continue
+		}
+		windowSize := endIdx - startIdx + 1
+		countOfTarget := counts[target]
+		others := windowSize - countOfTarget
+		achievableFreq := countOfTarget
+		ops_to_use := others
+		if ops_to_use > numOperations {
+			ops_to_use = numOperations
+		}
+		achievableFreq += ops_to_use
+		if achievableFreq > maxFreq {
+			maxFreq = achievableFreq
+		}
+	}
+	return maxFreq
+}
+
 func MaximumTotalDamage(power []int) int64 {
 	// 3186
 	counts := make(map[int]int)
