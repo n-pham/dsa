@@ -36,6 +36,19 @@ func debugLog(v ...any) {
 	}
 }
 
+func TotalMoney(n int) (total int) {
+	// 1716
+	fullWeekCount := n / 7
+	lastWeekDayCount := n % 7
+	for weekNumber := 1; weekNumber <= fullWeekCount; weekNumber++ {
+		total += 7*weekNumber + 1 + 2 + 3 + 4 + 5 + 6
+	}
+	for dayNumber := 1; dayNumber <= lastWeekDayCount; dayNumber++ {
+		total += fullWeekCount + dayNumber
+	}
+	return
+}
+
 func isPerfectSquare(num int) bool {
 	// 367 Newton-Raphson
 	for guess, nextGuess := num, 0; ; guess = nextGuess {

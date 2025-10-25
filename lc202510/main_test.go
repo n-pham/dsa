@@ -2,6 +2,16 @@ package main
 
 import "fmt"
 
+func ExampleTotalMoney() {
+	fmt.Println(TotalMoney(4))
+	fmt.Println(TotalMoney(10))
+	fmt.Println(TotalMoney(20))
+	// Unordered output:
+	// 10
+	// 37
+	// 96
+}
+
 func ExampleMagicalSum() {
 	fmt.Println(MagicalSum(5, 5, []int{1, 10, 100, 10000, 1000000}))
 	fmt.Println(MagicalSum(2, 2, []int{5, 4, 3, 2, 1}))
