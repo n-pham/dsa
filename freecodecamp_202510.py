@@ -1,6 +1,24 @@
 from datetime import datetime
+import re
 import string
 import traceback
+
+
+def is_spam(number):
+    parts = re.split(r"\s|-", number)
+    if len(parts[0]) > 3 or (len(parts[0]) > 1 and parts[0][1] != "0"):
+        return True
+    if not "200" <= parts[1].strip("()") <= "900":
+        return True
+    local_number_str = "".join(parts[2:])
+    if len(local_number_str) == 7:
+        first_three_sum = sum(int(d) for d in local_number_str[:3])
+        if str(first_three_sum) in local_number_str[-4:]:
+            return True
+    all_digits = "".join(c for c in number if c.isdigit())
+    if re.search(r"(\d)\1{3,}", all_digits):
+        return True
+    return False
 
 
 def favorite_songs(playlist):
@@ -448,6 +466,33 @@ def to_decimal(binary):
 # --- Test Functions ---
 
 
+def test_is_spam():
+    # Valid numbers
+    assert not is_spam("+0 (200) 234-0182")
+
+    # Invalid area code
+    assert is_spam("+0 (199) 234-0182")
+    assert is_spam("+0 (901) 234-0182")
+
+    # Sum of first three in last four
+    # 2+3+4 = 9. '9' is in '0192'.
+    assert is_spam("+0 (200) 234-0192")
+    # 1+2+3 = 6
+    assert not is_spam("+0 (200) 123-4578")
+    assert is_spam("+0 (200) 123-4568")
+
+
+    # 4 consecutive digits
+    assert is_spam("+0 (200) 111-1182")
+    assert is_spam("+0 (200) 234-4444")
+    assert is_spam("+0 (200) 4444-0182")
+    assert is_spam("1234444567")
+
+
+    # Not spam
+    assert not is_spam("+0 (800) 555-1212")
+
+
 def test_validate():
     assert validate("a@b.cd")
     assert validate("example@test.c0") is False
@@ -515,6 +560,7 @@ def run_test(test_func):
 
 
 tests = [
+    test_is_spam,
     test_complementary_dna,
     test_validate,
     test_strip_tags,
