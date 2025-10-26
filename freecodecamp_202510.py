@@ -3,6 +3,42 @@ import string
 import traceback
 
 
+def favorite_songs(playlist):
+    first_tile, second_title, first_cnt, second_cnt = "", "", 0, 0
+    for item in playlist:
+        cnt = item["plays"]
+        if cnt > first_cnt:
+            second_cnt, second_title = first_cnt, first_tile
+            first_cnt, first_tile = cnt, item["title"]
+        elif cnt > second_cnt:
+            second_cnt, second_title = cnt, item["title"]
+    return [first_tile, second_title]
+
+
+def test_favorite_songs():
+    assert favorite_songs(
+        [
+            {"title": "Sync or Swim", "plays": 3},
+            {"title": "Byte Me", "plays": 1},
+            {"title": "Earbud Blues", "plays": 2},
+        ]
+    ) == ["Sync or Swim", "Earbud Blues"]
+    assert favorite_songs(
+        [
+            {"title": "Skip Track", "plays": 98},
+            {"title": "99 Downloads", "plays": 99},
+            {"title": "Clickwheel Love", "plays": 100},
+        ]
+    ) == ["Clickwheel Love", "99 Downloads"]
+    assert favorite_songs(
+        [
+            {"title": "Song A", "plays": 42},
+            {"title": "Song B", "plays": 99},
+            {"title": "Song C", "plays": 75},
+        ]
+    ) == ["Song B", "Song C"]
+
+
 def format(seconds):
     second_s = f"{seconds % 60:02}"
     hour = seconds // 3_600
