@@ -36,6 +36,49 @@ func debugLog(v ...any) {
 	}
 }
 
+// 2043
+type Bank struct {
+	balance []int64
+}
+
+func Constructor(balance []int64) Bank {
+	return Bank{balance: balance}
+}
+
+func (bank *Bank) Transfer(account1 int, account2 int, money int64) bool {
+	n := len(bank.balance)
+	if account1 < 1 || account1 > n || account2 < 1 || account2 > n {
+		return false
+	}
+	if bank.balance[account1-1] < money {
+		return false
+	}
+	bank.balance[account1-1] -= money
+	bank.balance[account2-1] += money
+	return true
+}
+
+func (bank *Bank) Deposit(account int, money int64) bool {
+	n := len(bank.balance)
+	if account < 1 || account > n {
+		return false
+	}
+	bank.balance[account-1] += money
+	return true
+}
+
+func (bank *Bank) Withdraw(account int, money int64) bool {
+	n := len(bank.balance)
+	if account < 1 || account > n {
+		return false
+	}
+	if bank.balance[account-1] < money {
+		return false
+	}
+	bank.balance[account-1] -= money
+	return true
+}
+
 func TotalMoney(n int) (total int) {
 	// 1716
 	fullWeekCount := n / 7
