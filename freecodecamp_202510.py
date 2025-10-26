@@ -3,6 +3,22 @@ import string
 import traceback
 
 
+def format(seconds):
+    second_s = f"{seconds % 60:02}"
+    hour = seconds // 3_600
+    hour_s = f"{hour}:" if hour > 0 else ""
+    minute = seconds % 3_600 // 60
+    minute_s = f"{minute:02}:" if hour > 0 else f"{minute}:"
+    return f"{hour_s}{minute_s}{second_s}"
+
+
+def test_format():
+    assert format(500) == "8:20"
+    assert format(4000) == "1:06:40"
+    assert format(99999) == "27:46:39"
+    assert format(1) == "0:01"
+
+
 def dive(map, coordinates):
     foundCount, notFoundCount = 0, 0
     for row in map:
@@ -20,8 +36,8 @@ def dive(map, coordinates):
 
 
 def test_dive():
-    assert dive([[ "-", "X"], [ "-", "X"], [ "-", "O"]], [2, 0]) == "Empty"
-    assert dive([[ "-", "X"], [ "-", "X"], [ "-", "O"]], [2, 1]) == "Recovered"
+    assert dive([["-", "X"], ["-", "X"], ["-", "O"]], [2, 0]) == "Empty"
+    assert dive([["-", "X"], ["-", "X"], ["-", "O"]], [2, 1]) == "Recovered"
 
 
 def complementary_dna(strand):
