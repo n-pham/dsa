@@ -3,6 +3,19 @@ import string
 import traceback
 
 
+def complementary_dna(strand):
+    pairs = {"A": "T", "T": "A", "C": "G", "G": "C"}
+    result = ""
+    for char in strand:
+        result += pairs[char]
+    return result
+
+
+def test_complementary_dna():
+    assert complementary_dna("ATTGC") == "TAACG"
+    assert complementary_dna("GTAT") == "CATA"
+
+
 def wise_speak(sentence):
     split_words = ["have", "must", "are", "will", "can"]
     punctuation = sentence[-1]
@@ -429,6 +442,7 @@ def run_test(test_func):
 
 
 tests = [
+    test_complementary_dna,
     test_validate,
     test_strip_tags,
     test_to_12,
