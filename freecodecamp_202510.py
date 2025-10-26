@@ -5,9 +5,20 @@ import traceback
 
 
 def number_of_videos(video_size, video_unit, drive_size, drive_unit):
-    size_by_units = {"B": 1, "KB": 10**3, "MB": 10**6, "GB": 10**9, "TB": 10**12}
-    video_size_bytes = video_size * size_by_units[video_unit]
-    drive_size_bytes = drive_size * size_by_units[drive_unit]
+    video_units = {"B": 1, "KB": 10**3, "MB": 10**6, "GB": 10**9}
+    if video_unit not in video_units:
+        return "Invalid video unit"
+
+    drive_units = {"GB": 10**9, "TB": 10**12}
+    if drive_unit not in drive_units:
+        return "Invalid drive unit"
+
+    video_size_bytes = video_size * video_units[video_unit]
+    drive_size_bytes = drive_size * drive_units[drive_unit]
+
+    if video_size_bytes == 0:
+        return 0
+
     return drive_size_bytes // video_size_bytes
 
 
@@ -566,6 +577,8 @@ def test_number_of_videos():
     assert number_of_videos(750, "MB", 1, "TB") == 1333
     assert number_of_videos(10, "GB", 1, "TB") == 100
     assert number_of_videos(10, "MB", 500, "GB") == 50000
+    assert number_of_videos(100, "mb", 1, "TB") == "Invalid video unit"
+    assert number_of_videos(100, "MB", 1, "tb") == "Invalid drive unit"
 
 
 def run_test(test_func):
