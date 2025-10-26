@@ -3,6 +3,27 @@ import string
 import traceback
 
 
+def dive(map, coordinates):
+    foundCount, notFoundCount = 0, 0
+    for row in map:
+        for cell in row:
+            if cell == "O":
+                notFoundCount += 1
+            elif cell == "X":
+                foundCount += 1
+    x, y = coordinates[0], coordinates[1]
+    if map[x][y] == "-":
+        return "Empty"
+    if map[x][y] == "O":
+        notFoundCount -= 1
+    return "Found" if notFoundCount > 0 else "Recovered"
+
+
+def test_dive():
+    assert dive([[ "-", "X"], [ "-", "X"], [ "-", "O"]], [2, 0]) == "Empty"
+    assert dive([[ "-", "X"], [ "-", "X"], [ "-", "O"]], [2, 1]) == "Recovered"
+
+
 def complementary_dna(strand):
     pairs = {"A": "T", "T": "A", "C": "G", "G": "C"}
     result = ""
