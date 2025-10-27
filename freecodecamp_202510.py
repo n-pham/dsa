@@ -4,6 +4,16 @@ import string
 import traceback
 
 
+def build_acronym(s):
+    words = s.split(" ")
+    acronym = words[0][0].upper()
+    ignored_words = {"a", "for", "an", "and", "by", "of"}
+    for word in words[1:]:
+        if word not in ignored_words:
+            acronym += word[0].upper()
+    return acronym
+
+
 def all_unique(s):
     char_set = set()
     for char in s:
