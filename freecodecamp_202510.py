@@ -4,6 +4,15 @@ import string
 import traceback
 
 
+def all_unique(s):
+    char_set = set()
+    for char in s:
+        if char in char_set:
+            return False
+        char_set.add(char)
+    return True
+
+
 def sequence(n):
     return "".join(map(str, range(1, n + 1)))
 
