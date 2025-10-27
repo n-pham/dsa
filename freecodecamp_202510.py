@@ -4,6 +4,10 @@ import string
 import traceback
 
 
+def sequence(n):
+    return "".join(map(str, range(1, n + 1)))
+
+
 def number_of_videos(video_size, video_unit, drive_size, drive_unit):
     video_units = {"B": 1, "KB": 10**3, "MB": 10**6, "GB": 10**9}
     if video_unit not in video_units:
@@ -499,13 +503,11 @@ def test_is_spam():
     assert not is_spam("+0 (200) 123-4578")
     assert is_spam("+0 (200) 123-4568")
 
-
     # 4 consecutive digits
     assert is_spam("+0 (200) 111-1182")
     assert is_spam("+0 (200) 234-4444")
     assert is_spam("+0 (200) 4444-0182")
     assert is_spam("1234444567")
-
 
     # Not spam
     assert not is_spam("+0 (800) 555-1212")
