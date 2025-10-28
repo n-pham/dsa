@@ -36,6 +36,29 @@ func debugLog(v ...any) {
 	}
 }
 
+func countValidSelections(nums []int) (cnt int) {
+	// 3354
+	n, totalSum := len(nums), 0
+	prefixSum := make([]int, n+1)
+	for i := 0; i < n; i++ {
+		prefixSum[i+1] = prefixSum[i] + nums[i]
+		totalSum += nums[i]
+	}
+	for s := 0; s < n; s++ {
+		if nums[s] == 0 {
+			l := prefixSum[s]
+			diff := 2*l - totalSum
+			switch diff {
+			case 0:
+				cnt += 2
+			case 1, -1:
+				cnt += 1
+			}
+		}
+	}
+	return
+}
+
 // 2043
 type Bank struct {
 	balance []int64

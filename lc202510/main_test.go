@@ -117,3 +117,13 @@ func ExampleFindLexSmallestString() {
 	// 0011
 	// 00553311
 }
+
+func ExampleCountValidSelections() {
+	fmt.Println(countValidSelections([]int{0, 1, 0}))
+	fmt.Println(countValidSelections([]int{0, 1, 1, 0}))
+	fmt.Println(countValidSelections([]int{0, 1, 0, 1, 0}))
+	// Unordered output:
+	// 2
+	// 0
+	// 2
+}
