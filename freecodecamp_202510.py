@@ -4,6 +4,29 @@ import string
 import traceback
 
 
+def navigate(commands):
+    history, index = ["Home"], 0
+    for command in commands:
+        if command == "Back":
+            if index > 0:
+                index -= 1
+        elif command == "Forward":
+            if index < len(history) - 1:
+                index += 1
+        else:
+            page = command[command.find(" ")+1:]
+            del history[index+1:]
+            history.append(page)
+            index = len(history) - 1
+    return history[index]
+
+
+def test_navigate():
+    assert navigate(["Visit About Us", "Back", "Forward"]) == "About Us"
+    assert navigate(["Visit About Us", "Visit Gallery", "Back", "Back"]) == "Home"
+    assert navigate(["Visit About Us", "Visit Visit Us", "Forward", "Visit Contact Us", "Back"]) == "Visit Us"
+
+
 def build_acronym(s):
     words = s.split(" ")
     acronym = words[0][0].upper()
