@@ -14,8 +14,8 @@ def navigate(commands):
             if index < len(history) - 1:
                 index += 1
         else:
-            page = command[command.find(" ")+1:]
-            del history[index+1:]
+            page = command[command.find(" ") + 1 :]
+            del history[index + 1 :]
             history.append(page)
             index = len(history) - 1
     return history[index]
@@ -24,7 +24,12 @@ def navigate(commands):
 def test_navigate():
     assert navigate(["Visit About Us", "Back", "Forward"]) == "About Us"
     assert navigate(["Visit About Us", "Visit Gallery", "Back", "Back"]) == "Home"
-    assert navigate(["Visit About Us", "Visit Visit Us", "Forward", "Visit Contact Us", "Back"]) == "Visit Us"
+    assert (
+        navigate(
+            ["Visit About Us", "Visit Visit Us", "Forward", "Visit Contact Us", "Back"]
+        )
+        == "Visit Us"
+    )
 
 
 def build_acronym(s):
@@ -527,6 +532,38 @@ def to_decimal(binary):
     return result
 
 
+def sort(emails):
+    parsed_emails = [
+        (
+            email,
+            email.split("@")[1].strip().lower(),
+            email.split("@")[0].strip().lower(),
+        )
+        for email in emails
+    ]
+
+    parsed_emails.sort(key=lambda x: (x[1], x[2]))
+
+    return [email[0] for email in parsed_emails]
+
+
+def test_sort():
+    assert sort(["jill@mail.com", "john@example.com", "jane@example.com"]) == [
+        "jane@example.com",
+        "john@example.com",
+        "jill@mail.com",
+    ]
+    assert sort(["user@domain.com", "another@sub.domain.com"]) == [
+        "user@domain.com",
+        "another@sub.domain.com",
+    ]
+    assert sort(["A@b.com", "b@a.com"]) == ["b@a.com", "A@b.com"]
+    assert sort(["user@EXAMPLE.com", "another@example.com"]) == [
+        "another@example.com",
+        "user@EXAMPLE.com",
+    ]
+
+
 # --- Test Functions ---
 
 
@@ -648,4 +685,5 @@ tests = [
     test_has_exoplanet,
     test_check_strength,
     test_number_of_videos,
+    test_sort,
 ]
