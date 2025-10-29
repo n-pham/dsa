@@ -1003,3 +1003,19 @@ func FindLexSmallestString(s string, a int, b int) string {
 	}
 	return minS
 }
+
+func smallestNumber(n int) int {
+	// 3370
+	// Return the smallest number x greater than or equal to n, such that the
+	// binary representation of x contains only set bits.
+	// A number with all set bits is of the form (1<<k - 1).
+	// We need to find the smallest k such that (1<<k - 1) >= n.
+	// Let l = bits.Len(uint(n)). For n > 0, this means 2^(l-1) <= n < 2^l.
+	// The number (1<<l - 1) is 2^l - 1. Since n < 2^l, we have n <= 2^l - 1.
+	// So (1<<l - 1) is >= n.
+	// The next smaller number with all bits set is (1<<(l-1) - 1) = 2^(l-1) - 1.
+	// Since n >= 2^(l-1), this smaller number is always < n.
+	// Therefore, (1<<l - 1) is the smallest such number >= n.
+	// For n=0, bits.Len(0) is 0, and (1<<0 - 1) is 0.
+	return (1 << bits.Len(uint(n))) - 1
+}

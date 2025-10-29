@@ -127,3 +127,17 @@ func ExampleCountValidSelections() {
 	// 0
 	// 2
 }
+
+func ExampleSmallestNumber() {
+	fmt.Println(smallestNumber(6))
+	fmt.Println(smallestNumber(8))
+	fmt.Println(smallestNumber(7))
+	fmt.Println(smallestNumber(0))
+	fmt.Println(smallestNumber(1))
+	// Unordered output:
+	// 7
+	// 15
+	// 7
+	// 0
+	// 1
+}
