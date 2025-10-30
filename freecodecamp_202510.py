@@ -1,7 +1,24 @@
 from datetime import datetime
+import math
 import re
 import string
 import traceback
+
+
+def nth_prime(n):
+    primes = []
+    num = 2
+    while len(primes) < n:
+        is_prime = True
+        # Check for divisibility only up to the square root of the number
+        for i in range(2, int(math.sqrt(num)) + 1):
+            if num % i == 0:
+                is_prime = False
+                break
+        if is_prime:
+            primes.append(num)
+        num += 1
+    return primes[-1]
 
 
 def navigate(commands):
