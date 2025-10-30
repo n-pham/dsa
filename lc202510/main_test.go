@@ -2,6 +2,14 @@ package main
 
 import "fmt"
 
+func ExampleMinNumberOperations() {
+	fmt.Println(MinNumberOperations([]int{1, 2, 3, 2, 1}))
+	fmt.Println(MinNumberOperations([]int{3, 1, 5, 4, 2}))
+	// Unordered output:
+	// 3
+	// 7
+}
+
 func ExampleTotalMoney() {
 	fmt.Println(TotalMoney(4))
 	fmt.Println(TotalMoney(10))
@@ -119,9 +127,9 @@ func ExampleFindLexSmallestString() {
 }
 
 func ExampleCountValidSelections() {
-	fmt.Println(countValidSelections([]int{0, 1, 0}))
-	fmt.Println(countValidSelections([]int{0, 1, 1, 0}))
-	fmt.Println(countValidSelections([]int{0, 1, 0, 1, 0}))
+	fmt.Println(CountValidSelections([]int{0, 1, 0}))
+	fmt.Println(CountValidSelections([]int{0, 1, 1, 0}))
+	fmt.Println(CountValidSelections([]int{0, 1, 0, 1, 0}))
 	// Unordered output:
 	// 2
 	// 0
@@ -129,11 +137,11 @@ func ExampleCountValidSelections() {
 }
 
 func ExampleSmallestNumber() {
-	fmt.Println(smallestNumber(6))
-	fmt.Println(smallestNumber(8))
-	fmt.Println(smallestNumber(7))
-	fmt.Println(smallestNumber(0))
-	fmt.Println(smallestNumber(1))
+	fmt.Println(SmallestNumber(6))
+	fmt.Println(SmallestNumber(8))
+	fmt.Println(SmallestNumber(7))
+	fmt.Println(SmallestNumber(0))
+	fmt.Println(SmallestNumber(1))
 	// Unordered output:
 	// 7
 	// 15

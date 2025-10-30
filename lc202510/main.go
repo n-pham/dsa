@@ -36,7 +36,18 @@ func debugLog(v ...any) {
 	}
 }
 
-func countValidSelections(nums []int) (cnt int) {
+func MinNumberOperations(target []int) int {
+	// 1526
+	result := target[0]
+	for i := 1; i < len(target); i++ {
+		if target[i] > target[i-1] {
+			result += target[i] - target[i-1]
+		}
+	}
+	return result
+}
+
+func CountValidSelections(nums []int) (cnt int) {
 	// 3354
 	n, totalSum := len(nums), 0
 	prefixSum := make([]int, n+1)
@@ -1004,7 +1015,7 @@ func FindLexSmallestString(s string, a int, b int) string {
 	return minS
 }
 
-func smallestNumber(n int) int {
+func SmallestNumber(n int) int {
 	// 3370
 	// Return the smallest number x greater than or equal to n, such that the
 	// binary representation of x contains only set bits.
