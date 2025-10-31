@@ -36,6 +36,19 @@ func debugLog(v ...any) {
 	}
 }
 
+func GetSneakyNumbers(nums []int) (repeats []int) {
+	// 3289
+	exists := [100]bool{}
+	for _, num := range nums {
+		if exists[num] {
+			repeats = append(repeats, num)
+		} else {
+			exists[num] = true
+		}
+	}
+	return
+}
+
 func MinNumberOperations(target []int) int {
 	// 1526
 	result := target[0]
