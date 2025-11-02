@@ -73,3 +73,23 @@ func ExampleModifiedList() {
 	// nil
 	// nil
 }
+
+func ExampleCountUnguarded() {
+	// Test case 1
+	m1 := 4
+	n1 := 6
+	guards1 := [][]int{{0, 0}, {1, 1}, {2, 3}}
+	walls1 := [][]int{{0, 1}, {2, 2}, {1, 4}}
+	fmt.Println(CountUnguarded(m1, n1, guards1, walls1))
+
+	// Test case 2
+	m2 := 3
+	n2 := 3
+	guards2 := [][]int{{1, 1}}
+	walls2 := [][]int{{0, 1}, {1, 0}, {1, 2}, {2, 1}}
+	fmt.Println(CountUnguarded(m2, n2, guards2, walls2))
+
+	// Unordered output:
+	// 7
+	// 4
+}

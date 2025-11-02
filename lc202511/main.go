@@ -9,6 +9,15 @@ import (
 	"strings"
 )
 
+type GridState int
+
+const (
+	Empty GridState = iota
+	Guard
+	Wall
+	Guarded
+)
+
 var (
 	debugEnabled = os.Getenv("DEBUG") == "true"
 	debugLogger  = log.New(os.Stdout, "DEBUG: ", log.Ldate|log.Ltime)
@@ -30,6 +39,83 @@ func debugLog(v ...any) {
 			debugLogger.Println(args...)
 		}
 	}
+}
+
+func CountUnguarded(m int, n int, guards [][]int, walls [][]int) (cnt int) {
+	// 2257
+	grid := make([][]GridState, m)
+	for i := range grid {
+		grid[i] = make([]GridState, n)
+	}
+	for _, wall := range walls {
+		grid[wall[0]][wall[1]] = Wall
+	}
+	for _, guard := range guards {
+		grid[guard[0]][guard[1]] = Guard
+	}
+	// Mark guarded cells
+	for r := 0; r < m; r++ {
+		// L-R
+		for c := 0; c < n; {
+			if grid[r][c] == Guard {
+				c++ // move to next cell
+				for c < n && grid[r][c] != Guard && grid[r][c] != Wall {
+					grid[r][c] = Guarded
+					c++
+				}
+			} else {
+				c++
+			}
+		}
+		// R-L
+		for c := n - 1; c >= 0; {
+			if grid[r][c] == Guard {
+				c-- // move to next cell
+				for c >= 0 && grid[r][c] != Guard && grid[r][c] != Wall {
+					grid[r][c] = Guarded
+					c--
+				}
+			} else {
+				c--
+			}
+		}
+	}
+
+	for c := 0; c < n; c++ {
+		// T-B
+		for r := 0; r < m; {
+			if grid[r][c] == Guard {
+				r++ // move to next cell
+				for r < m && grid[r][c] != Guard && grid[r][c] != Wall {
+					grid[r][c] = Guarded
+					r++
+				}
+			} else {
+				r++
+			}
+		}
+		// B-T
+		for r := m - 1; r >= 0; {
+			if grid[r][c] == Guard {
+				r-- // move to next cell
+				for r >= 0 && grid[r][c] != Guard && grid[r][c] != Wall {
+					grid[r][c] = Guarded
+					r--
+				}
+			} else {
+				r--
+			}
+		}
+	}
+
+	for r := 0; r < m; r++ {
+		for c := 0; c < n; c++ {
+			if grid[r][c] == Empty {
+				cnt++
+			}
+		}
+	}
+	return
 }
 
 type ListNode struct {
