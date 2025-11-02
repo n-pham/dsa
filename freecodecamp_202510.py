@@ -5,6 +5,18 @@ import string
 import traceback
 
 
+def spookify(boo):
+    result, is_upper = "", True
+    for c in boo:
+        if c == "_" or c == "-":
+            c = "~"
+        else:
+            c = c.upper() if is_upper else c.lower()
+            is_upper = not is_upper
+        result += c
+    return result
+
+
 def nth_prime(n):
     primes = []
     num = 2
