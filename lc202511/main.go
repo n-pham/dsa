@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 	"runtime"
+	"sort"
 	"strings"
 )
 
@@ -138,4 +139,81 @@ func ModifiedList(nums []int, head *ListNode) *ListNode {
 		}
 	}
 	return parent.Next
+}
+
+func FindXSum(nums []int, k int, x int) []int {
+	// 3318
+	// for sliding window of size k --> x elements with most frequencies --> sum
+	n := len(nums)
+	answer := make([]int, 0, n-k+1)
+	freq := make(map[int]int)
+	// counts[i] -> list of numbers with frequency i
+	counts := make([][]int, k+1)
+	calculateXSum := func() int {
+		xSum := 0
+		remainingX := x
+		for i := k; i >= 1 && remainingX > 0; i-- {
+			if len(counts[i]) > 0 {
+				numbers := make([]int, len(counts[i]))
+				copy(numbers, counts[i])
+				sort.Sort(sort.Reverse(sort.IntSlice(numbers)))
+
+				for _, num := range numbers {
+					if remainingX > 0 {
+						xSum += num * i
+						remainingX--
+					} else {
+						break
+					}
+				}
+			}
+		}
+		return xSum
+	}
+
+	updateBucket := func(num, oldCount, newCount int) {
+		if oldCount > 0 {
+			list := counts[oldCount]
+			for i, v := range list {
+				if v == num {
+					counts[oldCount] = append(list[:i], list[i+1:]...)
+					break
+				}
+			}
+		}
+		if newCount > 0 {
+			counts[newCount] = append(counts[newCount], num)
+		}
+	}
+
+	// Initial window
+	for i := 0; i < k; i++ {
+		num := nums[i]
+		oldCount := freq[num]
+		freq[num]++
+		newCount := freq[num]
+		updateBucket(num, oldCount, newCount)
+	}
+	answer = append(answer, calculateXSum())
+
+	// Sliding window
+	for i := 1; i <= n-k; i++ {
+		// Outgoing
+		outNum := nums[i-1]
+		outOldCount := freq[outNum]
+		freq[outNum]--
+		outNewCount := freq[outNum]
+		updateBucket(outNum, outOldCount, outNewCount)
+
+		// Incoming
+		inNum := nums[i+k-1]
+		inOldCount := freq[inNum]
+		freq[inNum]++
+		inNewCount := freq[inNum]
+		updateBucket(inNum, inOldCount, inNewCount)
+
+		answer = append(answer, calculateXSum())
+	}
+
+	return answer
 }

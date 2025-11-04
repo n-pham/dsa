@@ -93,3 +93,9 @@ func ExampleCountUnguarded() {
 	// 7
 	// 4
 }
+
+func ExampleFindXSum() {
+	fmt.Println(FindXSum([]int{1,1,2,2,3,4,2,3}, 6, 2))
+	// Unordered output:
+	// [6 10 12]
+}
