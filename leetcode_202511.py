@@ -8,35 +8,36 @@ def findXSum(nums: list[int], k: int, x: int) -> list[int]:
     window_sum_container = {"value": 0}
     count = defaultdict(int)
 
-    def add(num: int) -> None:
-        if count[num] == 0:
-            return
-        priority_tuple = (count[num], num)
-        # If top set is empty or new element has higher priority than minimum in top set
-        if top_set and priority_tuple > top_set[0]:
-            window_sum_container["value"] += count[num] * num
-            bisect.insort(top_set, priority_tuple)
-        else:
-            bisect.insort(other_set, priority_tuple)
+    def update(num: int, count_delta: int):
+        old_count = count[num]
 
-    def remove(num: int) -> None:
-        if count[num] == 0:
-            return
-        priority_tuple = (count[num], num)
+        # Part 1: Remove old entry if it exists
+        if old_count > 0:
+            old_priority_tuple = (old_count, num)
+            i = bisect.bisect_left(top_set, old_priority_tuple)
+            if i < len(top_set) and top_set[i] == old_priority_tuple:
+                window_sum_container["value"] -= old_count * num
+                top_set.pop(i)
+            else:
+                i = bisect.bisect_left(other_set, old_priority_tuple)
+                if i < len(other_set) and other_set[i] == old_priority_tuple:
+                    other_set.pop(i)
 
-        i = bisect.bisect_left(top_set, priority_tuple)
-        if i < len(top_set) and top_set[i] == priority_tuple:
-            window_sum_container["value"] -= count[num] * num
-            top_set.pop(i)
-        else:
-            i = bisect.bisect_left(other_set, priority_tuple)
-            if i < len(other_set) and other_set[i] == priority_tuple:
-                other_set.pop(i)
+        # Part 2: Update count
+        new_count = old_count + count_delta
+        count[num] = new_count
+
+        # Part 3: Add new entry if count > 0
+        if new_count > 0:
+            new_priority_tuple = (new_count, num)
+            if top_set and new_priority_tuple > top_set[0]:
+                window_sum_container["value"] += new_count * num
+                bisect.insort(top_set, new_priority_tuple)
+            else:
+                bisect.insort(other_set, new_priority_tuple)
 
     for i, num in enumerate(nums):
-        remove(num)
-        count[num] += 1
-        add(num)
+        update(num, 1)
         window_start = i - k + 1
         if window_start < 0:
             continue
@@ -53,10 +54,7 @@ def findXSum(nums: list[int], k: int, x: int) -> list[int]:
         ans.append(window_sum_container["value"])
         # Remove the leftmost element from window for next iteration
         leftmost_element = nums[window_start]
-        remove(leftmost_element)
-        count[leftmost_element] -= 1
-        if count[leftmost_element] > 0:
-            add(leftmost_element)
+        update(leftmost_element, -1)
     return ans
 
 
