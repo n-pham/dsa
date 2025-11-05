@@ -1,16 +1,10 @@
-# /// script
-# dependencies = [
-#   "sortedcontainers",
-# ]
-# ///
-
+import bisect
 from collections import defaultdict
-from sortedcontainers import SortedList
 
 
 def findXSum(nums: list[int], k: int, x: int) -> list[int]:
     # 3318 3321
-    ans, top_set, other_set = [], SortedList(), SortedList()
+    ans, top_set, other_set = [], [], []
     window_sum_container = {"value": 0}
     count = defaultdict(int)
 
@@ -21,19 +15,23 @@ def findXSum(nums: list[int], k: int, x: int) -> list[int]:
         # If top set is empty or new element has higher priority than minimum in top set
         if top_set and priority_tuple > top_set[0]:
             window_sum_container["value"] += count[num] * num
-            top_set.add(priority_tuple)
+            bisect.insort(top_set, priority_tuple)
         else:
-            other_set.add(priority_tuple)
+            bisect.insort(other_set, priority_tuple)
 
     def remove(num: int) -> None:
         if count[num] == 0:
             return
         priority_tuple = (count[num], num)
-        if priority_tuple in top_set:
+
+        i = bisect.bisect_left(top_set, priority_tuple)
+        if i < len(top_set) and top_set[i] == priority_tuple:
             window_sum_container["value"] -= count[num] * num
-            top_set.remove(priority_tuple)
+            top_set.pop(i)
         else:
-            other_set.remove(priority_tuple)
+            i = bisect.bisect_left(other_set, priority_tuple)
+            if i < len(other_set) and other_set[i] == priority_tuple:
+                other_set.pop(i)
 
     for i, num in enumerate(nums):
         remove(num)
@@ -44,14 +42,14 @@ def findXSum(nums: list[int], k: int, x: int) -> list[int]:
             continue
         while other_set and len(top_set) < x:
             element_to_promote = other_set.pop()
-            top_set.add(element_to_promote)
+            bisect.insort(top_set, element_to_promote)
             window_sum_container["value"] += (
                 element_to_promote[0] * element_to_promote[1]
             )
         while len(top_set) > x:
             element_to_demote = top_set.pop(0)
             window_sum_container["value"] -= element_to_demote[0] * element_to_demote[1]
-            other_set.add(element_to_demote)
+            bisect.insort(other_set, element_to_demote)
         ans.append(window_sum_container["value"])
         # Remove the leftmost element from window for next iteration
         leftmost_element = nums[window_start]
