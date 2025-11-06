@@ -1,3 +1,4 @@
+import datetime
 import re
 import math
 import string
@@ -36,6 +37,10 @@ def verify(message, key, signature):
     message_sum = sum(string.ascii_letters.find(char) + 1 for char in message)
     key_sum = sum(string.ascii_letters.find(char) + 1 for char in key)
     return (message_sum + key_sum) == signature
+
+
+def get_weekday(date_string):
+    return datetime.datetime.strptime(date_string, "%Y-%m-%d").strftime('%A')
 
 
 def test_build_matrix():
