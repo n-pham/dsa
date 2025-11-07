@@ -99,3 +99,27 @@ func ExampleFindXSum() {
 	// Unordered output:
 	// [6 10 12]
 }
+
+func ExampleGuessNumber() {
+	var pickedNumber int
+	guess = func(num int) int {
+		if num > pickedNumber {
+			return -1
+		} else if num < pickedNumber {
+			return 1
+		}
+		return 0
+	}
+
+	// Test case 1: Basic guess
+	pickedNumber = 6
+	fmt.Println(GuessNumber(10))
+
+	// Test case 2: Another guess
+	pickedNumber = 3
+	fmt.Println(GuessNumber(5))
+
+	// Unordered output:
+	// 6
+	// 3
+}

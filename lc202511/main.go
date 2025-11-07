@@ -141,6 +141,25 @@ func ModifiedList(nums []int, head *ListNode) *ListNode {
 	return parent.Next
 }
 
+var guess func(num int) int
+
+func GuessNumber(n int) int {
+	// 374
+	low, high := 1, n
+	for low <= high {
+		mid := low + (high-low)/2
+		switch guess(mid) {
+		case 0:
+			return mid
+		case -1:
+			high = mid - 1
+		default:
+			low = mid + 1
+		}
+	}
+	return -1
+}
+
 func FindXSum(nums []int, k int, x int) []int {
 	// 3318
 	// for sliding window of size k --> x elements with most frequencies --> sum
