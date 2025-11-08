@@ -43,6 +43,14 @@ def get_weekday(date_string):
     return datetime.datetime.strptime(date_string, "%Y-%m-%d").strftime('%A')
 
 
+def combinations(cards):
+    return math.comb(52, cards)
+
+def can_post(message):
+    length = len(message)
+    return "short post" if length <= 40 else "long post" if length <= 80 else "invalid post"
+
+
 def test_build_matrix():
     assert build_matrix(2, 3) == [[0, 0, 0], [0, 0, 0]]
 
@@ -65,3 +73,10 @@ def test_verify():
     assert not verify("abc", "def", 20)
     assert verify("", "", 0)
     assert verify("123", "!@#", 0)
+
+
+def test_combinations():
+    assert combinations(0) == 1
+    assert combinations(1) == 52
+    assert combinations(2) == 1326
+    assert combinations(52) == 1
