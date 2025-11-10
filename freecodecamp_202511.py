@@ -51,6 +51,11 @@ def can_post(message):
     return "short post" if length <= 40 else "long post" if length <= 80 else "invalid post"
 
 
+def get_extension(filename):
+    position = filename.rfind(".")
+    return filename[position+1:] if position > -1 and position < len(filename)-1 else "none"
+
+
 def find_word(matrix, word):
     rows = len(matrix)
     cols = len(matrix[0])
