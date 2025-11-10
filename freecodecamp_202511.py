@@ -51,6 +51,41 @@ def can_post(message):
     return "short post" if length <= 40 else "long post" if length <= 80 else "invalid post"
 
 
+def find_word(matrix, word):
+    rows = len(matrix)
+    cols = len(matrix[0])
+    word_len = len(word)
+    reversed_word = word[::-1]
+
+    # Horizontal search
+    for r in range(rows):
+        row_str = "".join(matrix[r])
+        
+        # Left to right
+        idx = row_str.find(word)
+        if idx != -1:
+            return [[r, idx], [r, idx + word_len - 1]]
+            
+        # Right to left
+        idx = row_str.find(reversed_word)
+        if idx != -1:
+            return [[r, idx + word_len - 1], [r, idx]]
+
+    # Vertical search
+    for c in range(cols):
+        col_str = "".join(matrix[r][c] for r in range(rows))
+        
+        # Top to bottom
+        idx = col_str.find(word)
+        if idx != -1:
+            return [[idx, c], [idx + word_len - 1, c]]
+            
+        # Bottom to top
+        idx = col_str.find(reversed_word)
+        if idx != -1:
+            return [[idx + word_len - 1, c], [idx, c]]
+
+
 def test_build_matrix():
     assert build_matrix(2, 3) == [[0, 0, 0], [0, 0, 0]]
 
@@ -80,3 +115,45 @@ def test_combinations():
     assert combinations(1) == 52
     assert combinations(2) == 1326
     assert combinations(52) == 1
+
+
+def test_find_word():
+    matrix = [
+        ['f', 'o', 'a', 'm'],
+        ['o', 'b', 'q', 'p'],
+        ['a', 'o', 'b', 'a'],
+        ['m', 'p', 'a', 'l'],
+    ]
+    # left to right
+    assert find_word(matrix, "foam") == [[0, 0], [0, 3]]
+    # right to left
+    assert find_word([list("maof")], "foam") == [[0, 3], [0, 0]]
+    # top to bottom
+    matrix_vert = [
+        ['f', 'x', 'x'],
+        ['o', 'x', 'x'],
+        ['a', 'x', 'x'],
+        ['m', 'x', 'x'],
+    ]
+    assert find_word(matrix_vert, "foam") == [[0, 0], [3, 0]]
+    # bottom to top
+    matrix_vert_rev = [
+        ['m', 'x', 'x'],
+        ['a', 'x', 'x'],
+        ['o', 'x', 'x'],
+        ['f', 'x', 'x'],
+    ]
+    assert find_word(matrix_vert_rev, "foam") == [[3, 0], [0, 0]]
+    
+    matrix2 = [
+        ['a', 'b', 'c', 'd', 'e'],
+        ['f', 'g', 'h', 'i', 'j'],
+        ['k', 'l', 'm', 'n', 'o'],
+        ['p', 'q', 'r', 's', 't'],
+        ['u', 'v', 'w', 'x', 'y']
+    ]
+    assert find_word(matrix2, "abc") == [[0, 0], [0, 2]]
+    assert find_word(matrix2, "edc") == [[0, 4], [0, 2]]
+    assert find_word(matrix2, "afkpu") == [[0, 0], [4, 0]]
+    assert find_word(matrix2, "yto") == [[4, 4], [2, 4]]
+    assert find_word(matrix2, "joty") == [[1, 4], [4, 4]]
