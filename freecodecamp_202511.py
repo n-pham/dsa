@@ -56,6 +56,19 @@ def get_extension(filename):
     return filename[position+1:] if position > -1 and position < len(filename)-1 else "none"
 
 
+def days_until_weekend(date_string):
+    date_obj = datetime.datetime.strptime(date_string, "%Y-%m-%d").date()
+    weekday = date_obj.weekday()
+    if weekday == 5 or weekday == 6:
+        return "It's the weekend!"
+    else:
+        days_to_saturday = 5 - weekday
+        if days_to_saturday == 1:
+            return "1 day until the weekend."
+        else:
+            return f"{days_to_saturday} days until the weekend."
+
+
 def find_word(matrix, word):
     rows = len(matrix)
     cols = len(matrix[0])
@@ -162,3 +175,13 @@ def test_find_word():
     assert find_word(matrix2, "afkpu") == [[0, 0], [4, 0]]
     assert find_word(matrix2, "yto") == [[4, 4], [2, 4]]
     assert find_word(matrix2, "joty") == [[1, 4], [4, 4]]
+
+
+def test_days_until_weekend():
+    assert days_until_weekend("2025-11-14") == "1 day until the weekend."  # Friday
+    assert days_until_weekend("2025-11-15") == "It's the weekend!"  # Saturday
+    assert days_until_weekend("2025-11-16") == "It's the weekend!"  # Sunday
+    assert days_until_weekend("2025-11-10") == "5 days until the weekend."  # Monday
+    assert days_until_weekend("2025-11-13") == "2 days until the weekend."  # Thursday
+    assert days_until_weekend("2025-11-12") == "3 days until the weekend."  # Wednesday
+    assert days_until_weekend("2025-11-11") == "4 days until the weekend."  # Tuesday
