@@ -1,4 +1,6 @@
 import datetime
+from hypothesis import given
+from hypothesis.strategies import integers
 import re
 import math
 import string
@@ -113,6 +115,10 @@ def find_word(matrix, word):
 def test_build_matrix():
     assert build_matrix(2, 3) == [[0, 0, 0], [0, 0, 0]]
 
+
+@given(integers(0, 20))
+def test_infected_range(n):
+    assert infected(n) > n
 
 def test_infected():
     assert infected(0) == 1
