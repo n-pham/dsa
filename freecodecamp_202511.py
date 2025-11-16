@@ -4,6 +4,12 @@ import math
 import string
 
 
+def generate_signature(name, title, company):
+    first_letter = name[0].upper()
+    prefix = ">>" if first_letter <= "I" else "--" if first_letter <= "R" else "::"
+    return f"{prefix}{name}, {title} at {company}"
+
+
 def build_matrix(rows, cols):
     return [[0] * cols for _ in range(rows)]
 
