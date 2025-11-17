@@ -5,6 +5,14 @@ import (
 	"strings"
 )
 
+func ExampleKLengthApart() {
+	fmt.Println(KLengthApart([]int{1,0,0,0,1,0,0,1}, 2))
+	fmt.Println(KLengthApart([]int{1,0,0,1,0,1}, 2))
+	// Unordered output:
+	// true
+	// false
+}
+
 // Helper to create a linked list from a slice
 func makeList(vals []int) *ListNode {
 	if len(vals) == 0 {
