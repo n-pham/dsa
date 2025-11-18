@@ -11,6 +11,17 @@ import (
 )
 
 
+func isOneBitCharacter(bits []int) bool {
+	// 717
+	i := 0
+	for i < len(bits)-1 {
+		i += bits[i] + 1  // advance 1 if 0, 2 if 1
+	}
+	// If the pointer lands on the last index, the last character is 1-bit.
+	return i == len(bits)-1
+}
+
+
 func KLengthApart(nums []int, k int) bool {
     // 1437
     lastIndex := -100_000
