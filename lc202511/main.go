@@ -10,6 +10,15 @@ import (
 	"strings"
 )
 
+func findFinalValue(nums []int, original int) int {
+	// 2154
+	isInMap := make(map[int]bool, len(nums))
+	for _, num := range nums {
+		isInMap[num] = true
+	}
+	for ; isInMap[original]; original *= 2 {}
+	return original
+}
 
 func isOneBitCharacter(bits []int) bool {
 	// 717
