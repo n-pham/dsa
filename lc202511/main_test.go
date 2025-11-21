@@ -5,6 +5,16 @@ import (
 	"strings"
 )
 
+func ExampleCountPalindromicSubsequence() {
+	fmt.Println(CountPalindromicSubsequence("aabca"))
+	fmt.Println(CountPalindromicSubsequence("adc"))
+	fmt.Println(CountPalindromicSubsequence("bbcbaba"))
+	// Unordered output:
+	// 3
+	// 0
+	// 4
+}
+
 func ExampleKLengthApart() {
 	fmt.Println(KLengthApart([]int{1,0,0,0,1,0,0,1}, 2))
 	fmt.Println(KLengthApart([]int{1,0,0,1,0,1}, 2))

@@ -10,6 +10,32 @@ import (
 	"strings"
 )
 
+func CountPalindromicSubsequence(s string) (result int) {
+	// 1930
+	// xyx --> find x with firstIndex and lastIndex, count unique y characters
+	firstIndices, lastIndices := [26]int{}, [26]int{}  // 1-based
+	for i, c := range s {
+		if firstIndices[c-'a'] == 0 {
+			firstIndices[c-'a'] = i+1
+		} else {
+			lastIndices[c-'a'] = i+1
+		}
+	}
+	for i := 0; i < 26; i++ {
+		firstIdx := firstIndices[i]
+		lastIdx := lastIndices[i]
+		if firstIdx > 0 && lastIdx > 0 {
+			sub := s[firstIdx : lastIdx-1]
+			uniqueChars := make(map[rune]struct{})
+			for _, char := range sub {
+				uniqueChars[char] = struct{}{}
+			}
+			result += len(uniqueChars)
+		}
+	}
+	return
+}
+
 func findFinalValue(nums []int, original int) int {
 	// 2154
 	isInMap := make(map[int]bool, len(nums))
