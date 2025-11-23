@@ -2,7 +2,7 @@ pub fn minimum_operations(nums: &[i32]) -> usize {
     // 3190
     nums.iter()
         .filter(|&&x| x % 3 != 0)
-        .count()
+        .count() as i32
 }
 
 #[cfg(test)]

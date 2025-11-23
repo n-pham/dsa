@@ -40,7 +40,7 @@ func minimumOperations(nums []int) (numOperations int) {
 	// 3190
 	for _, num := range nums {
 		if remainder := num % 3; remainder > 0 {
-			numOperations ++
+			numOperations++
 		}
 	}
 	return
