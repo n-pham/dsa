@@ -10,6 +10,32 @@ import (
 	"strings"
 )
 
+func maxSumDivThree(nums []int) int {
+	// 1262
+	// DP[i] represents the maximum possible sum such that sum % 3 == i
+	// Initialize dp with 0 for remainder 0, and -1 for others (representing not achievable yet).
+	// Since all numbers are positive, a sum of 0 (by picking no elements) is the base for remainder 0.
+	// -1 signifies an unreachable sum for that remainder.
+	dp := [3]int{0, -1, -1}
+	for _, num := range nums {
+		// To ensure that updates for the current 'num' are based on the 'dp' state
+		// *before* considering this 'num', we create a temporary copy.
+		// This prevents using a newly calculated dp value from the current iteration
+		// when calculating other dp states within the same iteration.
+		currentDP := [3]int{dp[0], dp[1], dp[2]}
+		for i := 0; i < 3; i++ {
+			if currentDP[i] != -1 {
+				newSum := currentDP[i] + num
+				newRemainder := newSum % 3
+				if newSum > dp[newRemainder] {
+					dp[newRemainder] = newSum
+				}
+			}
+		}
+	}
+	return dp[0]
+}
+
 func minimumOperations(nums []int) (numOperations int) {
 	// 3190
 	for _, num := range nums {

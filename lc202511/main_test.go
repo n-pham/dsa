@@ -141,3 +141,17 @@ func ExampleGuessNumber() {
 	// 6
 	// 3
 }
+
+func ExampleMaxSumDivThree() {
+	fmt.Println(maxSumDivThree([]int{3, 6, 5, 1, 8}))
+	fmt.Println(maxSumDivThree([]int{1, 2, 3, 4, 5}))
+	fmt.Println(maxSumDivThree([]int{1}))
+	fmt.Println(maxSumDivThree([]int{}))
+	fmt.Println(maxSumDivThree([]int{4, 5, 6}))
+	// Unordered output:
+	// 18
+	// 15
+	// 0
+	// 0
+	// 15
+}
