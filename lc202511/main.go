@@ -10,6 +10,17 @@ import (
 	"strings"
 )
 
+func PrefixesDivBy5(nums []int) []bool {
+	// 1018
+	divisibles := make([]bool, len(nums))
+	remainder := 0
+	for i, bit := range nums {
+		remainder = (remainder*2 + bit) % 5
+		divisibles[i] = (remainder == 0)
+	}
+	return divisibles
+}
+
 func maxSumDivThree(nums []int) int {
 	// 1262
 	// DP[i] represents the maximum possible sum such that sum % 3 == i

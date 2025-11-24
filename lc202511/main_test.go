@@ -155,3 +155,13 @@ func ExampleMaxSumDivThree() {
 	// 0
 	// 15
 }
+
+func ExamplePrefixesDivBy5() {
+	fmt.Println(PrefixesDivBy5([]int{0,1,1}))
+	fmt.Println(PrefixesDivBy5([]int{1,1,1}))
+	fmt.Println(PrefixesDivBy5([]int{0,1,1,1,1,1,0}))
+	// Unordered output:
+	// [true false false]
+	// [false false false]
+	// [true false false false true false false]
+}
