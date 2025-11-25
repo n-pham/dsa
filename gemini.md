@@ -3,6 +3,7 @@ The project uses Test Driven Development approach where test cases are written f
 
 Python test cases are written in functions prefixed with `test_` in the same file and can be run with `pytest`.
 Golang test cases are written in Example documentation functions in `_test.go` files, require Golang function names to begin with uppercase and can be run with `go test`.
+Rust test cases are written in functions prefixed with `test_` in the same file and can be run with `cargo test -p <folder>`.
 
 Rule: command line git and gh are not available.
 

@@ -16,9 +16,28 @@ pub fn prefixes_div_by5(nums: &[i32]) -> Vec<bool> {
 	divisibles
 }
 
+pub fn smallest_repunit_div_by_k(k: i32) -> i32 {
+    // 1015
+    let mut remainder = 0;
+    for length in 1..=k {
+        remainder = (remainder*10 + 1) % k;
+        if remainder == 0 {
+			return length
+		}
+    }
+    -1
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn test_smallest_repunit_div_by_k() {
+        assert_eq!(smallest_repunit_div_by_k(1), 1);
+        assert_eq!(smallest_repunit_div_by_k(2), -1);
+        assert_eq!(smallest_repunit_div_by_k(3), 3);
+    }
 
     #[test]
     fn test_prefixes_div_by5() {

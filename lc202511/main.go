@@ -356,3 +356,15 @@ func FindXSum(nums []int, k int, x int) []int {
 
 	return answer
 }
+
+func smallestRepunitDivByK(k int) int {
+	// 1015
+	remainder := 0
+	for length := 1; length <= k; length++ {
+		remainder = (remainder*10 + 1) % k
+		if remainder == 0 {
+			return length
+		}
+	}
+	return -1
+}

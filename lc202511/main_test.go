@@ -16,8 +16,8 @@ func ExampleCountPalindromicSubsequence() {
 }
 
 func ExampleKLengthApart() {
-	fmt.Println(KLengthApart([]int{1,0,0,0,1,0,0,1}, 2))
-	fmt.Println(KLengthApart([]int{1,0,0,1,0,1}, 2))
+	fmt.Println(KLengthApart([]int{1, 0, 0, 0, 1, 0, 0, 1}, 2))
+	fmt.Println(KLengthApart([]int{1, 0, 0, 1, 0, 1}, 2))
 	// Unordered output:
 	// true
 	// false
@@ -113,7 +113,7 @@ func ExampleCountUnguarded() {
 }
 
 func ExampleFindXSum() {
-	fmt.Println(FindXSum([]int{1,1,2,2,3,4,2,3}, 6, 2))
+	fmt.Println(FindXSum([]int{1, 1, 2, 2, 3, 4, 2, 3}, 6, 2))
 	// Unordered output:
 	// [6 10 12]
 }
@@ -157,11 +157,45 @@ func ExampleMaxSumDivThree() {
 }
 
 func ExamplePrefixesDivBy5() {
-	fmt.Println(PrefixesDivBy5([]int{0,1,1}))
-	fmt.Println(PrefixesDivBy5([]int{1,1,1}))
-	fmt.Println(PrefixesDivBy5([]int{0,1,1,1,1,1,0}))
+
+	fmt.Println(PrefixesDivBy5([]int{0, 1, 1}))
+
+	fmt.Println(PrefixesDivBy5([]int{1, 1, 1}))
+
+	fmt.Println(PrefixesDivBy5([]int{0, 1, 1, 1, 1, 1, 0}))
+
 	// Unordered output:
+
 	// [true false false]
+
 	// [false false false]
+
 	// [true false false false true false false]
+
+}
+
+func ExampleSmallestRepunitDivByK() {
+
+	fmt.Println(smallestRepunitDivByK(1))
+
+	fmt.Println(smallestRepunitDivByK(2))
+
+	fmt.Println(smallestRepunitDivByK(3))
+
+	fmt.Println(smallestRepunitDivByK(7))
+
+	fmt.Println(smallestRepunitDivByK(17))
+
+	// Unordered output:
+
+	// 1
+
+	// -1
+
+	// 3
+
+	// 6
+
+	// 16
+
 }
