@@ -1,6 +1,25 @@
 import bisect
 from collections import defaultdict
+import orjson
 
+
+def find_json_depth(obj, current_depth=1) -> int:
+    if isinstance(obj, dict):
+        if not obj:
+            return current_depth
+        return max(find_json_depth(v, current_depth + 1) for v in obj.values())
+    elif isinstance(obj, list):
+        if not obj:
+            return current_depth
+        return max(find_json_depth(item, current_depth + 1) for item in obj)
+    else:
+        return current_depth
+
+
+def test_find_json_depth():
+    obj = orjson.loads('{"name": "Mixed nested","data": {"level1": {"level2": [{"level3": {"level4": {"level5": "deep"}}}]}}}')
+    result = find_json_depth(obj)
+    assert result == 8
 
 def findXSum(nums: list[int], k: int, x: int) -> list[int]:
     # 3318 3321
@@ -64,4 +83,5 @@ def test_findXSum():
 
 
 if __name__ == "__main__":
-    test_findXSum()
+    # test_findXSum()
+    test_find_json_depth()
