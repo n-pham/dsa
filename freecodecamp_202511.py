@@ -6,6 +6,21 @@ import math
 import string
 
 
+def is_fizz_buzz(sequence):
+    for i, val in enumerate(sequence, start=1):
+        if i % 3 == 0 and i % 5 == 0:
+            expected = "FizzBuzz"
+        elif i % 3 == 0:
+            expected = "Fizz"
+        elif i % 5 == 0:
+            expected = "Buzz"
+        else:
+            expected = i
+        if val != expected:
+            return False
+    return True
+
+
 def generate_signature(name, title, company):
     first_letter = name[0].upper()
     prefix = ">>" if first_letter <= "I" else "--" if first_letter <= "R" else "::"
@@ -48,20 +63,31 @@ def verify(message, key, signature):
 
 
 def get_weekday(date_string):
-    return datetime.datetime.strptime(date_string, "%Y-%m-%d").strftime('%A')
+    return datetime.datetime.strptime(date_string, "%Y-%m-%d").strftime("%A")
 
 
 def combinations(cards):
     return math.comb(52, cards)
 
+
 def can_post(message):
     length = len(message)
-    return "short post" if length <= 40 else "long post" if length <= 80 else "invalid post"
+    return (
+        "short post"
+        if length <= 40
+        else "long post"
+        if length <= 80
+        else "invalid post"
+    )
 
 
 def get_extension(filename):
     position = filename.rfind(".")
-    return filename[position+1:] if position > -1 and position < len(filename)-1 else "none"
+    return (
+        filename[position + 1 :]
+        if position > -1 and position < len(filename) - 1
+        else "none"
+    )
 
 
 def days_until_weekend(date_string):
@@ -86,12 +112,12 @@ def find_word(matrix, word):
     # Horizontal search
     for r in range(rows):
         row_str = "".join(matrix[r])
-        
+
         # Left to right
         idx = row_str.find(word)
         if idx != -1:
             return [[r, idx], [r, idx + word_len - 1]]
-            
+
         # Right to left
         idx = row_str.find(reversed_word)
         if idx != -1:
@@ -100,12 +126,12 @@ def find_word(matrix, word):
     # Vertical search
     for c in range(cols):
         col_str = "".join(matrix[r][c] for r in range(rows))
-        
+
         # Top to bottom
         idx = col_str.find(word)
         if idx != -1:
             return [[idx, c], [idx + word_len - 1, c]]
-            
+
         # Bottom to top
         idx = col_str.find(reversed_word)
         if idx != -1:
@@ -119,6 +145,7 @@ def test_build_matrix():
 @given(integers(0, 20))
 def test_infected_range(n):
     assert infected(n) > n
+
 
 def test_infected():
     assert infected(0) == 1
@@ -149,10 +176,10 @@ def test_combinations():
 
 def test_find_word():
     matrix = [
-        ['f', 'o', 'a', 'm'],
-        ['o', 'b', 'q', 'p'],
-        ['a', 'o', 'b', 'a'],
-        ['m', 'p', 'a', 'l'],
+        ["f", "o", "a", "m"],
+        ["o", "b", "q", "p"],
+        ["a", "o", "b", "a"],
+        ["m", "p", "a", "l"],
     ]
     # left to right
     assert find_word(matrix, "foam") == [[0, 0], [0, 3]]
@@ -160,27 +187,27 @@ def test_find_word():
     assert find_word([list("maof")], "foam") == [[0, 3], [0, 0]]
     # top to bottom
     matrix_vert = [
-        ['f', 'x', 'x'],
-        ['o', 'x', 'x'],
-        ['a', 'x', 'x'],
-        ['m', 'x', 'x'],
+        ["f", "x", "x"],
+        ["o", "x", "x"],
+        ["a", "x", "x"],
+        ["m", "x", "x"],
     ]
     assert find_word(matrix_vert, "foam") == [[0, 0], [3, 0]]
     # bottom to top
     matrix_vert_rev = [
-        ['m', 'x', 'x'],
-        ['a', 'x', 'x'],
-        ['o', 'x', 'x'],
-        ['f', 'x', 'x'],
+        ["m", "x", "x"],
+        ["a", "x", "x"],
+        ["o", "x", "x"],
+        ["f", "x", "x"],
     ]
     assert find_word(matrix_vert_rev, "foam") == [[3, 0], [0, 0]]
-    
+
     matrix2 = [
-        ['a', 'b', 'c', 'd', 'e'],
-        ['f', 'g', 'h', 'i', 'j'],
-        ['k', 'l', 'm', 'n', 'o'],
-        ['p', 'q', 'r', 's', 't'],
-        ['u', 'v', 'w', 'x', 'y']
+        ["a", "b", "c", "d", "e"],
+        ["f", "g", "h", "i", "j"],
+        ["k", "l", "m", "n", "o"],
+        ["p", "q", "r", "s", "t"],
+        ["u", "v", "w", "x", "y"],
     ]
     assert find_word(matrix2, "abc") == [[0, 0], [0, 2]]
     assert find_word(matrix2, "edc") == [[0, 4], [0, 2]]
