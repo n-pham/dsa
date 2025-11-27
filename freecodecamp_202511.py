@@ -1,9 +1,17 @@
 import datetime
-from hypothesis import given
-from hypothesis.strategies import integers
 import re
 import math
 import string
+
+
+def calculate_age(birthday):
+    year, month, day = int(birthday[:4]), int(birthday[5:7]), int(birthday[8:10])
+    return 2025 - year if (month, day) <= (11, 27) else 2025 - year - 1
+
+
+def test_calculate_age():
+    assert calculate_age("2000-11-20") == 25
+    assert calculate_age("2000-12-01") == 24
 
 
 def is_fizz_buzz(sequence):
@@ -141,11 +149,15 @@ def find_word(matrix, word):
 def test_build_matrix():
     assert build_matrix(2, 3) == [[0, 0, 0], [0, 0, 0]]
 
+try:
+    from hypothesis import given
+    from hypothesis.strategies import integers
 
-@given(integers(0, 20))
-def test_infected_range(n):
-    assert infected(n) > n
-
+    @given(integers(0, 20))
+    def test_infected_range(n):
+        assert infected(n) > n
+except ImportError:
+    pass
 
 def test_infected():
     assert infected(0) == 1
