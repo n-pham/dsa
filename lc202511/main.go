@@ -10,6 +10,17 @@ import (
 	"strings"
 )
 
+
+func MinOperations(nums []int, k int) int {
+	// 3512
+    remainder := 0
+	for _, num := range nums {
+		remainder = (remainder + num) % k
+	}
+	return remainder
+}
+
+
 func PrefixesDivBy5(nums []int) []bool {
 	// 1018
 	divisibles := make([]bool, len(nums))

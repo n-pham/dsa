@@ -5,6 +5,17 @@ import (
 	"strings"
 )
 
+
+func ExampleMinOperations() {
+	fmt.Println(MinOperations([]int{3,9,7}, 5))
+	fmt.Println(MinOperations([]int{4,1,3}, 4))
+	fmt.Println(MinOperations([]int{3,2}, 6))
+	// Unordered output:
+	// 4
+	// 0
+	// 5
+}
+
 func ExampleCountPalindromicSubsequence() {
 	fmt.Println(CountPalindromicSubsequence("aabca"))
 	fmt.Println(CountPalindromicSubsequence("adc"))
