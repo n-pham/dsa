@@ -1,5 +1,5 @@
 import datetime
-import re
+import rust_regex as re
 import math
 import string
 

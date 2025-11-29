@@ -4,6 +4,7 @@ version = "0.1.0"
 requires-python = ">=3.11"
 dependencies = [
     "orjson>=3.11.4",
+    "rust-regex>=0.1.0a1",
     "sortedcontainers>=2.4.0",
 ]
 

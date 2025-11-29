@@ -1,6 +1,6 @@
 from collections import Counter
 import math
-import re
+import rust_regex as re
 import string
 
 
@@ -38,17 +38,6 @@ def speeding(speeds, limit):
 
 assert speeding([50, 60, 55], 60) == [0, 0]
 assert speeding([58, 50, 60, 55], 55) == [2, 4]
-
-
-def second_largest(arr):
-    largest, second_largest = float("-inf"), float("-inf")
-    for num in arr:
-        if num > largest:
-            second_largest = largest
-            largest = num
-        elif num > second_largest and num != largest:
-            second_largest = num
-    return second_largest
 
 
 def is_perfect_square(n):
@@ -242,3 +231,43 @@ assert too_much_screen_time([1, 2, 3, 11, 1, 3, 4]) is True
 assert too_much_screen_time([1, 2, 3, 10, 2, 1, 0]) is True
 assert too_much_screen_time([3, 3, 5, 8, 8, 9, 4]) is True
 assert too_much_screen_time([3, 9, 4, 8, 5, 7, 6]) is True
+
+def test_format_number():
+    assert format_number("12345678901") == "+1 (234) 567-8901"
+
+def test_get_longest_word():
+    assert get_longest_word("This sentence has multiple long words.") == "sentence"
+
+def test_speeding():
+    assert speeding([50, 60, 55], 60) == [0, 0]
+    assert speeding([58, 50, 60, 55], 55) == [2, 4]
+
+def test_is_mirror():
+    assert is_mirror("Hello World", "dlroW olleH")
+    assert is_mirror("Hello World", "!dlroW !olleH")
+
+def test_number_of_videos():
+    assert number_of_videos(100, "MB", 1, "GB") == 10
+    assert number_of_videos(500, "MB", 1, "TB") == 2000
+    assert number_of_videos(1, "GB", 1, "TB") == 1000
+    assert number_of_videos(1, "TB", 1, "TB") == 1
+    assert number_of_videos(2, "GB", 1, "GB") == 0
+
+def test_find_missing_numbers():
+    assert find_missing_numbers([1, 3, 5]) == [2, 4]
+    assert find_missing_numbers([1, 2, 3, 4, 5]) == []
+    assert find_missing_numbers([1, 10]) == [2, 3, 4, 5, 6, 7, 8, 9]
+    assert find_missing_numbers([10, 1, 10, 1, 10, 1]) == [2, 3, 4, 5, 6, 7, 8, 9]
+    assert find_missing_numbers([3, 1, 4, 1, 5, 9]) == [2, 6, 7, 8]
+    assert find_missing_numbers(
+        [1, 2, 3, 4, 5, 7, 8, 9, 10, 12, 6, 8, 9, 3, 2, 10, 7, 4]
+    ) == [11]
+
+def test_too_much_screen_time():
+    assert too_much_screen_time([1, 2, 3, 4, 5, 6, 7]) is False
+    assert too_much_screen_time([7, 8, 8, 4, 2, 2, 3]) is False
+    assert too_much_screen_time([5, 6, 6, 6, 6, 6, 6]) is False
+    assert too_much_screen_time([1, 2, 3, 11, 1, 3, 4]) is True
+    assert too_much_screen_time([1, 2, 3, 10, 2, 1, 0]) is True
+    assert too_much_screen_time([3, 3, 5, 8, 8, 9, 4]) is True
+    assert too_much_screen_time([3, 9, 4, 8, 5, 7, 6]) is True

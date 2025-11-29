@@ -35,6 +35,7 @@ version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
     { name = "orjson" },
+    { name = "rust-regex" },
     { name = "sortedcontainers" },
 ]
 
@@ -50,6 +51,7 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "orjson", specifier = ">=3.11.4" },
+    { name = "rust-regex", specifier = ">=0.1.0a1" },
     { name = "sortedcontainers", specifier = ">=2.4.0" },
 ]
 
@@ -327,6 +329,29 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/46/09/dca8df3d48e8b3f4202bf20b1658898e74b6442ac835bfe2c1816d926697/ruff-0.13.0-py3-none-win32.whl", hash = "sha256:4e473e8f0e6a04e4113f2e1de12a5039579892329ecc49958424e5568ef4f768", size = 12141613, upload-time = "2025-09-10T16:25:28.664Z" },
     { url = "https://files.pythonhosted.org/packages/61/21/0647eb71ed99b888ad50e44d8ec65d7148babc0e242d531a499a0bbcda5f/ruff-0.13.0-py3-none-win_amd64.whl", hash = "sha256:48e5c25c7a3713eea9ce755995767f4dcd1b0b9599b638b12946e892123d1efb", size = 13258250, upload-time = "2025-09-10T16:25:31.773Z" },
     { url = "https://files.pythonhosted.org/packages/e1/a3/03216a6a86c706df54422612981fb0f9041dbb452c3401501d4a22b942c9/ruff-0.13.0-py3-none-win_arm64.whl", hash = "sha256:ab80525317b1e1d38614addec8ac954f1b3e662de9d59114ecbf771d00cf613e", size = 12312357, upload-time = "2025-09-10T16:25:35.595Z" },
+]
+
+[[package]]
+name = "rust-regex"
+version = "0.1.0a1"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/d1/f0/e08207e2e695b1f6f4b71c18915242a6ca6eeca35527e4782b9015f95175/rust_regex-0.1.0_alpha1.tar.gz", hash = "sha256:fa7c4636e93edc00f1c4c1c77d8b24f076ff7e0cd4e267e6e53e8192a021ed86", size = 14361, upload-time = "2022-07-11T20:32:16.367Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/29/3b/e914c4b1a4735618e5760de67b1e72187b38d427029f72d6f084ba8eb660/rust_regex-0.1.0_alpha1-cp37-abi3-macosx_10_9_x86_64.macosx_11_0_arm64.macosx_10_9_universal2.whl", hash = "sha256:e3318aec966de13461b1b0a823dd8c715887b6523abb6fd2b79e6e313f48d113", size = 1196400, upload-time = "2022-07-11T20:31:29.68Z" },
+    { url = "https://files.pythonhosted.org/packages/35/ab/d43ffe983339846a671f44edc7b390b1156f59b52f32285c5e2f852af18b/rust_regex-0.1.0_alpha1-cp37-abi3-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:4fc29013be36cb3082183d8ef260572efacc8e579f1f36023c14750b6c4ff80d", size = 1440501, upload-time = "2022-07-11T20:31:31.788Z" },
+    { url = "https://files.pythonhosted.org/packages/5f/b7/0f40186ca2f5224d488e4b6000fa271c18d4f10ab6948705b06dd5c1a6cb/rust_regex-0.1.0_alpha1-cp37-abi3-manylinux_2_17_armv7l.manylinux2014_armv7l.whl", hash = "sha256:45839ff468c8b95a779b923a07213dfcf64793d687e3b6e5cc49ca0f863713a4", size = 1410681, upload-time = "2022-07-11T20:31:33.876Z" },
+    { url = "https://files.pythonhosted.org/packages/9f/1b/f4c7890c34c23c450e473e8a1eddbaf301089d62d76f4992a29432e9dfe0/rust_regex-0.1.0_alpha1-cp37-abi3-manylinux_2_17_ppc64.manylinux2014_ppc64.whl", hash = "sha256:2118faa5cdd31a71a91b6cec8cf57810c2033a54758a46eee6699ee380aec29d", size = 1675436, upload-time = "2022-07-11T20:31:35.703Z" },
+    { url = "https://files.pythonhosted.org/packages/7a/63/bd1d6de8226dabe08117d645acb013a10c5b7af13f8250c5f7ffbe796c1c/rust_regex-0.1.0_alpha1-cp37-abi3-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl", hash = "sha256:80f62546b9abbe5447ecd66a3d0ca8b15df2eb2b82c13fc4d5753662436e9b7b", size = 1635550, upload-time = "2022-07-11T20:31:37.751Z" },
+    { url = "https://files.pythonhosted.org/packages/12/75/c91fe48f1bcbb1c237af02732d0e1d4cb8e121860bac0fe12dcedc09d6c8/rust_regex-0.1.0_alpha1-cp37-abi3-manylinux_2_17_s390x.manylinux2014_s390x.whl", hash = "sha256:89b23e9668769305bd1165d2593e8b1d70963d9e93ba27e18063241e45e5ae7b", size = 1664499, upload-time = "2022-07-11T20:31:39.993Z" },
+    { url = "https://files.pythonhosted.org/packages/4b/83/74bd3614f8918a7b5b495cf4170899bb0cf159acccea5672fa64e2ce270b/rust_regex-0.1.0_alpha1-cp37-abi3-manylinux_2_5_i686.manylinux1_i686.whl", hash = "sha256:292d59f0262707cd507eae5e6040f337c9b4041d1f584e1e0f3e9dfe61e8fb9e", size = 1474752, upload-time = "2022-07-11T20:31:41.527Z" },
+    { url = "https://files.pythonhosted.org/packages/fb/b2/f3695159afb354858a4c01b7c9c776c56cd7e4413a0ea302687de35b6384/rust_regex-0.1.0_alpha1-cp37-abi3-manylinux_2_5_x86_64.manylinux1_x86_64.whl", hash = "sha256:cb8314972f25bd6f47815d03bdb98bc08383630ee1b02bdf60fcf451be957aa5", size = 1470215, upload-time = "2022-07-11T20:31:43.436Z" },
+    { url = "https://files.pythonhosted.org/packages/b2/ea/50c6d8037c93b7dcbdb5c25a778db914aced4a4872acba72a189fad13b36/rust_regex-0.1.0_alpha1-cp37-abi3-musllinux_1_2_aarch64.whl", hash = "sha256:b134a49684983e61843d783439d532b2f86c1dcc1a1520b970d7bd267f263c97", size = 1613650, upload-time = "2022-07-11T20:31:45.196Z" },
+    { url = "https://files.pythonhosted.org/packages/f6/d3/e7935df49403075ed6597581ce1ce5412872ffa65967fd6955e1ee920e37/rust_regex-0.1.0_alpha1-cp37-abi3-musllinux_1_2_armv7l.whl", hash = "sha256:b9db0effbbac21b42c5eaccaafb11c223c63de7c11bf4fe23f9193139342fd8d", size = 1745049, upload-time = "2022-07-11T20:31:46.676Z" },
+    { url = "https://files.pythonhosted.org/packages/d4/01/4c322a97b6005dea20664a6b58869901f2005f21a22ed168354c8eb891ba/rust_regex-0.1.0_alpha1-cp37-abi3-musllinux_1_2_i686.whl", hash = "sha256:efb68b924c685c9089103e5b01a1036d24c57c4e2996cf3bd372b6e4a9f1d0ae", size = 1638969, upload-time = "2022-07-11T20:31:48.483Z" },
+    { url = "https://files.pythonhosted.org/packages/72/c0/1d81ccd93659ffd2140b778d0f5512ababc29886029a0e56b99a2727a4df/rust_regex-0.1.0_alpha1-cp37-abi3-musllinux_1_2_x86_64.whl", hash = "sha256:025eda7cfd1303caec4ba378f789a76941881682b5b29f0d7942ac981691f2d7", size = 1655467, upload-time = "2022-07-11T20:31:50.104Z" },
+    { url = "https://files.pythonhosted.org/packages/dd/2f/efa3b4d66e056a7ed70e8295798a2b6a700addbc1f07f9dd74d174730139/rust_regex-0.1.0_alpha1-cp37-abi3-win32.whl", hash = "sha256:874b04ea22b2560f60ba5fa1e2f5064e0bf172a2841502afca5bde9c76bce0b7", size = 430365, upload-time = "2022-07-11T20:31:52.121Z" },
+    { url = "https://files.pythonhosted.org/packages/ad/49/77d14b296d32f94185d02f33af6dd37745df19044bc7681c12409acc9cca/rust_regex-0.1.0_alpha1-cp37-abi3-win_amd64.whl", hash = "sha256:97deffb8eae470610e13c2b59b717fab2277f52b17e758c9e66e1e75238adcfc", size = 471893, upload-time = "2022-07-11T20:31:53.511Z" },
+    { url = "https://files.pythonhosted.org/packages/e7/57/bc7c6ffd9ed7a2a31705c8ceab01663b7ba4ed247cae78bca99d271b498d/rust_regex-0.1.0_alpha1-cp37-abi3-win_arm64.whl", hash = "sha256:979b34a0bb6343d1a7c61ffec3f6484d553cf98e30a705c5563ed79f3870ab32", size = 440563, upload-time = "2022-07-11T20:31:54.919Z" },
 ]
 
 [[package]]
