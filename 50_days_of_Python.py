@@ -1,6 +1,27 @@
 import math
 
 
+def register_check(register: dict[str, str]) -> int:
+    return len([0 for status in register.values() if status == "yes"])
+
+
+def test_register_check():
+    assert (
+        register_check({"Michael": "yes", "John": "no", "Peter": "yes", "Mary": "yes"})
+        == 3
+    )
+
+
+def lowercase_names(names: list[str]) -> tuple[str]:
+    return tuple(sorted([name for name in names if name.islower()], reverse=True))
+
+
+def test_lowercase_names():
+    assert lowercase_names(
+        ["kerry", "dickson", "John", "Mary", "carol", "Rose", "adam"]
+    ) == ("kerry", "dickson", "carol", "adam")
+
+
 def convert_add(strings: list[str]) -> int:
     return sum([int(num_str) for num_str in strings])
 
