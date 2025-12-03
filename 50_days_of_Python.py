@@ -1,4 +1,26 @@
 import math
+from typing import Any
+
+
+def only_floats(a, b: Any) -> int:
+    return sum([isinstance(a, float), isinstance(b, float)])
+
+
+def test_only_floats():
+    assert only_floats(1.23, 4) == 1
+
+
+def word_index(strings: list[str]) -> int:
+    longest, index_of_longest = 0, -1
+    for i, string in enumerate(strings):
+        if (length := len(string)) > longest:
+            longest = length
+            index_of_longest = i
+    return index_of_longest
+
+
+def test_word_index():
+    assert word_index(["Hate", "remorse", "vengeance"]) == 2
 
 
 def register_check(register: dict[str, str]) -> int:
