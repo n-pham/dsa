@@ -1,3 +1,43 @@
+def max_joltage(bank: str) -> int:
+    max_ten = "0"
+    max_ten_index = 0
+    for i, digit in enumerate(bank[:-1]):
+        if digit > max_ten:
+            max_ten = digit
+            max_ten_index = i
+    max_one = "0"
+    for i in range(max_ten_index + 1, len(bank)):
+        if bank[i] > max_one:
+            max_one = bank[i]
+    return int(max_ten) * 10 + int(max_one)
+
+
+def max_joltage_2(bank: str) -> int:
+    k = 12
+    result_chars = []
+    start_index = 0
+    for i in range(k):
+        remaining_to_pick = k - i
+        end_index = len(bank) - remaining_to_pick + 1
+        window = bank[start_index:end_index]
+        max_digit = max(window)
+        best_index = bank.find(max_digit, start_index, end_index)
+        result_chars.append(max_digit)
+        start_index = best_index + 1
+    return int("".join(result_chars))
+
+
+def test_max_joltage():
+    assert max_joltage("987654321111111") == 98
+    assert max_joltage("811111111111119") == 89
+    assert max_joltage("234234234234278") == 78
+    assert max_joltage("818181911112111") == 92
+
+
+def test_max_joltage_2():
+    assert max_joltage_2("192837465564738291") == 987664738291
+
+
 def _is_repeated_num(n: int) -> bool:
     # Count digits
     digits = 0
@@ -157,6 +197,9 @@ if __name__ == "__main__":
     # with open("./day_1_input.txt", "r") as file:
     #     lines = file.readlines()
     #     print(secret_entrance_2(lines))
-    with open("./day_2_input.txt", "r") as file:
-        content = file.read()
-        print(sum_invalids([tuple(map(int, s.split("-"))) for s in content.split(",")]))
+    # with open("./day_2_input.txt", "r") as file:
+    #     content = file.read()
+    #     print(sum_invalids([tuple(map(int, s.split("-"))) for s in content.split(",")]))
+    with open("./day_3_input.txt", "r") as file:
+        all_lines = file.readlines()
+        print(sum([max_joltage_2(line.strip()) for line in all_lines]))
