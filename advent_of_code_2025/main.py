@@ -1,3 +1,62 @@
+import bisect
+
+
+def count_fresh_ingredients_memory(
+    ranges: list[tuple[int, int]], ids: list[int]
+) -> int:
+    fresh_set = {n for r in ranges for n in range(r[0], r[1] + 1)}
+    return len([1 for id in ids if id in fresh_set])
+
+
+def count_fresh_ingredients(
+    ranges: list[tuple[int, int]], ids: list[int]
+) -> (int, int):
+    # Sort ranges by the start of the interval to allow merging.
+    sorted_ranges = sorted(ranges, key=lambda x: x[0])
+
+    # Merge overlapping ranges to reduce the number of intervals to check.
+    # e.g., [(1, 5), (3, 7)] becomes [(1, 7)].
+    merged_ranges = []
+    if sorted_ranges:
+        current_start, current_end = sorted_ranges[0]
+        for next_start, next_end in sorted_ranges[1:]:
+            # If the next range starts before or right after the current one ends, merge them.
+            if next_start <= current_end + 1:
+                current_end = max(current_end, next_end)
+            else:
+                # No overlap, finalize the current merged range.
+                merged_ranges.append((current_start, current_end))
+                current_start, current_end = next_start, next_end
+        merged_ranges.append((current_start, current_end))
+
+    # Extract the starting points of the merged ranges for efficient binary searching.
+    start_points = [r[0] for r in merged_ranges]
+    fresh_count = 0
+
+    for id_val in ids:
+        # Use binary search (bisect_right) to quickly find which range an ID might be in.
+        # This is much faster than checking every range for every ID.
+        idx = bisect.bisect_right(start_points, id_val)
+        if idx > 0:
+            # The candidate range is the one just before the insertion point.
+            candidate_range = merged_ranges[idx - 1]
+            # Since `id_val >= candidate_range[0]` is guaranteed by the search,
+            # we only need to check if it's within the upper bound.
+            if id_val <= candidate_range[1]:
+                fresh_count += 1
+    id_count = sum([r[1] - r[0] + 1 for r in merged_ranges])
+    return fresh_count, id_count
+
+
+def test_count_fresh_ingredients():
+    assert (
+        count_fresh_ingredients(
+            [(3, 5), (10, 14), (16, 20), (12, 18)], [1, 5, 8, 11, 17, 32]
+        )
+        == 3
+    )
+
+
 def count_accessible(diagram: list[str]) -> int:
     """
     Counts the number of accessible rolls of paper ('@') in a diagram.
@@ -324,6 +383,12 @@ if __name__ == "__main__":
     # with open("./day_3_input.txt", "r") as file:
     #     all_lines = file.readlines()
     #     print(sum([max_joltage_2(line.strip()) for line in all_lines]))
-    with open("./day_4_input.txt", "r") as file:
-        all_lines = file.readlines()
-        print(count_accessible_2([line.strip() for line in all_lines]))
+    # with open("./day_4_input.txt", "r") as file:
+    #     all_lines = file.readlines()
+    #     print(count_accessible_2([line.strip() for line in all_lines]))
+    with open("./day_5_input.txt", "r") as file:
+        content = file.read()
+        range_part, id_part = content.split("\n\n")
+        ranges = [tuple(map(int, line.split("-"))) for line in range_part.split("\n")]
+        ids = [int(id) for id in id_part.split("\n") if id]
+        print(count_fresh_ingredients(ranges, ids))
