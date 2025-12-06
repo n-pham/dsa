@@ -1,6 +1,60 @@
 import bisect
 
 
+def sum_math_problems(number_lines: list[list[int]], operands: list[str]) -> int:
+    result = 0
+    for i, operand in enumerate(operands):
+        if operand == "+":
+            addition_result = 0
+            for line in number_lines:
+                addition_result += line[i]
+            result += addition_result
+        else:
+            multiply_result = 1
+            for line in number_lines:
+                multiply_result *= line[i]
+            result += multiply_result
+    return result
+
+
+def test_sum_math_problems():
+    assert sum_math_problems([[123, 328,  51, 64 ], [ 45, 64,  387, 23], [6, 98,  215, 314]], ["*", "+", "*", "+"]) == 4277556
+
+
+def sum_math_problems_2(number_lines: list[list[int]], operands: list[str]) -> int:
+    result = 0
+    # The one difference: iterate from right-to-left.
+    for i in range(len(operands) - 1, -1, -1):
+        operand = operands[i]
+        if operand == "+":
+            addition_result = 0
+            for line in number_lines:
+                addition_result += line[i]
+            result += addition_result
+        else:
+            multiply_result = 1
+            for line in number_lines:
+                multiply_result *= line[i]
+            result += multiply_result
+    return result
+
+
+def test_sum_math_problems_2():
+    # The numbers from the example description, not the initial list.
+    # This seems to be the intention of the puzzle.
+    number_lines = [[356, 8, 175, 4], [24, 248, 581, 431], [1, 369, 32, 623]]
+    operands = ["*", "+", "*", "+"]
+    # The sequence of calculation is:
+    # col 3 (+): 4 + 431 + 623 = 1058
+    # col 2 (*): 175 * 581 * 32 = 3253600
+    # col 1 (+): 8 + 248 + 369 = 625
+    # col 0 (*): 356 * 24 * 1 = 8544
+    # grand_total = 1058 + 3253600 + 625 + 8544 = 3263827
+    assert sum_math_problems_2(number_lines, operands) == 3263827
+
+
+
+
 def count_fresh_ingredients_memory(
     ranges: list[tuple[int, int]], ids: list[int]
 ) -> int:
@@ -53,7 +107,7 @@ def test_count_fresh_ingredients():
         count_fresh_ingredients(
             [(3, 5), (10, 14), (16, 20), (12, 18)], [1, 5, 8, 11, 17, 32]
         )
-        == 3
+        == (3, 14)
     )
 
 
@@ -386,9 +440,12 @@ if __name__ == "__main__":
     # with open("./day_4_input.txt", "r") as file:
     #     all_lines = file.readlines()
     #     print(count_accessible_2([line.strip() for line in all_lines]))
-    with open("./day_5_input.txt", "r") as file:
-        content = file.read()
-        range_part, id_part = content.split("\n\n")
-        ranges = [tuple(map(int, line.split("-"))) for line in range_part.split("\n")]
-        ids = [int(id) for id in id_part.split("\n") if id]
-        print(count_fresh_ingredients(ranges, ids))
+    # with open("./day_5_input.txt", "r") as file:
+    #     content = file.read()
+    #     range_part, id_part = content.split("\n\n")
+    #     ranges = [tuple(map(int, line.split("-"))) for line in range_part.split("\n")]
+    #     ids = [int(id) for id in id_part.split("\n") if id]
+    #     print(count_fresh_ingredients(ranges, ids))
+    with open("./day_6_input.txt", "r") as file:
+        all_lines = file.readlines()
+        print(sum_math_problems_2([[int(num_str) for num_str in line.strip().split()] for line in all_lines[:-1]], all_lines[-1].split()))
