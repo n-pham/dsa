@@ -16,6 +16,26 @@ def count_beams(locations: list[str]) -> int:
     return result
 
 
+def count_beams_2(locations: list[str]) -> int:
+    width = len(locations[0])
+    paths = [int(c == "S") for c in locations[0]]
+
+    for location in locations[1:]:
+        new_paths = [0] * width
+        for i, count in enumerate(paths):
+            if count > 0:
+                if location[i] == "^":
+                    if i > 0:
+                        new_paths[i - 1] += count
+                    if i < width - 1:
+                        new_paths[i + 1] += count
+                else:
+                    new_paths[i] += count
+        paths = new_paths
+
+    return sum(paths)
+
+
 def test_count_beams():
     diagram = """
         .......S.......
@@ -36,6 +56,7 @@ def test_count_beams():
         ...............
         """
     assert count_beams([line.strip() for line in diagram.split("\n") if not line.isspace() and line != ""]) == 21
+    assert count_beams_2([line.strip() for line in diagram.split("\n") if not line.isspace() and line != ""]) == 40
 
 
 def sum_math_problems(number_lines: list[list[int]], operands: list[str]) -> int:
@@ -498,5 +519,5 @@ if __name__ == "__main__":
     with open("./day_7_input.txt", "r") as file:
         diagram = file.read()
         print (
-            count_beams([line.strip() for line in diagram.split("\n") if not line.isspace() and line != ""])
+            count_beams_2([line.strip() for line in diagram.split("\n") if not line.isspace() and line != ""])
         )
