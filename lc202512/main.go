@@ -2,17 +2,27 @@ package main
 
 //lint:file-ignore U1000 Ignore all unused code, it's generated
 
+func CountOdds(low int, high int) int {
+	// 1523
+	bothCount := high - low + 1
+	if bothCount%2 == 0 {
+		return bothCount / 2
+	} else {
+		return bothCount/2 + (low % 2)
+	}
+}
+
 func CountPartitionsNaive(nums []int) (cnt int) {
 	// 3432
 	n := len(nums)
 	leftSum := 0
 	totalSum := 0
 	for _, num := range nums {
-		totalSum+= num
+		totalSum += num
 	}
 	for i := 0; i < n-1; i++ {
 		leftSum += nums[i]
-		if (totalSum - leftSum - leftSum) % 2 == 0 {
+		if (totalSum-leftSum-leftSum)%2 == 0 {
 			cnt++
 		}
 	}
