@@ -1,6 +1,43 @@
 import bisect
 
 
+def count_beams(locations: list[str]) -> int:
+    result = 0
+    beams = [c == "S" for c in locations[0]]
+    for location in locations[1:]:
+        new_beams = beams[:]  # copy
+        for i, has_beam in enumerate(beams):
+            if has_beam and location[i] == "^":
+                new_beams[i] = False
+                new_beams[i-1] = True
+                new_beams[i+1] = True
+                result += 1
+        beams = new_beams
+    return result
+
+
+def test_count_beams():
+    diagram = """
+        .......S.......
+        ...............
+        .......^.......
+        ...............
+        ......^.^......
+        ...............
+        .....^.^.^.....
+        ...............
+        ....^.^...^....
+        ...............
+        ...^.^...^.^...
+        ...............
+        ..^...^.....^..
+        ...............
+        .^.^.^.^.^...^.
+        ...............
+        """
+    assert count_beams([line.strip() for line in diagram.split("\n") if not line.isspace() and line != ""]) == 21
+
+
 def sum_math_problems(number_lines: list[list[int]], operands: list[str]) -> int:
     result = 0
     for i, operand in enumerate(operands):
@@ -18,7 +55,13 @@ def sum_math_problems(number_lines: list[list[int]], operands: list[str]) -> int
 
 
 def test_sum_math_problems():
-    assert sum_math_problems([[123, 328,  51, 64 ], [ 45, 64,  387, 23], [6, 98,  215, 314]], ["*", "+", "*", "+"]) == 4277556
+    assert (
+        sum_math_problems(
+            [[123, 328, 51, 64], [45, 64, 387, 23], [6, 98, 215, 314]],
+            ["*", "+", "*", "+"],
+        )
+        == 4277556
+    )
 
 
 def sum_math_problems_2(number_lines: list[list[int]], operands: list[str]) -> int:
@@ -51,8 +94,6 @@ def test_sum_math_problems_2():
     # col 0 (*): 356 * 24 * 1 = 8544
     # grand_total = 1058 + 3253600 + 625 + 8544 = 3263827
     assert sum_math_problems_2(number_lines, operands) == 3263827
-
-
 
 
 def count_fresh_ingredients_memory(
@@ -103,12 +144,9 @@ def count_fresh_ingredients(
 
 
 def test_count_fresh_ingredients():
-    assert (
-        count_fresh_ingredients(
-            [(3, 5), (10, 14), (16, 20), (12, 18)], [1, 5, 8, 11, 17, 32]
-        )
-        == (3, 14)
-    )
+    assert count_fresh_ingredients(
+        [(3, 5), (10, 14), (16, 20), (12, 18)], [1, 5, 8, 11, 17, 32]
+    ) == (3, 14)
 
 
 def count_accessible(diagram: list[str]) -> int:
@@ -446,6 +484,19 @@ if __name__ == "__main__":
     #     ranges = [tuple(map(int, line.split("-"))) for line in range_part.split("\n")]
     #     ids = [int(id) for id in id_part.split("\n") if id]
     #     print(count_fresh_ingredients(ranges, ids))
-    with open("./day_6_input.txt", "r") as file:
-        all_lines = file.readlines()
-        print(sum_math_problems_2([[int(num_str) for num_str in line.strip().split()] for line in all_lines[:-1]], all_lines[-1].split()))
+    # with open("./day_6_input.txt", "r") as file:
+    #     all_lines = file.readlines()
+    #     print(
+    #         sum_math_problems_2(
+    #             [
+    #                 [int(num_str) for num_str in line.strip().split()]
+    #                 for line in all_lines[:-1]
+    #             ],
+    #             all_lines[-1].split(),
+    #         )
+    #     )
+    with open("./day_7_input.txt", "r") as file:
+        diagram = file.read()
+        print (
+            count_beams([line.strip() for line in diagram.split("\n") if not line.isspace() and line != ""])
+        )
