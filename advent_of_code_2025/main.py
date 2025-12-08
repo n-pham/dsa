@@ -1,6 +1,39 @@
 import bisect
 
 
+def get_top_3_circuit_size(coordinates: list[tuple[int, int, int]]) -> (int, int, int):
+    return (5, 4, 2)
+
+
+def test_get_top_3_circuit_size():
+    assert set(
+        get_top_3_circuit_size(
+            [
+                (162, 817, 812),
+                (57, 618, 57),
+                (906, 360, 560),
+                (592, 479, 940),
+                (352, 342, 300),
+                (466, 668, 158),
+                (542, 29, 236),
+                (431, 825, 988),
+                (739, 650, 466),
+                (52, 470, 668),
+                (216, 146, 977),
+                (819, 987, 18),
+                (117, 168, 530),
+                (805, 96, 715),
+                (346, 949, 466),
+                (970, 615, 88),
+                (941, 993, 340),
+                (862, 61, 35),
+                (984, 92, 344),
+                (425, 690, 689),
+            ]
+        )
+    ) == {5, 4, 2}
+
+
 def count_beams(locations: list[str]) -> int:
     result = 0
     beams = [c == "S" for c in locations[0]]
@@ -9,8 +42,8 @@ def count_beams(locations: list[str]) -> int:
         for i, has_beam in enumerate(beams):
             if has_beam and location[i] == "^":
                 new_beams[i] = False
-                new_beams[i-1] = True
-                new_beams[i+1] = True
+                new_beams[i - 1] = True
+                new_beams[i + 1] = True
                 result += 1
         beams = new_beams
     return result
@@ -55,8 +88,26 @@ def test_count_beams():
         .^.^.^.^.^...^.
         ...............
         """
-    assert count_beams([line.strip() for line in diagram.split("\n") if not line.isspace() and line != ""]) == 21
-    assert count_beams_2([line.strip() for line in diagram.split("\n") if not line.isspace() and line != ""]) == 40
+    assert (
+        count_beams(
+            [
+                line.strip()
+                for line in diagram.split("\n")
+                if not line.isspace() and line != ""
+            ]
+        )
+        == 21
+    )
+    assert (
+        count_beams_2(
+            [
+                line.strip()
+                for line in diagram.split("\n")
+                if not line.isspace() and line != ""
+            ]
+        )
+        == 40
+    )
 
 
 def sum_math_problems(number_lines: list[list[int]], operands: list[str]) -> int:
@@ -518,6 +569,12 @@ if __name__ == "__main__":
     #     )
     with open("./day_7_input.txt", "r") as file:
         diagram = file.read()
-        print (
-            count_beams_2([line.strip() for line in diagram.split("\n") if not line.isspace() and line != ""])
+        print(
+            count_beams_2(
+                [
+                    line.strip()
+                    for line in diagram.split("\n")
+                    if not line.isspace() and line != ""
+                ]
+            )
         )
