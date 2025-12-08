@@ -4,6 +4,16 @@ import (
 	"fmt"
 )
 
+func ExampleCountTriples() {
+	fmt.Println(CountTriples(5))
+	fmt.Println(CountTriples(10))
+	fmt.Println(CountTriples(18))
+	// Unordered output:
+	// 2
+	// 4
+	// 10
+}
+
 func ExampleCountOdds() {
 	fmt.Println(CountOdds(3, 7))
 	fmt.Println(CountOdds(8, 10))

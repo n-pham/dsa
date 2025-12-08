@@ -1,6 +1,29 @@
 package main
 
+import (
+	"math"
+)
+
 //lint:file-ignore U1000 Ignore all unused code, it's generated
+
+func CountTriples(n int) (cnt int) {
+	// 1925
+	for i := 1; i < n-1; i++ {
+		if i*i*2 > n*n {
+			break
+		}
+		for j := i + 1; j < n; j++ {
+			sqrInt := i*i + j*j
+			if sqrInt > n*n {
+				break
+			}
+			if sqrtInt := int(math.Sqrt(float64(sqrInt))); sqrtInt*sqrtInt == sqrInt {
+				cnt += 2
+			}
+		}
+	}
+	return
+}
 
 func CountOdds(low int, high int) int {
 	// 1523
