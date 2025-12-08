@@ -1,8 +1,69 @@
 import bisect
+from collections import Counter
+import math
 
 
 def get_top_3_circuit_size(coordinates: list[tuple[int, int, int]]) -> (int, int, int):
-    return (5, 4, 2)
+    # return (5, 4, 2)
+    print(coordinates)
+    n = len(coordinates)
+    # Union-Find data structure
+    parent = list(range(n))
+    size = [1] * n
+
+    def find(x):
+        if parent[x] != x:
+            parent[x] = find(parent[x])  # Path compression
+        return parent[x]
+
+    def union(x, y):
+        root_x = find(x)
+        root_y = find(y)
+        if root_x == root_y:
+            return False  # Already in same group
+        # Union by size
+        if size[root_x] < size[root_y]:
+            parent[root_x] = root_y
+            size[root_y] += size[root_x]
+        else:
+            parent[root_y] = root_x
+            size[root_x] += size[root_y]
+        return True
+    
+    def distance(p1, p2):
+        return math.sqrt(sum((a - b) ** 2 for a, b in zip(p1, p2)))
+    
+    edges = []
+    for i in range(n):
+        for j in range(i + 1, n):
+            dist = distance(coordinates[i], coordinates[j])
+            edges.append((dist, i, j))
+    edges.sort()
+    
+    connections_made = 0
+    target_connections = 9
+    
+    for dist, i, j in edges:
+        if connections_made >= target_connections:
+            break
+        if union(i, j):
+            connections_made += 1
+    
+    group_sizes = Counter()
+    for i in range(n):
+        root = find(i)
+        group_sizes[root] += 1
+    
+    all_sizes = sorted(group_sizes.values(), reverse=True)
+    print(f"All group sizes: {all_sizes}")
+    print(f"Number of groups: {len(group_sizes)}")
+    
+    unique_sizes = sorted(set(group_sizes.values()), reverse=True)
+    print(f"Unique sizes: {unique_sizes}")
+    print(f"Top 3: {unique_sizes[:3]}")
+    
+    return set(unique_sizes[:3])
+
 
 
 def test_get_top_3_circuit_size():
@@ -567,14 +628,24 @@ if __name__ == "__main__":
     #             all_lines[-1].split(),
     #         )
     #     )
-    with open("./day_7_input.txt", "r") as file:
-        diagram = file.read()
+    # with open("./day_7_input.txt", "r") as file:
+    #     diagram = file.read()
+    #     print(
+    #         count_beams_2(
+    #             [
+    #                 line.strip()
+    #                 for line in diagram.split("\n")
+    #                 if not line.isspace() and line != ""
+    #             ]
+    #         )
+    #     )
+    with open("./day_8_input.txt", "r") as file:
+        all_lines = file.readlines()
         print(
-            count_beams_2(
+            get_top_3_circuit_size(
                 [
-                    line.strip()
-                    for line in diagram.split("\n")
-                    if not line.isspace() and line != ""
+                    tuple(int(num_str) for num_str in line.strip().split(","))
+                    for line in all_lines
                 ]
             )
         )
