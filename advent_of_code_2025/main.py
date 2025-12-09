@@ -3,6 +3,24 @@ from collections import Counter
 import math
 
 
+def get_largest_area_from_opposite_corners(positions: list[tuple[int,int]]) -> int:
+    max_area = 0
+    n = len(positions)
+
+    for i in range(n):
+        for j in range(i + 1, n):
+            x1, y1 = positions[i]
+            x2, y2 = positions[j]
+
+            area = (abs(x1 - x2) + 1) * (abs(y1 - y2) + 1)
+            if area > max_area:
+                max_area = area
+    return max_area
+
+def test_get_largest_area_from_opposite_corners():
+    assert get_largest_area_from_opposite_corners([(7,1),(11,1),(11,7),(9,7),(9,5),(2,5),(2,3),(7,3)]) == 50  # opposite corners 2,5 and 11,1
+
+
 def get_top_3_circuit_size(coordinates: list[tuple[int, int, int]]) -> (int, int, int):
     # return (5, 4, 2)
     print(coordinates)
@@ -639,10 +657,20 @@ if __name__ == "__main__":
     #             ]
     #         )
     #     )
-    with open("./day_8_input.txt", "r") as file:
+    # with open("./day_8_input.txt", "r") as file:
+    #     all_lines = file.readlines()
+    #     print(
+    #         get_top_3_circuit_size(
+    #             [
+    #                 tuple(int(num_str) for num_str in line.strip().split(","))
+    #                 for line in all_lines
+    #             ]
+    #         )
+    #     )
+    with open("./day_9_input.txt", "r") as file:
         all_lines = file.readlines()
         print(
-            get_top_3_circuit_size(
+            get_largest_area_from_opposite_corners(
                 [
                     tuple(int(num_str) for num_str in line.strip().split(","))
                     for line in all_lines
