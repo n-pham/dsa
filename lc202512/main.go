@@ -6,6 +6,31 @@ import (
 
 //lint:file-ignore U1000 Ignore all unused code, it's generated
 
+func CountSpecialTriplets(nums []int) (cnt int) {
+	// 3583
+	// nums[i] == nums[j] * 2
+	// nums[k] == nums[j] * 2
+	const MOD = 1_000_000_007
+	n := len(nums)
+	prefixCounts := make(map[int]int)
+	suffixCounts := make(map[int]int)
+	for _, num := range nums {
+		suffixCounts[num]++
+	}
+	for j := 0; j < n; j++ {
+		suffixCounts[nums[j]]--
+		if suffixCounts[nums[j]] == 0 {
+			delete(suffixCounts, nums[j])
+		}
+		target := nums[j] * 2
+		countLeft := prefixCounts[target]
+		countRight := suffixCounts[target]
+		cnt = (cnt + int((int64(countLeft)*int64(countRight))%MOD))%MOD
+		prefixCounts[nums[j]]++
+	}
+	return
+}
+
 func CountTriples(n int) (cnt int) {
 	// 1925
 	for i := 1; i < n-1; i++ {

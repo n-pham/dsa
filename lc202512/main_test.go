@@ -4,6 +4,23 @@ import (
 	"fmt"
 )
 
+func ExampleCountSpecialTriplets() {
+	fmt.Println(CountSpecialTriplets([]int{6,3,6}))
+	fmt.Println(CountSpecialTriplets([]int{0,1,0,0}))
+	fmt.Println(CountSpecialTriplets([]int{8,4,2,8,4}))
+	// Unordered output:
+	// 1
+	// 1
+	// 2
+}
+
+func ExampleCountSpecialTriplets_largeZeros() {
+	nums := make([]int, 10000) // 10000 zeros
+	fmt.Println(CountSpecialTriplets(nums))
+	// Output:
+	// 616668838
+}
+
 func ExampleCountTriples() {
 	fmt.Println(CountTriples(5))
 	fmt.Println(CountTriples(10))
