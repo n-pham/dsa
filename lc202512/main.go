@@ -2,9 +2,73 @@ package main
 
 import (
 	"math"
+	"sort"
+	"strconv"
+	"strings"
 )
 
 //lint:file-ignore U1000 Ignore all unused code, it's generated
+
+func CountCoveredBuildings(n int, buildings [][]int) int {
+	// 3531
+	return 0
+}
+
+type Event struct {
+	Type      string
+	Timestamp int
+	Payload   string
+}
+
+func CountMentions(numberOfUsers int, events [][]string) []int {
+	// 3433
+	parsedEvents := make([]Event, len(events))
+	for i, e := range events {
+		ts, _ := strconv.Atoi(e[1])
+		parsedEvents[i] = Event{Type: e[0], Timestamp: ts, Payload: e[2]}
+	}
+	sort.Slice(parsedEvents, func(i, j int) bool {
+		if parsedEvents[i].Timestamp != parsedEvents[j].Timestamp {
+			return parsedEvents[i].Timestamp < parsedEvents[j].Timestamp
+		}
+		return parsedEvents[i].Type == "OFFLINE" && parsedEvents[j].Type != "OFFLINE"
+	})
+	mentions := make([]int, numberOfUsers)
+	offlineUntil := make(map[int]int)
+	for _, event := range parsedEvents {
+		if event.Type == "OFFLINE" {
+			userID, _ := strconv.Atoi(event.Payload)
+			if userID >= 0 && userID < numberOfUsers {
+				offlineUntil[userID] = event.Timestamp + 60
+			}
+		} else if event.Type == "MESSAGE" {
+			mentionsStr := event.Payload
+			if mentionsStr == "ALL" {
+				for i := 0; i < numberOfUsers; i++ {
+					mentions[i]++
+				}
+			} else if mentionsStr == "HERE" {
+				for i := 0; i < numberOfUsers; i++ {
+					backOnlineTs, isOffline := offlineUntil[i]
+					if !isOffline || event.Timestamp >= backOnlineTs {
+						mentions[i]++
+					}
+				}
+			} else {
+				idStrs := strings.Split(mentionsStr, " ")
+				for _, idStr := range idStrs {
+					if len(idStr) > 2 {
+						userID, err := strconv.Atoi(idStr[2:])
+						if err == nil && userID >= 0 && userID < numberOfUsers {
+							mentions[userID]++
+						}
+					}
+				}
+			}
+		}
+	}
+	return mentions
+}
 
 func CountSpecialTriplets(nums []int) (cnt int) {
 	// 3583

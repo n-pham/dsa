@@ -4,6 +4,30 @@ import (
 	"fmt"
 )
 
+func ExampleCountMentions() {
+	fmt.Println(CountMentions(3, [][]string{
+		{"OFFLINE", "10", "1"},
+		{"MESSAGE", "20", "HERE"},
+		{"MESSAGE", "30", "ALL"},
+		{"MESSAGE", "40", "id1 id1 id2"},
+		{"MESSAGE", "80", "HERE"},
+	}))
+
+	fmt.Println(CountMentions(2, [][]string{
+		{"MESSAGE", "100", "id0"},
+		{"OFFLINE", "100", "0"},
+	}))
+
+	fmt.Println(CountMentions(2, [][]string{
+		{"MESSAGE", "100", "HERE"},
+		{"OFFLINE", "100", "0"},
+	}))
+	// Unordered output:
+	// [3 4 4]
+	// [1 0]
+	// [0 1]
+}
+
 func ExampleCountSpecialTriplets() {
 	fmt.Println(CountSpecialTriplets([]int{6,3,6}))
 	fmt.Println(CountSpecialTriplets([]int{0,1,0,0}))
