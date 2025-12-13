@@ -9,6 +9,54 @@ import (
 
 //lint:file-ignore U1000 Ignore all unused code, it's generated
 
+func ValidateCoupons(code []string, businessLine []string, isActive []bool) []string {
+	// 3606
+	type Coupon struct {
+		Code         string
+		BusinessLine string
+	}
+	validBusinessLines := map[string]int{
+		"electronics": 0,
+		"grocery":     1,
+		"pharmacy":    2,
+		"restaurant":  3,
+	}
+	var validCoupons []Coupon
+	for i := 0; i < len(code); i++ {
+		if !isActive[i] {
+			continue
+		}
+		if _, ok := validBusinessLines[businessLine[i]]; !ok {
+			continue
+		}
+		if code[i] == "" {
+			continue
+		}
+		isAlphanumeric := true
+		for _, char := range code[i] {
+			if !((char >= 'a' && char <= 'z') || (char >= 'A' && char <= 'Z') || (char >= '0' && char <= '9') || char == '_') {
+				isAlphanumeric = false
+				break
+			}
+		}
+		if !isAlphanumeric {
+			continue
+		}
+		validCoupons = append(validCoupons, Coupon{Code: code[i], BusinessLine: businessLine[i]})
+	}
+	sort.Slice(validCoupons, func(i, j int) bool {
+		if validBusinessLines[validCoupons[i].BusinessLine] != validBusinessLines[validCoupons[j].BusinessLine] {
+			return validBusinessLines[validCoupons[i].BusinessLine] < validBusinessLines[validCoupons[j].BusinessLine]
+		}
+		return validCoupons[i].Code < validCoupons[j].Code
+	})
+	result := make([]string, len(validCoupons))
+	for i, c := range validCoupons {
+		result[i] = c.Code
+	}
+	return result
+}
+
 func CountCoveredBuildings(n int, buildings [][]int) int {
 	// 3531
 	return 0
@@ -89,7 +137,7 @@ func CountSpecialTriplets(nums []int) (cnt int) {
 		target := nums[j] * 2
 		countLeft := prefixCounts[target]
 		countRight := suffixCounts[target]
-		cnt = (cnt + int((int64(countLeft)*int64(countRight))%MOD))%MOD
+		cnt = (cnt + int((int64(countLeft)*int64(countRight))%MOD)) % MOD
 		prefixCounts[nums[j]]++
 	}
 	return

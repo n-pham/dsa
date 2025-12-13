@@ -29,9 +29,9 @@ func ExampleCountMentions() {
 }
 
 func ExampleCountSpecialTriplets() {
-	fmt.Println(CountSpecialTriplets([]int{6,3,6}))
-	fmt.Println(CountSpecialTriplets([]int{0,1,0,0}))
-	fmt.Println(CountSpecialTriplets([]int{8,4,2,8,4}))
+	fmt.Println(CountSpecialTriplets([]int{6, 3, 6}))
+	fmt.Println(CountSpecialTriplets([]int{0, 1, 0, 0}))
+	fmt.Println(CountSpecialTriplets([]int{8, 4, 2, 8, 4}))
 	// Unordered output:
 	// 1
 	// 1
@@ -71,4 +71,12 @@ func ExampleCountPartitions() {
 	// 4
 	// 0
 	// 3
+}
+
+func ExampleValidateCoupons() {
+	codes := []string{"code1", "code2", "code3", "code4", "code5", "invalid-code", "code6", "code7", ""}
+	businessLines := []string{"grocery", "electronics", "pharmacy", "restaurant", "grocery", "grocery", "electronics", "food", "pharmacy"}
+	isActives := []bool{true, true, true, true, false, true, true, true, true}
+	fmt.Println(ValidateCoupons(codes, businessLines, isActives))
+	// Output: [code2 code6 code1 code3 code4]
 }
