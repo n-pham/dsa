@@ -9,6 +9,21 @@ import (
 
 //lint:file-ignore U1000 Ignore all unused code, it's generated
 
+func GetDescentPeriods(prices []int) int64 {
+	// 2110
+	streak := int64(1)
+	cnt := int64(1)
+	for i := 1; i < len(prices); i++ {
+		if prices[i-1]-prices[i] == 1 {
+			streak++
+		} else {
+			streak = 1
+		}
+		cnt += streak
+	}
+	return cnt
+}
+
 func ValidateCoupons(code []string, businessLine []string, isActive []bool) []string {
 	// 3606
 	type Coupon struct {
