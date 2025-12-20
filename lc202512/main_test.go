@@ -4,6 +4,16 @@ import (
 	"fmt"
 )
 
+func ExampleMinDeletionSize() {
+	fmt.Println(MinDeletionSize([]string{"cba","daf","ghi"}))
+	fmt.Println(MinDeletionSize([]string{"a","b"}))
+	fmt.Println(MinDeletionSize([]string{"zyx","wvu","tsr"}))
+	// Unordered output:
+	// 1
+	// 0
+	// 3
+}
+
 func ExampleGetDescentPeriods() {
 	fmt.Println(GetDescentPeriods([]int{3, 2, 1, 4}))
 	fmt.Println(GetDescentPeriods([]int{8, 6, 7, 7}))
