@@ -9,6 +9,41 @@ import (
 
 //lint:file-ignore U1000 Ignore all unused code, it's generated
 
+func MinDeletionSize(strs []string) (cnt int) {
+	// 944
+	// abc
+	// bce
+	// cae
+	//  ^ 
+	h, w := len(strs), len(strs[0])
+	for cIndex := 0; cIndex < w; cIndex++ {
+		sortedInt := 0
+		for rIndex := 1; rIndex < h; rIndex++ {
+			if strs[rIndex][cIndex] < strs[rIndex-1][cIndex] {
+				sortedInt = 1
+				break
+			}
+		}
+		cnt += sortedInt
+	}
+	return
+}
+
+func GetDescentPeriods(prices []int) int64 {
+	// 2110
+	streak := int64(1)
+	cnt := int64(1)
+	for i := 1; i < len(prices); i++ {
+		if prices[i-1]-prices[i] == 1 {
+			streak++
+		} else {
+			streak = 1
+		}
+		cnt += streak
+	}
+	return cnt
+}
+
 func ValidateCoupons(code []string, businessLine []string, isActive []bool) []string {
 	// 3606
 	type Coupon struct {
