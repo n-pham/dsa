@@ -4,10 +4,18 @@ import (
 	"fmt"
 )
 
+func ExampleMinimumBoxes() {
+	fmt.Println(MinimumBoxes([]int{1, 3, 2}, []int{4, 3, 1, 5, 2}))
+	fmt.Println(MinimumBoxes([]int{5, 5, 5}, []int{2, 4, 2, 7}))
+	// Unordered output:
+	// 2
+	// 4
+}
+
 func ExampleMinDeletionSize() {
-	fmt.Println(MinDeletionSize([]string{"cba","daf","ghi"}))
-	fmt.Println(MinDeletionSize([]string{"a","b"}))
-	fmt.Println(MinDeletionSize([]string{"zyx","wvu","tsr"}))
+	fmt.Println(MinDeletionSize([]string{"cba", "daf", "ghi"}))
+	fmt.Println(MinDeletionSize([]string{"a", "b"}))
+	fmt.Println(MinDeletionSize([]string{"zyx", "wvu", "tsr"}))
 	// Unordered output:
 	// 1
 	// 0
