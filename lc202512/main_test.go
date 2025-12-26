@@ -4,6 +4,16 @@ import (
 	"fmt"
 )
 
+func ExampleBestClosingTime() {
+	fmt.Println(BestClosingTime("YYNY"))
+	fmt.Println(BestClosingTime("NNNN"))
+	fmt.Println(BestClosingTime("YYYY"))
+	// Unordered output:
+	// 2
+	// 0
+	// 4
+}
+
 func ExampleMinimumBoxes() {
 	fmt.Println(MinimumBoxes([]int{1, 3, 2}, []int{4, 3, 1, 5, 2}))
 	fmt.Println(MinimumBoxes([]int{5, 5, 5}, []int{2, 4, 2, 7}))
