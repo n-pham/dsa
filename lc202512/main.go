@@ -2,6 +2,7 @@ package main
 
 import (
 	"math"
+	"slices"
 	"sort"
 	"strconv"
 	"strings"
@@ -9,12 +10,27 @@ import (
 
 //lint:file-ignore U1000 Ignore all unused code, it's generated
 
+func MinimumBoxes(apple []int, capacity []int) (boxCount int) {
+	// 3074
+	// apple = [5,5,5], capacity = [2,4,2,7] --> 4
+	appleCount := 0
+	for _, cnt := range apple {
+		appleCount += cnt
+	}
+	slices.Sort(capacity)
+	capacityLen := len(capacity)
+	for ; appleCount > 0; boxCount++ {
+		appleCount -= capacity[capacityLen-1-boxCount]
+	}
+	return
+}
+
 func MinDeletionSize(strs []string) (cnt int) {
 	// 944
 	// abc
 	// bce
 	// cae
-	//  ^ 
+	//  ^
 	h, w := len(strs), len(strs[0])
 	for cIndex := 0; cIndex < w; cIndex++ {
 		sortedInt := 0
