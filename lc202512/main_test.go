@@ -4,6 +4,16 @@ import (
 	"fmt"
 )
 
+func ExampleCanAttendMeetings() {
+	fmt.Println(CanAttendMeetings([][]int{{31, 34}, {0, 30}, {5, 10}}))
+	fmt.Println(CanAttendMeetings([][]int{{31, 34}, {0, 30}, {35, 50}}))
+	fmt.Println(CanAttendMeetings([][]int{{0, 10}, {20, 30}, {12, 18}}))
+	// Unordered output:
+	// false
+	// true
+	// true
+}
+
 func ExampleBestClosingTime() {
 	fmt.Println(BestClosingTime("YYNY"))
 	fmt.Println(BestClosingTime("NNNN"))
