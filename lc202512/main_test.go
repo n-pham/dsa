@@ -4,6 +4,12 @@ import (
 	"fmt"
 )
 
+func ExampleCountNegatives() {
+	fmt.Println(CountNegatives([][]int{{1, -1}, {-1, -1}}))
+	// Unordered output:
+	// 3
+}
+
 func ExampleCanAttendMeetings() {
 	fmt.Println(CanAttendMeetings([][]int{{31, 34}, {0, 30}, {5, 10}}))
 	fmt.Println(CanAttendMeetings([][]int{{31, 34}, {0, 30}, {35, 50}}))

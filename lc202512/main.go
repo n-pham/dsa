@@ -36,6 +36,28 @@ func debugLog(v ...any) {
 	}
 }
 
+func CountNegatives(grid [][]int) (cnt int) {
+	// 1351
+	//  4  3  2 -1
+	//  3  2  1 -1
+	//  1  1 -1 -2
+	// -1 -1 -2 -3
+	m, n := len(grid), len(grid[0])
+	for i := 0; i < m; i++ {
+		if grid[i][0] < 0 {
+			cnt += n * (m-i)
+			break
+		}
+		for j := 0; j < n; j++ {
+			if grid[i][j] < 0 {
+				cnt += n-j
+				break
+			}
+		}
+	}
+	return
+}
+
 func CanAttendMeetings(intervals [][]int) bool {
 	// 252
 	sort.Slice(intervals, func(i, j int) bool {
