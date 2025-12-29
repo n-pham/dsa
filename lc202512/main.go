@@ -1,7 +1,10 @@
 package main
 
 import (
+	"log"
 	"math"
+	"os"
+	"runtime"
 	"slices"
 	"sort"
 	"strconv"
@@ -9,6 +12,97 @@ import (
 )
 
 //lint:file-ignore U1000 Ignore all unused code, it's generated
+
+var (
+	debugEnabled = os.Getenv("DEBUG") == "true"
+	debugLogger  = log.New(os.Stdout, "DEBUG: ", log.Ldate|log.Ltime)
+)
+
+func debugLog(v ...any) {
+	if debugEnabled {
+		pc, _, _, ok := runtime.Caller(1)
+		if !ok {
+			debugLogger.Println(v...)
+			return
+		}
+		if fn := runtime.FuncForPC(pc); fn != nil {
+			name := fn.Name()
+			if lastDot := strings.LastIndex(name, "."); lastDot != -1 {
+				name = name[lastDot+1:]
+			}
+			args := append([]any{name + ":"}, v...)
+			debugLogger.Println(args...)
+		}
+	}
+}
+
+func CountNegatives(grid [][]int) (cnt int) {
+	// 1351
+	//  4  3  2 -1
+	//  3  2  1 -1
+	//  1  1 -1 -2
+	// -1 -1 -2 -3
+	m, n := len(grid), len(grid[0])
+	for i := 0; i < m; i++ {
+		if grid[i][0] < 0 {
+			cnt += n * (m-i)
+			break
+		}
+		for j := 0; j < n; j++ {
+			if grid[i][j] < 0 {
+				cnt += n-j
+				break
+			}
+		}
+	}
+	return
+}
+
+func CanAttendMeetings(intervals [][]int) bool {
+	// 252
+	sort.Slice(intervals, func(i, j int) bool {
+		return intervals[i][0] < intervals[j][0]
+	})
+	for i := 0; i < len(intervals)-1; i++ {
+		if intervals[i][1] > intervals[i+1][0] {
+			return false
+		}
+	}
+	return true
+}
+
+func BestClosingTime(customers string) int {
+	// 2483
+	//          YYNY
+	// prefixN 00011
+	// suffixY 32110
+	//         32121
+	n := len(customers)
+	prefixN := make([]int, n+1)
+	for i, c := range customers {
+		if c == 'N' {
+			prefixN[i+1] = prefixN[i] + 1
+		} else {
+			prefixN[i+1] = prefixN[i]
+		}
+	}
+	suffixY := make([]int, n+1)
+	for i := n - 1; i >= 0; i-- {
+		if customers[i] == 'Y' {
+			suffixY[i] = suffixY[i+1] + 1
+		} else {
+			suffixY[i] = suffixY[i+1]
+		}
+	}
+	closingHour, minPenalty := 0, math.MaxUint32
+	for i, nCount := range prefixN {
+		if nCount+suffixY[i] < minPenalty {
+			minPenalty = nCount + suffixY[i]
+			closingHour = i
+		}
+	}
+	return closingHour
+}
 
 func MinimumBoxes(apple []int, capacity []int) (boxCount int) {
 	// 3074

@@ -4,6 +4,32 @@ import (
 	"fmt"
 )
 
+func ExampleCountNegatives() {
+	fmt.Println(CountNegatives([][]int{{1, -1}, {-1, -1}}))
+	// Unordered output:
+	// 3
+}
+
+func ExampleCanAttendMeetings() {
+	fmt.Println(CanAttendMeetings([][]int{{31, 34}, {0, 30}, {5, 10}}))
+	fmt.Println(CanAttendMeetings([][]int{{31, 34}, {0, 30}, {35, 50}}))
+	fmt.Println(CanAttendMeetings([][]int{{0, 10}, {20, 30}, {12, 18}}))
+	// Unordered output:
+	// false
+	// true
+	// true
+}
+
+func ExampleBestClosingTime() {
+	fmt.Println(BestClosingTime("YYNY"))
+	fmt.Println(BestClosingTime("NNNN"))
+	fmt.Println(BestClosingTime("YYYY"))
+	// Unordered output:
+	// 2
+	// 0
+	// 4
+}
+
 func ExampleMinimumBoxes() {
 	fmt.Println(MinimumBoxes([]int{1, 3, 2}, []int{4, 3, 1, 5, 2}))
 	fmt.Println(MinimumBoxes([]int{5, 5, 5}, []int{2, 4, 2, 7}))
