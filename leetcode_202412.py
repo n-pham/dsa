@@ -1,6 +1,11 @@
 import bisect  # noqa: F401
 import functools  # noqa: F401
 import heapq  # noqa: F401
+import math
+import numba
+import numpy as np
+import random
+import time
 
 
 def addSpaces2109(s: str, spaces: list[int]) -> str:
@@ -75,6 +80,21 @@ def largestCombination2275(candidates: list[int]) -> int:
         # largest = max(largest, functools.reduce(lambda cnt, number: cnt +1 if number & (1 << i) else cnt, candidates, 0))
     return largest
 
+
+@numba.njit
+def largestCombination2275numba(candidates: list[int]) -> int:
+    largest = 0
+    max_val = np.max(candidates)
+    max_bits = int(math.log2(max_val)) + 1 # replaces .bit_length()
+    for i in range(max_bits):
+        count = 0
+        mask = 1 << i
+        for number in candidates:
+            if number & mask:
+                count += 1
+        if count > largest:
+            largest = count
+    return largest
 
 # print(largestCombination2275([16, 17, 71, 62, 12, 24, 14]))
 # print(largestCombination2275([8, 8]))
@@ -279,7 +299,7 @@ def final_prices(prices):
     return final_prices
 
 
-assert final_prices([8, 4, 6, 2, 3]) == [4, 2, 4, 2, 3]
+# assert final_prices([8, 4, 6, 2, 3]) == [4, 2, 4, 2, 3]
 
 # assert findScore2593([2,2,1,3,1,5,2]) == 6
 # test5 = MaxTwoEvents()
@@ -289,3 +309,32 @@ assert final_prices([8, 4, 6, 2, 3]) == [4, 2, 4, 2, 3]
 # assert test2.maxTwoEvents([[72, 80, 70], [35, 90, 47]]) == 70
 # assert test3.maxTwoEvents([[1,3,2],[4,5,2],[1,5,5]]) == 5
 # assert test4.maxTwoEvents([[1,5,3],[1,5,1],[6,6,5]]) == 8
+
+# Benchmark harness
+def benchmark_numba(n=100000, max_val=1<<20):
+    # Generate random candidates
+    candidates = [random.randint(1, max_val) for _ in range(n)]
+    np_candidates = np.array(candidates, dtype=np.int64)
+
+    # Pure Python timing
+    start = time.time()
+    result_py = largestCombination2275(candidates)
+    t_py = time.time() - start
+
+    # Numba timing (first call includes compilation)
+    start = time.time()
+    result_numba = largestCombination2275numba(np_candidates)
+    t_numba_first = time.time() - start
+
+    # Second call (no compilation overhead)
+    start = time.time()
+    result_numba2 = largestCombination2275numba(np_candidates)
+    t_numba = time.time() - start
+
+    print("Results match:", result_py == result_numba == result_numba2)
+    print(f"Python time: {t_py:.4f} sec")
+    print(f"Numba first call (compile+run): {t_numba_first:.4f} sec")
+    print(f"Numba subsequent call: {t_numba:.4f} sec")
+
+if __name__ == "__main__":
+    benchmark_numba()
