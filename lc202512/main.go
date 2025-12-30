@@ -36,6 +36,95 @@ func debugLog(v ...any) {
 	}
 }
 
+func NumMagicSquaresInside(grid [][]int) (magicSquareCount int) {
+	// 840
+	m, n := len(grid), len(grid[0])
+	isMagic := func(r, c int) bool {
+		if grid[r+1][c+1] != 5 {
+			return false
+		}
+		// Rows
+		if grid[r][c]+grid[r][c+1]+grid[r][c+2] != 15 {
+			return false
+		}
+		if grid[r+1][c]+grid[r+1][c+1]+grid[r+1][c+2] != 15 {
+			return false
+		}
+		if grid[r+2][c]+grid[r+2][c+1]+grid[r+2][c+2] != 15 {
+			return false
+		}
+		// Cols
+		if grid[r][c]+grid[r+1][c]+grid[r+2][c] != 15 {
+			return false
+		}
+		if grid[r][c+1]+grid[r+1][c+1]+grid[r+2][c+1] != 15 {
+			return false
+		}
+		if grid[r][c+2]+grid[r+1][c+2]+grid[r+2][c+2] != 15 {
+			return false
+		}
+		// Diagonals
+		if grid[r][c]+grid[r+1][c+1]+grid[r+2][c+2] != 15 {
+			return false
+		}
+		if grid[r][c+2]+grid[r+1][c+1]+grid[r+2][c] != 15 {
+			return false
+		}
+		return true
+	}
+	// moving window
+	var counts [16]int8
+	for i := 0; i <= m-3; i++ {
+		counts = [16]int8{}
+		distinct := 0
+
+		// Fill first 3x3
+		for r := i; r < i+3; r++ {
+			for c := 0; c < 3; c++ {
+				val := grid[r][c]
+				if val >= 1 && val <= 9 {
+					counts[val]++
+					if counts[val] == 1 {
+						distinct++
+					}
+				}
+			}
+		}
+
+		if distinct == 9 && isMagic(i, 0) {
+			magicSquareCount++
+		}
+
+		for j := 1; j <= n-3; j++ {
+			// Remove col j-1
+			for r := i; r < i+3; r++ {
+				val := grid[r][j-1]
+				if val >= 1 && val <= 9 {
+					counts[val]--
+					if counts[val] == 0 {
+						distinct--
+					}
+				}
+			}
+			// Add col j+2
+			for r := i; r < i+3; r++ {
+				val := grid[r][j+2]
+				if val >= 1 && val <= 9 {
+					counts[val]++
+					if counts[val] == 1 {
+						distinct++
+					}
+				}
+			}
+
+			if distinct == 9 && isMagic(i, j) {
+				magicSquareCount++
+			}
+		}
+	}
+	return
+}
+
 func CountNegatives(grid [][]int) (cnt int) {
 	// 1351
 	//  4  3  2 -1

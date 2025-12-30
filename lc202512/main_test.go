@@ -4,6 +4,14 @@ import (
 	"fmt"
 )
 
+func ExampleNumMagicSquaresInside() {
+	fmt.Println(NumMagicSquaresInside([][]int{{4,3,8,4},{9,5,1,9},{2,7,6,2}}))
+	fmt.Println(NumMagicSquaresInside([][]int{{8}}))
+	// Unordered output:
+	// 1
+	// 0
+}
+
 func ExampleCountNegatives() {
 	fmt.Println(CountNegatives([][]int{{1, -1}, {-1, -1}}))
 	// Unordered output:
