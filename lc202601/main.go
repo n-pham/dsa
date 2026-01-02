@@ -34,6 +34,19 @@ func debugLog(v ...any) {
 	}
 }
 
+func RepeatedNTimes(nums []int) int {
+	// 961
+	n := len(nums) / 2
+	numMap := make(map[int]struct{}, n+1)
+	for i := 0; i < n+2; i++ {
+		if _, found := numMap[nums[i]]; found {
+			return nums[i]
+		}
+		numMap[nums[i]] = struct{}{}
+	}
+	return 0
+}
+
 func ReverseVowels(s string) string {
 	// 345
 	vowels := map[rune]bool{
