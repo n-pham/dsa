@@ -8,16 +8,51 @@ func ExampleSumFourDivisors() {
 	fmt.Println(SumFourDivisors([]int{21, 4, 7}))
 	fmt.Println(SumFourDivisors([]int{21, 21}))
 	fmt.Println(SumFourDivisors([]int{1, 2, 3, 4, 5}))
-	// Unordered output:
+	fmt.Println(SumFourDivisors([]int{1, 6, 8, 10, 12})) // 6 (1,2,3,6), 8 (1,2,4,8), 10 (1,2,5,10), 12 (1,2,3,4,6,12)
+	fmt.Println(SumFourDivisors([]int{}))                 // Empty slice
+	fmt.Println(SumFourDivisors([]int{30}))               // Has more than 4 divisors (1,2,3,5,6,10,15,30)
+	fmt.Println(SumFourDivisors([]int{13}))               // Prime, only 2 divisors
+	// Output:
 	// 32
 	// 64
+	// 0
+	// 45
+	// 0
+	// 0
 	// 0
 }
 
 func ExampleReverseVowels() {
 	fmt.Println(ReverseVowels("IceCreAm"))
 	fmt.Println(ReverseVowels("leetcode"))
-	// Unordered output:
+	fmt.Println(ReverseVowels("hello"))
+	fmt.Println(ReverseVowels("aeiou"))
+	fmt.Println(ReverseVowels("Aa"))
+	fmt.Println(ReverseVowels("rhythm"))
+	fmt.Println(ReverseVowels("a"))
+	fmt.Println(ReverseVowels("b"))
+	fmt.Println(ReverseVowels(""))
+	fmt.Println(ReverseVowels("!@#$"))
+	// Output:
 	// AceCreIm
 	// leotcede
+	// holle
+	// uoiea
+	// aA
+	// rhythm
+	// a
+	// b
+	//
+	// !@#$
 }
+
+func ExampleRepeatedNTimes() {
+	fmt.Println(RepeatedNTimes([]int{1, 2, 3, 3}))
+	fmt.Println(RepeatedNTimes([]int{2, 1, 2, 5, 3, 2}))
+	fmt.Println(RepeatedNTimes([]int{5, 1, 5, 2, 5, 3, 5, 4}))
+	// Output:
+	// 3
+	// 2
+	// 5
+}
+
