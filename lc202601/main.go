@@ -4,6 +4,7 @@ package main
 
 import (
 	"log"
+	"math"
 	"os"
 	"runtime"
 	"strings"
@@ -32,6 +33,29 @@ func debugLog(v ...any) {
 			debugLogger.Println(args...)
 		}
 	}
+}
+
+func SumFourDivisors(nums []int) (result int) {
+	// 1390
+	for _, num := range nums {
+		maxDivisor := int(math.Sqrt(float64(num)))
+		divisorCount, divisorSum := 2, 1+num // 1 and num are always divisors
+		for i := 2; i <= maxDivisor; i++ {
+			if num%i == 0 {
+				if i*i == num {
+					divisorCount += 1
+					divisorSum += i
+				} else {
+					divisorCount += 2
+					divisorSum += i + num/i
+				}
+			}
+		}
+		if divisorCount == 4 {
+			result += divisorSum
+		}
+	}
+	return
 }
 
 func RepeatedNTimes(nums []int) int {
