@@ -3,4 +3,5 @@ resolver = "2"
 members = [
     "lc202511",
     "lc202512",
+    "lc202601",
 ]
