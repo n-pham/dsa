@@ -9,6 +9,21 @@ import (
 
 //lint:file-ignore U1000 Ignore all unused code, it's generated
 
+func CanConstruct(ransomNote string, magazine string) bool {
+	// 383
+	countByChar := [26]int{} // array of 26 chars is faster than map
+	for _, char := range magazine {
+		countByChar[char-'a']++
+	}
+	for _, char := range ransomNote {
+		countByChar[char-'a']--
+		if countByChar[char-'a'] < 0 {
+			return false
+		}
+	}
+	return true
+}
+
 func SumFourDivisors(nums []int) (result int) {
 	// 1390
 	for _, num := range nums {
