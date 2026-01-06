@@ -58,9 +58,46 @@ pub fn repeated_n_times(nums: Vec<i32>) -> i32 {
     0
 }
 
+pub fn sum_four_divisors(nums: Vec<i32>) -> i32 {
+    let mut total_sum = 0;
+    for num in nums {
+        if num < 6 {
+            continue;
+        }
+        let mut count = 2; // 1 and num are always divisors for num > 1
+        let mut sum = 1 + num;
+        let root = (num as f64).sqrt() as i32;
+        for i in 2..=root {
+            if num % i == 0 {
+                if i * i == num {
+                    count += 1;
+                    sum += i;
+                } else {
+                    count += 2;
+                    sum += i + num / i;
+                }
+            }
+            if count > 4 {
+                break;
+            }
+        }
+        if count == 4 {
+            total_sum += sum;
+        }
+    }
+    total_sum
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn test_sum_four_divisors() {
+        assert_eq!(sum_four_divisors(vec![21, 4, 7]), 32);
+        assert_eq!(sum_four_divisors(vec![21, 21]), 64);
+        assert_eq!(sum_four_divisors(vec![1, 2, 3, 4, 5, 6, 7, 8, 9, 10]), 12 + 15 + 18); // 6 (1,2,3,6 sum 12), 8 (1,2,4,8 sum 15), 10 (1,2,5,10 sum 18)
+    }
 
     #[test]
     fn test_can_construct_failed() {
