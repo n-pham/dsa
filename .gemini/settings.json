@@ -1,19 +1,11 @@
 {
-    "mcpServers": {
-        // "sequentialthinking": {
-		// 	"command": "npx",
-		// 	"args": [
-		// 		"-y",
-		// 		"@modelcontextprotocol/server-sequential-thinking"
-		// 	],
-		// 	"type": "stdio"
-		// }
-		// "context7": {
-		// 	"httpUrl": "https://mcp.context7.com/mcp",
-		// 	"headers": {
-		// 		"CONTEXT7_API_KEY": "$CONTEXT7_API_KEY",
-		// 		"Accept": "application/json, text/event-stream"
-		// 	}
-		// }
-    }
+    "tools": {
+        "allowed": [
+            "run_shell_command(uv run pytest)",
+            "run_shell_command(cargo llvm-cov)",
+            "run_shell_command(go test)",
+            "edit"
+        ]
+    },
+    "mcpServers": {}
 }
