@@ -4,14 +4,24 @@ import (
 	"fmt"
 )
 
+func ExampleFirstUniqChar() {
+	fmt.Println(FirstUniqChar("leetcode"))
+	fmt.Println(FirstUniqChar("loveleetcode"))
+	fmt.Println(FirstUniqChar("aabb"))
+	// Output:
+	// 0
+	// 2
+	// -1
+}
+
 func ExampleSumFourDivisors() {
 	fmt.Println(SumFourDivisors([]int{21, 4, 7}))
 	fmt.Println(SumFourDivisors([]int{21, 21}))
 	fmt.Println(SumFourDivisors([]int{1, 2, 3, 4, 5}))
 	fmt.Println(SumFourDivisors([]int{1, 6, 8, 10, 12})) // 6 (1,2,3,6), 8 (1,2,4,8), 10 (1,2,5,10), 12 (1,2,3,4,6,12)
-	fmt.Println(SumFourDivisors([]int{}))                 // Empty slice
-	fmt.Println(SumFourDivisors([]int{30}))               // Has more than 4 divisors (1,2,3,5,6,10,15,30)
-	fmt.Println(SumFourDivisors([]int{13}))               // Prime, only 2 divisors
+	fmt.Println(SumFourDivisors([]int{}))                // Empty slice
+	fmt.Println(SumFourDivisors([]int{30}))              // Has more than 4 divisors (1,2,3,5,6,10,15,30)
+	fmt.Println(SumFourDivisors([]int{13}))              // Prime, only 2 divisors
 	// Output:
 	// 32
 	// 64
@@ -55,4 +65,3 @@ func ExampleRepeatedNTimes() {
 	// 2
 	// 5
 }
-

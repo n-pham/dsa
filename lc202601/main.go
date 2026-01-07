@@ -9,6 +9,32 @@ import (
 
 //lint:file-ignore U1000 Ignore all unused code, it's generated
 
+func FirstUniqChar(s string) int {
+	// 387
+	// a     a:1
+	// ab    a:1,b:2
+	// abc   a:1,b:2,c:3
+	// abca  a:max,b:2,c:3
+	firstIndexByChar := [26]int{} // array of 26 chars is faster than map
+	for i, char := range s {
+		if firstIndexByChar[char-'a'] == 0 {
+			firstIndexByChar[char-'a'] = i + 1 // use 1-based index to avoid default value 0
+		} else {
+			firstIndexByChar[char-'a'] = math.MaxInt
+		}
+	}
+	firstIndex := math.MaxInt
+	for _, index := range firstIndexByChar {
+		if index > 0 && index < firstIndex {
+			firstIndex = index
+		}
+	}
+	if firstIndex == math.MaxInt {
+		return -1
+	}
+	return firstIndex - 1
+}
+
 func CanConstruct(ransomNote string, magazine string) bool {
 	// 383
 	countByChar := [26]int{} // array of 26 chars is faster than map
