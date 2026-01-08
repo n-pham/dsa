@@ -4,6 +4,14 @@ import (
 	"fmt"
 )
 
+func ExampleFindTheDifference() {
+	fmt.Println(string(FindTheDifference("abcd", "abcde")))
+	fmt.Println(string(FindTheDifference("", "y")))
+	// Output:
+	// e
+	// y
+}
+
 func ExampleFirstUniqChar() {
 	fmt.Println(FirstUniqChar("leetcode"))
 	fmt.Println(FirstUniqChar("loveleetcode"))

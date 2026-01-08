@@ -9,6 +9,21 @@ import (
 
 //lint:file-ignore U1000 Ignore all unused code, it's generated
 
+func FindTheDifference(s string, t string) byte {
+	// 389
+	countByChar := [26]int{} // array of 26 chars is faster than map
+	for _, char := range s {
+		countByChar[char-'a']++
+	}
+	for _, char := range t {
+		countByChar[char-'a']--
+		if countByChar[char-'a'] < 0 {
+			return byte(char)
+		}
+	}
+	return 0
+}
+
 func FirstUniqChar(s string) int {
 	// 387
 	// a     a:1
