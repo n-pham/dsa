@@ -9,6 +9,19 @@ import (
 
 //lint:file-ignore U1000 Ignore all unused code, it's generated
 
+func IsSubsequence(s string, t string) bool {
+	// 392
+	j, lent := 0, len(t)
+	for _, char := range s {
+		for ; j < lent && rune(t[j]) != char; j++ {}
+		if j >= len(t) {
+			return false
+		}
+		j++
+	}
+    return true
+}
+
 func FindTheDifference(s string, t string) byte {
 	// 389
 	countByChar := [26]int{} // array of 26 chars is faster than map

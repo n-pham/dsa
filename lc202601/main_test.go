@@ -73,3 +73,27 @@ func ExampleRepeatedNTimes() {
 	// 2
 	// 5
 }
+
+func ExampleIsSubsequence() {
+	fmt.Println(IsSubsequence("abc", "ahbgdc"))
+	fmt.Println(IsSubsequence("axc", "ahbgdc"))
+	fmt.Println(IsSubsequence("", "ahbgdc"))
+	fmt.Println(IsSubsequence("abc", ""))
+	fmt.Println(IsSubsequence("aa", "a"))
+	// Output:
+	// true
+	// false
+	// true
+	// false
+	// false
+}
+
+func ExampleCanConstruct() {
+	fmt.Println(CanConstruct("a", "b"))
+	fmt.Println(CanConstruct("aa", "ab"))
+	fmt.Println(CanConstruct("aa", "aab"))
+	// Output:
+	// false
+	// false
+	// true
+}
