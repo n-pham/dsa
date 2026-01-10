@@ -4,6 +4,22 @@ import (
 	"fmt"
 )
 
+func ExampleMinimumDeleteSum() {
+	fmt.Println(MinimumDeleteSum("sea", "eat"))
+	fmt.Println(MinimumDeleteSum("delete", "leet"))
+	fmt.Println(MinimumDeleteSum("", ""))
+	fmt.Println(MinimumDeleteSum("a", ""))
+	fmt.Println(MinimumDeleteSum("a", "b"))
+	fmt.Println(MinimumDeleteSum("abc", "abc"))
+	// Output:
+	// 231
+	// 403
+	// 0
+	// 97
+	// 195
+	// 0
+}
+
 func ExampleFindTheDifference() {
 	fmt.Println(string(FindTheDifference("abcd", "abcde")))
 	fmt.Println(string(FindTheDifference("", "y")))

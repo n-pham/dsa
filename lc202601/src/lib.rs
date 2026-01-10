@@ -1,6 +1,36 @@
 use std::collections::HashMap;
 use std::collections::HashSet;
 
+pub fn minimum_delete_sum(s1: &str, s2: &str) -> i32 {
+    let s1_bytes = s1.as_bytes();
+    let s2_bytes = s2.as_bytes();
+    let mut sum = 0;
+    for &b in s1_bytes {
+        sum += b as i32;
+    }
+    for &b in s2_bytes {
+        sum += b as i32;
+    }
+
+    let n = s2_bytes.len();
+    let mut dp = vec![0; n + 1];
+
+    for &c1 in s1_bytes {
+        let mut diag = 0;
+        for (j, &c2) in s2_bytes.iter().enumerate() {
+            let temp = dp[j + 1];
+            if c1 == c2 {
+                dp[j + 1] = diag + c1 as i32;
+            } else {
+                dp[j + 1] = dp[j + 1].max(dp[j]);
+            }
+            diag = temp;
+        }
+    }
+
+    sum - 2 * dp[n]
+}
+
 pub fn can_construct(ransom_note: &str, magazine: &str) -> bool {
     let mut counts = [0; 26];
     for b in magazine.bytes() {
@@ -91,6 +121,16 @@ pub fn sum_four_divisors(nums: Vec<i32>) -> i32 {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn test_minimum_delete_sum() {
+        assert_eq!(minimum_delete_sum("sea", "eat"), 231);
+        assert_eq!(minimum_delete_sum("delete", "leet"), 403);
+        assert_eq!(minimum_delete_sum("", ""), 0);
+        assert_eq!(minimum_delete_sum("a", ""), 97);
+        assert_eq!(minimum_delete_sum("a", "b"), 195);
+        assert_eq!(minimum_delete_sum("abc", "abc"), 0);
+    }
 
     #[test]
     fn test_sum_four_divisors() {

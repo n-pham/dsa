@@ -9,6 +9,36 @@ import (
 
 //lint:file-ignore U1000 Ignore all unused code, it's generated
 
+func MinimumDeleteSum(s1 string, s2 string) int {
+	// 712
+	sum := 0
+	for _, c := range s1 {
+		sum += int(c)
+	}
+	for _, c := range s2 {
+		sum += int(c)
+	}
+
+	n := len(s2)
+	dp := make([]int, n+1)
+
+	for _, c1 := range s1 {
+		diag := 0
+		for j, c2 := range s2 {
+			temp := dp[j+1]
+			if c1 == c2 {
+				dp[j+1] = diag + int(c1)
+			} else {
+				if dp[j+1] < dp[j] {
+					dp[j+1] = dp[j]
+				}
+			}
+			diag = temp
+		}
+	}
+	return sum - 2*dp[n]
+}
+
 func IsSubsequence(s string, t string) bool {
 	// 392
 	j, lent := 0, len(t)
