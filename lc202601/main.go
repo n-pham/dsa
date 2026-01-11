@@ -9,6 +9,26 @@ import (
 
 //lint:file-ignore U1000 Ignore all unused code, it's generated
 
+func LongestPalindrome(s string) (longest int) {
+	// 409
+	countByChar := [58]int{} // A to z, faster than map
+	for _, char := range s {
+		countByChar[char-'A']++
+	}
+	middle := 0
+	for _, cnt := range countByChar {
+		if cnt%2 == 0 {
+			longest += cnt
+		} else {
+			middle = 1
+			if cnt >= 3 {
+				longest += cnt-1
+			}
+		}
+	}
+	return longest+middle
+}
+
 func MinimumDeleteSum(s1 string, s2 string) int {
 	// 712
 	sum := 0

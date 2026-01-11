@@ -4,6 +4,14 @@ import (
 	"fmt"
 )
 
+func ExampleLongestPalindrome() {
+	fmt.Println(LongestPalindrome("abccccdd"))
+	fmt.Println(LongestPalindrome("a"))
+	// Output:
+	// 7
+	// 1
+}
+
 func ExampleMinimumDeleteSum() {
 	fmt.Println(MinimumDeleteSum("sea", "eat"))
 	fmt.Println(MinimumDeleteSum("delete", "leet"))
