@@ -9,6 +9,27 @@ import (
 
 //lint:file-ignore U1000 Ignore all unused code, it's generated
 
+func MinTimeToVisitAllPoints(points [][]int) (totalTime int) {
+	// 1266
+	// diagonal is faster
+	for i := 0; i < len(points)-1; i++ {
+		dx := points[i+1][0] - points[i][0]
+		if dx < 0 {
+			dx = -dx
+		}
+		dy := points[i+1][1] - points[i][1]
+		if dy < 0 {
+			dy = -dy
+		}
+		if dx > dy {
+			totalTime += dx
+		} else {
+			totalTime += dy
+		}
+	}
+	return totalTime
+}
+
 func LongestPalindrome(s string) (longest int) {
 	// 409
 	countByChar := [58]int{} // A to z, faster than map
@@ -22,11 +43,11 @@ func LongestPalindrome(s string) (longest int) {
 		} else {
 			middle = 1
 			if cnt >= 3 {
-				longest += cnt-1
+				longest += cnt - 1
 			}
 		}
 	}
-	return longest+middle
+	return longest + middle
 }
 
 func MinimumDeleteSum(s1 string, s2 string) int {
@@ -63,13 +84,14 @@ func IsSubsequence(s string, t string) bool {
 	// 392
 	j, lent := 0, len(t)
 	for _, char := range s {
-		for ; j < lent && rune(t[j]) != char; j++ {}
+		for ; j < lent && rune(t[j]) != char; j++ {
+		}
 		if j >= len(t) {
 			return false
 		}
 		j++
 	}
-    return true
+	return true
 }
 
 func FindTheDifference(s string, t string) byte {

@@ -4,6 +4,14 @@ import (
 	"fmt"
 )
 
+func ExampleMinTimeToVisitAllPoints() {
+	fmt.Println(MinTimeToVisitAllPoints([][]int{{1, 1}, {3, 4}, {-1, 0}}))
+	fmt.Println(MinTimeToVisitAllPoints([][]int{{3, 2}, {-2, 2}}))
+	// Output:
+	// 7
+	// 5
+}
+
 func ExampleLongestPalindrome() {
 	fmt.Println(LongestPalindrome("abccccdd"))
 	fmt.Println(LongestPalindrome("a"))
