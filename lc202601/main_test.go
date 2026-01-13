@@ -4,6 +4,16 @@ import (
 	"fmt"
 )
 
+func ExampleFizzBuzz() {
+	fmt.Println(FizzBuzz(3))
+	fmt.Println(FizzBuzz(5))
+	fmt.Println(FizzBuzz(15))
+	// Output:
+	// [1 2 Fizz]
+	// [1 2 Fizz 4 Buzz]
+	// [1 2 Fizz 4 Buzz Fizz 7 8 Fizz Buzz 11 Fizz 13 14 FizzBuzz]
+}
+
 func ExampleMinTimeToVisitAllPoints() {
 	fmt.Println(MinTimeToVisitAllPoints([][]int{{1, 1}, {3, 4}, {-1, 0}}))
 	fmt.Println(MinTimeToVisitAllPoints([][]int{{3, 2}, {-2, 2}}))

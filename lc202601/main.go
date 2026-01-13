@@ -1,13 +1,31 @@
 package main
 
-//lint:file-ignore U1000 Ignore all unused code, it's generated
-
 import (
 	"dsa/kit"
+	"fmt"
 	"math"
 )
 
-//lint:file-ignore U1000 Ignore all unused code, it's generated
+func FizzBuzz(n int) []string {
+	// 412
+	result := make([]string, n)
+    for i := 1; i <= n; i++ {
+		if i%3 == 0 {
+			if i%5 == 0 {
+				result[i-1] = "FizzBuzz"
+			} else {
+				result[i-1] = "Fizz"
+			}
+		} else {
+			if i%5 == 0 {
+				result[i-1] = "Buzz"
+			} else {
+				result[i-1] = fmt.Sprintf("%d", i)
+			}
+		}
+	}
+	return result
+}
 
 func MinTimeToVisitAllPoints(points [][]int) (totalTime int) {
 	// 1266
