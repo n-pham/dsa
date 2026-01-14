@@ -118,9 +118,65 @@ pub fn sum_four_divisors(nums: Vec<i32>) -> i32 {
     total_sum
 }
 
+pub fn third_max(nums: Vec<i32>) -> i32 {
+    let mut max1: Option<i32> = None;
+    let mut max2: Option<i32> = None;
+    let mut max3: Option<i32> = None;
+
+    for &num in &nums {
+        if Some(num) == max1 || Some(num) == max2 || Some(num) == max3 {
+            continue;
+        }
+        
+        if max1.is_none() || num > max1.unwrap() {
+            max3 = max2;
+            max2 = max1;
+            max1 = Some(num);
+        } else if max2.is_none() || num > max2.unwrap() {
+            max3 = max2;
+            max2 = Some(num);
+        } else if max3.is_none() || num > max3.unwrap() {
+            max3 = Some(num);
+        }
+    }
+
+    if let Some(m3) = max3 {
+        m3
+    } else {
+        max1.unwrap()
+    }
+}
+
+pub fn fizz_buzz(n: i32) -> Vec<String> {
+    // 412
+    let mut result = Vec::with_capacity(n as usize);
+    for i in 1..=n {
+        if i % 3 == 0 && i % 5 == 0 {
+            result.push("FizzBuzz".to_string());
+        } else if i % 3 == 0 {
+            result.push("Fizz".to_string());
+        } else if i % 5 == 0 {
+            result.push("Buzz".to_string());
+        } else {
+            result.push(i.to_string());
+        }
+    }
+    result
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn test_third_max() {
+        assert_eq!(third_max(vec![3, 2, 1]), 1);
+        assert_eq!(third_max(vec![1, 2]), 2);
+        assert_eq!(third_max(vec![2, 2, 3, 1]), 1);
+        assert_eq!(third_max(vec![1, 1, 2]), 2);
+        assert_eq!(third_max(vec![1, 2, i32::MIN]), i32::MIN);
+        assert_eq!(third_max(vec![1, 1, 1]), 1);
+    }
 
     #[test]
     fn test_minimum_delete_sum() {
@@ -190,5 +246,14 @@ mod tests {
         assert_eq!(repeated_n_times(vec![2, 1, 2, 5, 3, 2]), 2);
         assert_eq!(repeated_n_times(vec![5, 1, 5, 2, 5, 3, 5, 4]), 5);
         assert_eq!(repeated_n_times(vec![1, 1]), 1);
+    }
+
+    #[test]
+    fn test_fizz_buzz() {
+        assert_eq!(fizz_buzz(3), vec!["1", "2", "Fizz"]);
+        assert_eq!(fizz_buzz(5), vec!["1", "2", "Fizz", "4", "Buzz"]);
+        assert_eq!(fizz_buzz(15), vec!["1", "2", "Fizz", "4", "Buzz", "Fizz", "7", "8", "Fizz", "Buzz", "11", "Fizz", "13", "14", "FizzBuzz"]);
+        assert_eq!(fizz_buzz(0), Vec::<String>::new());
+        assert_eq!(fizz_buzz(1), vec!["1"]);
     }
 }
