@@ -4,6 +4,16 @@ import (
 	"fmt"
 )
 
+func ExampleThirdMax() {
+	fmt.Println(ThirdMax([]int{3, 2, 1}))
+	fmt.Println(ThirdMax([]int{1, 2}))
+	fmt.Println(ThirdMax([]int{2, 2, 3, 1}))
+	// Output:
+	// 1
+	// 2
+	// 1
+}
+
 func ExampleFizzBuzz() {
 	fmt.Println(FizzBuzz(3))
 	fmt.Println(FizzBuzz(5))

@@ -6,6 +6,29 @@ import (
 	"math"
 )
 
+func ThirdMax(nums []int) int {
+	// 414
+	max1 := math.MinInt
+	max2 := math.MinInt
+	max3 := math.MinInt
+	for _, n := range nums {
+		if n > max1 {
+			max3 = max2
+			max2 = max1
+			max1 = n
+		} else if n > max2 && n != max1 {
+			max3 = max2
+			max2 = n
+		} else if n > max3 && n != max1 && n != max2 {
+			max3 = n
+		}
+	}
+	if max3 == math.MinInt {
+		return max1
+	}
+	return max3
+}
+
 func FizzBuzz(n int) []string {
 	// 412
 	result := make([]string, n)
