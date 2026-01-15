@@ -6,6 +6,17 @@ import (
 	"math"
 )
 
+func TheMaximumAchievableX(num int, t int) int {
+	// 2769
+	return num + 2*t
+}
+
+func AddStrings(num1 string, num2 string) string {
+	// 415
+	// runeSlice := make([]rune, max)
+	return ""
+}
+
 func ThirdMax(nums []int) int {
 	// 414
 	max1 := math.MinInt

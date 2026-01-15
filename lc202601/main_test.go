@@ -4,6 +4,24 @@ import (
 	"fmt"
 )
 
+func ExampleTheMaximumAchievableX() {
+	fmt.Println(TheMaximumAchievableX(4, 1))
+	fmt.Println(TheMaximumAchievableX(3, 2))
+	// Output:
+	// 6
+	// 7
+}
+
+func ExampleAddStrings() {
+	fmt.Println(AddStrings("11", "123"))
+	fmt.Println(AddStrings("456", "77"))
+	fmt.Println(AddStrings("0", "0"))
+	// Output:
+	// 134
+	// 533
+	// 0
+}
+
 func ExampleThirdMax() {
 	fmt.Println(ThirdMax([]int{3, 2, 1}))
 	fmt.Println(ThirdMax([]int{1, 2}))
