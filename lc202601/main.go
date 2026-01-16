@@ -6,6 +6,22 @@ import (
 	"math"
 )
 
+func RecoverOrder(order []int, friends []int) []int {
+	// 3668
+	// 1,3,4    3̲, 1̲, 2, 5, 4̲
+	friendIds := [101]bool{} // faster than map
+	for _, id := range friends {
+		friendIds[id] = true
+ 	}
+	friendOrder := make([]int, 0, len(order))
+	for _, id := range order {
+		if friendIds[id] {
+			friendOrder = append(friendOrder, id)
+		}
+	}
+	return friendOrder
+}
+
 func TheMaximumAchievableX(num int, t int) int {
 	// 2769
 	return num + 2*t
