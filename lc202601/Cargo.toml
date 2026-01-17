@@ -1,3 +1,10 @@
 [package]
 name = "lc202601"
 edition = "2021"
+
+[dev-dependencies]
+criterion = "0.5"
+
+[[bench]]
+name = "my_benchmark"
+harness = false

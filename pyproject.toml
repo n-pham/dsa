@@ -11,9 +11,11 @@ dependencies = [
 
 [dependency-groups]
 dev = [
+    "bandit>=1.7.6",
     "hypothesis>=6.148.1",
     "pre-commit>=4.2.0",
     "pytest>=8.4.2",
+    "pytest-benchmark>=4.0.0",
     "pytest-xdist~=3.8.0",
     "ruff>=0.13.0",
 ]
@@ -35,3 +37,8 @@ test-framework = "pytest"
 benchmarks-root = ""
 ignore-paths = []
 formatter-cmds = ["ruff check --exit-zero --fix $file", "ruff format $file"]
+
+[tool.bandit]
+exclude_dirs = ["tests", ".venv"]
+tests = ["B201", "B301"]
+skips = ["B101"]
