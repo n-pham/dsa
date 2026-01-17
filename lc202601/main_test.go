@@ -4,9 +4,17 @@ import (
 	"fmt"
 )
 
+func ExampleGetConcatenation() {
+	fmt.Println(GetConcatenation([]int{1, 2, 1}))
+	fmt.Println(GetConcatenation([]int{1, 3, 2, 1}))
+	// Output:
+	// [1 2 1 1 2 1]
+	// [1 3 2 1 1 3 2 1]
+}
+
 func ExampleRecoverOrder() {
-	fmt.Println(RecoverOrder([]int{3,1,2,5,4}, []int{1, 3, 4}))
-	fmt.Println(RecoverOrder([]int{1,4,5,3,2}, []int{2, 5}))
+	fmt.Println(RecoverOrder([]int{3, 1, 2, 5, 4}, []int{1, 3, 4}))
+	fmt.Println(RecoverOrder([]int{1, 4, 5, 3, 2}, []int{2, 5}))
 	// Output:
 	// [3 1 4]
 	// [5 2]

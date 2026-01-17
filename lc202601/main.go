@@ -6,13 +6,24 @@ import (
 	"math"
 )
 
+func GetConcatenation(nums []int) []int {
+	// 1929
+	n := len(nums)
+	result := make([]int, 2*n)
+	for i, num := range nums {
+		result[i] = num
+		result[n+i] = num
+	}
+	return result
+}
+
 func RecoverOrder(order []int, friends []int) []int {
 	// 3668
 	// 1,3,4    3̲, 1̲, 2, 5, 4̲
 	friendIds := [101]bool{} // faster than map
 	for _, id := range friends {
 		friendIds[id] = true
- 	}
+	}
 	friendOrder := make([]int, 0, len(order))
 	for _, id := range order {
 		if friendIds[id] {
@@ -59,7 +70,7 @@ func ThirdMax(nums []int) int {
 func FizzBuzz(n int) []string {
 	// 412
 	result := make([]string, n)
-    for i := 1; i <= n; i++ {
+	for i := 1; i <= n; i++ {
 		if i%3 == 0 {
 			if i%5 == 0 {
 				result[i-1] = "FizzBuzz"
