@@ -5,6 +5,8 @@ Python test cases are written in functions prefixed with `test_` in the same fil
 Golang test cases are written in Example documentation functions in `_test.go` files, require Golang function names to begin with uppercase and can be run with coverage report using `go test -cover`.
 Rust test cases are written in functions prefixed with `test_` in the same file and can be run with coverage report using `cargo llvm-cov --package <folder>`.
 
+Rule: After functional tests pass and coverage is over 80%, you MUST run `./verify_security.sh <folder_name>` and `./run_benchmarks.sh <folder_name>` (e.g., `lc202601`). If security issues are found, they must be fixed. Performance results should be reviewed to ensure the algorithm is optimal as requested.
+
 Rule: command line git and gh are not available.
 
 Rule: for optimal algorithms, the following built-in Python functions need to loop over string or list therefore should not be used separately but need to be combined in a single pass. Prefer this over readability or idiomatic Python style or concern separation.

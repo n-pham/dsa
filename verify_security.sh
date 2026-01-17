@@ -1,23 +1,34 @@
 #!/bin/bash
 set -e
 
+TARGET=${1:-"."}
+
 echo "=== Python Security Check (Bandit) ==="
-# Assuming uv is used
-uv run bandit -c pyproject.toml -r . || echo "Bandit found issues (or failed to run)"
+# Bandit handles directories and files.
+uv run bandit -c pyproject.toml -r "$TARGET" || echo "Bandit found issues (or failed to run)"
 
 echo "=== Go Security Check (Gosec) ==="
 if command -v gosec &> /dev/null; then
-    gosec ./...
+    if [ "$TARGET" == "." ]; then
+        gosec ./...
+    else
+        # Target specific directory recursively
+        gosec "./$TARGET/..."
+    fi
 else
-    echo "gosec not found. Install with: go install github.com/securego/gosec/v2/cmd/gosec@latest"
+    echo "gosec not found."
 fi
 
-echo "=== Rust Security Check (Clippy/Audit) ==="
-# cargo audit requires installation: cargo install cargo-audit
-if command -v cargo-audit &> /dev/null; then
-    cargo audit
+echo "=== Rust Security Check (Clippy) ==="
+# cargo audit checks dependencies (global/workspace level mainly) so we run it only if target is "." or we skip it for speed on single modules.
+# We will just run clippy for the specific target.
+
+if [ "$TARGET" == "." ]; then
+    if command -v cargo-audit &> /dev/null; then cargo audit; fi
+    echo "Running Clippy on Workspace..."
+    cargo clippy --workspace -- -D warnings
 else
-    echo "cargo-audit not found. Install with: cargo install cargo-audit"
+    echo "Running Clippy on package: $TARGET..."
+    # Assumes folder name matches package name
+    cargo clippy -p "$TARGET" -- -D warnings
 fi
-echo "Running Clippy..."
-cargo clippy --workspace -- -D warnings

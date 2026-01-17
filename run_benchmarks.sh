@@ -1,14 +1,25 @@
 #!/bin/bash
 set -e
 
+TARGET=${1:-"."}
+
 echo "=== Python Benchmarks ==="
-# Runs pytest-benchmark. Ensure tests marked with appropriate decorators if any, 
-# or it will just run tests and report.
-uv run pytest --benchmark-only || echo "No python benchmarks found or failed."
+if [ "$TARGET" == "." ]; then
+    uv run pytest --benchmark-only || echo "No python benchmarks found."
+else
+    uv run pytest "$TARGET" --benchmark-only || echo "No python benchmarks found."
+fi
 
 echo "=== Go Benchmarks ==="
-go test -bench=. ./...
+if [ "$TARGET" == "." ]; then
+    go test -bench=. ./...
+else
+    go test -bench=. "./$TARGET/..."
+fi
 
 echo "=== Rust Benchmarks ==="
-# Runs benchmarks for all members defined in the [workspace] of Cargo.toml
-cargo bench --workspace
+if [ "$TARGET" == "." ]; then
+    cargo bench --workspace
+else
+    cargo bench -p "$TARGET"
+fi
