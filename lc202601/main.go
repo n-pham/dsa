@@ -6,6 +6,14 @@ import (
 	"math"
 )
 
+func ReverseDegree(s string) (total int) {
+	// 3498
+	for i := range s {
+		total += (i + 1) * (26 - int(s[i]-'a'))
+	}
+	return
+}
+
 func GetConcatenation(nums []int) []int {
 	// 1929
 	n := len(nums)

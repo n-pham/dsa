@@ -4,6 +4,14 @@ import (
 	"fmt"
 )
 
+func ExampleReverseDegree() {
+	fmt.Println(ReverseDegree("abc"))
+	fmt.Println(ReverseDegree("zaza"))
+	// Output:
+	// 148
+	// 160
+}
+
 func ExampleGetConcatenation() {
 	fmt.Println(GetConcatenation([]int{1, 2, 1}))
 	fmt.Println(GetConcatenation([]int{1, 3, 2, 1}))
