@@ -6,6 +6,27 @@ import (
 	"math"
 )
 
+func CountConsistentStrings(allowed string, words []string) (cnt int) {
+	// 1684
+	allowedChar := [26]bool{}
+	for _, char := range allowed {
+		allowedChar[char-'a'] = true
+	}
+	for _, word := range words {
+		containsAllowed := true
+		for _, char := range word {
+			if !allowedChar[char-'a'] {
+				containsAllowed = false
+				break
+			}
+		}
+		if containsAllowed {
+			cnt++
+		}
+	}
+	return
+}
+
 func ReverseDegree(s string) (total int) {
 	// 3498
 	for i := range s {

@@ -4,6 +4,16 @@ import (
 	"fmt"
 )
 
+func ExampleCountConsistentStrings() {
+	fmt.Println(CountConsistentStrings("ab", []string{"ad","bd","aaab","baa","badab"}))
+	fmt.Println(CountConsistentStrings("abc", []string{"a","b","c","ab","ac","bc","abc"}))
+	fmt.Println(CountConsistentStrings("cad", []string{"cc","acd","b","ba","bac","bad","ac","d"}))
+	// Output:
+	// 2
+	// 7
+	// 4
+}
+
 func ExampleReverseDegree() {
 	fmt.Println(ReverseDegree("abc"))
 	fmt.Println(ReverseDegree("zaza"))
