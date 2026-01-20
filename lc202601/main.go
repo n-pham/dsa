@@ -69,8 +69,29 @@ func TheMaximumAchievableX(num int, t int) int {
 
 func AddStrings(num1 string, num2 string) string {
 	// 415
-	// runeSlice := make([]rune, max)
-	return ""
+	i, j := len(num1)-1, len(num2)-1
+	carry := 0
+	var result []byte
+	for i >= 0 || j >= 0 || carry > 0 {
+		var n1, n2 int
+		if i >= 0 {
+			n1 = int(num1[i] - '0')
+			i--
+		}
+		if j >= 0 {
+			n2 = int(num2[j] - '0')
+			j--
+		}
+		sum := n1 + n2 + carry
+		carry = sum / 10
+		result = append(result, byte(sum%10+'0'))
+	}
+	// Reverse
+	n := len(result)
+	for k := 0; k < n/2; k++ {
+		result[k], result[n-1-k] = result[n-1-k], result[k]
+	}
+	return string(result)
 }
 
 func ThirdMax(nums []int) int {
@@ -321,4 +342,31 @@ func ReverseVowels(s string) string {
 	}
 	kit.DebugLog("Final:", string(runeSlice))
 	return string(runeSlice)
+}
+
+// MinBitwiseArray returns an array ans such that ans[i] OR (ans[i] + 1) == nums[i]
+// and ans[i] is minimized. If no such ans[i] exists, ans[i] = -1.
+// nums consists of prime integers.
+func MinBitwiseArray(nums []int) []int {
+	// 3314
+	ans := make([]int, len(nums))
+	for i, num := range nums {
+		if num == 2 {
+			ans[i] = -1
+		} else {
+			// num is prime and > 2, so it's odd.
+			// This means the least significant bit (bit 0) is 1.
+			// We find the first zero bit starting from LSB.
+			p := 0
+			for ((num >> p) & 1) == 1 {
+				p++
+			}
+			// The sequence of trailing ones is from bit 0 to p-1.
+			// To minimize the result x, where x | (x+1) == num,
+			// we set x = num - 2^(k) where k is the index of the most significant bit
+			// in the trailing ones sequence. Here k = p-1.
+			ans[i] = num - (1 << (p - 1))
+		}
+	}
+	return ans
 }

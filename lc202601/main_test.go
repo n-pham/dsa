@@ -201,3 +201,15 @@ func ExampleCanConstruct() {
 	// false
 	// true
 }
+
+func ExampleMinBitwiseArray() {
+	fmt.Println(MinBitwiseArray([]int{2}))
+	fmt.Println(MinBitwiseArray([]int{3}))
+	fmt.Println(MinBitwiseArray([]int{2, 3, 5, 7}))
+	fmt.Println(MinBitwiseArray([]int{11, 13, 31}))
+	// Output:
+	// [-1]
+	// [1]
+	// [-1 1 4 3]
+	// [9 12 15]
+}
