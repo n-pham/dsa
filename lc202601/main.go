@@ -1,10 +1,149 @@
 package main
 
 import (
+	"container/heap"
 	"dsa/kit"
 	"fmt"
 	"math"
 )
+
+type pairItem struct {
+	sum  int
+	u, v int
+}
+
+type priorityQueue []*pairItem
+
+func (pq priorityQueue) Len() int { return len(pq) }
+
+func (pq priorityQueue) Less(i, j int) bool {
+	if pq[i].sum == pq[j].sum {
+		return pq[i].u < pq[j].u
+	}
+	return pq[i].sum < pq[j].sum
+}
+
+func (pq priorityQueue) Swap(i, j int) {
+	pq[i], pq[j] = pq[j], pq[i]
+}
+
+func (pq *priorityQueue) Push(x interface{}) {
+	*pq = append(*pq, x.(*pairItem))
+}
+
+func (pq *priorityQueue) Pop() interface{} {
+	old := *pq
+	n := len(old)
+	item := old[n-1]
+	old[n-1] = nil
+	*pq = old[0 : n-1]
+	return item
+}
+
+type node struct {
+	val     int
+	prev    int
+	next    int
+	removed bool
+}
+
+func MinimumPairRemoval(nums []int) int {
+	// 3507
+	n := len(nums)
+	if n <= 1 {
+		return 0
+	}
+
+	nodes := make([]node, n)
+	for i := 0; i < n; i++ {
+		nodes[i] = node{
+			val:  nums[i],
+			prev: i - 1,
+			next: i + 1,
+		}
+	}
+	nodes[n-1].next = -1
+
+	descCount := 0
+	for i := 0; i < n-1; i++ {
+		if nums[i] > nums[i+1] {
+			descCount++
+		}
+	}
+
+	pq := &priorityQueue{}
+	heap.Init(pq)
+
+	for i := 0; i < n-1; i++ {
+		heap.Push(pq, &pairItem{
+			sum: nums[i] + nums[i+1],
+			u:   i,
+			v:   i + 1,
+		})
+	}
+
+	ops := 0
+	for descCount > 0 && pq.Len() > 0 {
+		item := heap.Pop(pq).(*pairItem)
+		u, v := item.u, item.v
+
+		if nodes[u].removed || nodes[v].removed {
+			continue
+		}
+		if nodes[u].next != v {
+			continue
+		}
+		if nodes[u].val+nodes[v].val != item.sum {
+			continue
+		}
+
+		ops++
+
+		w := nodes[v].next
+		p := nodes[u].prev
+
+		if p != -1 && nodes[p].val > nodes[u].val {
+			descCount--
+		}
+		if nodes[u].val > nodes[v].val {
+			descCount--
+		}
+		if w != -1 && nodes[v].val > nodes[w].val {
+			descCount--
+		}
+
+		nodes[u].val += nodes[v].val
+		nodes[u].next = w
+		nodes[v].removed = true
+		if w != -1 {
+			nodes[w].prev = u
+		}
+
+		if p != -1 && nodes[p].val > nodes[u].val {
+			descCount++
+		}
+		if w != -1 && nodes[u].val > nodes[w].val {
+			descCount++
+		}
+
+		if p != -1 {
+			heap.Push(pq, &pairItem{
+				sum: nodes[p].val + nodes[u].val,
+				u:   p,
+				v:   u,
+			})
+		}
+		if w != -1 {
+			heap.Push(pq, &pairItem{
+				sum: nodes[u].val + nodes[w].val,
+				u:   u,
+				v:   w,
+			})
+		}
+	}
+
+	return ops
+}
 
 func CountConsistentStrings(allowed string, words []string) (cnt int) {
 	// 1684

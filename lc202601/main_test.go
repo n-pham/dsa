@@ -4,6 +4,14 @@ import (
 	"fmt"
 )
 
+func ExampleMinimumPairRemoval() {
+	fmt.Println(MinimumPairRemoval([]int{5,2,3,1}))
+	fmt.Println(MinimumPairRemoval([]int{1,2,2}))
+	// Output:
+	// 2
+	// 0
+}
+
 func ExampleCountConsistentStrings() {
 	fmt.Println(CountConsistentStrings("ab", []string{"ad","bd","aaab","baa","badab"}))
 	fmt.Println(CountConsistentStrings("abc", []string{"a","b","c","ab","ac","bc","abc"}))
