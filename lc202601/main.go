@@ -48,7 +48,7 @@ type node struct {
 }
 
 func MinimumPairRemoval(nums []int) int {
-	// 3507
+	// 3507, 3510
 	n := len(nums)
 	if n <= 1 {
 		return 0
