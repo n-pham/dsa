@@ -1,3 +1,3 @@
 module dsa
 
-go 1.21.6
+go 1.25.6

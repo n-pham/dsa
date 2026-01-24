@@ -221,3 +221,11 @@ func ExampleMinBitwiseArray() {
 	// [-1 1 4 3]
 	// [9 12 15]
 }
+
+func ExampleMinPairSum() {
+	fmt.Println(MinPairSum([]int{3,5,2,3}))
+	fmt.Println(MinPairSum([]int{3,5,4,2,4,6}))
+	// Output:
+	// 7
+	// 8
+}

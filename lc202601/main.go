@@ -5,6 +5,7 @@ import (
 	"dsa/kit"
 	"fmt"
 	"math"
+	"slices"
 )
 
 type pairItem struct {
@@ -508,4 +509,18 @@ func MinBitwiseArray(nums []int) []int {
 		}
 	}
 	return ans
+}
+
+func MinPairSum(nums []int) int {
+	// 1877
+	slices.Sort(nums)
+	maxSum := math.MinInt
+	n := len(nums)
+	times := n / 2
+	for i := range times {
+		if sum := nums[i] + nums[n-i-1]; sum > maxSum {
+			maxSum = sum
+		}
+	}
+	return maxSum
 }
