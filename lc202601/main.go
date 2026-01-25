@@ -524,3 +524,16 @@ func MinPairSum(nums []int) int {
 	}
 	return maxSum
 }
+
+func MinimumDifference(nums []int, k int) int {
+	// 1984
+	slices.Sort(nums)
+	minDiff := math.MaxInt
+	for i := range len(nums)+1-k {
+		diff := nums[i+k-1] - nums[i]
+		if diff < minDiff {
+			minDiff = diff
+		}
+	}
+	return minDiff
+}

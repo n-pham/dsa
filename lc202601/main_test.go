@@ -4,6 +4,14 @@ import (
 	"fmt"
 )
 
+func ExampleMinimumDifference() {
+	fmt.Println(MinimumDifference([]int{9,4,1,7}, 2))
+	fmt.Println(MinimumDifference([]int{90}, 1))
+	// Output:
+	// 2
+	// 0
+}
+
 func ExampleMinimumPairRemoval() {
 	fmt.Println(MinimumPairRemoval([]int{5,2,3,1}))
 	fmt.Println(MinimumPairRemoval([]int{1,2,2}))
