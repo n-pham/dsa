@@ -537,3 +537,21 @@ func MinimumDifference(nums []int, k int) int {
 	}
 	return minDiff
 }
+
+func MinimumAbsDifference(arr []int) [][]int {
+	// 1200
+	slices.Sort(arr)
+	minDiff := math.MaxInt
+	var result [][]int
+
+	for i := 0; i < len(arr)-1; i++ {
+		diff := arr[i+1] - arr[i]
+		if diff < minDiff {
+			minDiff = diff
+			result = [][]int{{arr[i], arr[i+1]}}
+		} else if diff == minDiff {
+			result = append(result, []int{arr[i], arr[i+1]})
+		}
+	}
+	return result
+}
