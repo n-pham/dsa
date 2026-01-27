@@ -247,3 +247,11 @@ func ExampleMinimumAbsDifference() {
 	// [[1 3]]
 	// [[-14 -10] [19 23] [23 27]]
 }
+
+func ExampleSmallestEvenMultiple() {
+	fmt.Println(SmallestEvenMultiple(5))
+	fmt.Println(SmallestEvenMultiple(6))
+	// Output:
+	// 10
+	// 6
+}

@@ -555,3 +555,11 @@ func MinimumAbsDifference(arr []int) [][]int {
 	}
 	return result
 }
+
+func SmallestEvenMultiple(n int) int {
+	// 2413
+	if n % 2 == 0 {
+		return n
+	}
+	return 2 * n
+}
