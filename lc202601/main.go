@@ -563,3 +563,21 @@ func SmallestEvenMultiple(n int) int {
 	}
 	return 2 * n
 }
+
+func KidsWithCandies(candies []int, extraCandies int) []bool {
+	// 1431
+	maxCandies := 0
+	for _, candy := range candies {
+		if candy > maxCandies {
+			maxCandies = candy
+		}
+	}
+
+	result := make([]bool, len(candies))
+	for i, candy := range candies {
+		if candy+extraCandies >= maxCandies {
+			result[i] = true
+		}
+	}
+	return result
+}

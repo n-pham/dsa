@@ -255,3 +255,11 @@ func ExampleSmallestEvenMultiple() {
 	// 10
 	// 6
 }
+
+func ExampleKidsWithCandies() {
+	fmt.Println(KidsWithCandies([]int{2,3,5,1,3},3))
+	fmt.Println(KidsWithCandies([]int{4,2,1,1,2},1))
+	// Output:
+	// [true true true false true] 
+	// [true false false false false]
+}
