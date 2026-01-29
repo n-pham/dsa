@@ -581,3 +581,23 @@ func KidsWithCandies(candies []int, extraCandies int) []bool {
 	}
 	return result
 }
+
+func Interpret(command string) string {
+	// 1678
+	n := len(command)
+	runeSlice := make([]rune, 0, n)
+	for i := 0; i < n; i++ {
+		if command[i] == byte('G') {
+			runeSlice = append(runeSlice, rune('G'))
+		} else if command[i] == byte('(') {
+			if command[i+1] == byte('a') {
+				runeSlice = append(runeSlice, rune('a'), rune('l'))
+				i += 3
+			} else {
+				runeSlice = append(runeSlice, rune('o'))
+				i += 1
+			}
+		}
+	}
+	return string(runeSlice)
+}

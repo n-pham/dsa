@@ -263,3 +263,13 @@ func ExampleKidsWithCandies() {
 	// [true true true false true] 
 	// [true false false false false]
 }
+
+func ExampleInterpret() {
+	fmt.Println(Interpret("G()(al)"))
+	fmt.Println(Interpret("G()()()()(al)"))
+	fmt.Println(Interpret("(al)G(al)()()G"))
+	// Output:
+	// Goal
+	// Gooooal
+	// alGalooG
+}
