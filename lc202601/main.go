@@ -601,3 +601,19 @@ func Interpret(command string) string {
 	}
 	return string(runeSlice)
 }
+
+func NextGreatestLetter(letters []byte, target byte) byte {
+	// 744
+	nextSmallest := byte(0)
+	for _, letter := range letters {
+		if letter > target {
+			if nextSmallest == 0 || nextSmallest > letter {
+				nextSmallest = letter
+			}
+		}
+	}
+	if nextSmallest == 0 {
+		return letters[0]
+	}
+	return nextSmallest
+}

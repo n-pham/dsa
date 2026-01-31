@@ -273,3 +273,9 @@ func ExampleInterpret() {
 	// Gooooal
 	// alGalooG
 }
+
+func ExampleNextGreatestLetter() {
+	fmt.Println(NextGreatestLetter([]byte{97}, 96))
+	// Output:
+	// 97
+}
