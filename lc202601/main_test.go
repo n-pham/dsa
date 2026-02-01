@@ -5,7 +5,7 @@ import (
 )
 
 func ExampleMinimumDifference() {
-	fmt.Println(MinimumDifference([]int{9,4,1,7}, 2))
+	fmt.Println(MinimumDifference([]int{9, 4, 1, 7}, 2))
 	fmt.Println(MinimumDifference([]int{90}, 1))
 	// Output:
 	// 2
@@ -13,17 +13,17 @@ func ExampleMinimumDifference() {
 }
 
 func ExampleMinimumPairRemoval() {
-	fmt.Println(MinimumPairRemoval([]int{5,2,3,1}))
-	fmt.Println(MinimumPairRemoval([]int{1,2,2}))
+	fmt.Println(MinimumPairRemoval([]int{5, 2, 3, 1}))
+	fmt.Println(MinimumPairRemoval([]int{1, 2, 2}))
 	// Output:
 	// 2
 	// 0
 }
 
 func ExampleCountConsistentStrings() {
-	fmt.Println(CountConsistentStrings("ab", []string{"ad","bd","aaab","baa","badab"}))
-	fmt.Println(CountConsistentStrings("abc", []string{"a","b","c","ab","ac","bc","abc"}))
-	fmt.Println(CountConsistentStrings("cad", []string{"cc","acd","b","ba","bac","bad","ac","d"}))
+	fmt.Println(CountConsistentStrings("ab", []string{"ad", "bd", "aaab", "baa", "badab"}))
+	fmt.Println(CountConsistentStrings("abc", []string{"a", "b", "c", "ab", "ac", "bc", "abc"}))
+	fmt.Println(CountConsistentStrings("cad", []string{"cc", "acd", "b", "ba", "bac", "bad", "ac", "d"}))
 	// Output:
 	// 2
 	// 7
@@ -231,8 +231,8 @@ func ExampleMinBitwiseArray() {
 }
 
 func ExampleMinPairSum() {
-	fmt.Println(MinPairSum([]int{3,5,2,3}))
-	fmt.Println(MinPairSum([]int{3,5,4,2,4,6}))
+	fmt.Println(MinPairSum([]int{3, 5, 2, 3}))
+	fmt.Println(MinPairSum([]int{3, 5, 4, 2, 4, 6}))
 	// Output:
 	// 7
 	// 8
@@ -257,10 +257,10 @@ func ExampleSmallestEvenMultiple() {
 }
 
 func ExampleKidsWithCandies() {
-	fmt.Println(KidsWithCandies([]int{2,3,5,1,3},3))
-	fmt.Println(KidsWithCandies([]int{4,2,1,1,2},1))
+	fmt.Println(KidsWithCandies([]int{2, 3, 5, 1, 3}, 3))
+	fmt.Println(KidsWithCandies([]int{4, 2, 1, 1, 2}, 1))
 	// Output:
-	// [true true true false true] 
+	// [true true true false true]
 	// [true false false false false]
 }
 
@@ -278,4 +278,14 @@ func ExampleNextGreatestLetter() {
 	fmt.Println(NextGreatestLetter([]byte{97}, 96))
 	// Output:
 	// 97
+}
+
+func ExampleMinimumCost() {
+	fmt.Println(MinimumCost([]int{1, 2, 3, 12}))
+	fmt.Println(MinimumCost([]int{5, 4, 3}))
+	fmt.Println(MinimumCost([]int{10, 3, 1, 1}))
+	// Output:
+	// 6
+	// 12
+	// 12
 }

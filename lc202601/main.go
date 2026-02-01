@@ -529,7 +529,7 @@ func MinimumDifference(nums []int, k int) int {
 	// 1984
 	slices.Sort(nums)
 	minDiff := math.MaxInt
-	for i := range len(nums)+1-k {
+	for i := range len(nums) + 1 - k {
 		diff := nums[i+k-1] - nums[i]
 		if diff < minDiff {
 			minDiff = diff
@@ -558,7 +558,7 @@ func MinimumAbsDifference(arr []int) [][]int {
 
 func SmallestEvenMultiple(n int) int {
 	// 2413
-	if n % 2 == 0 {
+	if n%2 == 0 {
 		return n
 	}
 	return 2 * n
@@ -616,4 +616,17 @@ func NextGreatestLetter(letters []byte, target byte) byte {
 		return letters[0]
 	}
 	return nextSmallest
+}
+
+func MinimumCost(nums []int) int {
+	// 3010
+	second, third := math.MaxInt, math.MaxInt
+	for _, num := range nums[1:] {
+		if num < second {
+			third, second = second, num
+		} else if num < third {
+			third = num
+		}
+	}
+	return nums[0] + second + third
 }
