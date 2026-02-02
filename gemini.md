@@ -7,7 +7,7 @@ Rust test cases are written in functions prefixed with `test_` in the same file 
 
 Rule: After functional tests pass and coverage is over 80%, you MUST run `./verify_security.sh <folder_name>` and `./run_benchmarks.sh <folder_name>` (e.g., `lc202601`). If security issues are found, they must be fixed. Performance results should be reviewed to ensure the algorithm is optimal as requested.
 
-Rule: command line git and gh are not available.
+Rule: CLI tools git and gh are not available.
 
 Rule: for optimal algorithms, the following built-in Python functions need to loop over string or list therefore should not be used separately but need to be combined in a single pass. Prefer this over readability or idiomatic Python style or concern separation.
 * string object methods such as string.lower(), string.strip()
