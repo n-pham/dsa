@@ -2,6 +2,7 @@ package main
 
 import (
 	"container/heap"
+	"dsa/kit"
 	"math"
 )
 
@@ -292,4 +293,28 @@ func minimumCost(nums []int, k int, dist int) int64 {
 
 	return int64(nums[0]) + minSum
 
+}
+
+func IsTrionic(nums []int) bool {
+	// 3637
+	n := len(nums)
+	i := 0
+	for ; i < n-1 && nums[i] < nums[i+1]; i++ {}
+	p := i
+	kit.DebugLog("p ", p)
+	if p == 0 || p == n-2 {
+		return false
+	}
+	for ; i < n-1 && nums[i] > nums[i+1]; i++ {}
+	q := i
+	kit.DebugLog("q ", q)
+	if q == p || q == n-1 {
+		return false
+	}
+	for ; i < n-1; i++ {
+		if nums[i] >= nums[i+1] {
+			return false
+		}
+	}
+	return true
 }

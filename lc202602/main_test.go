@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"math"
 	"testing"
 )
@@ -153,4 +154,12 @@ func TestMinimumCost(t *testing.T) {
 			}
 		})
 	}
+}
+
+func ExampleIsTrionic() {
+	fmt.Println(IsTrionic([]int{1,3,5,4,2,6}))
+	fmt.Println(IsTrionic([]int{2,1,3}))
+	// Output:
+	// true
+	// false
 }
