@@ -157,9 +157,29 @@ func TestMinimumCost(t *testing.T) {
 }
 
 func ExampleIsTrionic() {
-	fmt.Println(IsTrionic([]int{1,3,5,4,2,6}))
-	fmt.Println(IsTrionic([]int{2,1,3}))
+	fmt.Println(IsTrionic([]int{1, 3, 5, 4, 2, 6}))
+	fmt.Println(IsTrionic([]int{2, 1, 3}))
 	// Output:
 	// true
 	// false
+}
+
+func ExampleMaxSumTrionic() {
+	fmt.Println(MaxSumTrionic([]int{-754, 167, -172, 202, 735, -941, 992}))
+	fmt.Println(MaxSumTrionic([]int{2, 993, -791, -635, -569}))
+	fmt.Println(MaxSumTrionic([]int{0, -2, -1, -3, 0, 2, -1})) // Expected: (-2) + (-1) + (-3) + 0 + 2 = -4
+	fmt.Println(MaxSumTrionic([]int{1, 2, 8, 5, 3, 2, 9, 10})) // Expected: 1+2+8+5+3+2+9+10 = 40
+	fmt.Println(MaxSumTrionic([]int{10, 20, 15, 12, 25, 30}))  // Expected: 10+20+15+12+25+30 = 112
+	fmt.Println(MaxSumTrionic([]int{1, 2, 3, 2, 1, 2, 3}))     // Expected: 1+2+3+2+1+2+3 = 14
+	fmt.Println(MaxSumTrionic([]int{1, 2, 1, 2, 1, 2, 1}))     // Expected: 6
+	fmt.Println(MaxSumTrionic([]int{5, 4, 3, 2, 1}))           // No valid trionic, expected: 0
+	// Output:
+	// 988
+	// -431
+	// -4
+	// 40
+	// 112
+	// 14
+	// 6
+	// 0
 }

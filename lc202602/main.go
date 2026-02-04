@@ -299,13 +299,15 @@ func IsTrionic(nums []int) bool {
 	// 3637
 	n := len(nums)
 	i := 0
-	for ; i < n-1 && nums[i] < nums[i+1]; i++ {}
+	for ; i < n-1 && nums[i] < nums[i+1]; i++ {
+	}
 	p := i
 	kit.DebugLog("p ", p)
 	if p == 0 || p == n-2 {
 		return false
 	}
-	for ; i < n-1 && nums[i] > nums[i+1]; i++ {}
+	for ; i < n-1 && nums[i] > nums[i+1]; i++ {
+	}
 	q := i
 	kit.DebugLog("q ", q)
 	if q == p || q == n-1 {
@@ -317,4 +319,87 @@ func IsTrionic(nums []int) bool {
 		}
 	}
 	return true
+}
+
+func MaxSumTrionic(nums []int) int64 {
+	// 3640
+	n := len(nums)
+	// DP arrays
+	leftIncGe2 := make([]int64, n)
+	leftIncDec := make([]int64, n)
+
+	for i := 0; i < n; i++ {
+		leftIncGe2[i] = math.MinInt64
+		leftIncDec[i] = math.MinInt64
+	}
+
+	// Left-to-right pass
+	for i := 1; i < n; i++ {
+		// max sum of strictly increasing subarray of length >= 2 ending at i
+		if nums[i] > nums[i-1] {
+			sumLen2 := int64(nums[i-1]) + int64(nums[i])
+			sumExtend := int64(math.MinInt64)
+			if i > 1 && leftIncGe2[i-1] != math.MinInt64 {
+				sumExtend = leftIncGe2[i-1] + int64(nums[i])
+			}
+			if sumLen2 > sumExtend {
+				leftIncGe2[i] = sumLen2
+			} else {
+				leftIncGe2[i] = sumExtend
+			}
+		}
+
+		// max sum of inc-dec subarray ending at i
+		if nums[i] < nums[i-1] {
+			cand1 := int64(math.MinInt64)
+			if i > 1 && leftIncDec[i-1] != math.MinInt64 {
+				cand1 = leftIncDec[i-1] + int64(nums[i])
+			}
+			cand2 := int64(math.MinInt64)
+			if i > 1 && leftIncGe2[i-1] != math.MinInt64 {
+				cand2 = leftIncGe2[i-1] + int64(nums[i])
+			}
+
+			if cand1 > cand2 {
+				leftIncDec[i] = cand1
+			} else if cand2 != math.MinInt64 {
+				leftIncDec[i] = cand2
+			}
+		}
+	}
+
+	// Right-to-left pass
+	rightIncGe2 := make([]int64, n)
+	for i := 0; i < n; i++ {
+		rightIncGe2[i] = math.MinInt64
+	}
+	for i := n - 2; i >= 0; i-- {
+		// max sum of strictly increasing subarray of length >= 2 starting at i
+		if nums[i] < nums[i+1] {
+			sumLen2 := int64(nums[i]) + int64(nums[i+1])
+			sumExtend := int64(math.MinInt64)
+			if i < n-2 && rightIncGe2[i+1] != math.MinInt64 {
+				sumExtend = rightIncGe2[i+1] + int64(nums[i])
+			}
+			if sumLen2 > sumExtend {
+				rightIncGe2[i] = sumLen2
+			} else {
+				rightIncGe2[i] = sumExtend
+			}
+		}
+	}
+
+	maxSum := int64(0)
+	found := false
+	for q := 0; q < n; q++ {
+		if q > 0 && q < n-1 && leftIncDec[q] != math.MinInt64 && rightIncGe2[q] != math.MinInt64 {
+			currentSum := leftIncDec[q] + rightIncGe2[q] - int64(nums[q])
+			if !found || currentSum > maxSum {
+				maxSum = currentSum
+				found = true
+			}
+		}
+	}
+
+	return maxSum
 }
