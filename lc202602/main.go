@@ -403,3 +403,17 @@ func MaxSumTrionic(nums []int) int64 {
 
 	return maxSum
 }
+
+func ConstructTransformedArray(nums []int) []int {
+	// 3379
+	n := len(nums)
+	newNums := make([]int, n)
+	for i, num := range nums {
+		newIndex := (i + num) % n
+		if newIndex < 0 {
+			newIndex += n
+		}
+		newNums[i] = nums[newIndex]
+	}
+	return newNums
+}

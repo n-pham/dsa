@@ -183,3 +183,13 @@ func ExampleMaxSumTrionic() {
 	// 6
 	// 0
 }
+
+func ExampleConstructTransformedArray() {
+	fmt.Println(ConstructTransformedArray([]int{-10}))
+	fmt.Println(ConstructTransformedArray([]int{3, -2, 1, 1}))
+	fmt.Println(ConstructTransformedArray([]int{-1, 4, -1}))
+	// Output:
+	// [-10]
+	// [1 1 1 3]
+	// [-1 -1 4]
+}
