@@ -123,7 +123,7 @@ func (lh *LazyHeap) clean() {
 	}
 }
 
-func minimumCost(nums []int, k int, dist int) int64 {
+func minimumCost3013(nums []int, k int, dist int) int64 {
 
 	small := newLazyMaxHeap() // Max-heap for k-1 smallest elements
 
@@ -416,4 +416,114 @@ func ConstructTransformedArray(nums []int) []int {
 		newNums[i] = nums[newIndex]
 	}
 	return newNums
+}
+
+func MinimumCost(source string, target string, original []string, changed []string, cost []int) int64 {
+	if len(source) != len(target) {
+		return -1 // Impossible if lengths are different
+	}
+
+	// 1. Pre-computation (Floyd-Warshall)
+	stringToID := make(map[string]int)
+	var idCount int
+
+	getOrCreateID := func(s string) int {
+		if id, ok := stringToID[s]; ok {
+			return id
+		}
+		stringToID[s] = idCount
+		idCount++
+		return idCount - 1
+	}
+
+	// Collect all unique strings and assign IDs
+	for i := 0; i < len(original); i++ {
+		getOrCreateID(original[i])
+		getOrCreateID(changed[i])
+	}
+
+	// Initialize dist matrix
+	dist := make([][]int64, idCount)
+	for i := range dist {
+		dist[i] = make([]int64, idCount)
+		for j := range dist[i] {
+			if i == j {
+				dist[i][j] = 0
+			} else {
+				dist[i][j] = math.MaxInt64
+			}
+		}
+	}
+
+	// Populate direct conversion costs
+	for i := 0; i < len(original); i++ {
+		u := getOrCreateID(original[i])
+		v := getOrCreateID(changed[i])
+		if dist[u][v] > int64(cost[i]) {
+			dist[u][v] = int64(cost[i])
+		}
+	}
+
+	// Floyd-Warshall
+	for k := 0; k < idCount; k++ {
+		for i := 0; i < idCount; i++ {
+			for j := 0; j < idCount; j++ {
+				if dist[i][k] != math.MaxInt64 && dist[k][j] != math.MaxInt64 {
+					if dist[i][j] > dist[i][k]+dist[k][j] {
+						dist[i][j] = dist[i][k] + dist[k][j]
+					}
+				}
+			}
+		}
+	}
+
+	// 2. Dynamic Programming
+	N := len(source)
+	dp := make([]int64, N+1)
+	dp[0] = 0
+	for i := 1; i <= N; i++ {
+		dp[i] = math.MaxInt64
+	}
+
+	// Collect all unique lengths of original/changed strings for efficient iteration
+	lengths := make(map[int]struct{})
+	for _, s := range original {
+		lengths[len(s)] = struct{}{}
+	}
+
+	for i := 0; i < N; i++ {
+		if dp[i] == math.MaxInt64 {
+			continue
+		}
+
+		if source[i] == target[i] {
+			if dp[i+1] > dp[i] {
+				dp[i+1] = dp[i]
+			}
+		}
+
+		for L := range lengths {
+			if i+L <= N {
+				subSource := source[i : i+L]
+				subTarget := target[i : i+L]
+
+				u, ok1 := stringToID[subSource]
+				v, ok2 := stringToID[subTarget]
+
+				if ok1 && ok2 {
+					conversionCost := dist[u][v]
+					if conversionCost != math.MaxInt64 {
+						if dp[i+L] > dp[i]+conversionCost {
+							dp[i+L] = dp[i] + conversionCost
+						}
+					}
+				}
+			}
+		}
+	}
+
+	if dp[N] == math.MaxInt64 {
+		return -1
+	}
+	return dp[N]
 }

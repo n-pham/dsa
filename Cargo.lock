@@ -241,6 +241,13 @@ dependencies = [
 ]
 
 [[package]]
+name = "lc202602"
+version = "0.0.0"
+dependencies = [
+ "criterion",
+]
+
+[[package]]
 name = "libc"
 version = "0.2.180"
 source = "registry+https://github.com/rust-lang/crates.io-index"
