@@ -208,3 +208,13 @@ func ExampleConstructTransformedArray() {
 	// [1 1 1 3]
 	// [-1 -1 4]
 }
+
+func ExampleMinRemoval() {
+	fmt.Println(MinRemoval([]int{2, 1, 5}, 2))
+	fmt.Println(MinRemoval([]int{1, 6, 2, 9}, 3))
+	fmt.Println(MinRemoval([]int{4, 6}, 2))
+	// Output:
+	// 1
+	// 2
+	// 0
+}

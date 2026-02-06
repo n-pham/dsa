@@ -4,6 +4,7 @@ import (
 	"container/heap"
 	"dsa/kit"
 	"math"
+	"slices"
 )
 
 // An IntHeap is a min-heap of ints.
@@ -526,4 +527,25 @@ func MinimumCost(source string, target string, original []string, changed []stri
 		return -1
 	}
 	return dp[N]
+}
+
+func MinRemoval(nums []int, k int) int {
+	// 3634
+	slices.Sort(nums)
+	n := len(nums)
+	maxLen := 0
+	j := 0
+	// i is the left pointer (minimum element of the window)
+	// j is the right pointer (potential maximum element of the window)
+	for i := 0; i < n; i++ {
+		// Expand j while the balanced condition holds: max <= k * min
+		for j < n && int64(nums[j]) <= int64(k)*int64(nums[i]) {
+			j++
+		}
+		// Current balanced window is nums[i...j-1], length is j - i
+		if j-i > maxLen {
+			maxLen = j - i
+		}
+	}
+	return n - maxLen
 }
