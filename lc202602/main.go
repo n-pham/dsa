@@ -549,3 +549,33 @@ func MinRemoval(nums []int, k int) int {
 	}
 	return n - maxLen
 }
+
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ *     Val int
+ *     Left *TreeNode
+ *     Right *TreeNode
+ * }
+ */
+func isBalanced(root *TreeNode) bool {
+    var getBalancedAndDepth func(*TreeNode) (bool, int)
+    getBalancedAndDepth = func(root *TreeNode) (bool, int) {
+        if root == nil {
+            return true, 0
+        }
+        leftBalanced, leftDepth := getBalancedAndDepth(root.Left)
+        rightBalanced, rightDepth := getBalancedAndDepth(root.Right)
+        diffDepth := leftDepth-rightDepth
+        if diffDepth < 0 {
+            diffDepth = - diffDepth
+        }
+        resultBalanced := leftBalanced && rightBalanced && diffDepth <= 1
+        if leftDepth > rightDepth {
+            return resultBalanced, 1+leftDepth
+        }
+        return resultBalanced, 1+rightDepth
+    }
+    result, _ := getBalancedAndDepth(root)
+    return result
+}
