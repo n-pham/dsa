@@ -579,3 +579,27 @@ func isBalanced(root *TreeNode) bool {
     result, _ := getBalancedAndDepth(root)
     return result
 }
+
+func inOrder(root *TreeNode, nums *[]int) {
+    if root == nil {
+        return
+    }
+    inOrder(root.Left, nums)
+    *nums = append(*nums, root.Val)
+    inOrder(root.Right, nums)
+}
+func buildBalancedBST(nums []int, left, right int) *TreeNode {
+    if left > right {
+        return nil
+    }
+    mid := left + (right-left)/2
+    node := &TreeNode{Val: nums[mid]}
+    node.Left = buildBalancedBST(nums, left, mid-1)
+    node.Right = buildBalancedBST(nums, mid+1, right)
+    return node
+}
+func balanceBST(root *TreeNode) *TreeNode {
+    var nums []int
+    inOrder(root, &nums)
+    return buildBalancedBST(nums, 0, len(nums)-1)
+}
