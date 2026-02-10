@@ -603,3 +603,43 @@ func balanceBST(root *TreeNode) *TreeNode {
     inOrder(root, &nums)
     return buildBalancedBST(nums, 0, len(nums)-1)
 }
+
+func longestBalanced(nums []int) int {
+	// 3719
+	maxLength := 0
+	n := len(nums)
+
+	// Iterate over all possible starting indices, i
+	for i := 0; i < n; i++ {
+		distinctEvens := make(map[int]bool)
+		distinctOdds := make(map[int]bool)
+		evenCount := 0
+		oddCount := 0
+
+		// Iterate over all possible ending indices, j
+		for j := i; j < n; j++ {
+			num := nums[j]
+			if num%2 == 0 {
+				if !distinctEvens[num] {
+					distinctEvens[num] = true
+					evenCount++
+				}
+			} else {
+				if !distinctOdds[num] {
+					distinctOdds[num] = true
+					oddCount++
+				}
+			}
+
+			// Check if the current subarray is balanced
+			if evenCount == oddCount {
+				currentLength := j - i + 1
+				if currentLength > maxLength {
+					maxLength = currentLength
+				}
+			}
+		}
+	}
+
+	return maxLength
+}
