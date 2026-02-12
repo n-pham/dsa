@@ -643,3 +643,78 @@ func longestBalanced(nums []int) int {
 
 	return maxLength
 }
+
+func longestBalancedSubstring(s string) int {
+	/ 3713
+	n := len(s)
+	maxLen := 0
+
+	// k is the number of distinct characters
+	for k := 1; k <= 26; k++ {
+		// c is the frequency of each distinct character
+		for c := 1; k*c <= n; c++ {
+			winSize := k * c
+			counts := make([]int, 26)
+			distinctCount := 0
+			validCount := 0
+
+			// Initialize first window
+			for i := 0; i < winSize; i++ {
+				charIdx := s[i] - 'a'
+				if counts[charIdx] == 0 {
+					distinctCount++
+				}
+				counts[charIdx]++
+				if counts[charIdx] == c {
+					validCount++
+				} else if counts[charIdx] == c+1 {
+					validCount--
+				}
+			}
+
+			if distinctCount == k && validCount == k {
+				maxLen = max(maxLen, winSize)
+			}
+
+			// Slide the window
+			for i := winSize; i < n; i++ {
+				// Add new character
+				inIdx := s[i] - 'a'
+				if counts[inIdx] == 0 {
+					distinctCount++
+				}
+				counts[inIdx]++
+				if counts[inIdx] == c {
+					validCount++
+				} else if counts[inIdx] == c+1 {
+					validCount--
+				}
+
+				// Remove old character
+				outIdx := s[i-winSize] - 'a'
+				if counts[outIdx] == c {
+					validCount--
+				} else if counts[outIdx] == c+1 {
+					validCount++
+				}
+				counts[outIdx]--
+				if counts[outIdx] == 0 {
+					distinctCount--
+				}
+
+				if distinctCount == k && validCount == k {
+					maxLen = max(maxLen, winSize)
+				}
+			}
+		}
+	}
+	return maxLen
+}
+
+func max(a, b int) int {
+	if a > b {
+		return a
+	}
+	return b
+}
+
