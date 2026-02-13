@@ -645,7 +645,7 @@ func longestBalanced(nums []int) int {
 }
 
 func longestBalancedSubstring(s string) int {
-	/ 3713
+	// 3713
 	n := len(s)
 	maxLen := 0
 
@@ -709,6 +709,72 @@ func longestBalancedSubstring(s string) int {
 		}
 	}
 	return maxLen
+}
+
+func longestBalancedSubstring2(s string) int {
+	// 3714
+	n := len(s)
+    maxLen := 0
+
+	for c := 1; c <= n; c++ {
+        for k := 1; k <= 3; k++ {
+            winSize := k * c
+            if winSize > n || winSize <= maxLen {
+                continue
+            }
+
+            counts := [3]int{}
+            distinct := 0
+            valid := 0
+
+            for i := 0; i < winSize; i++ {
+                idx := s[i] - 'a'
+                if counts[idx] == 0 {
+                    distinct++
+                }
+                counts[idx]++
+                if counts[idx] == c {
+                    valid++
+                } else if counts[idx] == c+1 {
+                    valid--
+                }
+            }
+
+            if distinct == k && valid == k {
+                maxLen = winSize
+            }
+
+            for i := winSize; i < n; i++ {
+                inIdx := s[i] - 'a'
+                if counts[inIdx] == 0 {
+                    distinct++
+                }
+                counts[inIdx]++
+                if counts[inIdx] == c {
+                    valid++
+                } else if counts[inIdx] == c+1 {
+                    valid--
+                }
+
+                outIdx := s[i-winSize] - 'a'
+                if counts[outIdx] == c {
+                    valid--
+                } else if counts[outIdx] == c+1 {
+                    valid++
+                }
+                counts[outIdx]--
+                if counts[outIdx] == 0 {
+                    distinct--
+                }
+
+                if distinct == k && valid == k {
+                    maxLen = winSize
+                    break
+                }
+            }
+        }
+    }
+    return maxLen
 }
 
 func max(a, b int) int {
