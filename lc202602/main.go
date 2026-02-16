@@ -784,3 +784,16 @@ func max(a, b int) int {
 	return b
 }
 
+func reverseBits(n int) int {
+	// 190
+    var reversed int = 0
+    for i := 0; i < 32; i++ {
+        // Shift reversed to the left to make space for the next bit
+        reversed <<= 1
+        // Add the last bit of num to reversed
+        reversed |= (n & 1)
+        // Shift num to the right to process the next bit
+        n >>= 1
+    }
+    return reversed
+}
