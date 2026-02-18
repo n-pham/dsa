@@ -797,3 +797,16 @@ func reverseBits(n int) int {
     }
     return reversed
 }
+
+func hasAlternatingBits(n int) bool {
+    // 693
+    prevBit := n & 1
+    for n >>= 1; n > 0; n >>= 1 {
+        if currBit := n & 1; currBit == prevBit {
+            return false
+        } else {
+            prevBit = currBit
+        }
+    }
+    return true
+}
