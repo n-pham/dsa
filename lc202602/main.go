@@ -810,3 +810,26 @@ func hasAlternatingBits(n int) bool {
     }
     return true
 }
+
+func countBinarySubstrings(s string) (cnt int) {
+	// 696
+	lens := []int{}
+	subLen := 1
+	for i := 1; i < len(s); i++ {
+		if s[i] == s[i-1] {
+			subLen++
+		} else {
+			lens = append(lens, subLen)
+			subLen = 1
+		}
+	}
+	lens = append(lens, subLen)
+	for i := 1; i < len(lens); i++ {
+		minLen := lens[i]
+		if lens[i-1] < minLen {
+			minLen = lens[i-1]
+		}
+		cnt += minLen
+	}
+	return cnt
+}
