@@ -833,3 +833,21 @@ func countBinarySubstrings(s string) (cnt int) {
 	}
 	return cnt
 }
+
+func countSetBits(num int) (cnt int) {
+	for ; num > 0; num >>= 1{
+		cnt += num&1
+	}
+	return cnt
+}
+
+func countPrimeSetBits(left int, right int) (cnt int) {
+	// 762
+    for num := left; num <= right; num++ {
+		switch countSetBits(nums) {
+		case 2, 3, 5, 7, 11, 13, 17, 19:
+			cnt++
+		}
+	}
+	return cnt
+}
