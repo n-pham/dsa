@@ -218,3 +218,85 @@ func ExampleMinRemoval() {
 	// 2
 	// 0
 }
+
+func ExampleBinaryGap() {
+	fmt.Println(BinaryGap(22))
+	fmt.Println(BinaryGap(8))
+	fmt.Println(BinaryGap(5))
+	// Output:
+	// 2
+	// 0
+	// 2
+}
+
+func ExampleIsBalanced() {
+	root := &TreeNode{Val: 1, Left: &TreeNode{Val: 2, Left: &TreeNode{Val: 3}}}
+	fmt.Println(IsBalanced(root))
+	root2 := &TreeNode{Val: 1, Left: &TreeNode{Val: 2}, Right: &TreeNode{Val: 3}}
+	fmt.Println(IsBalanced(root2))
+	// Output:
+	// false
+	// true
+}
+
+func ExampleBalanceBST() {
+	root := &TreeNode{Val: 1, Right: &TreeNode{Val: 2, Right: &TreeNode{Val: 3, Right: &TreeNode{Val: 4}}}}
+	balanced := BalanceBST(root)
+	fmt.Println(IsBalanced(balanced))
+	// Output:
+	// true
+}
+
+func ExampleLongestBalanced() {
+	fmt.Println(LongestBalanced([]int{1, 2, 1, 2}))
+	fmt.Println(LongestBalanced([]int{1, 2, 3, 4}))
+	// Output:
+	// 4
+	// 4
+}
+
+func ExampleLongestBalancedSubstring() {
+	fmt.Println(LongestBalancedSubstring("aaabbb"))
+	fmt.Println(LongestBalancedSubstring("ab"))
+	// Output:
+	// 6
+	// 2
+}
+
+func ExampleLongestBalancedSubstring2() {
+	fmt.Println(LongestBalancedSubstring2("aaabbbccc"))
+	fmt.Println(LongestBalancedSubstring2("abc"))
+	// Output:
+	// 9
+	// 3
+}
+
+func ExampleReverseBits() {
+	fmt.Printf("%032b\n", ReverseBits(0b00000010100101000001111010011100))
+	// Output:
+	// 00111001011110000010100101000000
+}
+
+func ExampleHasAlternatingBits() {
+	fmt.Println(HasAlternatingBits(5))
+	fmt.Println(HasAlternatingBits(7))
+	// Output:
+	// true
+	// false
+}
+
+func ExampleCountBinarySubstrings() {
+	fmt.Println(CountBinarySubstrings("00110011"))
+	fmt.Println(CountBinarySubstrings("10101"))
+	// Output:
+	// 6
+	// 4
+}
+
+func ExampleCountPrimeSetBits() {
+	fmt.Println(CountPrimeSetBits(6, 10))
+	fmt.Println(CountPrimeSetBits(10, 15))
+	// Output:
+	// 4
+	// 5
+}

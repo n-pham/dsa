@@ -7,6 +7,8 @@ import (
 	"slices"
 )
 
+type TreeNode = kit.TreeNode
+
 // An IntHeap is a min-heap of ints.
 type IntHeap []int
 
@@ -558,7 +560,7 @@ func MinRemoval(nums []int, k int) int {
  *     Right *TreeNode
  * }
  */
-func isBalanced(root *TreeNode) bool {
+func IsBalanced(root *TreeNode) bool {
     var getBalancedAndDepth func(*TreeNode) (bool, int)
     getBalancedAndDepth = func(root *TreeNode) (bool, int) {
         if root == nil {
@@ -588,6 +590,7 @@ func inOrder(root *TreeNode, nums *[]int) {
     *nums = append(*nums, root.Val)
     inOrder(root.Right, nums)
 }
+
 func buildBalancedBST(nums []int, left, right int) *TreeNode {
     if left > right {
         return nil
@@ -598,13 +601,14 @@ func buildBalancedBST(nums []int, left, right int) *TreeNode {
     node.Right = buildBalancedBST(nums, mid+1, right)
     return node
 }
-func balanceBST(root *TreeNode) *TreeNode {
+
+func BalanceBST(root *TreeNode) *TreeNode {
     var nums []int
     inOrder(root, &nums)
     return buildBalancedBST(nums, 0, len(nums)-1)
 }
 
-func longestBalanced(nums []int) int {
+func LongestBalanced(nums []int) int {
 	// 3719
 	maxLength := 0
 	n := len(nums)
@@ -644,7 +648,7 @@ func longestBalanced(nums []int) int {
 	return maxLength
 }
 
-func longestBalancedSubstring(s string) int {
+func LongestBalancedSubstring(s string) int {
 	// 3713
 	n := len(s)
 	maxLen := 0
@@ -711,7 +715,7 @@ func longestBalancedSubstring(s string) int {
 	return maxLen
 }
 
-func longestBalancedSubstring2(s string) int {
+func LongestBalancedSubstring2(s string) int {
 	// 3714
 	n := len(s)
     maxLen := 0
@@ -777,16 +781,9 @@ func longestBalancedSubstring2(s string) int {
     return maxLen
 }
 
-func max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
-}
-
-func reverseBits(n int) int {
+func ReverseBits(n int) int {
 	// 190
-    var reversed int = 0
+    reversed := 0
     for i := 0; i < 32; i++ {
         // Shift reversed to the left to make space for the next bit
         reversed <<= 1
@@ -798,7 +795,7 @@ func reverseBits(n int) int {
     return reversed
 }
 
-func hasAlternatingBits(n int) bool {
+func HasAlternatingBits(n int) bool {
     // 693
     prevBit := n & 1
     for n >>= 1; n > 0; n >>= 1 {
@@ -811,7 +808,7 @@ func hasAlternatingBits(n int) bool {
     return true
 }
 
-func countBinarySubstrings(s string) (cnt int) {
+func CountBinarySubstrings(s string) (cnt int) {
 	// 696
 	lens := []int{}
 	subLen := 1
@@ -841,13 +838,30 @@ func countSetBits(num int) (cnt int) {
 	return cnt
 }
 
-func countPrimeSetBits(left int, right int) (cnt int) {
+func CountPrimeSetBits(left int, right int) (cnt int) {
 	// 762
     for num := left; num <= right; num++ {
-		switch countSetBits(nums) {
+		switch countSetBits(num) {
 		case 2, 3, 5, 7, 11, 13, 17, 19:
 			cnt++
 		}
 	}
 	return cnt
+}
+
+func BinaryGap(n int) (maxLen int) {
+	// 868
+	last := -1
+	for i := 0; n > 0; i++ {
+		if n&1 == 1 {
+			if last != -1 {
+				if i-last > maxLen {
+					maxLen = i - last
+				}
+			}
+			last = i
+		}
+		n >>= 1
+	}
+	return maxLen
 }
