@@ -865,3 +865,37 @@ func BinaryGap(n int) (maxLen int) {
 	}
 	return maxLen
 }
+
+func HasAllCodes(s string, k int) bool {
+	// 1461
+	if len(s) < (1<<k)+k-1 {
+		return false
+	}
+
+	found := make([]bool, 1<<k)
+	count := 0
+	target := 1 << k
+
+	// Initial window
+	val := 0
+	for i := 0; i < k; i++ {
+		val = (val << 1) | int(s[i]-'0')
+	}
+	found[val] = true
+	count++
+
+	mask := (1 << k) - 1
+
+	for i := k; i < len(s); i++ {
+		val = ((val << 1) & mask) | int(s[i]-'0')
+		if !found[val] {
+			found[val] = true
+			count++
+			if count == target {
+				return true
+			}
+		}
+	}
+
+	return count == target
+}

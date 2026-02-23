@@ -300,3 +300,13 @@ func ExampleCountPrimeSetBits() {
 	// 4
 	// 5
 }
+
+func ExampleHasAllCodes() {
+	fmt.Println(HasAllCodes("00110110", 2))
+	fmt.Println(HasAllCodes("0110", 1))
+	fmt.Println(HasAllCodes("0110", 2))
+	// Output:
+	// true
+	// true
+	// false
+}
