@@ -310,3 +310,34 @@ func ExampleHasAllCodes() {
 	// true
 	// false
 }
+
+func ExampleSumRootToLeaf() {
+	// Example 1: [1,0,1,0,1,0,1]
+	//       1
+	//     /   \
+	//    0     1
+	//   / \   / \
+	//  0   1 0   1
+	root := &TreeNode{
+		Val: 1,
+		Left: &TreeNode{
+			Val:   0,
+			Left:  &TreeNode{Val: 0},
+			Right: &TreeNode{Val: 1},
+		},
+		Right: &TreeNode{
+			Val:   1,
+			Left:  &TreeNode{Val: 0},
+			Right: &TreeNode{Val: 1},
+		},
+	}
+	fmt.Println(SumRootToLeaf(root))
+
+	// Example 2: [0]
+	root2 := &TreeNode{Val: 0}
+	fmt.Println(SumRootToLeaf(root2))
+
+	// Output:
+	// 22
+	// 0
+}

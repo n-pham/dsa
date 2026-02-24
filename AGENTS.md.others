@@ -1,0 +1,1 @@
+Rule: After functional tests pass and coverage is over 80%, you MUST run `./verify_security.sh <folder_name>` and `./run_benchmarks.sh <folder_name>` (e.g., `lc202601`). If security issues are found, they must be fixed. Performance results should be reviewed to ensure the algorithm is optimal as requested.

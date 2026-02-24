@@ -552,14 +552,6 @@ func MinRemoval(nums []int, k int) int {
 	return n - maxLen
 }
 
-/**
- * Definition for a binary tree node.
- * type TreeNode struct {
- *     Val int
- *     Left *TreeNode
- *     Right *TreeNode
- * }
- */
 func IsBalanced(root *TreeNode) bool {
     var getBalancedAndDepth func(*TreeNode) (bool, int)
     getBalancedAndDepth = func(root *TreeNode) (bool, int) {
@@ -898,4 +890,24 @@ func HasAllCodes(s string, k int) bool {
 	}
 
 	return count == target
+}
+
+func SumRootToLeaf(root *TreeNode) (total int) {
+	// 1022
+	var visit func(*TreeNode, int)
+	visit = func(node *TreeNode, currentSum int) {
+		currentSum = currentSum*2 + node.Val
+		if node.Left == nil && node.Right == nil {
+			total += currentSum
+			return
+		}
+		if node.Left != nil {
+			visit(node.Left, currentSum)
+		}
+		if node.Right != nil {
+			visit(node.Right, currentSum)
+		}
+	}
+	visit(root, 0)
+	return total
 }
