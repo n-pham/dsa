@@ -555,51 +555,51 @@ func MinRemoval(nums []int, k int) int {
 }
 
 func IsBalanced(root *TreeNode) bool {
-    var getBalancedAndDepth func(*TreeNode) (bool, int)
-    getBalancedAndDepth = func(root *TreeNode) (bool, int) {
-        if root == nil {
-            return true, 0
-        }
-        leftBalanced, leftDepth := getBalancedAndDepth(root.Left)
-        rightBalanced, rightDepth := getBalancedAndDepth(root.Right)
-        diffDepth := leftDepth-rightDepth
-        if diffDepth < 0 {
-            diffDepth = - diffDepth
-        }
-        resultBalanced := leftBalanced && rightBalanced && diffDepth <= 1
-        if leftDepth > rightDepth {
-            return resultBalanced, 1+leftDepth
-        }
-        return resultBalanced, 1+rightDepth
-    }
-    result, _ := getBalancedAndDepth(root)
-    return result
+	var getBalancedAndDepth func(*TreeNode) (bool, int)
+	getBalancedAndDepth = func(root *TreeNode) (bool, int) {
+		if root == nil {
+			return true, 0
+		}
+		leftBalanced, leftDepth := getBalancedAndDepth(root.Left)
+		rightBalanced, rightDepth := getBalancedAndDepth(root.Right)
+		diffDepth := leftDepth - rightDepth
+		if diffDepth < 0 {
+			diffDepth = -diffDepth
+		}
+		resultBalanced := leftBalanced && rightBalanced && diffDepth <= 1
+		if leftDepth > rightDepth {
+			return resultBalanced, 1 + leftDepth
+		}
+		return resultBalanced, 1 + rightDepth
+	}
+	result, _ := getBalancedAndDepth(root)
+	return result
 }
 
 func inOrder(root *TreeNode, nums *[]int) {
-    if root == nil {
-        return
-    }
-    inOrder(root.Left, nums)
-    *nums = append(*nums, root.Val)
-    inOrder(root.Right, nums)
+	if root == nil {
+		return
+	}
+	inOrder(root.Left, nums)
+	*nums = append(*nums, root.Val)
+	inOrder(root.Right, nums)
 }
 
 func buildBalancedBST(nums []int, left, right int) *TreeNode {
-    if left > right {
-        return nil
-    }
-    mid := left + (right-left)/2
-    node := &TreeNode{Val: nums[mid]}
-    node.Left = buildBalancedBST(nums, left, mid-1)
-    node.Right = buildBalancedBST(nums, mid+1, right)
-    return node
+	if left > right {
+		return nil
+	}
+	mid := left + (right-left)/2
+	node := &TreeNode{Val: nums[mid]}
+	node.Left = buildBalancedBST(nums, left, mid-1)
+	node.Right = buildBalancedBST(nums, mid+1, right)
+	return node
 }
 
 func BalanceBST(root *TreeNode) *TreeNode {
-    var nums []int
-    inOrder(root, &nums)
-    return buildBalancedBST(nums, 0, len(nums)-1)
+	var nums []int
+	inOrder(root, &nums)
+	return buildBalancedBST(nums, 0, len(nums)-1)
 }
 
 func LongestBalanced(nums []int) int {
@@ -712,94 +712,94 @@ func LongestBalancedSubstring(s string) int {
 func LongestBalancedSubstring2(s string) int {
 	// 3714
 	n := len(s)
-    maxLen := 0
+	maxLen := 0
 
 	for c := 1; c <= n; c++ {
-        for k := 1; k <= 3; k++ {
-            winSize := k * c
-            if winSize > n || winSize <= maxLen {
-                continue
-            }
+		for k := 1; k <= 3; k++ {
+			winSize := k * c
+			if winSize > n || winSize <= maxLen {
+				continue
+			}
 
-            counts := [3]int{}
-            distinct := 0
-            valid := 0
+			counts := [3]int{}
+			distinct := 0
+			valid := 0
 
-            for i := 0; i < winSize; i++ {
-                idx := s[i] - 'a'
-                if counts[idx] == 0 {
-                    distinct++
-                }
-                counts[idx]++
-                if counts[idx] == c {
-                    valid++
-                } else if counts[idx] == c+1 {
-                    valid--
-                }
-            }
+			for i := 0; i < winSize; i++ {
+				idx := s[i] - 'a'
+				if counts[idx] == 0 {
+					distinct++
+				}
+				counts[idx]++
+				if counts[idx] == c {
+					valid++
+				} else if counts[idx] == c+1 {
+					valid--
+				}
+			}
 
-            if distinct == k && valid == k {
-                maxLen = winSize
-            }
+			if distinct == k && valid == k {
+				maxLen = winSize
+			}
 
-            for i := winSize; i < n; i++ {
-                inIdx := s[i] - 'a'
-                if counts[inIdx] == 0 {
-                    distinct++
-                }
-                counts[inIdx]++
-                if counts[inIdx] == c {
-                    valid++
-                } else if counts[inIdx] == c+1 {
-                    valid--
-                }
+			for i := winSize; i < n; i++ {
+				inIdx := s[i] - 'a'
+				if counts[inIdx] == 0 {
+					distinct++
+				}
+				counts[inIdx]++
+				if counts[inIdx] == c {
+					valid++
+				} else if counts[inIdx] == c+1 {
+					valid--
+				}
 
-                outIdx := s[i-winSize] - 'a'
-                if counts[outIdx] == c {
-                    valid--
-                } else if counts[outIdx] == c+1 {
-                    valid++
-                }
-                counts[outIdx]--
-                if counts[outIdx] == 0 {
-                    distinct--
-                }
+				outIdx := s[i-winSize] - 'a'
+				if counts[outIdx] == c {
+					valid--
+				} else if counts[outIdx] == c+1 {
+					valid++
+				}
+				counts[outIdx]--
+				if counts[outIdx] == 0 {
+					distinct--
+				}
 
-                if distinct == k && valid == k {
-                    maxLen = winSize
-                    break
-                }
-            }
-        }
-    }
-    return maxLen
+				if distinct == k && valid == k {
+					maxLen = winSize
+					break
+				}
+			}
+		}
+	}
+	return maxLen
 }
 
 func ReverseBits(n int) int {
 	// 190
-    reversed := 0
-    for i := 0; i < 32; i++ {
-        // Shift reversed to the left to make space for the next bit
-        reversed <<= 1
-        // Add the last bit of num to reversed
-        reversed |= (n & 1)
-        // Shift num to the right to process the next bit
-        n >>= 1
-    }
-    return reversed
+	reversed := 0
+	for i := 0; i < 32; i++ {
+		// Shift reversed to the left to make space for the next bit
+		reversed <<= 1
+		// Add the last bit of num to reversed
+		reversed |= (n & 1)
+		// Shift num to the right to process the next bit
+		n >>= 1
+	}
+	return reversed
 }
 
 func HasAlternatingBits(n int) bool {
-    // 693
-    prevBit := n & 1
-    for n >>= 1; n > 0; n >>= 1 {
-        if currBit := n & 1; currBit == prevBit {
-            return false
-        } else {
-            prevBit = currBit
-        }
-    }
-    return true
+	// 693
+	prevBit := n & 1
+	for n >>= 1; n > 0; n >>= 1 {
+		if currBit := n & 1; currBit == prevBit {
+			return false
+		} else {
+			prevBit = currBit
+		}
+	}
+	return true
 }
 
 func CountBinarySubstrings(s string) (cnt int) {
@@ -826,15 +826,15 @@ func CountBinarySubstrings(s string) (cnt int) {
 }
 
 func countSetBits(num int) (cnt int) {
-	for ; num > 0; num >>= 1{
-		cnt += num&1
+	for ; num > 0; num >>= 1 {
+		cnt += num & 1
 	}
 	return cnt
 }
 
 func CountPrimeSetBits(left int, right int) (cnt int) {
 	// 762
-    for num := left; num <= right; num++ {
+	for num := left; num <= right; num++ {
 		switch countSetBits(num) {
 		case 2, 3, 5, 7, 11, 13, 17, 19:
 			cnt++
