@@ -4,7 +4,9 @@ import (
 	"container/heap"
 	"dsa/kit"
 	"math"
+	"math/bits"
 	"slices"
+	"sort"
 )
 
 type TreeNode = kit.TreeNode
@@ -910,4 +912,17 @@ func SumRootToLeaf(root *TreeNode) (total int) {
 	}
 	visit(root, 0)
 	return total
+}
+
+func SortByBits(arr []int) []int {
+	// 1356
+	sort.Slice(arr, func(i, j int) bool {
+		countA := bits.OnesCount(uint(arr[i]))
+		countB := bits.OnesCount(uint(arr[j]))
+		if countA != countB {
+			return countA < countB
+		}
+		return arr[i] < arr[j]
+	})
+	return arr
 }
