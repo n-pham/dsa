@@ -3,6 +3,24 @@ pub fn sort_by_bits(mut arr: Vec<i32>) -> Vec<i32> {
     arr
 }
 
+pub fn num_steps(s: String) -> i32 {
+    // 1404
+    // s cannot be converted to very big int
+    let mut steps = 0;
+    let mut carry = 0;
+    let bytes = s.as_bytes();
+    for i in (1..bytes.len()).rev() {
+        let current_bit = (bytes[i] - b'0') as i32;
+        if current_bit + carry == 1 {
+            steps += 2;
+            carry = 1;
+        } else {
+            steps += 1;
+        }
+    }
+    steps + carry
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
