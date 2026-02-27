@@ -926,3 +926,62 @@ func SortByBits(arr []int) []int {
 	})
 	return arr
 }
+
+func MinOperations(s string, k int) int {
+	// 3666
+	n := len(s)
+	z0 := 0
+	for i := 0; i < n; i++ {
+		if s[i] == '0' {
+			z0++
+		}
+	}
+	if z0 == 0 {
+		return 0
+	}
+	if n < k {
+		return -1
+	}
+
+	queue := []int{z0}
+	dist := make([]int, n+1)
+	for i := range dist {
+		dist[i] = -1
+	}
+	dist[z0] = 0
+
+	for len(queue) > 0 {
+		z := queue[0]
+		queue = queue[1:]
+
+		if z == 0 {
+			return dist[z]
+		}
+
+		// Choose m zeros and k-m ones to flip.
+		// 0 <= m <= z
+		// 0 <= k-m <= n-z  => m >= k - n + z
+		minM := 0
+		if k-n+z > 0 {
+			minM = k - n + z
+		}
+		maxM := k
+		if z < k {
+			maxM = z
+		}
+
+		// zNext = z - m + (k - m) = z + k - 2m
+		for m := minM; m <= maxM; m++ {
+			zNext := z + k - 2*m
+			if zNext >= 0 && zNext <= n && dist[zNext] == -1 {
+				dist[zNext] = dist[z] + 1
+				if zNext == 0 {
+					return dist[zNext]
+				}
+				queue = append(queue, zNext)
+			}
+		}
+	}
+
+	return -1
+}

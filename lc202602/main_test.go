@@ -349,3 +349,13 @@ func ExampleSortByBits() {
 	// [0 1 2 4 8 3 5 6 7]
 	// [1 2 4 8 16 32 64 128 256 512 1024]
 }
+
+func ExampleMinOperations() {
+	fmt.Println(MinOperations("110", 1))
+	fmt.Println(MinOperations("0101", 3))
+	fmt.Println(MinOperations("101", 2))
+	// Output:
+	// 1
+	// 2
+	// -1
+}
