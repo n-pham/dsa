@@ -985,3 +985,17 @@ func MinOperations(s string, k int) int {
 
 	return -1
 }
+
+func concatenatedBinary(n int) (result int) {
+	// 1680
+	const MOD = 1_000_000_007
+	bitLen := 0;
+	for i := 1; i <= n; i++ {
+		// If i is a power of 2, the bit length increases
+        if ((i & (i - 1)) == 0) {
+            bitLen++;
+        }
+		result = ((result << bitLen) | i) % MOD;
+	}
+	return result
+}
