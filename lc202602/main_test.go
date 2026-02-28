@@ -359,3 +359,76 @@ func ExampleMinOperations() {
 	// 2
 	// -1
 }
+
+func TestConcatenatedBinary(t *testing.T) {
+	tests := []struct {
+		name string
+		n    int
+		want int
+	}{
+		{
+			name: "n = 1",
+			n:    1,
+			want: 1,
+		},
+		{
+			name: "n = 2",
+			n:    2,
+			want: 6,
+		},
+		{
+			name: "n = 3",
+			n:    3,
+			want: 27,
+		},
+		{
+			name: "n = 4",
+			n:    4,
+			want: 220,
+		},
+		{
+			name: "n = 5",
+			n:    5,
+			want: 1765,
+		},
+		{
+			name: "n = 0 (edge case)",
+			n:    0,
+			want: 0,
+		},
+		{
+			name: "n = 10",
+			n:    10,
+			want: 462911642,
+		},
+		{
+			name: "n = 12",
+			n:    12,
+			want: 505379714,
+		},
+		{
+			name: "n = 100 (medium)",
+			n:    100,
+			want: 310828084,
+		},
+		{
+			name: "n = 500 (large)",
+			n:    500,
+			want: 715412131,
+		},
+		{
+			name: "n = 1000 (very large)",
+			n:    1000,
+			want: 499361981,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := concatenatedBinary(tt.n)
+			if got != tt.want {
+				t.Errorf("concatenatedBinary(%d) = %d, want %d", tt.n, got, tt.want)
+			}
+		})
+	}
+}
