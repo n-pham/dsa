@@ -1,3 +1,5 @@
+.DS_Store
+
 # gemini-cli settings
 .gemini/
 !.gemini/settings.json
