@@ -18,6 +18,38 @@ pub fn find_kth_bit(n: i32, k: i32) -> char {
     chars[k as usize - 1]
 }
 
+pub fn num_special(mat: Vec<Vec<i32>>) -> i32 {
+    // 1582
+    let m = mat.len();
+    let n = mat[0].len();
+
+    // Count ones in each row and column
+    let mut row_count = vec![0; m];
+    let mut col_count = vec![0; n];
+
+    for i in 0..m {
+        for j in 0..n {
+            if mat[i][j] == 1 {
+                row_count[i] += 1;
+                col_count[j] += 1;
+            }
+        }
+    }
+
+    // Check for special positions
+    let mut result = 0;
+    for i in 0..m {
+        for j in 0..n {
+            if mat[i][j] == 1 && row_count[i] == 1 && col_count[j] == 1 {
+                result += 1;
+            }
+        }
+    }
+
+    result
+}
+
+
 #[cfg(test)]
 mod tests {
     use super::*;
