@@ -49,10 +49,34 @@ pub fn num_special(mat: Vec<Vec<i32>>) -> i32 {
     result
 }
 
+pub fn min_operations(s: String) -> i32 {
+    // 1758
+    let mut count_if_0_first = 0;
+    for (i, c) in s.chars().enumerate() {
+        if i % 2 == 0 {
+            if c != '0' {
+                count_if_0_first += 1;
+            }
+        } else {
+            if c != '1' {
+                count_if_0_first += 1;
+            }
+        }
+    }
+    let count_if_1_first = s.len() as i32 - count_if_0_first;
+    count_if_0_first.min(count_if_1_first)
+}
 
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn test_min_operations() {
+        assert_eq!(min_operations("0100".to_string()), 1);
+        assert_eq!(min_operations("10".to_string()), 0);
+        assert_eq!(min_operations("1111".to_string()), 2);
+    }
 
     #[test]
     fn test_find_kth_bit() {
