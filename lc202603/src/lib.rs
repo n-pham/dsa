@@ -67,6 +67,23 @@ pub fn min_operations(s: String) -> i32 {
     count_if_0_first.min(count_if_1_first)
 }
 
+pub fn check_ones_segment_fail(s: String) -> bool {
+    // 1784
+    let mut prev_is_1 = false;
+    for char in s.chars() {
+        if char == '1' && prev_is_1 {
+            return true
+        }
+        prev_is_1 = char == '1'
+    }
+    false
+}
+
+pub fn check_ones_segment(s: String) -> bool {
+    // 1784
+    !s.contains("01")
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
