@@ -84,6 +84,64 @@ pub fn check_ones_segment(s: String) -> bool {
     !s.contains("01")
 }
 
+pub fn min_flips(s: String) -> i32 {
+    // 1888
+    let n = s.len();
+    if n == 0 { return 0; }
+    let t = s.repeat(2);
+    let bytes = t.as_bytes();
+    let mut even0 = 0;
+    let mut even1 = 0;
+    let mut odd0 = 0;
+    let mut odd1 = 0;
+
+    // initial window: indices 0..n
+    for idx in 0..n {
+        let b = bytes[idx]; // FIX: use square brackets
+        if idx % 2 == 0 {
+            if b == b'0' { even0 += 1; } else { even1 += 1; }
+        } else {
+            if b == b'0' { odd0 += 1; } else { odd1 += 1; }
+        }
+    }
+
+    let mut ans = i32::MAX;
+    let p0_initial = 0 % 2; // always 0
+    let flips0_initial = if p0_initial == 0 { even1 + odd0 } else { odd1 + even0 };
+    let flips1_initial = if p0_initial == 0 { even0 + odd1 } else { odd0 + even1 };
+    ans = flips0_initial.min(flips1_initial);
+
+    // iterate i from 1 to n-1
+    for i in 1..n {
+        // remove old index i-1
+        let old = bytes[i - 1]; // FIX
+        let old_parity = (i - 1) % 2;
+        if old == b'0' {
+            if old_parity == 0 { even0 -= 1; } else { odd0 -= 1; }
+        } else {
+            if old_parity == 0 { even1 -= 1; } else { odd1 -= 1; }
+        }
+
+        // add new index i+n-1
+        let new_idx = i + n - 1;
+        let newb = bytes[new_idx]; // FIX
+        let new_parity = new_idx % 2;
+        if newb == b'0' {
+            if new_parity == 0 { even0 += 1; } else { odd0 += 1; }
+        } else {
+            if new_parity == 0 { even1 += 1; } else { odd1 += 1; }
+        }
+
+        let p0 = i % 2;
+        let flips0 = if p0 == 0 { even1 + odd0 } else { odd1 + even0 };
+        let flips1 = if p0 == 0 { even0 + odd1 } else { odd0 + even1 };
+        ans = ans.min(flips0.min(flips1));
+    }
+
+    ans
+}
+
+
 #[cfg(test)]
 mod tests {
     use super::*;
