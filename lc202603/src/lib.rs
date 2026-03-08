@@ -1,3 +1,5 @@
+use std::collections::HashSet;
+
 pub fn min_partitions(n: String) -> i32 {
     // 1689
     // The answer is the maximum digit in the string.
@@ -139,6 +141,25 @@ pub fn min_flips(s: String) -> i32 {
     }
 
     ans
+}
+
+pub fn find_different_binary_string(nums: Vec<String>) -> String {
+    // 1980
+    let n = nums.len();
+    let mut int_set: HashSet<i32> = HashSet::new();
+    let (mut min_num, mut max_num) = (0, i32::MAX);
+    for s in nums.iter() {
+        let num = i32::from_str_radix(s, 2).expect("Not a valid binary number!");
+        (min_num, max_num) = (min_num.min(num), max_num.max(num));
+        int_set.insert(num);
+    }
+    // Search all n-bit numbers
+    for num in 0..(1 << n) {
+        if !int_set.contains(&num) {
+            return format!("{:0width$b}", num, width = n);
+        }
+    }
+    unreachable!("There must always be a solution");
 }
 
 
