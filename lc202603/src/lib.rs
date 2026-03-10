@@ -159,10 +159,52 @@ pub fn find_different_binary_string(nums: Vec<String>) -> String {
     unreachable!("There must always be a solution");
 }
 
+pub fn number_of_stable_arrays(zero: i32, one: i32, limit: i32) -> i32 {
+    // 3130
+    let mod_val = 1_000_000_007;
+    let z = zero as usize;
+    let o = one as usize;
+    let lim = limit as usize;
+
+    let mut dp = vec![vec![[0i32; 2]; o + 1]; z + 1];
+
+    for i in 1..=z.min(lim) {
+        dp[i][0][0] = 1;
+    }
+    for j in 1..=o.min(lim) {
+        dp[0][j][1] = 1;
+    }
+
+    for i in 1..=z {
+        for j in 1..=o {
+            dp[i][j][0] = (dp[i - 1][j][0] + dp[i - 1][j][1]) % mod_val;
+            if i > lim {
+                let sub = dp[i - lim - 1][j][1];
+                dp[i][j][0] = (dp[i][j][0] - sub + mod_val) % mod_val;
+            }
+
+            dp[i][j][1] = (dp[i][j - 1][0] + dp[i][j - 1][1]) % mod_val;
+            if j > lim {
+                let sub = dp[i][j - lim - 1][0];
+                dp[i][j][1] = (dp[i][j][1] - sub + mod_val) % mod_val;
+            }
+        }
+    }
+
+    (dp[z][o][0] + dp[z][o][1]) % mod_val
+}
+
 
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn test_number_of_stable_arrays() {
+        assert_eq!(number_of_stable_arrays(1, 1, 2), 2);
+        assert_eq!(number_of_stable_arrays(1, 2, 1), 1);
+        assert_eq!(number_of_stable_arrays(3, 3, 2), 14);
+    }
 
     #[test]
     fn test_min_operations() {
