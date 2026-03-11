@@ -107,11 +107,10 @@ pub fn min_flips(s: String) -> i32 {
         }
     }
 
-    let mut ans = i32::MAX;
     let p0_initial = 0 % 2; // always 0
     let flips0_initial = if p0_initial == 0 { even1 + odd0 } else { odd1 + even0 };
     let flips1_initial = if p0_initial == 0 { even0 + odd1 } else { odd0 + even1 };
-    ans = flips0_initial.min(flips1_initial);
+    let mut ans = flips0_initial.min(flips1_initial);
 
     // iterate i from 1 to n-1
     for i in 1..n {
@@ -194,10 +193,64 @@ pub fn number_of_stable_arrays(zero: i32, one: i32, limit: i32) -> i32 {
     (dp[z][o][0] + dp[z][o][1]) % mod_val
 }
 
+pub fn bitwise_complement(n: i32) -> i32 {
+    // 1009
+    if n == 0 { return 1; }
+    let bit_length = 32 - n.leading_zeros();
+    let mask = (1 << bit_length) - 1;
+    n ^ mask
+}
 
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn test_bitwise_complement() {
+        assert_eq!(bitwise_complement(5), 2);
+        assert_eq!(bitwise_complement(7), 0);
+        assert_eq!(bitwise_complement(10), 5);
+        assert_eq!(bitwise_complement(0), 1);
+    }
+
+    #[test]
+    fn test_num_special() {
+        assert_eq!(num_special(vec![vec![1, 0, 0], vec![0, 0, 1], vec![1, 0, 0]]), 1);
+        assert_eq!(num_special(vec![vec![1, 0, 0], vec![0, 1, 0], vec![0, 0, 1]]), 3);
+    }
+
+    #[test]
+    fn test_check_ones_segment() {
+        assert_eq!(check_ones_segment("1001".to_string()), false);
+        assert_eq!(check_ones_segment("110".to_string()), true);
+        assert_eq!(check_ones_segment("1".to_string()), true);
+    }
+
+    #[test]
+    fn test_check_ones_segment_fail() {
+        // This function seems to check for presence of "11"
+        assert_eq!(check_ones_segment_fail("1001".to_string()), false);
+        assert_eq!(check_ones_segment_fail("110".to_string()), true);
+    }
+
+    #[test]
+    fn test_min_flips() {
+        assert_eq!(min_flips("111000".to_string()), 2);
+        assert_eq!(min_flips("010".to_string()), 0);
+        assert_eq!(min_flips("111".to_string()), 1);
+        assert_eq!(min_flips("".to_string()), 0);
+    }
+
+    #[test]
+    fn test_find_different_binary_string() {
+        let nums = vec!["01".to_string(), "10".to_string()];
+        let res = find_different_binary_string(nums);
+        assert!(res == "00" || res == "11");
+
+        let nums2 = vec!["00".to_string(), "01".to_string()];
+        let res2 = find_different_binary_string(nums2);
+        assert!(res2 == "10" || res2 == "11");
+    }
 
     #[test]
     fn test_number_of_stable_arrays() {
