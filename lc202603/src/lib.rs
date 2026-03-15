@@ -201,9 +201,87 @@ pub fn bitwise_complement(n: i32) -> i32 {
     n ^ mask
 }
 
+const MOD: i64 = 1_000_000_007;
+
+fn power(mut x: i64, mut y: i64) -> i64 {
+    let mut res = 1;
+    x %= MOD;
+    while y > 0 {
+        if y % 2 == 1 {
+            res = (res * x) % MOD;
+        }
+        y /= 2;
+        x = (x * x) % MOD;
+    }
+    res
+}
+
+fn mod_inverse(n: i64) -> i64 {
+    power(n, MOD - 2)
+}
+
+#[derive(Default)]
+pub struct Fancy {
+    nums: Vec<i64>,
+    a: i64,
+    b: i64,
+}
+
+impl Fancy {
+    // 1622
+    pub fn new() -> Self {
+        Self {
+            nums: Vec::new(),
+            a: 1,
+            b: 0,
+        }
+    }
+
+    pub fn append(&mut self, val: i32) {
+        let inv_a = mod_inverse(self.a);
+        let val = val as i64;
+        let v = ((val - self.b + MOD) % MOD * inv_a) % MOD;
+        self.nums.push(v);
+    }
+
+    pub fn add_all(&mut self, inc: i32) {
+        self.b = (self.b + inc as i64) % MOD;
+    }
+
+    pub fn mult_all(&mut self, m: i32) {
+        self.a = (self.a * m as i64) % MOD;
+        self.b = (self.b * m as i64) % MOD;
+    }
+
+    pub fn get_index(&self, idx: i32) -> i32 {
+        let i = idx as usize;
+        if i >= self.nums.len() {
+            return -1;
+        }
+        let res = (self.nums[i] * self.a + self.b) % MOD;
+        res as i32
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn test_fancy() {
+        let mut fancy = Fancy::new();
+        fancy.append(2);
+        fancy.add_all(3);
+        fancy.append(7);
+        fancy.mult_all(2);
+        assert_eq!(fancy.get_index(0), 10);
+        fancy.add_all(3);
+        fancy.append(10);
+        fancy.mult_all(2);
+        assert_eq!(fancy.get_index(0), 26);
+        assert_eq!(fancy.get_index(1), 34);
+        assert_eq!(fancy.get_index(2), 20);
+    }
 
     #[test]
     fn test_bitwise_complement() {
