@@ -263,6 +263,32 @@ impl Fancy {
     }
 }
 
+pub fn largest_submatrix(matrix: Vec<Vec<i32>>) -> i32 {
+    // 1727
+    let num_cols = matrix[0].len();
+    let mut max_area = 0;
+
+    let mut col_running_sums= vec![0; num_cols];
+    for row in &matrix {
+        for c in 0..num_cols {
+            if row[c] == 1 {
+                col_running_sums[c] += 1;
+            } else {
+                col_running_sums[c] = 0;
+            }
+        }
+
+        let mut sorted_heights = col_running_sums.clone();
+        sorted_heights.sort_by(|a, b| b.cmp(a));
+
+        for (i, &h) in sorted_heights.iter().enumerate() {
+            let width = (i + 1) as i32;
+            max_area = max_area.max(h * width);
+        }
+    }
+    max_area
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
