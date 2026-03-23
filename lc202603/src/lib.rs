@@ -289,6 +289,36 @@ pub fn largest_submatrix(matrix: Vec<Vec<i32>>) -> i32 {
     max_area
 }
 
+pub fn recite(start_bottles: u32, take_down: u32) -> String {
+    let lower_words = [
+        "no", "one", "two", "three", "four", 
+        "five", "six", "seven", "eight", "nine", "ten"
+    ];
+    let upper_words = [
+        "No", "One", "Two", "Three", "Four", 
+        "Five", "Six", "Seven", "Eight", "Nine", "Ten"
+    ];
+    let lines:  Vec<String> = (0..take_down)
+    .map(|i| {
+        let current = (start_bottles - i) as usize;
+        let remaining = (start_bottles - i - 1) as usize;
+        let current_suffix = if current == 1 { "bottle" } else { "bottles" };
+        let remaining_suffix = if remaining == 1 { "bottle" } else { "bottles" };
+        format!(
+            "{} green {} hanging on the wall,\n\
+            {} green {} hanging on the wall,\n\
+            And if one green bottle should accidentally fall,\n\
+            There'll be {} green {} hanging on the wall.",
+            upper_words[current], current_suffix,
+            upper_words[current], current_suffix,
+            lower_words[remaining], remaining_suffix
+            )
+    })
+    .collect();
+    lines.join("\n\n")
+}
+
+
 #[cfg(test)]
 mod tests {
     use super::*;
