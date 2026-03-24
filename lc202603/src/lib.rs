@@ -318,6 +318,18 @@ pub fn recite(start_bottles: u32, take_down: u32) -> String {
     lines.join("\n\n")
 }
 
+pub fn square_of_sum(n: u32) -> u32 {
+    n*(n+1)*n*(n+1)/4
+}
+
+pub fn sum_of_squares(n: u32) -> u32 {
+    (1..=n).map(|x| x*x).sum()
+}
+
+pub fn difference(n: u32) -> u32 {
+    square_of_sum(n) - sum_of_squares(n)
+}
+
 
 #[cfg(test)]
 mod tests {
