@@ -330,6 +330,14 @@ pub fn difference(n: u32) -> u32 {
     square_of_sum(n) - sum_of_squares(n)
 }
 
+pub fn square(s: u32) -> u64 {
+    1 << (s-1)
+}
+
+pub fn total() -> u64 {
+    (1..=64).map(square).sum()
+}
+
 
 #[cfg(test)]
 mod tests {
