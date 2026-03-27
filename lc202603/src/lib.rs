@@ -338,6 +338,20 @@ pub fn total() -> u64 {
     (1..=64).map(square).sum()
 }
 
+pub fn are_similar(mat: Vec<Vec<i32>>, k: i32) -> bool {
+    // 2946
+    let mut shifted = mat.clone();
+    let k = k as usize;
+    for (i, row) in shifted.iter_mut().enumerate() {
+        let shift_amount = k % row.len();       
+        if i % 2 == 0 {
+            row.rotate_left(shift_amount);
+        } else {
+            row.rotate_right(shift_amount);
+        }
+    }
+    mat == shifted
+}
 
 #[cfg(test)]
 mod tests {
