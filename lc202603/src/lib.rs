@@ -3,14 +3,18 @@ use std::collections::HashSet;
 pub fn min_partitions(n: String) -> i32 {
     // 1689
     // The answer is the maximum digit in the string.
-    n.chars().map(|c| (c as u8 - b'0') as i32).max().unwrap_or(0)
+    n.chars()
+        .map(|c| (c as u8 - b'0') as i32)
+        .max()
+        .unwrap_or(0)
 }
 
 pub fn find_kth_bit(n: i32, k: i32) -> char {
     // 1545
     let mut chars: Vec<char> = vec!['0'];
     for _ in 1..n {
-        let mut part2: Vec<char> = chars.iter()
+        let mut part2: Vec<char> = chars
+            .iter()
             .rev()
             .map(|&c| if c == '0' { '1' } else { '0' })
             .collect();
@@ -74,7 +78,7 @@ pub fn check_ones_segment_fail(s: String) -> bool {
     let mut prev_is_1 = false;
     for char in s.chars() {
         if char == '1' && prev_is_1 {
-            return true
+            return true;
         }
         prev_is_1 = char == '1'
     }
@@ -89,7 +93,9 @@ pub fn check_ones_segment(s: String) -> bool {
 pub fn min_flips(s: String) -> i32 {
     // 1888
     let n = s.len();
-    if n == 0 { return 0; }
+    if n == 0 {
+        return 0;
+    }
     let t = s.repeat(2);
     let bytes = t.as_bytes();
     let mut even0 = 0;
@@ -101,15 +107,31 @@ pub fn min_flips(s: String) -> i32 {
     for idx in 0..n {
         let b = bytes[idx]; // FIX: use square brackets
         if idx % 2 == 0 {
-            if b == b'0' { even0 += 1; } else { even1 += 1; }
+            if b == b'0' {
+                even0 += 1;
+            } else {
+                even1 += 1;
+            }
         } else {
-            if b == b'0' { odd0 += 1; } else { odd1 += 1; }
+            if b == b'0' {
+                odd0 += 1;
+            } else {
+                odd1 += 1;
+            }
         }
     }
 
     let p0_initial = 0 % 2; // always 0
-    let flips0_initial = if p0_initial == 0 { even1 + odd0 } else { odd1 + even0 };
-    let flips1_initial = if p0_initial == 0 { even0 + odd1 } else { odd0 + even1 };
+    let flips0_initial = if p0_initial == 0 {
+        even1 + odd0
+    } else {
+        odd1 + even0
+    };
+    let flips1_initial = if p0_initial == 0 {
+        even0 + odd1
+    } else {
+        odd0 + even1
+    };
     let mut ans = flips0_initial.min(flips1_initial);
 
     // iterate i from 1 to n-1
@@ -118,9 +140,17 @@ pub fn min_flips(s: String) -> i32 {
         let old = bytes[i - 1]; // FIX
         let old_parity = (i - 1) % 2;
         if old == b'0' {
-            if old_parity == 0 { even0 -= 1; } else { odd0 -= 1; }
+            if old_parity == 0 {
+                even0 -= 1;
+            } else {
+                odd0 -= 1;
+            }
         } else {
-            if old_parity == 0 { even1 -= 1; } else { odd1 -= 1; }
+            if old_parity == 0 {
+                even1 -= 1;
+            } else {
+                odd1 -= 1;
+            }
         }
 
         // add new index i+n-1
@@ -128,9 +158,17 @@ pub fn min_flips(s: String) -> i32 {
         let newb = bytes[new_idx]; // FIX
         let new_parity = new_idx % 2;
         if newb == b'0' {
-            if new_parity == 0 { even0 += 1; } else { odd0 += 1; }
+            if new_parity == 0 {
+                even0 += 1;
+            } else {
+                odd0 += 1;
+            }
         } else {
-            if new_parity == 0 { even1 += 1; } else { odd1 += 1; }
+            if new_parity == 0 {
+                even1 += 1;
+            } else {
+                odd1 += 1;
+            }
         }
 
         let p0 = i % 2;
@@ -195,7 +233,9 @@ pub fn number_of_stable_arrays(zero: i32, one: i32, limit: i32) -> i32 {
 
 pub fn bitwise_complement(n: i32) -> i32 {
     // 1009
-    if n == 0 { return 1; }
+    if n == 0 {
+        return 1;
+    }
     let bit_length = 32 - n.leading_zeros();
     let mask = (1 << bit_length) - 1;
     n ^ mask
@@ -268,7 +308,7 @@ pub fn largest_submatrix(matrix: Vec<Vec<i32>>) -> i32 {
     let num_cols = matrix[0].len();
     let mut max_area = 0;
 
-    let mut col_running_sums= vec![0; num_cols];
+    let mut col_running_sums = vec![0; num_cols];
     for row in &matrix {
         for c in 0..num_cols {
             if row[c] == 1 {
@@ -291,39 +331,40 @@ pub fn largest_submatrix(matrix: Vec<Vec<i32>>) -> i32 {
 
 pub fn recite(start_bottles: u32, take_down: u32) -> String {
     let lower_words = [
-        "no", "one", "two", "three", "four", 
-        "five", "six", "seven", "eight", "nine", "ten"
+        "no", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten",
     ];
     let upper_words = [
-        "No", "One", "Two", "Three", "Four", 
-        "Five", "Six", "Seven", "Eight", "Nine", "Ten"
+        "No", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten",
     ];
-    let lines:  Vec<String> = (0..take_down)
-    .map(|i| {
-        let current = (start_bottles - i) as usize;
-        let remaining = (start_bottles - i - 1) as usize;
-        let current_suffix = if current == 1 { "bottle" } else { "bottles" };
-        let remaining_suffix = if remaining == 1 { "bottle" } else { "bottles" };
-        format!(
-            "{} green {} hanging on the wall,\n\
+    let lines: Vec<String> = (0..take_down)
+        .map(|i| {
+            let current = (start_bottles - i) as usize;
+            let remaining = (start_bottles - i - 1) as usize;
+            let current_suffix = if current == 1 { "bottle" } else { "bottles" };
+            let remaining_suffix = if remaining == 1 { "bottle" } else { "bottles" };
+            format!(
+                "{} green {} hanging on the wall,\n\
             {} green {} hanging on the wall,\n\
             And if one green bottle should accidentally fall,\n\
             There'll be {} green {} hanging on the wall.",
-            upper_words[current], current_suffix,
-            upper_words[current], current_suffix,
-            lower_words[remaining], remaining_suffix
+                upper_words[current],
+                current_suffix,
+                upper_words[current],
+                current_suffix,
+                lower_words[remaining],
+                remaining_suffix
             )
-    })
-    .collect();
+        })
+        .collect();
     lines.join("\n\n")
 }
 
 pub fn square_of_sum(n: u32) -> u32 {
-    n*(n+1)*n*(n+1)/4
+    n * (n + 1) * n * (n + 1) / 4
 }
 
 pub fn sum_of_squares(n: u32) -> u32 {
-    (1..=n).map(|x| x*x).sum()
+    (1..=n).map(|x| x * x).sum()
 }
 
 pub fn difference(n: u32) -> u32 {
@@ -331,7 +372,7 @@ pub fn difference(n: u32) -> u32 {
 }
 
 pub fn square(s: u32) -> u64 {
-    1 << (s-1)
+    1 << (s - 1)
 }
 
 pub fn total() -> u64 {
@@ -343,7 +384,7 @@ pub fn are_similar(mat: Vec<Vec<i32>>, k: i32) -> bool {
     let mut shifted = mat.clone();
     let k = k as usize;
     for (i, row) in shifted.iter_mut().enumerate() {
-        let shift_amount = k % row.len();       
+        let shift_amount = k % row.len();
         if i % 2 == 0 {
             row.rotate_left(shift_amount);
         } else {
@@ -351,6 +392,18 @@ pub fn are_similar(mat: Vec<Vec<i32>>, k: i32) -> bool {
         }
     }
     mat == shifted
+}
+
+pub fn can_be_equal(s1: String, s2: String) -> bool {
+    // 2839
+    let mut c1 = s1.chars();
+    let (c10, c11, c12, c13) = (c1.next(), c1.next(), c1.next(), c1.next());
+
+    let mut c2 = s2.chars();
+    let (c20, c21, c22, c23) = (c2.next(), c2.next(), c2.next(), c2.next());
+
+    ((c10 == c20 && c12 == c22) || (c10 == c22 && c12 == c20))
+        && ((c11 == c21 && c13 == c23) || (c11 == c23 && c13 == c21))
 }
 
 #[cfg(test)]
@@ -383,8 +436,14 @@ mod tests {
 
     #[test]
     fn test_num_special() {
-        assert_eq!(num_special(vec![vec![1, 0, 0], vec![0, 0, 1], vec![1, 0, 0]]), 1);
-        assert_eq!(num_special(vec![vec![1, 0, 0], vec![0, 1, 0], vec![0, 0, 1]]), 3);
+        assert_eq!(
+            num_special(vec![vec![1, 0, 0], vec![0, 0, 1], vec![1, 0, 0]]),
+            1
+        );
+        assert_eq!(
+            num_special(vec![vec![1, 0, 0], vec![0, 1, 0], vec![0, 0, 1]]),
+            3
+        );
     }
 
     #[test]
