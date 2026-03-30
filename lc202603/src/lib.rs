@@ -1,3 +1,4 @@
+use std::collections::HashMap;
 use std::collections::HashSet;
 
 pub fn min_partitions(n: String) -> i32 {
@@ -404,6 +405,62 @@ pub fn can_be_equal(s1: String, s2: String) -> bool {
 
     ((c10 == c20 && c12 == c22) || (c10 == c22 && c12 == c20))
         && ((c11 == c21 && c13 == c23) || (c11 == c23 && c13 == c21))
+}
+
+pub fn check_strings(s1: String, s2: String) -> bool {
+    // 2840
+    let mut even_diff = [0; 26];
+    let mut odd_diff = [0; 26];
+
+    let b1 = s1.as_bytes();
+    let b2 = s2.as_bytes();
+
+    for i in 0..b1.len() {
+        let idx1 = (b1[i] - b'a') as usize;
+        let idx2 = (b2[i] - b'a') as usize;
+
+        if i % 2 == 0 {
+            even_diff[idx1] += 1;
+            even_diff[idx2] -= 1;
+        } else {
+            odd_diff[idx1] += 1;
+            odd_diff[idx2] -= 1;
+        }
+    }
+    
+    even_diff.iter().all(|&x| x == 0) && odd_diff.iter().all(|&x| x == 0)
+}
+
+pub fn check_strings_short(s1: String, s2: String) -> bool {
+    // 2840
+    let mut counts = HashMap::new();
+    for (i, ch) in s1.chars().enumerate() {
+        *counts.entry((i % 2, ch)).or_insert(0) += 1;
+    }
+    for (i, ch) in s2.chars().enumerate() {
+        *counts.entry((i % 2, ch)).or_insert(0) -= 1;
+    }
+    counts.values().all(|&v| v == 0)
+}
+
+pub fn check_strings_long(s1: String, s2: String) -> bool {
+    // 2840
+    let (mut even1, mut odd1, mut even2, mut odd2) = (HashMap::new(), HashMap::new(), HashMap::new(), HashMap::new());
+    for (i, ch) in s1.chars().enumerate() {
+        if i % 2 == 0 {
+            *even1.entry(ch).or_insert(0) += 1;
+        } else {
+            *odd1.entry(ch).or_insert(0) += 1;
+        }
+    }
+    for (i, ch) in s2.chars().enumerate() {
+        if i % 2 == 0 {
+            *even2.entry(ch).or_insert(0) += 1;
+        } else {
+            *odd2.entry(ch).or_insert(0) += 1;
+        }
+    }
+    even1 == even2 && odd1 == odd2
 }
 
 #[cfg(test)]
