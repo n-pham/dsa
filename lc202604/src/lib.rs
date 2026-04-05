@@ -43,3 +43,18 @@ pub fn decode_ciphertext(encoded_text: String, rows: i32) -> String {
     }
     String::from_utf8_lossy(&result).trim_end().to_string()
 }
+
+pub fn judge_circle(moves: String) -> bool {
+    // 657
+    let (mut x, mut y) = (0, 0);
+    for c in moves.chars() {
+        match c {
+            'R' => x += 1,
+            'L' => x -= 1,
+            'U' => y -= 1,
+            'D' => y += 1,
+            _ => return false,
+        }
+    }
+    x == 0 && y == 0
+}
