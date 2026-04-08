@@ -58,3 +58,16 @@ pub fn judge_circle(moves: String) -> bool {
     }
     x == 0 && y == 0
 }
+
+pub fn xor_after_queries(nums: Vec<i32>, queries: Vec<Vec<i32>>) -> i32 {
+    // 3653
+    let mut nums_2 = nums.clone();
+    let m = 1_000_000_007i64;
+    for q in queries {
+        for i in (q[0]..=q[1]).step_by(q[2] as usize) {
+            let product = (nums_2[i as usize] as i64) * (q[3] as i64);
+            nums_2[i as usize] = (product % m) as i32;
+        }
+    }
+    nums_2.iter().fold(0, |acc, &x| acc ^ x)
+}
