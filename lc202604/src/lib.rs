@@ -60,14 +60,122 @@ pub fn judge_circle(moves: String) -> bool {
 }
 
 pub fn xor_after_queries(nums: Vec<i32>, queries: Vec<Vec<i32>>) -> i32 {
-    // 3653
-    let mut nums_2 = nums.clone();
+    let n = nums.len();
+    if n == 0 {
+        return 0;
+    }
     let m = 1_000_000_007i64;
-    for q in queries {
-        for i in (q[0]..=q[1]).step_by(q[2] as usize) {
-            let product = (nums_2[i as usize] as i64) * (q[3] as i64);
-            nums_2[i as usize] = (product % m) as i32;
+    let b = (n as f64).sqrt() as usize + 1;
+    let mut nums_64: Vec<i64> = nums.into_iter().map(|x| x as i64).collect();
+
+    let mut small_k: Vec<Vec<&[i32]>> = vec![vec![]; b];
+
+    for q in &queries {
+        let k = q[2] as usize;
+        if k >= b {
+            let l = q[0] as usize;
+            let r = q[1] as usize;
+            let v = q[3] as i64;
+            for i in (l..=r).step_by(k) {
+                nums_64[i] = (nums_64[i] * v) % m;
+            }
+        } else if k > 0 {
+            small_k[k].push(q);
         }
     }
-    nums_2.iter().fold(0, |acc, &x| acc ^ x)
+
+    fn mod_pow(mut base: i64, mut exp: i64, m: i64) -> i64 {
+        let mut res = 1;
+        base %= m;
+        while exp > 0 {
+            if exp % 2 == 1 {
+                res = (res * base) % m;
+            }
+            base = (base * base) % m;
+            exp /= 2;
+        }
+        res
+    }
+
+    fn mod_inverse(n: i64, m: i64) -> i64 {
+        mod_pow(n, m - 2, m)
+    }
+
+    let mut final_multipliers = vec![1i64; n];
+    let mut diff = vec![1i64; n];
+    for k in 1..b {
+        if small_k[k].is_empty() {
+            continue;
+        }
+
+        diff.fill(1);
+        for q in &small_k[k] {
+            let l = q[0] as usize;
+            let r = q[1] as usize;
+            let v = q[3] as i64;
+            let inv_v = mod_inverse(v, m);
+
+            diff[l] = (diff[l] * v) % m;
+            let last = l + ((r - l) / k) * k;
+            let next = last + k;
+            if next < n {
+                diff[next] = (diff[next] * inv_v) % m;
+            }
+        }
+
+        for i in k..n {
+            diff[i] = (diff[i] * diff[i - k]) % m;
+        }
+
+        for i in 0..n {
+            if diff[i] != 1 {
+                final_multipliers[i] = (final_multipliers[i] * diff[i]) % m;
+            }
+        }
+    }
+
+    let mut res = 0;
+    for i in 0..n {
+        let val = (nums_64[i] * final_multipliers[i]) % m;
+        res ^= val as i32;
+    }
+    res
+}
+
+pub fn minimum_distance(nums: Vec<i32>) -> i32 {
+    // 3741
+    let mut indices_map: HashMap<i32, Vec<usize>> = HashMap::new();
+    
+    for (index, &value) in nums.iter().enumerate() {
+        indices_map.entry(value).or_insert_with(Vec::new).push(index);
+    }
+
+    let mut min_dist: Option<i32> = None;
+
+    for indices in indices_map.values() {
+        // A good tuple requires at least 3 occurrences.
+        if indices.len() < 3 {
+            continue;
+        }
+
+        for r in 0..=(indices.len() - 3) {
+            let i_idx = indices[r];
+            let k_idx = indices[r + 2]; // k_idx is the maximum index (i_max)
+            
+            // The distance D = 2 * (i_max - i_min)
+            // Since the indices are usize, we cast the difference to i32.
+            // We must ensure that i32 can hold the difference (which it should 
+            // given typical LeetCode constraints on array size).
+            let span = (k_idx.saturating_sub(i_idx)) as i32;
+            let current_dist = 2 * span;
+
+            // Update the minimum distance found so far.
+            min_dist = match min_dist {
+                Some(min_d) => Some(min_d.min(current_dist)),
+                None => Some(current_dist),
+            };
+        }
+    }
+
+    min_dist.unwrap_or(-1)
 }
