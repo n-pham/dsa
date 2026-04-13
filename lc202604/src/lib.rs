@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+
 pub fn is_leap_year(year: u64) -> bool {
     year.is_multiple_of(400) || (year.is_multiple_of(4) && !year.is_multiple_of(100))
 }
@@ -178,4 +180,22 @@ pub fn minimum_distance(nums: Vec<i32>) -> i32 {
     }
 
     min_dist.unwrap_or(-1)
+}
+
+pub fn get_min_distance(nums: Vec<i32>, target: i32, start: i32) -> i32 {
+    // 1848
+    let mut target_indices: Vec<usize> = Vec::new();
+    for (index, &value) in nums.iter().enumerate() {
+        if value == target {
+            target_indices.push(index);
+        }
+    }
+    let distances: Vec<i32> = target_indices
+        .iter()
+        .map(|&index| {
+            let diff = (index as i32 - start as i32).abs();
+            diff
+        })
+        .collect();
+    *distances.iter().min().unwrap()
 }
