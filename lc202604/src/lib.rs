@@ -199,3 +199,19 @@ pub fn get_min_distance(nums: Vec<i32>, target: i32, start: i32) -> i32 {
         .collect();
     *distances.iter().min().unwrap()
 }
+
+pub fn closest_target(words: Vec<String>, target: String, start_index: i32) -> i32 {
+    // 2515
+    let len = words.len();
+    for dist in 0..=(len / 2) {
+        // Look forward (with wrap)
+        if words[(start_index as usize+ dist) % len] == target {
+            return dist as i32;
+        }
+        // Look backward (with wrap)
+        if words[(start_index as usize + len - dist) % len] == target {
+            return dist as i32;
+        }
+    }
+    -1
+}
