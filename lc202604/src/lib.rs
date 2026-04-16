@@ -215,3 +215,62 @@ pub fn closest_target(words: Vec<String>, target: String, start_index: i32) -> i
     }
     -1
 }
+
+pub fn solve_queries(nums: Vec<i32>, queries: Vec<i32>) -> Vec<i32> {
+    // 3488
+    let n = nums.len();
+    
+    let mut indices_map: HashMap<i32, Vec<usize>> = HashMap::new();
+    for (i, &val) in nums.iter().enumerate() {
+        indices_map.entry(val).or_default().push(i);
+    }
+    
+    let mut min_distances = vec![-1; n];
+    
+    for indices in indices_map.values() {
+        let k = indices.len();
+        if k < 2 {
+            continue;
+        }
+        
+        for i in 0..k {
+            let curr = indices[i];
+            let prev = indices[(i + k - 1) % k];
+            let next = indices[(i + 1) % k];
+            
+            let d1 = (curr as i32 - prev as i32).abs();
+            let dist1 = d1.min(n as i32 - d1);
+            
+            let d2 = (curr as i32 - next as i32).abs();
+            let dist2 = d2.min(n as i32 - d2);
+            
+            min_distances[curr] = dist1.min(dist2);
+        }
+    }
+    
+    queries.iter().map(|&q| min_distances[q as usize]).collect()
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_solve_queries() {
+        let nums = vec![1, 2, 3, 1];
+        let queries = vec![0, 3, 1, 2];
+        assert_eq!(solve_queries(nums, queries), vec![1, 1, -1, -1]);
+
+        let nums = vec![1, 1, 1, 1];
+        let queries = vec![0, 1, 2, 3];
+        assert_eq!(solve_queries(nums, queries), vec![1, 1, 1, 1]);
+
+        let nums = vec![1, 2, 3, 4, 1];
+        let queries = vec![0, 4];
+        assert_eq!(solve_queries(nums, queries), vec![1, 1]);
+
+        let nums = vec![1, 5, 5, 1];
+        let queries = vec![0, 1, 2, 3];
+        assert_eq!(solve_queries(nums, queries), vec![1, 1, 1, 1]);
+    }
+}
