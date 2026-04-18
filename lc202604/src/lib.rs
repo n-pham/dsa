@@ -251,6 +251,17 @@ pub fn solve_queries(nums: Vec<i32>, queries: Vec<i32>) -> Vec<i32> {
     queries.iter().map(|&q| min_distances[q as usize]).collect()
 }
 
+pub fn mirror_distance(n: i32) -> i32 {
+    // 3783
+    let (mut tmp_n, mut rev_n) = (n, 0);
+    while tmp_n > 0 {
+        let digit = tmp_n % 10;
+        rev_n = (rev_n * 10) + digit;
+        tmp_n /= 10;
+    }
+    (n - rev_n).abs()
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
