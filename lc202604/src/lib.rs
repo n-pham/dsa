@@ -262,6 +262,33 @@ pub fn mirror_distance(n: i32) -> i32 {
     (n - rev_n).abs()
 }
 
+pub fn max_distance(nums1: Vec<i32>, nums2: Vec<i32>) -> i32 {
+    // 1855
+    let mut max_d = 0;
+    let n2 = nums2.len();
+    for (i, value) in nums1.iter().enumerate() {
+        if i >= n2 { break; }
+        let (mut left, mut right) = (i, n2 - 1);
+        let mut last_valid_j = i; // Default to i, as j must be >= i
+        let mut found = false;
+        while left <= right {
+            let mid = left + (right - left) / 2;
+            if nums2[mid] >= *value {
+                last_valid_j = mid;
+                found = true;
+                left = mid + 1;
+            } else {
+                if mid == 0 { break; } // Prevent underflow
+                right = mid - 1;
+            }
+        }
+        if found && last_valid_j >= i {
+            max_d = max_d.max(last_valid_j - i);
+        }
+    }
+    max_d as i32
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
