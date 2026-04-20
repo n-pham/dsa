@@ -289,6 +289,41 @@ pub fn max_distance(nums1: Vec<i32>, nums2: Vec<i32>) -> i32 {
     max_d as i32
 }
 
+pub fn max_distance_single_group(colors: Vec<i32>) -> i32 {
+    let mut max_d = 0;
+    let mut last_color = colors[0];
+    let mut first_index = 0;
+    for (index, color) in (1..).zip(colors.iter()) {
+        if *color != last_color {
+            max_d = max_d.max(index - first_index - 1);
+            first_index = index;
+            last_color = *color;
+        }
+    }
+    max_d
+}
+
+pub fn max_distance_2078(colors: Vec<i32>) -> i32 {
+    // 2078
+    let n = colors.len();
+    let mut max_d = 0;
+    // Compare everything to the first color (looking from the right)
+    for i in (0..n).rev() {
+        if colors[i] != colors[0] {
+            max_d = max_d.max(i as i32);
+            break;
+        }
+    }
+    // Compare everything to the last color (looking from the left)
+    for i in 0..n {
+        if colors[i] != colors[n - 1] {
+            max_d = max_d.max((n - 1 - i) as i32);
+            break;
+        }
+    }
+    max_d
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
