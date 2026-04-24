@@ -324,6 +324,29 @@ pub fn max_distance_2078(colors: Vec<i32>) -> i32 {
     max_d
 }
 
+pub fn furthest_distance_from_origin(moves: String) -> i32 {
+    // 2833
+    let (mut d_right, mut d_left) = (0i32, 0i32);
+    for c in moves.chars() {
+        match c {
+            'L' => {
+                d_right -= 1;
+                d_left -= 1;
+            }
+            'R' => {
+                d_right += 1;
+                d_left += 1;
+            }
+            '_' => {
+                d_right += 1;
+                d_left -= 1;
+            }
+            _ => return 0,
+        }
+    }
+    d_right.abs().max(d_left.abs())
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
