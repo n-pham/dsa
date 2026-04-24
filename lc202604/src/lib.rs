@@ -324,7 +324,7 @@ pub fn max_distance_2078(colors: Vec<i32>) -> i32 {
     max_d
 }
 
-pub fn furthest_distance_from_origin(moves: String) -> i32 {
+pub fn furthest_distance_from_origin_long(moves: String) -> i32 {
     // 2833
     let (mut d_right, mut d_left) = (0i32, 0i32);
     for c in moves.chars() {
@@ -345,6 +345,16 @@ pub fn furthest_distance_from_origin(moves: String) -> i32 {
         }
     }
     d_right.abs().max(d_left.abs())
+}
+
+pub fn furthest_distance_from_origin(moves: String) -> i32 {
+    let (dist, underscore_count): (i32, i32) = moves.chars().fold((0, 0), |(d, u), c| match c {
+        'L' => (d - 1, u),
+        'R' => (d + 1, u),
+        _ => (d, u + 1),
+    });
+
+    dist.abs() + underscore_count
 }
 
 #[cfg(test)]
