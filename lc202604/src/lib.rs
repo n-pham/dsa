@@ -1,3 +1,4 @@
+#![allow(dead_code)]
 use std::collections::HashMap;
 
 pub fn is_leap_year(year: u64) -> bool {
@@ -356,6 +357,91 @@ pub fn furthest_distance_from_origin(moves: String) -> i32 {
 
     dist.abs() + underscore_count
 }
+
+fn backtrack_demo() {
+    let mut path = Vec::new();
+    let mut visited = vec![false; 11]; // 1-10
+
+    // Start backtracking from 1
+    if backtrack(1, 10, 3, &mut path, &mut visited) {
+        println!("Found combination: {:?}", path);
+    }
+}
+
+fn backtrack(start: i32, n: i32, k: i32, path: &mut Vec<i32>, visited: &mut Vec<bool>) -> bool {
+    // 1. BASE CASE: Success!
+    if path.len() == k as usize {
+        return true; 
+    }
+
+    // 2. RECURSIVE STEP
+    for i in start..=n {
+        // 3. APPLY CONDITIONS
+        if !visited[i as usize] {
+            visited[i as usize] = true;
+            path.push(i);
+
+            // 4. EXPLORE
+            if backtrack(i + 1, n, k, path, visited) {
+                return true; // Propagation of success
+            }
+
+            // 5. BACKTRACK (Undo)
+            path.pop();
+            visited[i as usize] = false;
+        }
+    }
+    false
+}
+
+pub fn contains_cycle(grid: Vec<Vec<char>>) -> bool {
+    // 1559
+    fn backtrack(r: usize, c: usize, pr: usize, pc: usize, grid: &Vec<Vec<char>>, visited: &mut Vec<Vec<bool>>) -> bool {
+        // 1. BASE CASE / CONDITION: If we hit a visited cell that isn't the parent, it's a cycle!
+        if visited[r][c] { return true; }
+
+        // 2. APPLY STATE
+        visited[r][c] = true;
+
+        // 3. RECURSIVE STEP (4 directions)
+        for (dr, dc) in [(0, 1), (1, 0), (0, -1), (-1, 0)] {
+            let (nr, nc) = (r as isize + dr, c as isize + dc);
+            
+            // 4. APPLY CONDITIONS (Bounds, Char matching, Not parent)
+            if nr >= 0 && nr < grid.len() as isize && nc >= 0 && nc < grid[0].len() as isize {
+                let (nr, nc) = (nr as usize, nc as usize);
+                if grid[nr][nc] == grid[r][c] && (nr != pr || nc != pc) {
+                    
+                    // 5. EXPLORE
+                    if backtrack(nr, nc, r, c, grid, visited) {
+                        return true;
+                    }
+                }
+            }
+        }
+        
+        // Note: No "Undo" (visited = false) for this specific problem 
+        // because once a path is checked for cycles, we don't re-check it.
+        false
+    }
+
+    let (rows, cols) = (grid.len(), grid[0].len());
+    let mut visited = vec![vec![false; cols]; rows];
+
+    for r in 0..rows {
+        for c in 0..cols {
+            if !visited[r][c] {
+                // Start backtracking/DFS from each unvisited cell
+                if backtrack(r, c, usize::MAX, usize::MAX, &grid, &mut visited) {
+                    return true;
+                }
+            }
+        }
+    }
+    false
+}
+
+
 
 #[cfg(test)]
 mod tests {
