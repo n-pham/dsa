@@ -441,7 +441,69 @@ pub fn contains_cycle(grid: Vec<Vec<char>>) -> bool {
     false
 }
 
+pub fn has_valid_path(grid: Vec<Vec<i32>>) -> bool {
+    // 1391
+    fn backtrack(r: usize, c: usize, grid: &Vec<Vec<i32>>, visited: &mut Vec<Vec<bool>>) -> bool {
+        let (rows, cols) = (grid.len(), grid[0].len());
+        
+        // 1. BASE CASE: Success if we reach the bottom-right cell
+        if r == rows - 1 && c == cols - 1 {
+            return true;
+        }
 
+        // 2. APPLY STATE
+        visited[r][c] = true;
+
+        // 3. RECURSIVE STEP: Try all 4 potential next directions
+        // Directions: 0:Up, 1:Down, 2:Left, 3:Right
+        let directions = [(-1, 0, 0), (1, 0, 1), (0, -1, 2), (0, 1, 3)];
+        
+        for (dr, dc, dir_idx) in directions {
+            let (nr, nc) = (r as isize + dr, c as isize + dc);
+            
+            // 4. APPLY CONDITIONS (Bounds, Connectivity, Not Visited)
+            if nr >= 0 && nr < rows as isize && nc >= 0 && nc < cols as isize {
+                let (nr, nc) = (nr as usize, nc as usize);
+                
+                if !visited[nr][nc] && can_connect(grid[r][c], grid[nr][nc], dir_idx) {
+                    // 5. EXPLORE
+                    if backtrack(nr, nc, grid, visited) {
+                        return true;
+                    }
+                }
+            }
+        }
+        false
+    }
+
+    // Helper to check if street 'a' connects to street 'b' in direction 'dir'
+    fn can_connect(street_a: i32, street_b: i32, dir: i32) -> bool {
+        // Defines which directions each street type (1-6) can move
+        // Indices: 0:Up, 1:Down, 2:Left, 3:Right
+        let connections = [
+            [false, false, false, false], // 0: Placeholder row
+            [false, false, true, true],  // 1: Left-Right
+            [true, true, false, false],  // 2: Up-Down
+            [false, true, true, false],  // 3: Left-Down
+            [false, true, false, true],  // 4: Right-Down
+            [true, false, true, false],  // 5: Left-Up
+            [true, false, false, true],  // 6: Right-Up
+        ];
+
+        // Check if current street connects in 'dir', AND
+        // if neighbor connects in the opposite direction
+        let opposite_dir = match dir { 0 => 1, 1 => 0, 2 => 3, 3 => 2, _ => -1 };
+        
+        connections[street_a as usize][dir as usize] && 
+        connections[street_b as usize][opposite_dir as usize]
+    }
+
+    let (rows, cols) = (grid.len(), grid[0].len());
+    let mut visited = vec![vec![false; cols]; rows];
+    
+    // Start backtracking from the top-left (0,0)
+    backtrack(0, 0, &grid, &mut visited)
+}
 
 #[cfg(test)]
 mod tests {
