@@ -505,6 +505,68 @@ pub fn has_valid_path(grid: Vec<Vec<i32>>) -> bool {
     backtrack(0, 0, &grid, &mut visited)
 }
 
+pub fn max_path_score(grid: Vec<Vec<i32>>, k: i32) -> i32 {
+    // 3742
+    fn backtrack(
+        r: usize, 
+        c: usize, 
+        rem_k: i32, 
+        grid: &Vec<Vec<i32>>, 
+        memo: &mut Vec<Vec<Vec<Option<i32>>>>
+    ) -> i32 {
+        let (rows, cols) = (grid.len(), grid[0].len());
+
+        // 1. BASE CASE: Reached the bottom-right corner
+        if r == rows - 1 && c == cols - 1 {
+            return 0; 
+        }
+
+        // 2. CHECK MEMO: Return already computed result for this state
+        if let Some(val) = memo[r][c][rem_k as usize] {
+            return val;
+        }
+
+        let mut max_score = i32::MIN;
+
+        // 3. RECURSIVE STEP: Move only Right or Down
+        for (dr, dc) in [(0, 1), (1, 0)] {
+            let (nr, nc) = (r as isize + dr, c as isize + dc);
+            
+            if nr < rows as isize && nc < cols as isize {
+                let (nr, nc) = (nr as usize, nc as usize);
+                
+                // 4. APPLY CONDITIONS: Check if we have enough cost left
+                // Cost is 1 if grid[nr][nc] is 1 or 2, else 0
+                let cost = if grid[nr][nc] > 0 { 1 } else { 0 };
+                let score = grid[nr][nc];
+
+                if rem_k >= cost {
+                    // 5. EXPLORE
+                    let res = backtrack(nr, nc, rem_k - cost, grid, memo);
+                    if res != i32::MIN {
+                        max_score = max_score.max(score + res);
+                    }
+                }
+            }
+        }
+
+        // 6. SAVE & RETURN: Equivalent to "undoing" the state for clean return
+        memo[r][c][rem_k as usize] = Some(max_score);
+        max_score
+    }
+
+    let (rows, cols) = (grid.len(), grid[0].len());
+    // Memoization table: memo[r][c][rem_k]
+    let mut memo = vec![vec![vec![None; (k + 1) as usize]; cols]; rows];
+    
+    // Start backtracking from (0,0) with initial cost logic
+    // grid[0][0] is guaranteed to be 0 (cost 0, score 0)
+    let result = backtrack(0, 0, k, &grid, &mut memo);
+    
+    if result < 0 { -1 } else { result }
+}
+
+
 #[cfg(test)]
 mod tests {
     use super::*;
