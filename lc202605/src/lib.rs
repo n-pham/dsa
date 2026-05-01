@@ -1,6 +1,7 @@
 #![allow(dead_code)]
 
 pub fn max_rotate_function(nums: Vec<i32>) -> i32 {
+    // 396
     let n = nums.len() as i64;
     let mut sum = 0i64;
     let mut f = 0i64;
