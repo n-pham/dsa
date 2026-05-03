@@ -37,3 +37,9 @@ pub fn rotated_digits(n: i32) -> i32 {
     }
     (1..=n).filter(is_rotated_good).count() as i32
 }
+
+pub fn rotate_string(s: String, goal: String) -> bool {
+    // 796
+    let ss = format!("{}{}", s, s);
+    ss.contains(&goal) && s.len() == goal.len()
+}
