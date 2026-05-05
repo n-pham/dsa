@@ -43,3 +43,52 @@ pub fn rotate_string(s: String, goal: String) -> bool {
     let ss = format!("{}{}", s, s);
     ss.contains(&goal) && s.len() == goal.len()
 }
+
+#[derive(PartialEq, Eq, Clone, Debug)]
+pub struct ListNode {
+  pub val: i32,
+  pub next: Option<Box<ListNode>>
+}
+
+impl ListNode {
+  #[inline]
+  fn new(val: i32) -> Self {
+    ListNode {
+      next: None,
+      val
+    }
+  }
+}
+
+pub fn rotate_right(head: Option<Box<ListNode>>, k: i32) -> Option<Box<ListNode>> {
+    // 61
+    if head.is_none() || k == 0 {
+        return head;
+    }
+
+    let mut head = head;
+    let mut len = 0;
+    let mut curr = &head;
+    while let Some(node) = curr {
+        curr = &node.next;
+        len += 1;
+    }
+    let k = k % len;
+    if k == 0 {
+        return head;
+    }
+    let mut curr = &mut head;
+    for _ in 0..(len - k - 1) {
+        curr = &mut curr.as_mut().unwrap().next;
+    }
+    // Detach the new head and the new tail
+    // Use std::mem::take to move the value out of the Option
+    let mut new_head = std::mem::take(&mut curr.as_mut().unwrap().next);
+    // Connect the old tail to the old head
+    let mut tail = &mut new_head;
+    while tail.as_mut().unwrap().next.is_some() {
+        tail = &mut tail.as_mut().unwrap().next;
+    }
+    tail.as_mut().unwrap().next = head;
+    new_head
+}
