@@ -92,3 +92,17 @@ pub fn rotate_right(head: Option<Box<ListNode>>, k: i32) -> Option<Box<ListNode>
     tail.as_mut().unwrap().next = head;
     new_head
 }
+
+pub fn separate_digits(nums: Vec<i32>) -> Vec<i32> {
+    // 2553
+    let mut result_digits = Vec::new();
+    for mut num in nums {
+        let mut digits = Vec::new();
+        while num > 0 {
+            digits.push((num % 10) as i32);
+            num /= 10;
+        }
+        result_digits.extend(digits.into_iter().rev());
+    }
+    result_digits
+}
