@@ -106,3 +106,32 @@ pub fn separate_digits(nums: Vec<i32>) -> Vec<i32> {
     }
     result_digits
 }
+
+pub fn is_good(nums: Vec<i32>) -> bool {
+    // 2784
+    let mut max_num = nums[0];
+    let mut already_has_dup = false;
+    let mut current_sum: i64 = nums[0] as i64;
+    for &num in &nums[1..] {
+        current_sum += num as i64;
+        if num == max_num {
+                if already_has_dup {
+                return false;
+            }
+            already_has_dup = true;
+        } else if num > max_num {
+            if already_has_dup {
+                return false; 
+            }
+            max_num = num;
+        }
+    }
+    if !already_has_dup {
+        return false;
+    }
+    // The expected sum of [1, 2, ..., n, n] is (n * (n + 1) / 2) + n
+    let n = max_num as i64;
+    let expected_sum = (n * (n + 1)) / 2 + n;
+    // The length must also match n + 1
+    current_sum == expected_sum && nums.len() == (max_num as usize + 1)
+}
