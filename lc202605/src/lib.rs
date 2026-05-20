@@ -151,3 +151,30 @@ pub fn get_common(nums1: Vec<i32>, nums2: Vec<i32>) -> i32 {
     }
     -1
 }
+
+pub fn find_the_prefix_common_array(a: Vec<i32>, b: Vec<i32>) -> Vec<i32> {
+    // 2657
+    let n = a.len();
+    let mut seen = vec![false; n + 1];
+    let mut rs = vec![0; n];
+    let mut common_count = 0;
+    for i in 0..n {
+        let val_a = a[i] as usize;
+        if seen[val_a] {
+            common_count += 1;
+        } else {
+            seen[val_a] = true;
+        }
+
+        let val_b = b[i] as usize;
+        if seen[val_b] {
+            common_count += 1;
+        } else {
+            seen[val_b] = true;
+        }
+
+        rs[i] = common_count;
+    }
+
+    rs
+}
