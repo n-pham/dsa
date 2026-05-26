@@ -1,4 +1,5 @@
 #![allow(dead_code)]
+use std::collections::HashSet;
 
 pub fn max_rotate_function(nums: Vec<i32>) -> i32 {
     // 396
@@ -177,4 +178,17 @@ pub fn find_the_prefix_common_array(a: Vec<i32>, b: Vec<i32>) -> Vec<i32> {
     }
 
     rs
+}
+
+pub fn number_of_special_chars(word: String) -> i32 {
+    // 3120
+    let (mut upper_set, mut lower_set) = (HashSet::new(), HashSet::new());
+    for ch in word.chars() {
+        if ch.is_ascii_uppercase() {
+            upper_set.insert(ch);
+        } else if ch.is_ascii_lowercase() {
+            lower_set.insert(ch.to_ascii_uppercase());
+        }
+    }
+    upper_set.intersection(&lower_set).count() as i32
 }
