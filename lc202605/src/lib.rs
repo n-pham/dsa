@@ -192,3 +192,33 @@ pub fn number_of_special_chars(word: String) -> i32 {
     }
     upper_set.intersection(&lower_set).count() as i32
 }
+
+pub fn number_of_special_chars_3121(word: String) -> i32 {
+    // 3121
+    let mut last_lower = [-1; 26];
+    let mut first_upper = [-1; 26];
+    
+    for (i, ch) in word.chars().enumerate() {
+        let idx = i as i32;
+        if ch.is_ascii_lowercase() {
+            let letter_idx = (ch as u8 - b'a') as usize;
+            last_lower[letter_idx] = idx; // Always update to find the LAST occurrence
+        } else if ch.is_ascii_uppercase() {
+            let letter_idx = (ch as u8 - b'A') as usize;
+            if first_upper[letter_idx] == -1 {
+                first_upper[letter_idx] = idx; // Only set once to find the FIRST occurrence
+            }
+        }
+    }
+    
+    let mut special_count = 0;
+    for i in 0..26 {
+        // Condition 1: Must see both versions
+        // Condition 2: Last lowercase index must be strictly smaller than the first uppercase index
+        if last_lower[i] != -1 && first_upper[i] != -1 && last_lower[i] < first_upper[i] {
+            special_count += 1;
+        }
+    }
+    
+    special_count
+}
