@@ -222,3 +222,18 @@ pub fn number_of_special_chars_3121(word: String) -> i32 {
     
     special_count
 }
+
+pub fn min_element(nums: Vec<i32>) -> i32 {
+    // 3300
+    let mut min_digit_sum = 36;  // 9999 for 1 <= nums[i] <= 10^4
+    for num in nums {
+        let mut tmp_num = num;
+        let mut digit_sum = 0;
+        while tmp_num > 0 {
+            digit_sum += tmp_num % 10;
+            tmp_num /= 10;
+        }
+        min_digit_sum = min_digit_sum.min(digit_sum)
+    }
+    min_digit_sum
+}
