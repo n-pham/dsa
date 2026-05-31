@@ -237,3 +237,22 @@ pub fn min_element(nums: Vec<i32>) -> i32 {
     }
     min_digit_sum
 }
+
+pub fn asteroids_destroyed_long(mass: i32, mut asteroids: Vec<i32>) -> bool {
+    // 2126
+    asteroids.sort();
+    let mut new_mass = mass as i64;
+    for asteroid_mass in asteroids {
+        if asteroid_mass as i64 > new_mass { return false }
+        new_mass += asteroid_mass as i64;
+    }
+    true
+}
+
+pub fn asteroids_destroyed(mass: i32, mut asteroids: Vec<i32>) -> bool {
+    // 2126
+    asteroids.sort();
+    asteroids.iter().try_fold(mass as i64, |acc, &ast| {
+        (acc >= ast as i64).then(|| acc + ast as i64)
+    }).is_some()
+}
