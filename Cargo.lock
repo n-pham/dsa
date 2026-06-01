@@ -260,6 +260,10 @@ name = "lc202605"
 version = "0.0.0"
 
 [[package]]
+name = "lc202606"
+version = "0.0.0"
+
+[[package]]
 name = "libc"
 version = "0.2.180"
 source = "registry+https://github.com/rust-lang/crates.io-index"
