@@ -1,5 +1,7 @@
 #![allow(dead_code)]
 
+use std::cmp::{max, min};
+
 pub fn minimum_cost(mut cost: Vec<i32>) -> i32 {
     // 2144
     cost.sort_unstable_by(|a, b| b.cmp(a));
@@ -10,4 +12,43 @@ pub fn minimum_cost(mut cost: Vec<i32>) -> i32 {
         }
     }
     sum
+}
+
+pub fn earliest_finish_time(land_start_time: Vec<i32>, land_duration: Vec<i32>, water_start_time: Vec<i32>, water_duration: Vec<i32>) -> i32 {
+    // 3633
+    let calculate_sequence = |s1_start: &Vec<i32>, s1_dur: &Vec<i32>, s2_start: &Vec<i32>, s2_dur: &Vec<i32>| -> i32 {
+        // Step 1: Find the earliest time stage 1 can finish
+        let mut min_stage1_end = i32::MAX;
+        for i in 0..s1_start.len() {
+            min_stage1_end = min(min_stage1_end, s1_start[i] + s1_dur[i]);
+        }
+        
+        // Step 2: Use that end time to find the earliest stage 2 can finish
+        let mut min_total_end = i32::MAX;
+        for i in 0..s2_start.len() {
+            let current_finish = max(min_stage1_end, s2_start[i]) + s2_dur[i];
+            min_total_end = min(min_total_end, current_finish);
+        }
+        
+        min_total_end
+    };
+
+    // Try Land -> Water
+    let land_then_water = calculate_sequence(
+        &land_start_time, 
+        &land_duration, 
+        &water_start_time, 
+        &water_duration
+    );
+
+    // Try Water -> Land
+    let water_then_land = calculate_sequence(
+        &water_start_time, 
+        &water_duration, 
+        &land_start_time, 
+        &land_duration
+    );
+
+    // Return the best path overall
+    min(land_then_water, water_then_land)
 }
