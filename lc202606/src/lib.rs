@@ -52,3 +52,70 @@ pub fn earliest_finish_time(land_start_time: Vec<i32>, land_duration: Vec<i32>, 
     // Return the best path overall
     min(land_then_water, water_then_land)
 }
+
+pub fn earliest_finish_time_3635(land_start_time: Vec<i32>, land_duration: Vec<i32>, water_start_time: Vec<i32>, water_duration: Vec<i32>) -> i32 {
+    // 3635
+    struct Ride {
+        start: i32,
+        duration: i32,
+    }
+    fn solve_sequence(
+            s1_start: &[i32],
+            s1_dur: &[i32],
+            s2_start: &[i32],
+            s2_dur: &[i32]
+        ) -> i32 {
+            let n = s2_start.len();
+            let mut rides: Vec<Ride> = (0..n)
+                .map(|i| Ride { start: s2_start[i], duration: s2_dur[i] })
+                .collect();
+            
+            // Sort Stage 2 rides by start time to enable binary search
+            rides.sort_unstable_by_key(|r| r.start);
+
+            // Precompute prefix minimum of durations for rides starting <= X
+            let mut pref_min_dur = vec![i32::MAX; n];
+            let mut current_min_dur = i32::MAX;
+            for i in 0..n {
+                current_min_dur = min(current_min_dur, rides[i].duration);
+                pref_min_dur[i] = current_min_dur;
+            }
+
+            // Precompute suffix minimum of (start + duration) for rides starting > X
+            let mut suff_min_end = vec![i32::MAX; n];
+            let mut current_min_end = i32::MAX;
+            for i in (0..n).rev() {
+                current_min_end = min(current_min_end, rides[i].start + rides[i].duration);
+                suff_min_end[i] = current_min_end;
+            }
+
+            let mut min_total_finish = i32::MAX;
+
+            // Iterate through all possible first stage choices
+            for i in 0..s1_start.len() {
+                let x = s1_start[i] + s1_dur[i]; // Finish time of Stage 1 ride
+
+                // Use binary search to find the partition point where ride.start > x
+                let idx = rides.partition_point(|r| r.start <= x);
+
+                // Case 1: Choose a Stage 2 ride that opens BEFORE or AT time X
+                if idx > 0 {
+                    let best_prefix_dur = pref_min_dur[idx - 1];
+                    min_total_finish = min(min_total_finish, x + best_prefix_dur);
+                }
+
+                // Case 2: Choose a Stage 2 ride that opens AFTER time X
+                if idx < n {
+                    let best_suffix_end = suff_min_end[idx];
+                    min_total_finish = min(min_total_finish, best_suffix_end);
+                }
+            }
+
+            min_total_finish
+        }
+    // Evaluate both sequence combinations and take the global minimum
+    let land_then_water = solve_sequence(&land_start_time, &land_duration, &water_start_time, &water_duration);
+    let water_then_land = solve_sequence(&water_start_time, &water_duration, &land_start_time, &land_duration);
+    
+    min(land_then_water, water_then_land)
+}
