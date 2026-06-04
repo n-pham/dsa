@@ -119,3 +119,37 @@ pub fn earliest_finish_time_3635(land_start_time: Vec<i32>, land_duration: Vec<i
     
     min(land_then_water, water_then_land)
 }
+
+pub fn total_waviness(num1: i32, num2: i32) -> i32 {
+    // 3751 
+    fn calculate_waviness(mut n: i32) -> i32 {
+        if n < 100 {
+            return 0;
+        }
+        let mut digits = [0u8; 6];
+        let mut len = 0;
+        // digits in reverse order, which doesn't alter peak/valley logic
+        while n > 0 {
+            digits[len] = (n % 10) as u8;
+            n /= 10;
+            len += 1;
+        }
+        let mut waviness = 0;
+        // Check middle elements (exclude first and last digits)
+        for i in 1..(len - 1) {
+            let curr = digits[i];
+            let prev = digits[i - 1];
+            let next = digits[i + 1];
+            if (curr > prev && curr > next) || (curr < prev && curr < next) {
+                waviness += 1;
+            }
+        }
+        waviness
+    }
+    
+    let mut waviness_sum = 0;
+    for mut num in num1..=num2 {
+        waviness_sum += calculate_waviness(num);
+    }
+    waviness_sum
+}
