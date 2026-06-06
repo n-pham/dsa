@@ -148,8 +148,21 @@ pub fn total_waviness(num1: i32, num2: i32) -> i32 {
     }
     
     let mut waviness_sum = 0;
-    for mut num in num1..=num2 {
+    for num in num1..=num2 {
         waviness_sum += calculate_waviness(num);
     }
     waviness_sum
+}
+
+pub fn left_right_difference(nums: Vec<i32>) -> Vec<i32> {
+    // 2574
+    let mut diff_sums = vec![0; nums.len()];
+    let mut left_sum = 0;
+    let mut right_sum: i32 = nums.iter().sum(); 
+    for i in 0..nums.len() {
+        right_sum -= nums[i];
+        diff_sums[i] = (left_sum - right_sum).abs();
+        left_sum += nums[i];
+    }
+    diff_sums
 }
