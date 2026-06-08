@@ -166,3 +166,20 @@ pub fn left_right_difference(nums: Vec<i32>) -> Vec<i32> {
     }
     diff_sums
 }
+
+pub fn pivot_array(nums: Vec<i32>, pivot: i32) -> Vec<i32> {
+    // 2161
+    let (mut left_nums, mut mid_nums, mut right_nums) = (Vec::new(), Vec::new(), Vec::new());
+    for num in nums {
+        if num < pivot {
+            left_nums.push(num);
+        } else if num > pivot {
+            right_nums.push(num);
+        } else {
+            mid_nums.push(pivot);
+        }
+    }
+    left_nums.append(&mut mid_nums);
+    left_nums.append(&mut right_nums);
+    left_nums
+}
