@@ -167,7 +167,7 @@ pub fn left_right_difference(nums: Vec<i32>) -> Vec<i32> {
     diff_sums
 }
 
-pub fn pivot_array(nums: Vec<i32>, pivot: i32) -> Vec<i32> {
+pub fn pivot_array_(nums: Vec<i32>, pivot: i32) -> Vec<i32> {
     // 2161
     let (mut left_nums, mut mid_nums, mut right_nums) = (Vec::new(), Vec::new(), Vec::new());
     for num in nums {
@@ -182,4 +182,30 @@ pub fn pivot_array(nums: Vec<i32>, pivot: i32) -> Vec<i32> {
     left_nums.append(&mut mid_nums);
     left_nums.append(&mut right_nums);
     left_nums
+}
+
+pub fn pivot_array_mem(nums: Vec<i32>, pivot: i32) -> Vec<i32> {
+    // 2161
+    let n = nums.len();
+    let mut ans = vec![pivot; n]; // Pre-fill with pivot
+    
+    let mut left = 0;
+    let mut right = n - 1;
+
+    for i in 0..n {
+        // Place elements smaller than pivot from the left
+        if nums[i] < pivot {
+            ans[left] = nums[i];
+            left += 1;
+        }
+        
+        // Place elements larger than pivot from the right
+        let j = n - 1 - i;
+        if nums[j] > pivot {
+            ans[right] = nums[j];
+            right -= 1;
+        }
+    }
+    
+    ans
 }
