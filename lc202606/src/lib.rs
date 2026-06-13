@@ -209,3 +209,20 @@ pub fn pivot_array_mem(nums: Vec<i32>, pivot: i32) -> Vec<i32> {
     
     ans
 }
+
+pub fn map_word_weights(words: Vec<String>, weights: Vec<i32>) -> String {
+    // 3838
+    let n = words.len();
+    let mut result = String::with_capacity(n); 
+    for word in words {
+        let mut sum_weight = 0;
+        for ch in word.chars() {
+            let idx = (ch as usize) - ('a' as usize);
+            sum_weight = (sum_weight + weights[idx]) % 26
+        }
+        let target_ascii = ('z' as u8) - (sum_weight as u8);
+        let mapped_char = target_ascii as char;
+        result.push(mapped_char);
+    }
+    result
+}
