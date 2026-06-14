@@ -2,6 +2,23 @@
 
 use std::cmp::{max, min};
 
+// Definition for singly-linked list.
+#[derive(PartialEq, Eq, Clone, Debug)]
+pub struct ListNode {
+  pub val: i32,
+  pub next: Option<Box<ListNode>>
+}
+
+impl ListNode {
+  #[inline]
+  fn new(val: i32) -> Self {
+    ListNode {
+      next: None,
+      val
+    }
+  }
+}
+
 pub fn minimum_cost(mut cost: Vec<i32>) -> i32 {
     // 2144
     cost.sort_unstable_by(|a, b| b.cmp(a));
@@ -225,4 +242,54 @@ pub fn map_word_weights(words: Vec<String>, weights: Vec<i32>) -> String {
         result.push(mapped_char);
     }
     result
+}
+
+pub fn pair_sum(head: Option<Box<ListNode>>) -> i32 {
+    // 2130
+    let mut head = head;
+    
+    // Step 1: Find the middle using fast & slow pointers
+    // We use raw pointers to bypass ownership constraints during traversal
+    let mut slow = &mut head as *mut Option<Box<ListNode>>;
+    let mut fast = &head;
+    
+    unsafe {
+        while let Some(f) = fast {
+            if let Some(f_next) = &f.next {
+                fast = &f_next.next;
+                slow = &mut (*slow).as_mut().unwrap().next as *mut Option<Box<ListNode>>;
+            } else {
+                break;
+            }
+        }
+        
+        // Step 2: Detach the second half from the first half
+        let second_half = (*slow).take();
+        
+        // Step 3: Reverse the second half
+        let mut prev = None;
+        let mut curr = second_half;
+        while let Some(mut curr_node) = curr {
+            let next = curr_node.next.take();
+            curr_node.next = prev;
+            prev = Some(curr_node);
+            curr = next;
+        }
+        
+        // Step 4: Traverse both halves and find the max twin sum
+        let mut max_sum = 0;
+        let mut first = head.as_ref();
+        let mut second = prev.as_ref();
+        
+        while let (Some(f_node), Some(s_node)) = (first, second) {
+            let current_sum = f_node.val + s_node.val;
+            if current_sum > max_sum {
+                max_sum = current_sum;
+            }
+            first = f_node.next.as_ref();
+            second = s_node.next.as_ref();
+        }
+        
+        max_sum
+    }
 }
