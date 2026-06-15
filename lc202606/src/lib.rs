@@ -293,3 +293,39 @@ pub fn pair_sum(head: Option<Box<ListNode>>) -> i32 {
         max_sum
     }
 }
+
+pub fn delete_middle(mut head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {
+    // 2095
+    if head.is_none() || head.as_ref()?.next.is_none() {
+        return None;
+    }
+    // Step 1: Initialize slow pointer at head
+    let mut slow = &mut head as *mut Option<Box<ListNode>>;
+    
+    // Step 2: Initialize fast pointer TWO steps ahead.
+    // This offsets the tracking so 'slow' stops exactly right BEFORE the middle node.
+    let mut fast = &head.as_ref().unwrap().next.as_ref().unwrap().next;
+
+    unsafe {
+        // Fast moves 2 steps, slow moves 1 step
+        while let Some(f) = fast {
+            if let Some(f_next) = &f.next {
+                fast = &f_next.next;
+                slow = &mut (*slow).as_mut().unwrap().next as *mut Option<Box<ListNode>>;
+            } else {
+                break;
+            }
+        }
+
+        // Step 3: Perform the deletion
+        // slow points to Option<Box<ListNode>> of the node BEFORE the middle.
+        if let Some(ref mut slow_node) = *slow {
+            if let Some(mut mid_node) = slow_node.next.take() {
+                // Link past the middle node
+                slow_node.next = mid_node.next.take();
+            }
+        }
+    }
+
+    head
+}
