@@ -329,3 +329,36 @@ pub fn delete_middle(mut head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {
 
     head
 }
+
+pub fn process_str(s: String) -> String {
+    // 3612
+    let mut result: Vec<char> = Vec::new();
+
+    for c in s.chars() {
+        match c {
+            '*' => {
+                // Backspace: removes the last character if it exists
+                result.pop();
+            }
+            '#' => {
+                // Duplicate: appends the entire current result to itself
+                let current_len = result.len();
+                for i in 0..current_len {
+                    result.push(result[i]);
+                }
+            }
+            '%' => {
+                // Reverse: reverses the entire current result
+                result.reverse();
+            }
+            _ => {
+                // Lowercase letter: append to result
+                result.push(c);
+            }
+        }
+    }
+
+    // Convert vector back to String
+    result.into_iter().collect()
+}
+
