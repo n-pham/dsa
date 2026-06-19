@@ -374,3 +374,14 @@ pub fn angle_clock(hour: i32, minutes: i32) -> f64 {
         diff
     }
 }
+
+pub fn largest_altitude(gain: Vec<i32>) -> i32 {
+    // 1732
+    gain.into_iter()
+        .fold((0, 0), |(prev, highest), diff| {
+            let curr = prev + diff;
+            (curr, highest.max(curr))
+        })
+        .1
+}
+
