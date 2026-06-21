@@ -385,3 +385,12 @@ pub fn largest_altitude(gain: Vec<i32>) -> i32 {
         .1
 }
 
+pub fn max_ice_cream(mut costs: Vec<i32>, mut coins: i32) -> i32 {
+    // 1833
+    costs.sort_unstable();
+    for (i, &cost) in costs.iter().enumerate()  {
+        if coins < cost { return i as i32 }
+        else { coins -= cost }
+    }
+    costs.len() as i32
+}
