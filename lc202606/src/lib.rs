@@ -394,3 +394,19 @@ pub fn max_ice_cream(mut costs: Vec<i32>, mut coins: i32) -> i32 {
     }
     costs.len() as i32
 }
+
+pub fn max_number_of_balloons(text: String) -> i32 {
+    // 1189
+    let (mut a, mut b, mut l, mut n, mut o) = (0, 0, 0, 0, 0);
+    for ch in text.chars() {
+        match ch {
+            'a' => a += 1,
+            'b' => b += 1,
+            'l' => l += 1,
+            'n' => n += 1,
+            'o' => o += 1,
+            _ => (),
+        }
+    }
+    a.min(b).min(l / 2).min(n).min(o / 2)
+}
