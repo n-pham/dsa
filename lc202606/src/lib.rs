@@ -410,3 +410,23 @@ pub fn max_number_of_balloons(text: String) -> i32 {
     }
     a.min(b).min(l / 2).min(n).min(o / 2)
 }
+
+pub fn count_majority_subarrays(nums: Vec<i32>, target: i32) -> i32 {
+    // 3737
+    let mut count = 0i32;
+    let n = nums.len();
+    for start in 0..n {
+        let mut target_count = 0;
+        for end in start..n {
+            if nums[end] == target {
+                target_count += 1;
+            }
+            let length = (end - start + 1) as i32;
+            // A target is a majority if its count is strictly greater than half the length
+            if target_count * 2 > length {
+                count += 1;
+            }
+        }
+    }
+    count
+}
