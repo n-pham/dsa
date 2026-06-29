@@ -430,3 +430,10 @@ pub fn count_majority_subarrays(nums: Vec<i32>, target: i32) -> i32 {
     }
     count
 }
+
+pub fn num_of_strings(patterns: Vec<String>, word: String) -> i32 {
+    // 1967
+    patterns.iter()
+    .filter(|pattern| word.contains(*pattern))
+    .count() as i32
+}
