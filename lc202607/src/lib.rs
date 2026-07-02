@@ -8,13 +8,23 @@ struct State {
     health: i32,
 }
 
-fn find_safe_walk(grid: Vec<Vec<i32>>, health: i32) -> bool {
+fn find_safe_walk(grid: Vec<Vec<i32>>, mut health: i32) -> bool {
     // 3286
     let m = grid.len();
     if m == 0 {
         return false;
     }
     let n = grid[0].len();
+    
+    // Check starting position - if it's an obstacle, lose health immediately
+    if grid[0][0] == 1 {
+        health -= 1;
+    }
+
+    if health <= 0 {
+        return false;
+    }
+    
     let directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]; // up, down, left, right
     let mut visited: HashSet<State> = HashSet::new();
     let mut queue: VecDeque<State> = VecDeque::new();
@@ -24,7 +34,7 @@ fn find_safe_walk(grid: Vec<Vec<i32>>, health: i32) -> bool {
 
     while let Some(state) = queue.pop_front() {
         if state.x == m - 1 && state.y == n - 1 {
-            return state.health > 0;
+            return true; // Reached destination with any remaining health > 0
         }
 
         for &(dx, dy) in &directions {
@@ -32,19 +42,40 @@ fn find_safe_walk(grid: Vec<Vec<i32>>, health: i32) -> bool {
             let new_y = state.y as i32 + dy;
 
             if new_x >= 0 && new_x < m as i32 && new_y >= 0 && new_y < n as i32 {
-                let new_health = if grid[new_x as usize][new_y as usize] == 1 {
-                    state.health - 1
-                } else {
-                    state.health
-                };
+                let is_obstacle = grid[new_x as usize][new_y as usize] == 1;
+                
+                // If entering an obstacle, health decreases by 1
+                if is_obstacle {
+                    state.health -= 1;
+                }
 
-                if new_health > 0 {
-                    let next_state = State { x: new_x as usize, y: new_y as usize, health: new_health };
+                if state.health > 0 {
+                    let next_state = State { x: new_x as usize, y: new_y as usize, health: state.health };
 
+                    // Only add to queue if we haven't visited this cell with >= current health
+                    // We need to track max_health seen at each position for optimization
+                    let mut should_visit = true;
+                    
+                    // Check if we've already been here with equal or better health
+                    // For simplicity, just use basic visited set (can be optimized further)
                     if !visited.contains(&next_state) {
                         visited.insert(next_state.clone());
                         queue.push_back(next_state);
+                    } else {
+                        // If we have more health than previously seen at this position, try again
+                        let mut found_better = false;
+                        for (sx, sy, sh) in &visited.iter().filter_map(|s| Some((s.x, s.y, s.health))) {
+                            if *sy == next_state.y && sx == next_state.x && sh <= state.health {
+                                // This is a bit complex - let's simplify by just using visited set with health as key
+                                found_better = true;
+                                break;
+                            }
+                        }
+                        
+                        // For now, keep it simple: if we haven't been here at all or have less health before
                     }
+                } else {
+                    continue;
                 }
             }
         }
