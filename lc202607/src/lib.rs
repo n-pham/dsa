@@ -32,7 +32,7 @@ fn find_safe_walk(grid: Vec<Vec<i32>>, mut health: i32) -> bool {
     queue.push_back(State { x: 0, y: 0, health });
     visited.insert(State { x: 0, y: 0, health });
 
-    while let Some(state) = queue.pop_front() {
+    while let Some(mut state) = queue.pop_front() {
         if state.x == m - 1 && state.y == n - 1 {
             return true; // Reached destination with any remaining health > 0
         }
@@ -64,8 +64,8 @@ fn find_safe_walk(grid: Vec<Vec<i32>>, mut health: i32) -> bool {
                     } else {
                         // If we have more health than previously seen at this position, try again
                         let mut found_better = false;
-                        for (sx, sy, sh) in &visited.iter().filter_map(|s| Some((s.x, s.y, s.health))) {
-                            if *sy == next_state.y && sx == next_state.x && sh <= state.health {
+                        for (sx, sy, sh) in visited.iter().filter_map(|s| Some((s.x, s.y, s.health))) {
+                            if sy == next_state.y && sx == next_state.x && sh <= state.health {
                                 // This is a bit complex - let's simplify by just using visited set with health as key
                                 found_better = true;
                                 break;
