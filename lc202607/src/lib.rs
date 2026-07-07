@@ -1,8 +1,8 @@
 use std::collections::{VecDeque};
 
-fn find_safe_walk(grid: Vec<Vec<i32>>, health: i32) -> bool {
+pub fn find_safe_walk(grid: Vec<Vec<i32>>, health: i32) -> bool {
     // 3286
-        let m = grid.len();
+    let m = grid.len();
     if m == 0 || grid[0].is_empty() { return false; }
     let n = grid[0].len();
 
@@ -57,6 +57,24 @@ fn find_safe_walk(grid: Vec<Vec<i32>>, health: i32) -> bool {
     }
 
     max_health[m - 1][n - 1] > 0
+}
+
+pub fn sum_and_multiply(n: i32) -> i64 {
+    // 3754
+    let mut x = 0i64;
+    let mut sum = 0i64;
+    let mut t = n;
+    let mut digit_count = 0;
+    while t > 0  {
+        let d = (t % 10) as i64;
+        t = t / 10;
+        if d > 0 {
+            x = (d * 10_i64.pow(digit_count)) + x;
+            digit_count += 1;
+            sum += d;
+        }
+    }
+    x * sum
 }
 
 #[cfg(test)]
