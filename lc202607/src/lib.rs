@@ -1,4 +1,5 @@
 use std::collections::{VecDeque};
+use std::collections::BTreeMap;
 
 pub fn find_safe_walk(grid: Vec<Vec<i32>>, health: i32) -> bool {
     // 3286
@@ -75,6 +76,15 @@ pub fn sum_and_multiply(n: i32) -> i64 {
         }
     }
     x * sum
+}
+
+pub fn array_rank_transform(arr: Vec<i32>) -> Vec<i32> {
+    // 1331
+    let mut map: BTreeMap<i32, i32> = arr.iter().map(|&x| (x, 0)).collect();
+    for (rank, val) in map.values_mut().enumerate() {
+        *val = (rank + 1) as i32;
+    }
+    arr.into_iter().map(|num| map[&num]).collect()
 }
 
 #[cfg(test)]
