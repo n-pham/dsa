@@ -1,5 +1,6 @@
 use std::collections::{VecDeque};
 use std::collections::BTreeMap;
+use common::gcd;
 
 pub fn find_safe_walk(grid: Vec<Vec<i32>>, health: i32) -> bool {
     // 3286
@@ -85,6 +86,12 @@ pub fn array_rank_transform(arr: Vec<i32>) -> Vec<i32> {
         *val = (rank + 1) as i32;
     }
     arr.into_iter().map(|num| map[&num]).collect()
+}
+
+pub fn gcd_of_odd_even_sums(n: i32) -> i32 {
+    // 3658
+    let (sum_odd, sum_even) = (n*n, n*(n-1));
+    gcd(sum_odd, sum_even)
 }
 
 #[cfg(test)]
