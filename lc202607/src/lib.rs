@@ -94,6 +94,27 @@ pub fn gcd_of_odd_even_sums(n: i32) -> i32 {
     gcd(sum_odd, sum_even)
 }
 
+pub fn gcd_sum(nums: Vec<i32>) -> i64 {
+    // 3867
+    let mut prefix_gcd = Vec::new();
+    let mut mx = nums[0];
+    for num in nums {
+        mx = mx.max(num);
+        prefix_gcd.push(gcd(num, mx))
+    }
+    prefix_gcd.sort_unstable();
+    let mut sum: i64 = 0;
+    let mut left = 0;
+    let mut right = prefix_gcd.len() - 1;
+    while left < right {
+        let pair_gcd = gcd(prefix_gcd[left], prefix_gcd[right]);
+        sum += pair_gcd as i64;
+        left += 1;
+        right -= 1;
+    }
+    sum
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
