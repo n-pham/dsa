@@ -115,6 +115,16 @@ pub fn gcd_sum(nums: Vec<i32>) -> i64 {
     sum
 }
 
+pub fn find_gcd(nums: Vec<i32>) -> i32 {
+    // 1979
+    let (mut mn, mut mx) = (i32::MAX, i32::MIN);
+    for num in nums {
+        mn = mn.min(num);
+        mx = mx.max(num);
+    }
+    gcd(mn, mx)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
