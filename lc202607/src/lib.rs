@@ -125,6 +125,22 @@ pub fn find_gcd(nums: Vec<i32>) -> i32 {
     gcd(mn, mx)
 }
 
+pub fn max_product(n: i32) -> i32 {
+    // 3536
+    let mut t = n;
+    let (mut m1, mut m2) = (0, 0); // m1 <= m2
+    while t > 0 {
+        let d = t % 10;
+        t /= 10;
+        if d > m2 {
+            (m1, m2) = (m2, d)
+        } else if d > m1 {
+            m1 = d;
+        }
+    }
+    m1 * m2
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
