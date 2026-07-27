@@ -141,6 +141,19 @@ pub fn max_product(n: i32) -> i32 {
     m1 * m2
 }
 
+pub fn max_product_2(nums: Vec<i32>) -> i32 {
+    // 1464
+    let (mut mx1, mut mx2) = (0, 0); // mx1 <= mx2
+    for num in nums {
+        if num > mx2 {
+            (mx1, mx2) = (mx2, num);
+        } else if num > mx1 {
+            mx1 = num;
+        }
+    }
+    (mx1-1) * (mx2-1)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
