@@ -154,6 +154,17 @@ pub fn max_product_2(nums: Vec<i32>) -> i32 {
     (mx1-1) * (mx2-1)
 }
 
+pub fn minimum_pushes(word: String) -> i32 {
+    // 3014
+    let mut n = word.len();
+    let mut cnt = 0;
+    while n > 0 {
+        cnt += n;
+        n = n.saturating_sub(8);
+    }
+    cnt as i32
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
