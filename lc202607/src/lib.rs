@@ -165,6 +165,26 @@ pub fn minimum_pushes(word: String) -> i32 {
     cnt as i32
 }
 
+pub fn minimum_pushes_3016(word: String) -> i32 {
+    // 3016
+    let mut counts = [0; 26];
+    for byte in word.bytes() {
+        counts[(byte - b'a') as usize] += 1;
+    }
+    
+    // Sort frequencies in descending order to prioritize frequent letters
+    counts.sort_unstable_by(|a, b| b.cmp(a));
+    
+    let mut pushes = 0;
+    for (i, &count) in counts.iter().enumerate() {
+        if count == 0 { break; }
+        // First 8 keys take 1 push, next 8 take 2 pushes, etc.
+        pushes += count * ((i / 8) as i32 + 1);
+    }
+    
+    pushes
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
