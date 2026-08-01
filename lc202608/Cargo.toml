@@ -1,0 +1,6 @@
+[package]
+name = "lc202608"
+edition = "2021"
+
+[dependencies]
+common = { path = "../common" }
