@@ -45,3 +45,28 @@ pub fn predict_the_winner(nums: Vec<i32>) -> bool {
     // If Player 1's net score for the entire array is >= 0, they can win
     dp[0][n - 1] >= 0
 }
+
+pub fn stone_game(nums: Vec<i32>) -> bool {
+    // 877
+    let n = nums.len();
+    // dp[i][j] stores the maximum net score the current player can gain from subarray nums[i..=j]
+    let mut dp = vec![vec![0; n]; n];
+
+    // Base case: when there is only one number, the player must take it
+    for i in 0..n {
+        dp[i][i] = nums[i];
+    }
+
+    // Build the DP table for subarrays of length 2 to n
+    for len in 2..=n {
+        for i in 0..=n - len {
+            let j = i + len - 1;
+            // The current player chooses either nums[i] or nums[j], 
+            // and the opponent will optimally choose from the remaining subarray.
+            dp[i][j] = (nums[i] - dp[i + 1][j]).max(nums[j] - dp[i][j - 1]);
+        }
+    }
+
+    // If Player 1's net score for the entire array is >= 0, they can win
+    dp[0][n - 1] >= 0
+}
