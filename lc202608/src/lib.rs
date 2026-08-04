@@ -1,3 +1,5 @@
+use std::collections::HashSet;
+
 pub fn predict_the_winner_greedy(nums: Vec<i32>) -> bool {
     let (mut left, mut right) = (0, nums.len()-1);
     let (mut score_1, mut score_2) = (0, 0);
@@ -69,4 +71,26 @@ pub fn stone_game(nums: Vec<i32>) -> bool {
 
     // If Player 1's net score for the entire array is >= 0, they can win
     dp[0][n - 1] >= 0
+}
+
+pub fn find_missing_elements(nums: Vec<i32>) -> Vec<i32> {
+    // 3731
+    let (mut mn, mut mx) = (i32::MAX, i32::MIN);
+    let mut set = HashSet::with_capacity(nums.len());
+    for num in nums {
+        if num > mx {
+            mx = num
+        }
+        if num < mn {
+            mn = num
+        }
+        set.insert(num);
+    }
+    let mut res = Vec::new();
+    for num in mn..=mx {
+        if !set.contains(&num) {
+            res.push(num);
+        }
+    }
+    res
 }
