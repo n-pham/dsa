@@ -94,3 +94,19 @@ pub fn find_missing_elements(nums: Vec<i32>) -> Vec<i32> {
     }
     res
 }
+
+pub fn smallest_number(n: i32, t: i32) -> i32 {
+    // 3345
+    for num in n..=(n+9) {
+        let mut product = 1;
+        let mut tmp = num;
+        while tmp > 0 {
+            product = product * (tmp%10);
+            tmp = tmp / 10;
+        }
+        if product % t == 0 {
+            return num
+        }
+    }
+    0
+}
