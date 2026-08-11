@@ -110,3 +110,27 @@ pub fn smallest_number(n: i32, t: i32) -> i32 {
     }
     0
 }
+
+pub fn missing_integer(nums: Vec<i32>) -> i32 {
+    // 2996
+    let mut sm = nums[0];
+    let mut prev = nums[0];
+    let mut is_sequential = true;
+    let mut num_set = HashSet::with_capacity(nums.len());
+    num_set.insert(nums[0]);
+    for &num in nums.iter().skip(1) {
+        num_set.insert(num);
+        if is_sequential {
+            if num == prev + 1 {
+                sm += num;
+                prev = num;
+            } else {
+                is_sequential = false; // Sequential prefix broke
+            }
+        }
+    }
+    while num_set.contains(&sm) {
+        sm += 1;
+    }
+    sm
+}
