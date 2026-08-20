@@ -134,3 +134,18 @@ pub fn missing_integer(nums: Vec<i32>) -> i32 {
     }
     sm
 }
+
+pub fn result_array(nums: Vec<i32>) -> Vec<i32> {
+    // 3069
+    let mut arr1 = vec![nums[0]];
+    let mut arr2 = vec![nums[1]];
+    for &num in nums.iter().skip(2) {
+        if arr1.last() > arr2.last() {
+            arr1.push(num);
+        } else {
+            arr2.push(num);
+        }
+    }
+    arr1.extend(arr2);
+    arr1
+}
