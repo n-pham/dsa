@@ -149,3 +149,19 @@ pub fn result_array(nums: Vec<i32>) -> Vec<i32> {
     arr1.extend(arr2);
     arr1
 }
+
+pub fn check_divisibility(n: i32) -> bool {
+    // 3622
+    let mut sum = 0;
+    let mut product = 1;
+    let mut temp = n;
+
+    while temp > 0 {
+        let digit = temp % 10;
+        sum += digit;
+        product *= digit;
+        temp /= 10;
+    }
+
+    n % (sum + product) == 0
+}
