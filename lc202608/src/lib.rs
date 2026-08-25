@@ -165,3 +165,13 @@ pub fn check_divisibility(n: i32) -> bool {
 
     n % (sum + product) == 0
 }
+
+pub fn missing_multiple(nums: Vec<i32>, k: i32) -> i32 {
+    // 3718
+    let unique_nums: HashSet<i32> = nums.into_iter().collect();
+    let mut multiple = k;
+    while unique_nums.contains(&multiple) {
+        multiple += k;
+    }
+    multiple
+}
