@@ -95,6 +95,12 @@ pub fn min_moves(classroom: Vec<String>, energy: i32) -> i32 {
     -1
 }
 
+pub fn uniform_array(nums1: Vec<i32>) -> bool {
+    // 3876
+    let min_odd = nums1.iter().filter(|&&x| x % 2 != 0).min();
+    !nums1.iter().any(|&x| x % 2 == 0 && min_odd.is_some_and(|&m| x < m))
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
