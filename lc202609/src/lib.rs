@@ -101,6 +101,24 @@ pub fn uniform_array(nums1: Vec<i32>) -> bool {
     !nums1.iter().any(|&x| x % 2 == 0 && min_odd.is_some_and(|&m| x < m))
 }
 
+pub fn first_stable_index(nums: Vec<i32>, k: i32) -> i32 {
+    // 3903
+    let n = nums.len();
+    let mut suff_min = vec![0; n];
+    suff_min[n - 1] = nums[n - 1];
+    for i in (0..n - 1).rev() {
+        suff_min[i] = nums[i].min(suff_min[i + 1]);
+    }
+    let mut pref_max = i32::MIN;
+    for i in 0..n {
+        pref_max = pref_max.max(nums[i]);
+        if pref_max - suff_min[i] <= k {
+            return i as i32;
+        }
+    }
+    -1
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
