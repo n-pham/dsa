@@ -102,18 +102,18 @@ pub fn uniform_array(nums1: Vec<i32>) -> bool {
 }
 
 pub fn first_stable_index(nums: Vec<i32>, k: i32) -> i32 {
-    // 3903
-    let n = nums.len();
-    let mut suff_min = vec![0; n];
-    suff_min[n - 1] = nums[n - 1];
-    for i in (0..n - 1).rev() {
-        suff_min[i] = nums[i].min(suff_min[i + 1]);
+    // 3903, 3904
+    // iter is faster (no boundary checking)
+    let mut suffix_min = vec![0; nums.len()];
+    suffix_min[nums.len() - 1] = nums[nums.len() - 1];
+    for (index, &number) in nums.iter().enumerate().rev().skip(1) {
+        suffix_min[index] = suffix_min[index + 1].min(number);
     }
-    let mut pref_max = i32::MIN;
-    for i in 0..n {
-        pref_max = pref_max.max(nums[i]);
-        if pref_max - suff_min[i] <= k {
-            return i as i32;
+    let mut max = i32::MIN;
+    for (index, (min, number)) in suffix_min.into_iter().zip(nums).enumerate() {
+        max = max.max(number);
+        if max - min <= k {
+            return index as i32;
         }
     }
     -1
