@@ -119,6 +119,14 @@ pub fn first_stable_index(nums: Vec<i32>, k: i32) -> i32 {
     -1
 }
 
+pub fn count_commas(n: i32) -> i32 {
+    // 3870
+    if n < 1000 {
+        return 0
+    }
+    n - 999
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
