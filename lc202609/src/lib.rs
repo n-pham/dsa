@@ -127,6 +127,22 @@ pub fn count_commas(n: i32) -> i32 {
     n - 999
 }
 
+pub fn count_commas_3871(n: i64) -> i64 {
+    // 3871
+    let mut total_commas = 0;
+    let mut lower_bound = 1000;
+    while n >= lower_bound {
+        total_commas += n - lower_bound + 1;
+        // Move to the next comma tier (multiply by 1000)
+        if let Some(next_bound) = lower_bound.checked_mul(1000) {
+            lower_bound = next_bound;
+        } else {
+            break;
+        }
+    }
+    total_commas
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
