@@ -143,6 +143,36 @@ pub fn count_commas_3871(n: i64) -> i64 {
     total_commas
 }
 
+pub fn total_numbers(digits: Vec<i32>) -> i32 {
+    // 3483
+    let mut pool_counts = [0; 10];
+    for &digit in &digits {
+        pool_counts[digit as usize] += 1;
+    }
+    let valid_three_digit_evens = (100..1000).step_by(2);
+    let mut ans = 0;
+    for num in valid_three_digit_evens {
+        let mut current_counts = [0; 10];
+        let d1 = num / 100;          
+        let d2 = (num / 10) % 10;    
+        let d3 = num % 10;           
+        current_counts[d1 as usize] += 1;
+        current_counts[d2 as usize] += 1;
+        current_counts[d3 as usize] += 1;
+        let mut can_form = true;
+        for i in 0..10 {
+            if pool_counts[i] < current_counts[i] {
+                can_form = false;
+                break;
+            }
+        }
+        if can_form {
+            ans += 1;
+        }
+    }
+    ans
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
