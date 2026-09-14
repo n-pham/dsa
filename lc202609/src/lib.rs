@@ -173,6 +173,15 @@ pub fn total_numbers(digits: Vec<i32>) -> i32 {
     ans
 }
 
+pub fn is_rectangle_overlap(rec1: Vec<i32>, rec2: Vec<i32>) -> bool {
+    // 836
+    if rec1[0] == rec1[2] || rec1[1] == rec1[3] || rec2[0] == rec2[2] || rec2[1] == rec2[3] {
+        return false;
+    }
+    rec1[0] < rec2[2] && rec2[0] < rec1[2] && rec1[1] < rec2[3] && rec2[1] < rec1[3]
+
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
