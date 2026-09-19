@@ -182,6 +182,16 @@ pub fn is_rectangle_overlap(rec1: Vec<i32>, rec2: Vec<i32>) -> bool {
 
 }
 
+pub fn check_overlap(radius: i32, x_center: i32, y_center: i32, x1: i32, y1: i32, x2: i32, y2: i32) -> bool {
+    // 1401
+    let closest_x = x_center.clamp(x1, x2);
+    let closest_y = y_center.clamp(y1, y2);
+    let distance_x = x_center - closest_x;
+    let distance_y = y_center - closest_y;
+    let squared_distance = distance_x * distance_x + distance_y * distance_y;
+    squared_distance <= radius * radius
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
