@@ -192,6 +192,16 @@ pub fn check_overlap(radius: i32, x_center: i32, y_center: i32, x1: i32, y1: i32
     squared_distance <= radius * radius
 }
 
+pub fn reverse_degree(s: String) -> i32 {
+    // 3498
+    let mut sm = 0i32;
+    for (i, ch) in s.chars().enumerate() {
+        let reverse_alphabet_pos = 26 - (ch as i32 - 'a' as i32);
+        sm += reverse_alphabet_pos * (i as i32 +1)
+    }
+    sm
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
