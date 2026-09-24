@@ -202,6 +202,21 @@ pub fn reverse_degree(s: String) -> i32 {
     sm
 }
 
+pub fn smallest_index(nums: Vec<i32>) -> i32 {
+    // 3550
+    for (i, num) in nums.into_iter().enumerate() {
+        let (mut sm, mut tmp) = (0, num);
+        while tmp > 0 {
+            sm += tmp % 10;
+            tmp = tmp / 10;
+        }
+        if sm == i as i32 {
+            return i as i32
+        }
+    }
+    -1
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
