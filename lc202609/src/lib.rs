@@ -217,6 +217,20 @@ pub fn smallest_index(nums: Vec<i32>) -> i32 {
     -1
 }
 
+pub fn max_depth(s: String) -> i32 {
+    // 1614
+    let (mut max_depth, mut current_depth) = (0, 0);
+    for ch in s.chars() {
+        if ch == '(' {
+            current_depth += 1;
+            max_depth = max_depth.max(current_depth);
+        } else if ch == ')' {
+            current_depth -= 1;
+        }
+    }
+    max_depth
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
