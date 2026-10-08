@@ -42,3 +42,19 @@ pub fn check_valid_string(s: String) -> bool {
     }
     min_open == 0
 }
+
+pub fn remove_outer_parentheses(s: String) -> String {
+    // 1021
+    let mut opened = 0;
+    s.chars()
+        .filter(|&c| {
+            if c == '(' {
+                opened += 1;
+                opened > 1 // Keep if it's not the outermost opening brace
+            } else {
+                opened -= 1;
+                opened > 0 // Keep if it's not the outermost closing brace
+            }
+        })
+        .collect()
+}
