@@ -58,3 +58,13 @@ pub fn remove_outer_parentheses(s: String) -> String {
         })
         .collect()
 }
+
+pub fn sum_of_squares(nums: Vec<i32>) -> i32 {
+    // 2778
+    let n = nums.len();
+    nums.iter()
+        .enumerate()
+        .filter(|&(index, _)| n % (index + 1) == 0)
+        .map(|(_, &number)| number * number)
+        .sum()
+}
