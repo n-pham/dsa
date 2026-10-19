@@ -85,3 +85,14 @@ pub fn sum_counts(nums: Vec<i32>) -> i32 {
     }
     sm
 }
+
+pub fn target_indices(mut nums: Vec<i32>, target: i32) -> Vec<i32> {
+    // 2089
+    nums.sort_unstable();
+    nums.iter()
+        .enumerate()
+        .skip_while(|&(_, &num)| num < target)
+        .take_while(|&(_, &num)| num == target)
+        .map(|(i, _)| i as i32)
+        .collect()
+}
