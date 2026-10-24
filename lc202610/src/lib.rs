@@ -96,3 +96,28 @@ pub fn target_indices(mut nums: Vec<i32>, target: i32) -> Vec<i32> {
         .map(|(i, _)| i as i32)
         .collect()
 }
+
+pub fn count_days_together(arrive_alice: String, leave_alice: String, arrive_bob: String, leave_bob: String) -> i32 {
+    // 2409
+    let alice_start = date_to_day(&arrive_alice);
+    let alice_end = date_to_day(&leave_alice);
+    let bob_start = date_to_day(&arrive_bob);
+    let bob_end = date_to_day(&leave_bob);
+    let start_overlap = alice_start.max(bob_start);
+    let end_overlap = alice_end.min(bob_end);
+    if start_overlap <= end_overlap {
+        end_overlap - start_overlap + 1
+    } else {
+        0
+    }
+}
+fn date_to_day(date: &str) -> i32 {
+    let days_in_months = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+    let month: usize = date[0..2].parse().unwrap();
+    let day: i32 = date[3..5].parse().unwrap();
+    let mut total_days = day;
+    for i in 0..(month - 1) {
+        total_days += days_in_months[i];
+    }
+    total_days
+}
