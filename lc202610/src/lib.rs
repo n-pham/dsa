@@ -121,3 +121,15 @@ fn date_to_day(date: &str) -> i32 {
     }
     total_days
 }
+
+pub fn create_grid(m: i32, n: i32) -> Vec<String> {
+    // 3963
+    let mut result = Vec::with_capacity(m as usize);
+    result.push(".".repeat(n as usize));
+    for _ in 1..=(m-1) {
+        let mut s = "#".repeat(n as usize - 1);
+        s.push('.');
+        result.push(s);
+    }
+    result
+}
