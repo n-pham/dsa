@@ -27,3 +27,30 @@ pub fn find_the_distance_value(arr1: Vec<i32>, mut arr2: Vec<i32>, d: i32) -> i3
     }
     distance_value
 }
+
+pub fn count_servers(grid: Vec<Vec<i32>>) -> i32 {
+    // 1267
+    let m = grid.len();
+    let n = grid[0].len();
+    let mut total_servers = 0;
+
+    let mut row_counts = vec![0; m];
+    let mut col_counts = vec![0; n];
+    
+    for i in 0..m {
+        for j in 0..n {
+            row_counts[i] += grid[i][j];
+            col_counts[j] += grid[i][j];
+        }
+    }
+            
+    for i in 0..m {
+        for j in 0..n {
+            if grid[i][j] == 1 && (row_counts[i] > 1 || col_counts[j] > 1) {
+                total_servers += 1;
+            }
+        }
+    }
+    
+    total_servers
+}
