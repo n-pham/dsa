@@ -54,3 +54,28 @@ pub fn count_servers(grid: Vec<Vec<i32>>) -> i32 {
     
     total_servers
 }
+
+pub fn longest_monotonic_subarray(nums: Vec<i32>) -> i32 {
+    // 3105
+    let n = nums.len();
+    let (mut i, mut j) = (0, 1);
+    let mut longest = 1i32;
+    while j < n {
+        if nums[j] > nums[j - 1] {
+            if i + 1 < j && nums[j - 1] <= nums[j - 2] {
+                i = j - 1;
+            }
+            longest = longest.max((j - i + 1) as i32);
+        } else if nums[j] < nums[j - 1] {
+            if i + 1 < j && nums[j - 1] >= nums[j - 2] {
+                i = j - 1;
+            }
+            longest = longest.max((j - i + 1) as i32);
+        } else {
+            i = j;
+        }
+        j += 1;
+    }
+
+    longest
+}
