@@ -79,3 +79,33 @@ pub fn longest_monotonic_subarray(nums: Vec<i32>) -> i32 {
 
     longest
 }
+
+pub fn minimum_sum_subarray(nums: Vec<i32>, l: i32, r: i32) -> i32 {
+    // 3364
+    let n = nums.len();
+    let (l, r) = (l as usize, r as usize);
+    let mut min_sum = i32::MAX;
+    let mut i = 0;
+
+    while i < n {
+        let mut current_sum = 0;
+        let mut j = i;
+
+        while j < n && j - i + 1 <= r {
+            current_sum += nums[j];
+            let len = j - i + 1;
+
+            if len >= l && current_sum > 0 {
+                min_sum = min_sum.min(current_sum);
+            }
+            j += 1;
+        }
+        i += 1;
+    }
+
+    if min_sum == i32::MAX {
+        -1
+    } else {
+        min_sum
+    }
+}
