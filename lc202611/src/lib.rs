@@ -109,3 +109,25 @@ pub fn minimum_sum_subarray(nums: Vec<i32>, l: i32, r: i32) -> i32 {
         min_sum
     }
 }
+
+pub fn digit_sum(mut s: String, k: i32) -> String {
+    // 2243
+    let k = k as usize;
+    while s.len() > k {
+        let n = s.len();
+        let bytes = s.as_bytes();
+        let mut next_s = String::new();
+        let (mut i, mut j) = (0, 0);
+        while i < n {
+            let mut sum = 0;
+            while j < n && j < i + k {
+                sum += (bytes[j] - b'0') as i32;
+                j += 1;
+            }
+            next_s.push_str(&sum.to_string());
+            i = j;
+        }
+        s = next_s;
+    }
+    s
+}
