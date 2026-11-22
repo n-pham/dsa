@@ -131,3 +131,17 @@ pub fn digit_sum(mut s: String, k: i32) -> String {
     }
     s
 }
+
+pub fn check_string(s: String) -> bool {
+    // 2124
+    let mut has_b = false;
+    for ch in s.chars() {
+        if ch == 'b' {
+            has_b = true;
+        }
+        else if has_b {
+            return false;
+        }
+    }
+    true
+}
