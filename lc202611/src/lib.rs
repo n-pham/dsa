@@ -145,3 +145,19 @@ pub fn check_string(s: String) -> bool {
     }
     true
 }
+
+pub fn can_alice_win(n: i32) -> bool {
+    // 3360
+    let mut removal = 10i32;
+    let mut remaining = n - removal; // Alice
+    while remaining >= 0 {
+        removal -= 1;
+        remaining -= removal; // Bob
+        if remaining < 0 {
+            return true;
+        }
+        removal -= 1;
+        remaining -= removal; // Alice
+    }
+    false
+}
